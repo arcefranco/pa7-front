@@ -21,7 +21,7 @@ const dispatch = useDispatch()
              <div className={toggle ? styles.HomeSmall : styles.HomeBig}>
                 
                 
-                <h1>Bienvenido!</h1>
+                <h1>Bienvenido! cris</h1>
 
                 
                 </div>  
