@@ -3,11 +3,11 @@ import styled from "styled-components";
 export default styled.div`
 
 text-align: -webkit-center;
-padding: 2rem;
+padding: 0.5rem;
   table {
     border-spacing: 0;
-    border: 1px solid black;
-    width: 100rem;
+    border: 2px solid burlywood;
+    width: 50rem;
    
     tr {
       :last-child {
