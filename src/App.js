@@ -6,7 +6,9 @@ import SideBar from './components/SideBar/SideBar';
 import { ResetPassword } from './components/ForgotPassword/ResetPassword';
 import { RecoveryPass } from './components/ForgotPassword/RecoveryPass';
 import GerentesTable from './components/GerentesTable/GerentesTable';
+import UsuariosTable from './components/UsuariosTable/UsuariosTable';
 import { useSelector } from 'react-redux';
+import AltaUsuariosForm from './components/UsuariosTable/AltaUsuariosForm';
 function App() {
   const {user} = useSelector(
     (state) => state.login)
@@ -17,8 +19,8 @@ function App() {
         <Routes>
           <Route path='/' element={<Home/>}/>
           <Route path='/gerentes' element={<GerentesTable/>}/>
-          
-          
+          <Route path='/usuarios' element={<UsuariosTable/>}/>
+          <Route path='altaUsuarios' element={<AltaUsuariosForm/>}/>
         </Routes> 
         
     </div> :
