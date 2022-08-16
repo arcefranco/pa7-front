@@ -1,0 +1,135 @@
+.container
+{   background-color: grey;
+    align-items: center;
+    width: 100%;
+    justify-content: center;
+}
+
+.gerentesTitle
+{   
+    text-align: start;
+    text-indent: 30px;
+    color:#fff;
+    background-color: rgb(54, 54, 54);
+    height: 60px;
+}
+
+
+
+.scrollbar table
+{   
+    border-bottom: 0;
+}
+
+.scrollbar thead
+{   
+    position: sticky;
+    z-index: 0;
+    top: 0;
+    width: 30px;
+    font-size: 15px;
+    font-weight: 500;
+    border: 2px solid burlywood;
+    color:aliceblue;
+    background: black;
+}
+
+
+tbody
+{   
+    font-size: 15px;
+    height: 40%;
+    background-color: #fff;
+}
+
+td
+{
+    width: 20px;
+}
+tr
+{   
+    height: 20px;
+}
+
+.checkbox
+{
+    text-align: center;
+    height: 20px;
+    width: 20px;
+}
+.scrollbar
+{
+scrollbar-width: thin;
+border-radius: 5px;
+width: 50rem;
+z-index: -1;
+height: 60vh;
+position: static;
+overflow-y: hidden;
+overflow-x: hidden;
+}
+
+.scrollbar:hover
+{
+overflow-y: scroll;
+overflow-x: scroll;
+}
+
+/* Scrollbar Style */ 
+
+
+
+#style-1::-webkit-scrollbar-track
+{
+border-radius: 2px;
+}
+
+#style-1::-webkit-scrollbar
+{
+width: 5px;
+background-color: #3f3d3d;
+}
+
+#style-1::-webkit-scrollbar-thumb
+{
+border-radius: 10px;
+-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+background-color: #ecebeb;
+}
+/* Scrollbar End */ 
+
+
+
+/*---------------------------FORM CONTAINER-----------------------------*/
+.formContainer
+{
+    background-color: #fff;
+    width: 50rem;
+    height: auto;
+    margin-top:-10px;
+    padding: 0.2rem 0.2rem 0.5rem;
+    margin: 0 auto ;
+    position:inherit;
+    display: flex;
+    align-items: center;
+}
+.formContainer input{
+margin: 0.2rem;
+}
+
+
+/* ----------------------BUTTONS---------------------- */
+.buttonContainer
+{
+    margin-left:30px;
+    width: 90%;
+    height: 50px;
+    border: solid 1px rgb(0, 0, 0);
+    justify-content: space-between;
+}
+
+.buttonContainer button
+{
+    margin:20px;
+    width:100px
+}
