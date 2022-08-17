@@ -9,6 +9,8 @@ const initialState = {
     gerentes: [],
     supervisores: [],
     teamLeaders: [],
+    statusNuevoUsuario: [],
+    usuarioById: [],
     isError: false,
     isSuccess: false,
     isLoading: false,
@@ -87,6 +89,34 @@ export const getAllUsuarios = createAsyncThunk('usuarios/All', async (thunkAPI) 
       return thunkAPI.rejectWithValue(error.response.data)
     }
   })
+  export const createUsuario = createAsyncThunk('createUsuario', async (usuarioData, thunkAPI) => {
+    try {
+      
+      const data = await usuariosService.createUsuario(usuarioData)
+
+      return data
+    } catch (error) {
+
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+  })
+  export const getUsuarioById = createAsyncThunk('usuarioById', async (id, thunkAPI) => {
+    try {
+      
+      const data = await usuariosService.getUsuarioById(id)
+
+      return data
+    } catch (error) {
+
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+  })
 
 
   export const usuariosSlice = createSlice({
@@ -98,6 +128,7 @@ export const getAllUsuarios = createAsyncThunk('usuarios/All', async (thunkAPI) 
         state.isSuccess = false
         state.isError = false
         state.message = ''
+        state.statusNuevoUsuario= []
       },
     },
 
@@ -172,6 +203,34 @@ export const getAllUsuarios = createAsyncThunk('usuarios/All', async (thunkAPI) 
             state.isError = true
             state.message = action.payload
             state.teamLeaders = null
+          })
+          .addCase(createUsuario.pending, (state) => {
+            state.isLoading = true
+            state.statusNuevoUsuario = []
+          })
+          .addCase(createUsuario.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.isSuccess = true
+            state.statusNuevoUsuario = [action.payload]
+          }) 
+          .addCase(createUsuario.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            
+            state.statusNuevoUsuario = [action.payload]
+          })
+          .addCase(getUsuarioById.pending, (state) => {
+            state.isLoading = true
+          })
+          .addCase(getUsuarioById.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.isSuccess = true
+            state.usuarioById = action.payload
+          }) 
+          .addCase(getUsuarioById.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            state.message = action.payload
           })
         }
 

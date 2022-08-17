@@ -20,7 +20,8 @@ function App() {
           <Route path='/' element={<Home/>}/>
           <Route path='/gerentes' element={<GerentesTable/>}/>
           <Route path='/usuarios' element={<UsuariosTable/>}/>
-          <Route path='altaUsuarios' element={<AltaUsuariosForm/>}/>
+          <Route path='/altaUsuarios' element={<AltaUsuariosForm/>}/>
+          <Route path='/modifUsuarios/:id' element={<AltaUsuariosForm/>}/>
         </Routes> 
         
     </div> :

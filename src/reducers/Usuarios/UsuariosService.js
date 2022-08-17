@@ -2,6 +2,11 @@ import axios from 'axios'
 
 const API_URL = 'http://localhost:3001/'
 
+const getUsuarioById = async(id) => {
+    const response = await axios.post(API_URL + 'usuarios/id', id)
+    return response.data
+}
+
 const getAllUsuarios = async () => {
 
     const response = await axios.get(API_URL + 'usuarios/todos')
@@ -24,13 +29,20 @@ const getAllTeamLeaders = async () => {
     return response.data
 }
 
+const createUsuario = async (usuarioData) => {
+    const response = await axios.post(API_URL + 'usuarios', usuarioData)
+    return response.data
+}
+
 
 const usuariosService = {
     getAllUsuarios,
     getAllVendedores,
     getAllGerentes,
     getAllSupervisores,
-    getAllTeamLeaders
+    getAllTeamLeaders,
+    createUsuario,
+    getUsuarioById
   }
 
 
