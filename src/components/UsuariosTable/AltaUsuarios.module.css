@@ -1,0 +1,21 @@
+.inputText{
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+}
+.inputText input {
+    margin: 1rem;
+    width: 20rem;
+}
+
+.inputSelect{
+    display: flex;
+    justify-content: center;
+}
+.inputSelect select{
+    width: 20rem;
+}
+
+.form{
+    padding: 2rem;
+}
