@@ -47,9 +47,9 @@ export const updateGerentes = createAsyncThunk('updategerentes', async (thunkAPI
     }
   })
 
-  export const deleteGerentes = createAsyncThunk('deletegerentes', async (json,thunkAPI) => {
+  export const deleteGerentes = createAsyncThunk('deletegerentes', async (gerentesData ,thunkAPI) => {
     try {
-      const data = await gerentesService.deleteGerentes(json)
+      const data = await gerentesService.deleteGerentes(gerentesData)
       return data
     } catch (error) {
         (error.response && error.response.data && error.response.data.message) ||

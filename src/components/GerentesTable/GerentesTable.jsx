@@ -1,6 +1,6 @@
 import React, {useEffect, useMemo, useState} from 'react'
 import { useSelector, useDispatch} from 'react-redux'
-import { getGerentes, postGerentes, updateGerentes } from '../../reducers/Gerentes/gerentesSlice'
+import { deleteGerentes, getGerentes, postGerentes, updateGerentes } from '../../reducers/Gerentes/gerentesSlice'
 import TableContainer from './TableContainer'
 import { useFilters, useRowSelect, } from 'react-table'
 import ActiveFilter from './ActiveFilter'
@@ -28,20 +28,23 @@ const [lastCode, setLastCode ] = useState({})
   /*----------------------HANDLE CHANGE DEL FORM------------------------------------ */
   const HandleChange = (event) =>{
   
+    
+    const check = event.target.checked;
     const name = event.target.name;
     const value = event.target.value;
-    const check = event.target.checked;
     console.log(value, name, check)
     setForm(
       {...form,
-      [name]:value,
       'Activo':check,
+      [name]:value,
+      
     } )
     
   }
 /*---------------------------------HANDLE SUBMIT FUNCION INSERT---------------------------------*/
 const HandleSubmitInsert = (event) =>{
 event.preventDefault()
+console.log(form)
 dispatch(postGerentes(form))
 }
 
@@ -78,7 +81,7 @@ const HandleDelete = (value) =>{
         Header: "Código",
         accessor: "Codigo",
         Cell: ({ value }) => <strong  >{value}</strong>,
-        Filter: ActiveFilter
+        // Filter: ActiveFilter
       },
       {
         Header: "Nombre",
@@ -101,10 +104,16 @@ const HandleDelete = (value) =>{
         Header: "Eliminar",
         accessor: "Codigo",
         id:'Eliminar',
-        // Cell: (value) =>  <button onClick={(()=>console.log(value.value))} className={styles.buttonRows} disabled={modificar || nuevo} ><BiXCircle style={{color:"rgb(232, 76, 76)"}}/>Eliminar</button>,
-        Cell: (value) =>  <button onClick={HandleDelete} className={styles.buttonRows} disabled={modificar || nuevo} value={value.value} ><BiXCircle style={{color:"rgb(232, 76, 76)"}}/>Eliminar</button>,
-
+        Cell: (value) =>  <button onClick={(()=>{
+          
+          let respuesta = window.confirm("Desea eliminar el campo?");
+          if(respuesta == true){
+          dispatch(deleteGerentes({Codigo: value.value}))}
+      })} 
+        className={styles.buttonRows} disabled={modificar || nuevo} ><BiXCircle style={{color:"rgb(232, 76, 76)"}}/>Eliminar</button>,
+        // Filter: ActiveFilter,
       },
+      
     ],
     []
   );
@@ -187,7 +196,7 @@ const HandleDelete = (value) =>{
         </pre>  */}
        <form style={{display: nuevo ? "block" : "none" }} className={styles.formContainer} onSubmit={HandleSubmitInsert}>
           <label>Nombre</label><input type="text" style={{width:"20rem" }} name="Nombre" onChange={HandleChange} value={form.name} required />
-          <input type="checkbox" name="Activo" onChange={HandleChange} value={form.activo} checked={form.activo}  /> <label>Activo</label>
+          <input type="checkbox"  onChange={HandleChange} value={form.Activo} checked={form.Activo}  /> <label>Activo</label>
           <button type='submit' ><FcApproval/>Aceptar</button>
           <button type='button' onClick={toggleNuevo}><FcCancel/>Cancelar</button>
         </form>
@@ -196,7 +205,7 @@ const HandleDelete = (value) =>{
           value={selectedFlatRows.map((row) => row.original.Codigo)} disabled/>
           <label>Nombre</label><input type="text" style={{width:"20rem" }} name="gerente" onChange={HandleChange} 
           value={selectedFlatRows.map((row) => row.original.Nombre)} />
-          <input type="checkbox" name="activo" onChange={HandleChange}  checked={selectedFlatRows.map((row) => row.original.Activo) == 0}/> <label>Activo</label>
+          <input type="checkbox" name="activo" onChange={HandleChange}  checked={selectedFlatRows.map((row) => row.original.Activo) == 1 || form.activo}/> <label>Activo</label>
           <button onClick={HandleSubmitUpdate}><FcApproval/>Aceptar</button>
           <button type='button' onClick={toggleModificar}><FcCancel/>Cancelar</button>
         </form>

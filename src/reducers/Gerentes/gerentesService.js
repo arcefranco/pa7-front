@@ -14,8 +14,8 @@ const updateGerentes = async () => {
   return response.data[0] 
 }  
 
-const deleteGerentes = async (json) => {
-  const response = await axios.delete(API_URL + 'gerentes', json)
+const deleteGerentes = async (gerentesData) => {
+  const response = await axios.delete(API_URL + 'gerentes', {data: {id: gerentesData}})
   return response.data }
 
 const gerentesService = {
