@@ -33,6 +33,16 @@ const createUsuario = async (usuarioData) => {
     const response = await axios.post(API_URL + 'usuarios', usuarioData)
     return response.data
 }
+const updateUsuario = async (usuarioData) => {
+    const response = await axios.put(API_URL + 'usuarios', usuarioData)
+    return response.data
+}
+const deleteUsuario = async (usuarioData) => {
+    const response = await axios.delete(API_URL + 'usuarios',  { data: { id: usuarioData } })
+    return response.data
+}
+
+
 
 
 const usuariosService = {
@@ -42,7 +52,9 @@ const usuariosService = {
     getAllSupervisores,
     getAllTeamLeaders,
     createUsuario,
-    getUsuarioById
+    getUsuarioById,
+    updateUsuario,
+    deleteUsuario
   }
 
 

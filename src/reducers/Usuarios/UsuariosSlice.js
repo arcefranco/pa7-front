@@ -117,7 +117,34 @@ export const getAllUsuarios = createAsyncThunk('usuarios/All', async (thunkAPI) 
       return thunkAPI.rejectWithValue(error.response.data)
     }
   })
+  export const updateUsuario = createAsyncThunk('updateUsuario', async (usuarioData, thunkAPI) => {
+    try {
+      
+      const data = await usuariosService.updateUsuario(usuarioData)
 
+      return data
+    } catch (error) {
+
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+  })
+  export const deleteUsuario = createAsyncThunk('deleteUsuario', async (usuarioData, thunkAPI) => {
+    try {
+      
+      const data = await usuariosService.deleteUsuario(usuarioData)
+
+      return data
+    } catch (error) {
+
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+  })
 
   export const usuariosSlice = createSlice({
     name: 'usuarios',
@@ -219,6 +246,21 @@ export const getAllUsuarios = createAsyncThunk('usuarios/All', async (thunkAPI) 
             
             state.statusNuevoUsuario = [action.payload]
           })
+          .addCase(updateUsuario.pending, (state) => {
+            state.isLoading = true
+            state.statusNuevoUsuario = []
+          })
+          .addCase(updateUsuario.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.isSuccess = true
+            state.statusNuevoUsuario = [action.payload]
+          }) 
+          .addCase(updateUsuario.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            
+            state.statusNuevoUsuario = [action.payload]
+          })
           .addCase(getUsuarioById.pending, (state) => {
             state.isLoading = true
           })
@@ -231,6 +273,21 @@ export const getAllUsuarios = createAsyncThunk('usuarios/All', async (thunkAPI) 
             state.isLoading = false
             state.isError = true
             state.message = action.payload
+          })
+          .addCase(deleteUsuario.pending, (state) => {
+            state.isLoading = true
+            state.statusNuevoUsuario = []
+          })
+          .addCase(deleteUsuario.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.isSuccess = true
+            state.statusNuevoUsuario = [action.payload]
+          }) 
+          .addCase(deleteUsuario.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            
+            state.statusNuevoUsuario = [action.payload]
           })
         }
 

@@ -1,13 +1,15 @@
 import React, {useEffect, useMemo} from 'react'
 import { useSelector, useDispatch} from 'react-redux'
-import { getAllUsuarios } from '../../reducers/Usuarios/UsuariosSlice'
+import { deleteUsuario, getAllUsuarios } from '../../reducers/Usuarios/UsuariosSlice'
 import TableContainer from '../GerentesTable/TableContainer'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useTable } from 'react-table'
+
 
 const UsuariosTable = () => {
 
 const dispatch = useDispatch()
+const navigate = useNavigate()
 
   useEffect(() => {
 
@@ -88,13 +90,13 @@ const dispatch = useDispatch()
         Header: "Modificar",
         accessor: "ID",
         id: 'modify',
-        Cell: (value) => <button onClick={(()=> console.log(value.value))}>Modificar</button>,
+        Cell: (value) => <button onClick={(()=> navigate(`/modifUsuarios/${value.value}`))}>Modificar</button>,
       },
       {
         Header: "Eliminar",
         accessor: "ID",
         id: 'delete',
-        Cell: (value) => <button onClick={(()=> console.log(value.value))}>Eliminar</button>,
+        Cell: (value) => <button onClick={(()=> dispatch(deleteUsuario({id: value.value})))}>Eliminar</button>,
       },
     ],
     []
