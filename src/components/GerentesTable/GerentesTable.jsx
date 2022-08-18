@@ -2,7 +2,7 @@ import React, {useEffect, useMemo, useState} from 'react'
 import { useSelector, useDispatch} from 'react-redux'
 import { getGerentes, postGerentes, updateGerentes } from '../../reducers/Gerentes/gerentesSlice'
 import TableContainer from './TableContainer'
-import { useFilters, useRowSelect } from 'react-table'
+import { useFilters, useRowSelect, } from 'react-table'
 import ActiveFilter from './ActiveFilter'
 import { useTable } from 'react-table'
 import styles from './Gerentes.module.css'
@@ -51,12 +51,25 @@ const HandleSubmitUpdate = (event) =>{
   dispatch(updateGerentes())
   }
 
+  /*---------------------------------HANDLE FUNCION DELETE ---------------------------------*/
+const HandleDelete = (value) =>{
+  //  event.preventDefault()
+  // var name = event.target.name
+  // var value = event.target.value
+  // var json = JSON.stringify(selected)
+  console.log(value)
+
+  // dispatch(deleteGerentes(selectedRows))
+  // navigate('/gerentes')
+  // dispatch(reset())
+   }
+
  const {gerentes} = useSelector(
     (state) => state.gerentes)
-/*LAST OBJECT OF THE GERENTES ARRAY  */
-    var lastObject =useMemo( () => gerentes[(gerentes.length)-1])
-      // setLastCode()    
-    console.log(lastObject?.Codigo)
+// /*LAST OBJECT OF THE GERENTES ARRAY  */
+//     var lastObject =useMemo( () => gerentes[(gerentes.length)-1])
+//       // setLastCode()    
+//     console.log(lastObject?.Codigo)
  
   /*GERENTES TABLEDATA*/ 
   const columns = useMemo(
@@ -64,7 +77,6 @@ const HandleSubmitUpdate = (event) =>{
       {
         Header: "Código",
         accessor: "Codigo",
-        
         Cell: ({ value }) => <strong  >{value}</strong>,
         Filter: ActiveFilter
       },
@@ -87,12 +99,16 @@ const HandleSubmitUpdate = (event) =>{
       },
       {
         Header: "Eliminar",
-        Cell: ({row}) =>  <button className={styles.buttonRows} disabled={modificar || nuevo} {...row.getToggleRowSelectedProps()}><BiXCircle style={{color:"rgb(232, 76, 76)"}}/>Eliminar</button>,
+        accessor: "Codigo",
+        id:'Eliminar',
+        // Cell: (value) =>  <button onClick={(()=>console.log(value.value))} className={styles.buttonRows} disabled={modificar || nuevo} ><BiXCircle style={{color:"rgb(232, 76, 76)"}}/>Eliminar</button>,
+        Cell: (value) =>  <button onClick={HandleDelete} className={styles.buttonRows} disabled={modificar || nuevo} value={value.value} ><BiXCircle style={{color:"rgb(232, 76, 76)"}}/>Eliminar</button>,
+
       },
     ],
     []
   );
-  const tableInstance = useTable({ columns: columns, data: gerentes }, useFilters, useRowSelect,
+  const tableInstance = useTable({ columns: columns, data: gerentes }, useFilters, useRowSelect, 
     // ----------------------------CHECKBOX ROW SELECT-----------------------------------
     (hooks) => {
       hooks.visibleColumns.push((columns)=> {
@@ -134,7 +150,7 @@ const HandleSubmitUpdate = (event) =>{
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
                 <th {...column.getHeaderProps()}>{column.render("Header")}
-                <div>{column.canFilter ? column.render('Filter') : null}</div>
+                {/* <div>{column.canFilter ? column.render('Filter') : null}</div> */}
                 </th>
               ))}
             </tr>
