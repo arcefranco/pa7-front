@@ -38,7 +38,7 @@ const updateUsuario = async (usuarioData) => {
     return response.data
 }
 const deleteUsuario = async (usuarioData) => {
-    const response = await axios.delete(API_URL + 'usuarios',  { data: { id: usuarioData } })
+    const response = await axios.delete(API_URL + 'usuarios',  { data: { Codigo: usuarioData } })
     return response.data
 }
 
