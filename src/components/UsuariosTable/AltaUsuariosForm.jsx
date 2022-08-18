@@ -20,7 +20,7 @@ useEffect(() => {
 
   useEffect(() => {
     setInput({
-        ID: id,
+        ID: id? id : null,
         Nombre: usuarioById[0]?.Nombre,
         Usuario: usuarioById[0]?.Usuario,
         UsuarioAnura: usuarioById[0]?.UsuarioAnura,
@@ -40,6 +40,7 @@ useEffect(() => {
 
     
     const [input, setInput] = useState({
+        ID: id ? id : '',
         Nombre: '',
         Usuario: '',
         password: '',
@@ -105,6 +106,7 @@ useEffect(() => {
       dispatch(updateUsuario(input))
           
         setInput({
+            ID: '',
             Nombre: '',
             login: '',
             password: '',

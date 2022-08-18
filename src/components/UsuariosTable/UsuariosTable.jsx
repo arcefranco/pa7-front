@@ -96,7 +96,14 @@ const navigate = useNavigate()
         Header: "Eliminar",
         accessor: "ID",
         id: 'delete',
-        Cell: (value) => <button onClick={(()=> dispatch(deleteUsuario({id: value.value})))}>Eliminar</button>,
+        Cell: (value) => <button onClick={(()=> {
+         let result = window.confirm('Esta seguro que desea eliminar?')
+         if(result === true) {
+            dispatch(deleteUsuario({id: value.value})) 
+         }
+           
+        
+        })}>Eliminar</button>,
       },
     ],
     []
