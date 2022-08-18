@@ -23,9 +23,9 @@ export const getGerentes = createAsyncThunk('gerentes', async (thunkAPI) => {
     }
   })
   
-export const postGerentes = createAsyncThunk('postgerentes', async (thunkAPI) => {
+export const postGerentes = createAsyncThunk('postgerentes', async  (form,thunkAPI) => {
     try {
-      const data = await gerentesService.postGerentes()
+      const data = await gerentesService.postGerentes(form)
       return data
     } catch (error) {
         (error.response && error.response.data && error.response.data.message) ||
@@ -38,6 +38,18 @@ export const postGerentes = createAsyncThunk('postgerentes', async (thunkAPI) =>
 export const updateGerentes = createAsyncThunk('updategerentes', async (thunkAPI) => {
     try {
       const data = await gerentesService.updateGerentes()
+      return data
+    } catch (error) {
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+  })
+
+  export const deleteGerentes = createAsyncThunk('deletegerentes', async (json,thunkAPI) => {
+    try {
+      const data = await gerentesService.deleteGerentes(json)
       return data
     } catch (error) {
         (error.response && error.response.data && error.response.data.message) ||
@@ -107,7 +119,24 @@ export const gerentesSlice = createSlice({
             state.isError = true
             state.message = action.payload
             state.gerentes = null
-          })  
+          });
+          
+          builder.addCase(deleteGerentes.pending, (state) => {
+            state.isLoading = true
+          })
+        builder.addCase(deleteGerentes.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.isSuccess = true
+            state.gerentes = action.payload
+          }) 
+        builder.addCase(deleteGerentes.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            state.message = action.payload
+            state.gerentes = null
+          });  
+
+
         }
         
 

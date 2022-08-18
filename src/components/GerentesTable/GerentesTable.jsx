@@ -26,15 +26,19 @@ const [lastCode, setLastCode ] = useState({})
   }, [dispatch])
 
   /*----------------------HANDLE CHANGE DEL FORM------------------------------------ */
-const HandleChange = (event) =>{
-  const name = event.target.name;
-  const value = event.target.value;
-  console.log(value, name)
-  setForm(
-    {...form,
-    [name]:value}
-  )
-}
+  const HandleChange = (event) =>{
+  
+    const name = event.target.name;
+    const value = event.target.value;
+    const check = event.target.checked;
+    console.log(value, name, check)
+    setForm(
+      {...form,
+      [name]:value,
+      'Activo':check,
+    } )
+    
+  }
 /*---------------------------------HANDLE SUBMIT FUNCION INSERT---------------------------------*/
 const HandleSubmitInsert = (event) =>{
 event.preventDefault()
@@ -165,10 +169,10 @@ const HandleSubmitUpdate = (event) =>{
             )}
           </code>
         </pre>  */}
-       <form style={{display: nuevo ? "block" : "none" }} className={styles.formContainer}>
-          <label>Nombre</label><input type="text" style={{width:"20rem" }} name="Nombre" onChange={HandleChange} value={form.name} />
-          <input type="checkbox" name="Activo" onChange={HandleChange}  value={form.activo}/> <label>Activo</label>
-          <button onClick={HandleSubmitInsert} ><FcApproval/>Aceptar</button>
+       <form style={{display: nuevo ? "block" : "none" }} className={styles.formContainer} onSubmit={HandleSubmitInsert}>
+          <label>Nombre</label><input type="text" style={{width:"20rem" }} name="Nombre" onChange={HandleChange} value={form.name} required />
+          <input type="checkbox" name="Activo" onChange={HandleChange} value={form.activo} checked={form.activo}  /> <label>Activo</label>
+          <button type='submit' ><FcApproval/>Aceptar</button>
           <button type='button' onClick={toggleNuevo}><FcCancel/>Cancelar</button>
         </form>
         <form style={{display: modificar ? "block" : "none" }} className={styles.formContainer}>
