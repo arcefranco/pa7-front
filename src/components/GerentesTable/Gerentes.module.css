@@ -105,24 +105,29 @@ background-color: #ecebeb;
 .formContainer
 {
     background-color: #fff;
-    width: 50rem;
+    width: 30rem;
     height: auto;
     margin-top:-10px;
-    padding: 0.2rem 0.2rem 0.5rem;
-    margin: 0 auto ;
-    position:inherit;
-    display: flex;
+    padding: 0.5rem 0.5rem 0.5rem;
+    margin: auto ;
+    display: grid;
     align-items: center;
+    justify-content: center;
 }
 .formContainer input{
-margin: 0.2rem;
+margin: auto;
 }
-
+.formContainer button {
+    width:auto;
+    margin: auto;
+    margin-top: 10px;
+}
 
 /* ----------------------BUTTONS---------------------- */
 .buttonContainer
 {
-    margin-left:30px;
+    margin:auto;
+    margin-top: 2px;
     width: 90%;
     height: 50px;
     border: solid 1px rgb(0, 0, 0);
@@ -136,8 +141,4 @@ margin: 0.2rem;
     margin:20px;
     margin-top:10px;
     width:100px
-}
-
-form{
-    display:block;
 }

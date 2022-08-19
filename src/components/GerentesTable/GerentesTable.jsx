@@ -2,7 +2,7 @@ import React, {useEffect, useMemo, useState} from 'react'
 import { useSelector, useDispatch} from 'react-redux'
 import { deleteGerentes, getGerentes, getGerentesById, postGerentes, updateGerentes, } from '../../reducers/Gerentes/gerentesSlice'
 import TableContainer from './TableContainer'
-import { useFilters, useRowSelect, } from 'react-table'
+import { useFilters, useRowSelect,useSortBy} from 'react-table'
 import ActiveFilter from './ActiveFilter'
 import { useTable } from 'react-table'
 import styles from './Gerentes.module.css'
@@ -34,64 +34,8 @@ const [input, setInput] = useState({
 
 /*GET API GERENTES*/
 useEffect(() => {
-  
   dispatch(getGerentes())
   }, [dispatch])
-  /*----------------------HANDLE CHANGE DEL FORM------------------------------------ */
-  const HandleChange =  (e) =>{
-  
-    
-    const {name , value} = e.target
-    console.log(value, name)
-    const newForm = {...input,
-      [name]:value,
-      }
-    
-    setInput(newForm )
-    
-  }
-  const handleCheckChange = (e) => {
-    const { name} = e.target;
-    var value = e.target.checked
-    value = e.target.checked? 1 : 0
-    const newForm = { ...input, [name]: value };
-    setInput(newForm);
-};
-/*---------------------------------HANDLE SUBMIT FUNCION INSERT---------------------------------*/
-const HandleSubmitInsert = async (event) =>{
-event.preventDefault()
-console.log(input)
-dispatch(postGerentes(input))
-navigate('/gerentes')
-}
-
-/*---------------------------------HANDLE SUBMIT FUNCION UPDATE---------------------------------*/
-const HandleSubmitUpdate =async (event) =>{
-  event.preventDefault()
-  console.log(input)
-  navigate('/gerentes')
-  dispatch(updateGerentes(input))
-  setInput({
-    Codigo:'',
-  Nombre:'',
-  Activo: '',
-  })
-  
-  }
-
- 
-  /*---------------------------------HANDLE FUNCION DELETE ---------------------------------*/
-const HandleDelete = (value) =>{
-  //  event.preventDefault()
-  // var name = event.target.name
-  // var value = event.target.value
-  // var json = JSON.stringify(selected)
-  console.log(value)
-
-  // dispatch(deleteGerentes(selectedRows))
-  // navigate('/gerentes')
-  // dispatch(reset())
-   }
 
  const {gerentes, gerentesById} = useSelector(
     (state) => state.gerentes)
@@ -110,7 +54,8 @@ const HandleDelete = (value) =>{
         Header: "Código",
         accessor: "Codigo",
         Cell: ({ value }) => <strong  >{value}</strong>,
-        // Filter: ActiveFilter
+        Filter: ActiveFilter,
+        
       },
       {
         Header: "Nombre",
@@ -129,20 +74,17 @@ const HandleDelete = (value) =>{
         Header: "Modificar",
         accessor: "Codigo" , 
         id:'Modificar',
-  //       Cell: (value) => <button onClick={(()=>
-  //         {toggleModificar();
-  //         dispatch(getGerentesById(value.value));
-          
-  //         console.log(value.value, dispatch(getGerentesById(value.value)) )}        
-  // )} className={styles.buttonRows} disabled={modificar || nuevo} ><BiPencil style={{color:"brown"}}/>Modificar</button>,
-  //     },
-  Cell: (value) => <button onClick=  {(()=> navigate(`/modificarGerentes/${value.value}`))}
-  className={styles.buttonRows} disabled={modificar || nuevo} ><BiPencil style={{color:"brown"}}/>Modificar</button>,
-        },
+        disableSortBy: true,
+        Filter: false,
+        Cell: (value) => <button onClick=  {(()=> navigate(`/modificarGerentes/${value.value}`))}
+        className={styles.buttonRows} disabled={modificar || nuevo} ><BiPencil style={{color:"brown"}}/>Modificar</button>,
+              },
       {
         Header: "Eliminar",
         accessor: "Codigo",
         id:'Eliminar',
+        disableSortBy: true,
+        Filter: false,
         Cell: (value) =>  <button onClick={(()=>{
           
           let respuesta = window.confirm("Desea eliminar el campo?");
@@ -151,26 +93,12 @@ const HandleDelete = (value) =>{
           window.location.reload()}
       })} 
         className={styles.buttonRows} disabled={modificar || nuevo} ><BiXCircle style={{color:"rgb(232, 76, 76)"}}/>Eliminar</button>,
-        // Filter: ActiveFilter,
       },
       
     ],
     []
   );
-  const tableInstance = useTable({ columns: columns, data: gerentes }, useFilters, useRowSelect, 
-    // // ----------------------------CHECKBOX ROW SELECT-----------------------------------
-    // (hooks) => {
-    //   hooks.visibleColumns.push((columns)=> {
-    //     return[
-    //       {
-    //       id:'selection',
-          
-    //       Cell:({row}) => <Checkbox {...row.getToggleRowSelectedProps()}/>, 
-    //       },
-    //        ...columns 
-    //     ]
-    //   })
-    // }
+  const tableInstance = useTable({ columns: columns, data: gerentes },    useFilters, useSortBy,
     );
 
   const {
@@ -189,8 +117,6 @@ const HandleDelete = (value) =>{
       Activo: gerentesById?.Activo,
     });
   }, [gerentesById]);
-
-
   
   
 /*RENDER PAGINA GERENTES*/
@@ -202,6 +128,11 @@ const HandleDelete = (value) =>{
       {/*POSIBLE UBICACION DE INPUT RADIO FILTER DE TABLA*/}
      </div>
       </div>
+      <div className={styles.buttonContainer}>
+         <button onClick={()=>navigate('/modificarGerentes')}   className={styles.buttonLeft} disabled={modificar || nuevo}><FcSurvey/>Nuevo</button>
+         <button className={styles.buttonRight} disabled={modificar || nuevo}><FcDataSheet/>Excel</button>
+         <Link to="/" className={styles.buttonRight} disabled={modificar || nuevo}><button><BiLogOut/>Salir</button></Link>
+        </div> 
       <TableContainer>
         <>
         <div className={styles.scrollbar}>
@@ -210,8 +141,13 @@ const HandleDelete = (value) =>{
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
-                <th {...column.getHeaderProps()}>{column.render("Header")}
-                {/* <i>{column.canFilter ? column.render('Filter') : null}</i> */}
+                <th >
+                <div {...column.getHeaderProps(column.getSortByToggleProps())}>
+                  {column.render("Header")}
+                  <span>{column.isSorted? (column.isSortedDesc? ' ▼' : '▲'  ): ''}</span>
+                </div>
+                {/* {column.canFilter? <div>O</div> : null} */}
+                <div style={{display:"flex"}}>{column.canFilter ? column.render('Filter') : null}</div>
                 </th>
               ))}
             </tr>
@@ -235,23 +171,6 @@ const HandleDelete = (value) =>{
         </div>
         </>
        </TableContainer>
-       {/* <pre>
-       <code>
-            {JSON.stringify(
-              {
-                selectedFlatRows:selectedFlatRows.map((row) => row.original),
-              },
-              null,
-              2
-            )}
-          </code>
-        </pre>  */}
-
-       <div className={styles.buttonContainer}>
-         <button onClick={()=>navigate('/modificarGerentes')}   className={styles.buttonLeft} disabled={modificar || nuevo}><FcSurvey/>Nuevo</button>
-         <button className={styles.buttonRight} disabled={modificar || nuevo}><FcDataSheet/>Excel</button>
-         <Link to="/" className={styles.buttonRight} disabled={modificar || nuevo}><button><BiLogOut/>Salir</button></Link>
-        </div>   
     </div>
   )
 }

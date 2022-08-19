@@ -1,8 +1,7 @@
 import React from 'react'
 
-function ActiveFilter({
-    column: { filterValue, setFilter, preFilteredRows, id }
-  }) {
+function ActiveFilter({column }) {
+    const { filterValue, setFilter, preFilteredRows, id } = column
     // Calculate the options for filtering
     // using the preFilteredRows
     const options = React.useMemo(() => {
@@ -18,7 +17,7 @@ function ActiveFilter({
       <select
         value={filterValue}
         onChange={e => {
-          setFilter(e.target.value || undefined);
+          setFilter(e.target.value || null);
         }}
       >
         <option value="">Todos</option>
