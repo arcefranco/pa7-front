@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { setToggle,  logout  } from '../../reducers/Login/loginSlice.js'
 import {SidebarData} from './SideBarData.js'
 import * as FaIcons from 'react-icons/fa'
-import * as AiIcons from 'react-icons/ai'
+import {BiLogOut } from "react-icons/bi";
 import SideBarItem from './SideBarItem'
 import { Link } from 'react-router-dom'
 import styles from './SideBar.module.css'
@@ -15,8 +15,7 @@ const SideBar = () => {
         (state) => state.login)
     const dispatch = useDispatch()    
     
-    const showSideBar = () => {
-        setSidebar(!sidebar)
+    const showSideBar = () => {setSidebar(!sidebar)
         dispatch(setToggle())
     }
 
@@ -27,24 +26,18 @@ const SideBar = () => {
   
     return (
     <>
-        <div className={styles.navbar}>
-            <Link to="#" className={styles.menuBars}>
-                <FaIcons.FaBars onClick={showSideBar}/>
-            </Link>
-            <Link to="/"><button className={styles.logOut} onClick={() => dispatch(logout())}>Log out</button></Link>
-        </div>
-            <nav className={sidebar ? styles.menuActive : styles.menu}>
+        
+            <nav style={{width: sidebar ?  "250px" : "55px" }} className={styles.menu} >
                 <div className={styles.menuItems}>
                     <div className={styles.toggle}>
-                    <Link to="#" className={styles.menuBars}>
-                        <AiIcons.AiOutlineClose onClick={closeSideBar}/>
-                    </Link>
+                    <p style={{display: sidebar ? "grid" : "none" }} className={styles.menuBars}><b>Planes de Ahorro 7</b></p>
+                <div style={{marginLeft: sidebar ? "25px" : "0px"}} className={styles.menuBars}>
+                    
+                <FaIcons.FaBars onClick={showSideBar}/>
+            </div>
                     </div>
                     <div className={styles.sidebar}>
-                        <div className={styles.username}>
-                            <AiIcons.AiOutlineUser className={styles.username}/>
-                            <h3 className={styles.username}>{user.username}</h3>
-                        </div>
+                       
                         
                    
                     {
@@ -58,6 +51,13 @@ const SideBar = () => {
                      </div>         
              
                 </div>
+                <div className={styles.navbar} style={{width: sidebar ? "250px" : "55px"}}>
+                <div className={styles.username} style={{display: sidebar ? "block" : "none" }}>
+                            {/* <AiIcons.AiOutlineUser className={styles.username}/> */}
+                            <h3 className={styles.username}>{user.username}</h3>
+                        </div>
+            <Link to="/"><button className={styles.logOut} onClick={() => dispatch(logout())}><BiLogOut/></button></Link>
+        </div>
             </nav>
 
         

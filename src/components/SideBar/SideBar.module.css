@@ -4,12 +4,14 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    transition: linear 850ms;
   }
   
   .menuBars {
-    margin-left: 2rem;
+    margin: auto;
+    padding:auto;
     font-size: 1rem;
-    background: none;
+    color: #fff;
   }
 
   .logOut {
@@ -18,8 +20,8 @@
     border-radius: 7px;
     font: inherit;
     line-height: 1;
-    margin: 0.5em;
-    padding: 0.5em 2em;
+    /* margin: 0.5em; */
+    /* padding: 0.5em 2em; */
     color: #ff7f82;
    
   }
@@ -46,28 +48,22 @@
   
   .menu {
     background-color: #060b26;
-    width: 250px;
-    height: 100vh;
-    display: flex;
+    height: 80vh;
     justify-content: center;
-    position: fixed;
     z-index: 1;
     top: 0;
-    left: -100%;
-    transition: 850ms;
+    transition: linear 850ms;
   }
   
   .menuActive {
     background-color: #060b26;
-    width: 250px;
-    height: 100vh;
+    height: 50vh;
     display: flex;
     justify-content: center;
     position: fixed;
     z-index: 1;
     top: 0;
-    left: 0;
-    transition: 350ms;
+    transition: linear 850ms;
   }
   
   
@@ -146,7 +142,7 @@
   }
   
   .toggle {
-    background-color: #060b26;
+    background-color: #000;
     width: 100%;
     height: 80px;
     display: flex;
@@ -162,12 +158,19 @@
   .sidebar{
       flex-shrink: 0;
       background-color: rgba(22, 22, 22, 1);
-      height: -webkit-fill-available;
+      height: 72vh;
       padding-bottom: 5rem;
-      overflow: scroll;
+      overflow-y: hidden;
+      overflow-x: hidden;
     
     
   }
+  .sidebar:hover{
+    overflow-y: scroll;
+    overflow-x: hidden;
+  
+  
+}
   .sidebarContent{
     padding-top: .25em;
     height: 0;
