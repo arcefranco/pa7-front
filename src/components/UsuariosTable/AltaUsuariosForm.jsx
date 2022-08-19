@@ -159,7 +159,7 @@ useEffect(() => {
                 {
                     !id ? <option value="">---</option> : 
                        userVendedor && Object.keys(userVendedor).length ?
-                        <option key={userGerente.Codigo}>{`${userGerente.Codigo} ${userGerente.Nombre}`}</option> : <option value="">---</option>
+                        <option key={userVendedor.Codigo}>{`${userVendedor.Codigo} ${userVendedor.Nombre}`}</option> : <option value="">---</option>
                     }
                     {vendedores && vendedores.map(e => <option key={e.Codigo}>{`${e.Codigo} ${e.Nombre}`}</option>)}
                 </select>
