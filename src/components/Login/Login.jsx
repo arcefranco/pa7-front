@@ -28,7 +28,18 @@ export const Login = () => {
             text: message
           })
         }
-    
+        if (user?.newUser === true) {
+          Swal.fire({
+            icon: 'info',
+            title: `${user.message} en /recovery`,
+            showConfirmButton: false,
+            timer: 1500
+          })
+          dispatch(reset())
+          localStorage.removeItem('user')
+          localStorage.removeItem('userToken')
+          
+        }
         if (isSuccess && user !== null) {
           Swal.fire({
             icon: 'success',

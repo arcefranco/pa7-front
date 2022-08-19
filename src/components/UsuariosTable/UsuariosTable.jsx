@@ -3,27 +3,32 @@ import { useSelector, useDispatch} from 'react-redux'
 import { deleteUsuario, getAllUsuarios } from '../../reducers/Usuarios/UsuariosSlice'
 import TableContainer from '../GerentesTable/TableContainer'
 import { Link, useNavigate } from 'react-router-dom'
-import { useTable } from 'react-table'
+import * as BiIcons from 'react-icons/bi';
+import { useTable, useSortBy} from 'react-table'
+import styles from './UsuariosTable.module.css'
 
 
 const UsuariosTable = () => {
 
 const dispatch = useDispatch()
 const navigate = useNavigate()
-
+const {roles} = useSelector((state) => state.login.user)
+const rolAltayModif = roles.find(e => e.rl_codigo === '1.2.2')
+const { toggle } = useSelector(
+  (state) => state.login)
   useEffect(() => {
 
   dispatch(getAllUsuarios())
     
     
-  }, [])
+  }, [dispatch])
 
-  
+
 
 
  const {usuarios} = useSelector(
     (state) => state.usuarios)
-  
+
   const columns = useMemo(
     () => [
       {
@@ -35,7 +40,7 @@ const navigate = useNavigate()
       {
         Header: "Usuario",
         accessor: "Usuario",
-        
+       
       },
       {
         Header: "Nombre",
@@ -90,52 +95,70 @@ const navigate = useNavigate()
         Header: "Modificar",
         accessor: "ID",
         id: 'modify',
-        Cell: (value) => <button onClick={(()=> navigate(`/modifUsuarios/${value.value}`))}>Modificar</button>,
+        Cell: (value) => ( rolAltayModif ? 
+        <button onClick={(()=> navigate(`/modifUsuarios/${value.value}`))}>Modificar</button> :
+        <button disabled>Modificar</button>
+          
+        ),
+
       },
       {
         Header: "Eliminar",
         accessor: "ID",
         id: 'delete',
-        Cell: (value) => <button onClick={(()=> {
+        Cell: (value) => (
+          rolAltayModif ? 
+          <button onClick={(()=> {
          let result = window.confirm('Esta seguro que desea eliminar?')
          if(result === true) {
             dispatch(deleteUsuario({id: value.value})) 
          }
            
         
-        })}>Eliminar</button>,
+        })}>Eliminar</button> : <button disabled>Eliminar</button> )
       },
+
+         
     ],
     []
   );
-  const tableInstance = useTable({columns: columns, data: usuarios });
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow
-  } = tableInstance;
-  
-
+  const { getTableProps, getTableBodyProps, 
+    headerGroups, rows, 
+    prepareRow,
+  } =
+    useTable({ columns: columns, data: usuarios },  
+        useSortBy, 
+        );
 
 
   return (
+    
 
+    <div className={toggle ? styles.tableSmall : styles.tableBig}>
 
-    <div style={{alignItems: 'center'}}>
-        <Link to={'/altaUsuarios'}><button>Alta usuarios</button></Link>
+      {
+        rolAltayModif ? <Link to={'/altaUsuarios'}><button>Alta usuarios</button></Link> :
+         <Link to={'/altaUsuarios'}><button disabled>Alta usuarios</button></Link>
+      }
+
       <h1>Usuarios</h1>
+
       <TableContainer>
       <table {...getTableProps()}>
+
         <thead>
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
-                <th {...column.getHeaderProps()}>{column.render("Header")}
+                
+                <th {...column.getHeaderProps(column.getSortByToggleProps())}>{column.render("Header")}
+                <span>
+                  {column.isSorted ? (column.isSortedDesc ? <BiIcons.BiDownArrow/> : <BiIcons.BiUpArrow/>) : ''}
+                </span>
                 <div>{column.canFilter ? column.render('Filter') : null}</div>
                 </th>
+               
               ))}
             </tr>
           ))}
@@ -148,6 +171,7 @@ const navigate = useNavigate()
                 {row.cells.map((cell) => {
                   return (
                     <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                    
                   );
                 })}
               </tr>

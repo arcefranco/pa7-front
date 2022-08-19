@@ -1,0 +1,9 @@
+.tableBig{
+    align-items: center;
+}
+
+.tableSmall{
+    align-items: center;
+    margin-left: 250px;
+    transition: 1500ms;
+}

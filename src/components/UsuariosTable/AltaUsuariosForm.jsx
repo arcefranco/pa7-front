@@ -11,6 +11,8 @@ const {id} = useParams()
 const {vendedores, gerentes, supervisores, teamLeaders, statusNuevoUsuario, usuarioById} = useSelector(
     (state) => state.usuarios)
 
+
+
 useEffect(() => {
     Promise.all([dispatch(getAllVendedores()), dispatch(getAllGerentes()), dispatch(getAllSupervisores()), dispatch(getAllTeamLeaders()), dispatch(reset())])
     if(id) {  
@@ -85,7 +87,7 @@ useEffect(() => {
           
         setInput({
             Nombre: '',
-            login: '',
+            Usuario: '',
             password: '',
             confirmPassword: '',
             UsuarioAnura: '',
@@ -108,7 +110,7 @@ useEffect(() => {
         setInput({
             ID: '',
             Nombre: '',
-            login: '',
+            Usuario: '',
             password: '',
             confirmPassword: '',
             UsuarioAnura: '',
@@ -127,6 +129,7 @@ useEffect(() => {
 
     return (
         <div>
+
             <h1>{usuarioById.length ? 'Modificacion usuario' : 'Alta usuario'}</h1>
             <form action="" className={styles.form}>
                 <div>

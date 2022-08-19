@@ -12,11 +12,13 @@ const login = async (userData) => {
 
 const logout = () => {
     localStorage.removeItem('user')
+    localStorage.removeItem('userToken')
+    window.location.replace("/")
   }
 
 const resetPassword = async (verifyData) => { //Para informar del estado del token al front
   const {id, token} = verifyData
-const response = await axios.get(API_URL + 'reset/tokenStatus' + '/' + id + '/' + token)
+const response = await axios.get(API_URL + 'reset/tokenStatus/' + id + '/' + token)
 return response.data
 }
 
