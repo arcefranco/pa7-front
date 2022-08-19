@@ -7,3 +7,62 @@
     margin-left: 250px;
     transition: 1500ms;
 }
+
+.scrollbar table
+{   
+    border-bottom: 0;
+}
+
+.scrollbar thead
+{   
+    position: sticky;
+    z-index: 0;
+    top: 0;
+    width: 30px;
+    font-size: 15px;
+    font-weight: 500;
+    border: 2px solid burlywood;
+    color:aliceblue;
+    background: black;
+}
+
+.scrollbar
+{
+scrollbar-width: thin;
+border-radius: 5px;
+width: 50rem;
+z-index: -1;
+height: 60vh;
+position: static;
+overflow-y: hidden;
+overflow-x: hidden;
+}
+
+.scrollbar:hover
+{
+overflow-y: scroll;
+overflow-x: scroll;
+}
+
+/* Scrollbar Style */ 
+
+
+
+#style-1::-webkit-scrollbar-track
+{
+border-radius: 2px;
+}
+
+#style-1::-webkit-scrollbar
+{
+width: 5px;
+background-color: #3f3d3d;
+}
+
+#style-1::-webkit-scrollbar-thumb
+{
+border-radius: 10px;
+-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+background-color: #ecebeb;
+}
+/* Scrollbar End */ 
