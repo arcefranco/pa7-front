@@ -49,9 +49,6 @@ const SideBarItem = ({item, index}) => {
             
             
             )
-                
-            
-
              : null
         }
     </div>
