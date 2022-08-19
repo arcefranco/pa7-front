@@ -7,12 +7,8 @@ const user = JSON.parse(localStorage.getItem('user'))
 const initialState = {
     user: user ? user : null,
     tokenForgot: {status: false}, 
-    
-    
-    recoveryMessage: null, //Estado del token
-    
+    recoveryMessage: null, //Estado del token 
     updateStatus: null, //Info sobre si encontramos o no el usuario y le enviamos el mail
-    
     isError: false, //El mensaje para saber si la pass se actualizo o no
     isSuccess: false,
     isLoading: false,
