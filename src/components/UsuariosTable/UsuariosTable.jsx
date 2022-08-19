@@ -161,8 +161,8 @@ const { toggle } = useSelector(
   return (
     
 
-    <div className={toggle ? styles.tableSmall : styles.tableBig}>
-
+    <div >
+{/* <div className={toggle ? styles.tableSmall : styles.tableBig}> */}
       {
         rolAltayModif ? <Link to={'/altaUsuarios'}><button>Alta usuarios</button></Link> :
          <Link to={'/altaUsuarios'}><button disabled>Alta usuarios</button></Link>

@@ -31,7 +31,7 @@ const SideBar = () => {
                 <div className={styles.menuItems}>
                     <div className={styles.toggle}>
                     <p style={{display: sidebar ? "grid" : "none" }} className={styles.menuBars}><b>Planes de Ahorro 7</b></p>
-                <div style={{marginLeft: sidebar ? "25px" : "0px"}} className={styles.menuBars}>
+                <div style={{marginLeft: sidebar ? "0px" : "15px"}} className={styles.menuBars}>
                     
                 <FaIcons.FaBars onClick={showSideBar}/>
             </div>
