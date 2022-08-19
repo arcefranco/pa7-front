@@ -20,3 +20,10 @@
 .form{
     padding: 2rem;
 }
+.error{
+    color: red;
+    font-size: small;
+}
+.inputError{
+    border: 1px solid red;
+}
