@@ -1,6 +1,6 @@
 import React, {useEffect, useMemo, useState} from 'react'
 import { useSelector, useDispatch} from 'react-redux'
-import { deleteGerentes, getGerentes, postGerentes, updateGerentes } from '../../reducers/Gerentes/gerentesSlice'
+import { deleteGerentes, getGerentes, getGerentesById, postGerentes, updateGerentes, } from '../../reducers/Gerentes/gerentesSlice'
 import TableContainer from './TableContainer'
 import { useFilters, useRowSelect, } from 'react-table'
 import ActiveFilter from './ActiveFilter'
@@ -9,51 +9,77 @@ import styles from './Gerentes.module.css'
 import {FcApproval, FcCancel, FcSurvey, FcDataSheet} from 'react-icons/fc'
 import {BiPencil, BiXCircle, BiLogOut } from 'react-icons/bi'
 import { Checkbox } from './Checkbox'
+import {Link, useNavigate} from 'react-router-dom'
 
 /*FUNCION DEL COMPONENTE*/
 const GerentesTable = () => {
-const [form, setForm] = useState("");
-const [nuevo, setNuevo] = useState(false)
-const toggleNuevo = () => setNuevo(!nuevo)
-const [modificar, setModificar] = useState(false)
-const toggleModificar = () => setModificar(!modificar)
-const dispatch = useDispatch()
-const [lastCode, setLastCode ] = useState({})
+const [nuevo, setNuevo] = useState(false);
+const toggleNuevo = () => setNuevo(!nuevo);
+const [modificar, setModificar] = useState(false);
+const toggleModificar = () => setModificar(!modificar);
+const dispatch = useDispatch();
+const [lastCode, setLastCode ] = useState({});
+const navigate = useNavigate();
+const [form, setForm] = useState({
+  Codigo:'',
+  Nombre:'',
+  Activo: '',
+});
+const [input, setInput] = useState({
+  Codigo:'',
+  Nombre:'',
+  Activo: '',
+})
+
 
 /*GET API GERENTES*/
-  useEffect(() => {
+useEffect(() => {
+  
   dispatch(getGerentes())
   }, [dispatch])
-
   /*----------------------HANDLE CHANGE DEL FORM------------------------------------ */
-  const HandleChange = (event) =>{
+  const HandleChange =  (e) =>{
   
     
-    const check = event.target.checked;
-    const name = event.target.name;
-    const value = event.target.value;
-    console.log(value, name, check)
-    setForm(
-      {...form,
-      'Activo':check,
+    const {name , value} = e.target
+    console.log(value, name)
+    const newForm = {...input,
       [name]:value,
-      
-    } )
+      }
+    
+    setInput(newForm )
     
   }
+  const handleCheckChange = (e) => {
+    const { name} = e.target;
+    var value = e.target.checked
+    value = e.target.checked? 1 : 0
+    const newForm = { ...input, [name]: value };
+    setInput(newForm);
+};
 /*---------------------------------HANDLE SUBMIT FUNCION INSERT---------------------------------*/
-const HandleSubmitInsert = (event) =>{
+const HandleSubmitInsert = async (event) =>{
 event.preventDefault()
-console.log(form)
-dispatch(postGerentes(form))
+console.log(input)
+dispatch(postGerentes(input))
+navigate('/gerentes')
 }
 
 /*---------------------------------HANDLE SUBMIT FUNCION UPDATE---------------------------------*/
-const HandleSubmitUpdate = (event) =>{
+const HandleSubmitUpdate =async (event) =>{
   event.preventDefault()
-  dispatch(updateGerentes())
+  console.log(input)
+  navigate('/gerentes')
+  dispatch(updateGerentes(input))
+  setInput({
+    Codigo:'',
+  Nombre:'',
+  Activo: '',
+  })
+  
   }
 
+ 
   /*---------------------------------HANDLE FUNCION DELETE ---------------------------------*/
 const HandleDelete = (value) =>{
   //  event.preventDefault()
@@ -67,8 +93,11 @@ const HandleDelete = (value) =>{
   // dispatch(reset())
    }
 
- const {gerentes} = useSelector(
+ const {gerentes, gerentesById} = useSelector(
     (state) => state.gerentes)
+    
+   
+    
 // /*LAST OBJECT OF THE GERENTES ARRAY  */
 //     var lastObject =useMemo( () => gerentes[(gerentes.length)-1])
 //       // setLastCode()    
@@ -98,8 +127,18 @@ const HandleDelete = (value) =>{
       },
       {
         Header: "Modificar",
-        Cell: ({row}) => <button onClick={toggleModificar} className={styles.buttonRows} disabled={modificar || nuevo} {...row.getToggleRowSelectedProps()} ><BiPencil style={{color:"brown"}}/>Modificar</button>,
-      },
+        accessor: "Codigo" , 
+        id:'Modificar',
+  //       Cell: (value) => <button onClick={(()=>
+  //         {toggleModificar();
+  //         dispatch(getGerentesById(value.value));
+          
+  //         console.log(value.value, dispatch(getGerentesById(value.value)) )}        
+  // )} className={styles.buttonRows} disabled={modificar || nuevo} ><BiPencil style={{color:"brown"}}/>Modificar</button>,
+  //     },
+  Cell: (value) => <button onClick=  {(()=> navigate(`/modificarGerentes/${value.value}`))}
+  className={styles.buttonRows} disabled={modificar || nuevo} ><BiPencil style={{color:"brown"}}/>Modificar</button>,
+        },
       {
         Header: "Eliminar",
         accessor: "Codigo",
@@ -108,7 +147,8 @@ const HandleDelete = (value) =>{
           
           let respuesta = window.confirm("Desea eliminar el campo?");
           if(respuesta == true){
-          dispatch(deleteGerentes({Codigo: value.value}))}
+          dispatch(deleteGerentes({Codigo: value.value}))
+          window.location.reload()}
       })} 
         className={styles.buttonRows} disabled={modificar || nuevo} ><BiXCircle style={{color:"rgb(232, 76, 76)"}}/>Eliminar</button>,
         // Filter: ActiveFilter,
@@ -118,19 +158,20 @@ const HandleDelete = (value) =>{
     []
   );
   const tableInstance = useTable({ columns: columns, data: gerentes }, useFilters, useRowSelect, 
-    // ----------------------------CHECKBOX ROW SELECT-----------------------------------
-    (hooks) => {
-      hooks.visibleColumns.push((columns)=> {
-        return[
-          {
-          id:'selection',
+    // // ----------------------------CHECKBOX ROW SELECT-----------------------------------
+    // (hooks) => {
+    //   hooks.visibleColumns.push((columns)=> {
+    //     return[
+    //       {
+    //       id:'selection',
           
-          Cell:({row}) => <Checkbox {...row.getToggleRowSelectedProps()}/>, 
-          },
-           ...columns 
-        ]
-      })
-    });
+    //       Cell:({row}) => <Checkbox {...row.getToggleRowSelectedProps()}/>, 
+    //       },
+    //        ...columns 
+    //     ]
+    //   })
+    // }
+    );
 
   const {
     getTableProps,
@@ -140,6 +181,17 @@ const HandleDelete = (value) =>{
     prepareRow,
     selectedFlatRows,
   } = tableInstance;
+  
+  useEffect(() => {
+    setInput({
+      Codigo: gerentesById?.Codigo,
+      Nombre: gerentesById?.Nombre,
+      Activo: gerentesById?.Activo,
+    });
+  }, [gerentesById]);
+
+
+  
   
 /*RENDER PAGINA GERENTES*/
   return (
@@ -159,7 +211,7 @@ const HandleDelete = (value) =>{
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
                 <th {...column.getHeaderProps()}>{column.render("Header")}
-                {/* <div>{column.canFilter ? column.render('Filter') : null}</div> */}
+                {/* <i>{column.canFilter ? column.render('Filter') : null}</i> */}
                 </th>
               ))}
             </tr>
@@ -169,7 +221,7 @@ const HandleDelete = (value) =>{
           {rows.map((row) => {
             prepareRow(row);
             return (
-              <tr {...row.getToggleRowSelectedProps()}  {...row.getRowProps()}>
+              <tr  {...row.getRowProps()}>
                 {row.cells.map((cell) => {
                   return (
                     <td  {...cell.getCellProps()} >{cell.render("Cell")}</td>
@@ -194,25 +246,11 @@ const HandleDelete = (value) =>{
             )}
           </code>
         </pre>  */}
-       <form style={{display: nuevo ? "block" : "none" }} className={styles.formContainer} onSubmit={HandleSubmitInsert}>
-          <label>Nombre</label><input type="text" style={{width:"20rem" }} name="Nombre" onChange={HandleChange} value={form.name} required />
-          <input type="checkbox"  onChange={HandleChange} value={form.Activo} checked={form.Activo}  /> <label>Activo</label>
-          <button type='submit' ><FcApproval/>Aceptar</button>
-          <button type='button' onClick={toggleNuevo}><FcCancel/>Cancelar</button>
-        </form>
-        <form style={{display: modificar ? "block" : "none" }} className={styles.formContainer}>
-          <label>Codigo</label><input type="text" style={{width:"6rem" }} name="codigo" onChange={HandleChange} 
-          value={selectedFlatRows.map((row) => row.original.Codigo)} disabled/>
-          <label>Nombre</label><input type="text" style={{width:"20rem" }} name="gerente" onChange={HandleChange} 
-          value={selectedFlatRows.map((row) => row.original.Nombre)} />
-          <input type="checkbox" name="activo" onChange={HandleChange}  checked={selectedFlatRows.map((row) => row.original.Activo) == 1 || form.activo}/> <label>Activo</label>
-          <button onClick={HandleSubmitUpdate}><FcApproval/>Aceptar</button>
-          <button type='button' onClick={toggleModificar}><FcCancel/>Cancelar</button>
-        </form>
+
        <div className={styles.buttonContainer}>
-         <button onClick={toggleNuevo}   className={styles.buttonLeft} disabled={modificar || nuevo}><FcSurvey/>Nuevo</button>
+         <button onClick={()=>navigate('/modificarGerentes')}   className={styles.buttonLeft} disabled={modificar || nuevo}><FcSurvey/>Nuevo</button>
          <button className={styles.buttonRight} disabled={modificar || nuevo}><FcDataSheet/>Excel</button>
-         <button className={styles.buttonRight} disabled={modificar || nuevo}><BiLogOut/>Salir</button>
+         <Link to="/" className={styles.buttonRight} disabled={modificar || nuevo}><button><BiLogOut/>Salir</button></Link>
         </div>   
     </div>
   )

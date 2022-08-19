@@ -3,6 +3,7 @@ import { useSelector, useDispatch} from 'react-redux'
 import { deleteUsuario, getAllUsuarios } from '../../reducers/Usuarios/UsuariosSlice'
 import TableContainer from '../GerentesTable/TableContainer'
 import { Link, useNavigate } from 'react-router-dom'
+
 import * as BiIcons from 'react-icons/bi';
 import { useTable, useSortBy} from 'react-table'
 import styles from './UsuariosTable.module.css'
@@ -145,6 +146,7 @@ const { toggle } = useSelector(
       <h1>Usuarios</h1>
 
       <TableContainer>
+      <div className={styles.scrollbar}>
       <table {...getTableProps()}>
 
         <thead>
@@ -179,6 +181,7 @@ const { toggle } = useSelector(
           })}
         </tbody>
       </table>
+      </div>
        </TableContainer>    
     </div> 
        
