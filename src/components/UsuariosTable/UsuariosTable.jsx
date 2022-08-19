@@ -4,6 +4,7 @@ import { deleteUsuario, getAllUsuarios } from '../../reducers/Usuarios/UsuariosS
 import TableContainer from '../GerentesTable/TableContainer'
 import { Link, useNavigate } from 'react-router-dom'
 import { useTable } from 'react-table'
+import styles from '../GerentesTable/Gerentes.module.css'
 
 
 const UsuariosTable = () => {
@@ -128,6 +129,7 @@ const navigate = useNavigate()
         <Link to={'/altaUsuarios'}><button>Alta usuarios</button></Link>
       <h1>Usuarios</h1>
       <TableContainer>
+      <div className={styles.scrollbar}>
       <table {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => (
@@ -155,6 +157,7 @@ const navigate = useNavigate()
           })}
         </tbody>
       </table>
+      </div>
        </TableContainer>    
     </div> 
        

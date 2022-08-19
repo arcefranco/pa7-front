@@ -5,6 +5,7 @@ import gerentesService from './gerentesService'
 
 const initialState = {
     gerentes: [],
+    gerentesById: [],
     isError: false,
     isSuccess: false,
     isLoading: false,
@@ -23,6 +24,18 @@ export const getGerentes = createAsyncThunk('gerentes', async (thunkAPI) => {
     }
   })
   
+  export const getGerentesById = createAsyncThunk('getgerentesbyid', async (gerentesData,thunkAPI) => {
+    try {
+      const data = await gerentesService.getGerentesById(gerentesData)
+      return data
+    } catch (error) {
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+  })
+
 export const postGerentes = createAsyncThunk('postgerentes', async  (form,thunkAPI) => {
     try {
       const data = await gerentesService.postGerentes(form)
@@ -35,9 +48,9 @@ export const postGerentes = createAsyncThunk('postgerentes', async  (form,thunkA
     }
   })
 
-export const updateGerentes = createAsyncThunk('updategerentes', async (thunkAPI) => {
+export const updateGerentes = createAsyncThunk('updategerentes', async (form, thunkAPI) => {
     try {
-      const data = await gerentesService.updateGerentes()
+      const data = await gerentesService.updateGerentes(form)
       return data
     } catch (error) {
         (error.response && error.response.data && error.response.data.message) ||
@@ -88,6 +101,21 @@ export const gerentesSlice = createSlice({
             state.isError = true
             state.message = action.payload
             state.gerentes = null
+          });
+
+          builder.addCase(getGerentesById.pending, (state) => {
+            state.isLoading = true
+          })
+        builder.addCase(getGerentesById.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.isSuccess = true
+            state.gerentesById = action.payload
+          }) 
+        builder.addCase(getGerentesById.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            state.message = action.payload
+            state.gerentesById = null
           });
 
           
