@@ -1,9 +1,10 @@
-import React, {useEffect, useReducer, useState} from "react";
+import React, {useEffect, useState} from "react";
 import { useDispatch,  useSelector} from "react-redux";
 import { getAllGerentes, getAllSupervisores, getAllTeamLeaders, 
     getAllVendedores, createUsuario, reset, getUsuarioById, updateUsuario} from "../../reducers/Usuarios/UsuariosSlice";
 import styles from './AltaUsuarios.module.css'
-import { useParams } from "react-router-dom";
+import Swal from "sweetalert2";
+import { useParams, useNavigate, Link } from "react-router-dom";
 
 const AltaUsuariosForm = () => {
 const dispatch = useDispatch()
@@ -11,10 +12,11 @@ const {id} = useParams()
 const {vendedores, gerentes, supervisores, teamLeaders, statusNuevoUsuario, usuarioById} = useSelector(
     (state) => state.usuarios)
 
-
+const navigate = useNavigate()
 
 useEffect(() => {
-    Promise.all([dispatch(getAllVendedores()), dispatch(getAllGerentes()), dispatch(getAllSupervisores()), dispatch(getAllTeamLeaders()), dispatch(reset())])
+    Promise.all([dispatch(getAllVendedores()), dispatch(getAllGerentes()), 
+        dispatch(getAllSupervisores()), dispatch(getAllTeamLeaders()), dispatch(reset())])
     if(id) {  
         dispatch(getUsuarioById({id: id}))
         }
@@ -38,6 +40,34 @@ useEffect(() => {
     });
   }, [usuarioById]);
 
+  useEffect(() => {
+    if(statusNuevoUsuario.length && statusNuevoUsuario[0]?.status === true){
+        Swal.fire({
+            icon: 'success',
+            title: statusNuevoUsuario[0]?.data,
+            showConfirmButton: false,
+            timer: 1500
+          })
+        navigate('/usuarios')
+    }else if(statusNuevoUsuario.length && statusNuevoUsuario[0]?.status === false){
+     Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            showConfirmButton: true,
+            
+            text: statusNuevoUsuario[0]?.data
+          }).then((result) => {
+            if (result.isConfirmed) {
+              window.location.reload()
+              
+            } 
+        })
+          
+    }
+
+
+ 
+  }, [statusNuevoUsuario])
 
 
     
@@ -106,8 +136,8 @@ useEffect(() => {
     const handleUpdate = async (e) => {
         e.preventDefault()
       dispatch(updateUsuario(input))
-          
-        setInput({
+      dispatch(reset())  
+            setInput({
             ID: '',
             Nombre: '',
             Usuario: '',
@@ -125,12 +155,14 @@ useEffect(() => {
             email: '' 
     
         })
+
     }
 
     return (
         <div>
 
             <h1>{usuarioById.length ? 'Modificacion usuario' : 'Alta usuario'}</h1>
+            <Link to={'/usuarios'}><button>Volver a tabla Usuarios</button></Link>
             <form action="" className={styles.form}>
                 <div>
                     
@@ -217,9 +249,6 @@ useEffect(() => {
                 {
                     usuarioById.length? <button type="submit" onClick={(e) => handleUpdate(e)}>Actualizar</button> : <button type="submit" onClick={(e) => handleSubmit(e)}>Enviar</button>
                 }
-
-
-                {statusNuevoUsuario.length? <p>{statusNuevoUsuario[0].data}</p> : null} {/* Probar con poner el swal en useEffect */}
             </form>
     
         </div>

@@ -155,7 +155,9 @@ export const getAllUsuarios = createAsyncThunk('usuarios/All', async (thunkAPI) 
         state.isSuccess = false
         state.isError = false
         state.message = ''
-        state.statusNuevoUsuario= []
+        state.statusNuevoUsuario = []
+        state.usuarioById = []
+       
       },
     },
 
@@ -263,11 +265,12 @@ export const getAllUsuarios = createAsyncThunk('usuarios/All', async (thunkAPI) 
           })
           .addCase(getUsuarioById.pending, (state) => {
             state.isLoading = true
+            
           })
           .addCase(getUsuarioById.fulfilled, (state, action) => {
             state.isLoading = false
             state.isSuccess = true
-            state.usuarioById = action.payload
+            state.usuarioById = [action.payload][0]
           }) 
           .addCase(getUsuarioById.rejected, (state, action) => {
             state.isLoading = false

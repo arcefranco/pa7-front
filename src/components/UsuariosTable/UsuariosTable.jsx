@@ -1,12 +1,13 @@
 import React, {useEffect, useMemo} from 'react'
 import { useSelector, useDispatch} from 'react-redux'
-import { deleteUsuario, getAllUsuarios } from '../../reducers/Usuarios/UsuariosSlice'
+import { deleteUsuario, getAllUsuarios, reset } from '../../reducers/Usuarios/UsuariosSlice'
 import TableContainer from '../GerentesTable/TableContainer'
 import { Link, useNavigate } from 'react-router-dom'
 
 import * as BiIcons from 'react-icons/bi';
 import { useTable, useSortBy} from 'react-table'
 import styles from './UsuariosTable.module.css'
+import Swal from 'sweetalert2'
 
 
 const UsuariosTable = () => {
@@ -14,17 +15,36 @@ const UsuariosTable = () => {
 const dispatch = useDispatch()
 const navigate = useNavigate()
 const {roles} = useSelector((state) => state.login.user)
+const {statusNuevoUsuario} = useSelector((state) => state.usuarios)
 const rolAltayModif = roles.find(e => e.rl_codigo === '1.2.2')
 const { toggle } = useSelector(
   (state) => state.login)
   useEffect(() => {
 
   dispatch(getAllUsuarios())
-    
+  dispatch(reset())  
     
   }, [dispatch])
 
-
+  useEffect(() => {
+    if(statusNuevoUsuario[0] && statusNuevoUsuario[0].status === false){
+      Swal.fire({
+        icon:'error',
+        text: statusNuevoUsuario[0].data
+      })
+    }
+    if(statusNuevoUsuario[0] && statusNuevoUsuario[0].status === true){
+      Swal.fire({
+        icon:'success',
+        showConfirmButton: true,
+        text: statusNuevoUsuario[0].data
+      }).then((result) => {
+        if(result.isConfirmed){
+          window.location.reload()
+        }
+      })
+    }
+  }, [statusNuevoUsuario])
 
 
  const {usuarios} = useSelector(
@@ -110,12 +130,17 @@ const { toggle } = useSelector(
         Cell: (value) => (
           rolAltayModif ? 
           <button onClick={(()=> {
-         let result = window.confirm('Esta seguro que desea eliminar?')
-         if(result === true) {
-            dispatch(deleteUsuario({id: value.value})) 
-         }
-           
-        
+            Swal.fire({
+              icon:'info',
+              showConfirmButton: true,
+              showCancelButton:true,
+              text: 'Esta seguro que desea eliminar?'
+            }).then((result) => {
+              if(result.isConfirmed){
+                dispatch(deleteUsuario({id: value.value}))
+              }
+            })
+
         })}>Eliminar</button> : <button disabled>Eliminar</button> )
       },
 
