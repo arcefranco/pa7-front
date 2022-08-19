@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import { useDispatch,  useSelector} from "react-redux";
 import { getAllGerentes, getAllSupervisores, getAllTeamLeaders, 
     getAllVendedores, createUsuario, reset, getUsuarioById, updateUsuario} from "../../reducers/Usuarios/UsuariosSlice";
+import validateEmail from "../../helpers/validateEmail";
 import styles from './AltaUsuarios.module.css'
 import Swal from "sweetalert2";
 import { useParams, useNavigate, Link } from "react-router-dom";
@@ -13,6 +14,27 @@ const {vendedores, gerentes, supervisores, teamLeaders, statusNuevoUsuario, usua
     (state) => state.usuarios)
 
 const navigate = useNavigate()
+
+
+const validateform = function (form) {
+    const errors = {};
+
+    if(!form.Usuario){
+        errors.usuario = "Campo requerido"
+    }   
+    if (form.password !== form.confirmPassword) {
+      errors.contrasenaConfirm = "Las contraseñas deben coincidir";
+    }
+  
+    if (!form.email) {
+      errors.email = "Campo requerido";
+    } else if (!validateEmail(form.email)) {
+      errors.email = "Escriba un email válido";
+    }
+
+  
+    return errors;
+  };
 
 useEffect(() => {
     Promise.all([dispatch(getAllVendedores()), dispatch(getAllGerentes()), 
@@ -70,7 +92,7 @@ useEffect(() => {
   }, [statusNuevoUsuario])
 
 
-    
+    const [error, setError] = useState({})
     const [input, setInput] = useState({
         ID: id ? id : '',
         Nombre: '',
@@ -98,9 +120,11 @@ useEffect(() => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        
+
         const newForm = { ...input, [name]: value };
-        setInput(newForm);
+        setInput(newForm);        
+        const errors = validateform(newForm);
+        setError(errors);
     };
 
     const handleCheckChange = (e) => {
@@ -158,6 +182,8 @@ useEffect(() => {
 
     }
 
+      
+
     return (
         <div>
 
@@ -169,15 +195,16 @@ useEffect(() => {
 
                         <div className={styles.inputText}>
                             <input type="text" name="Nombre" value={input.Nombre} onChange={handleChange} placeholder="Nombre" />
-                            <input type="text" name="Usuario" value={input.Usuario} onChange={handleChange} placeholder="Usuario"/>
-                            
+                            <input type="text" name="Usuario" value={input.Usuario} className={error.usuario && styles.inputError} onChange={handleChange} placeholder="Usuario"/>
+                            {error.usuario && <div className={styles.error}>{error.usuario}</div>}
                               
                             
                             {!usuarioById.length && <input type="text" name="password" value={input.password}  onChange={handleChange} placeholder="Contraseña"/>}
                             {!usuarioById.length && <input type="text" name="confirmPassword" value={input.confirmPassword} onChange={handleChange} placeholder="Repetir Contraseña"/>}
+                            {!usuarioById.length && error.contrasenaConfirm ? <div className={styles.error}>{error.contrasenaConfirm}</div>: null}
                             <input type="text" name="UsuarioAnura"  value={input.UsuarioAnura} onChange={handleChange} placeholder="Usuario Anura"/>
-                            <input type="text" name="email" value={input.email}  onChange={handleChange} placeholder="Email"/>
-
+                            <input type="text" name="email" value={input.email}  onChange={handleChange} className={error.email && styles.inputError} placeholder="Email"/>
+                            {error.email && <div className={styles.error}>{error.email}</div>}
                         </div>
                         
                     
@@ -247,7 +274,13 @@ useEffect(() => {
                 </div>
                 
                 {
-                    usuarioById.length? <button type="submit" onClick={(e) => handleUpdate(e)}>Actualizar</button> : <button type="submit" onClick={(e) => handleSubmit(e)}>Enviar</button>
+                    usuarioById.length? 
+                    <button type="submit" onClick={(e) => handleUpdate(e)}>Actualizar</button> : 
+                    (
+                        !Object.keys(error).length ? <button type="submit" onClick={(e) => handleSubmit(e)}>Enviar</button> :
+                        <button disabled>Enviar</button>
+                    )
+                    
                 }
             </form>
     
