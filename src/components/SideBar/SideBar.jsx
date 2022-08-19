@@ -31,7 +31,7 @@ const SideBar = () => {
             <Link to="#" className={styles.menuBars}>
                 <FaIcons.FaBars onClick={showSideBar}/>
             </Link>
-            <button className={styles.logOut} onClick={() => dispatch(logout())}>Log out</button>
+            <Link to="/"><button className={styles.logOut} onClick={() => dispatch(logout())}>Log out</button></Link>
         </div>
             <nav className={sidebar ? styles.menuActive : styles.menu}>
                 <div className={styles.menuItems}>
