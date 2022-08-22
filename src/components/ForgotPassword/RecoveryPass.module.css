@@ -50,6 +50,17 @@
    .btn:hover{
        background-color: #1971a4
    }
+   .btnDisabled{
+    margin-top: 2rem;
+    width: 7rem;
+    padding: 0.5rem;
+    border: none;
+    background-color: gray;
+    border-radius: 3px;
+    box-shadow: none;
+    color: white;
+   
+   }
    .icon{
     position: absolute;
     right: 0;

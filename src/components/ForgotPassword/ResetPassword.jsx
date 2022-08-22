@@ -18,6 +18,7 @@ export const ResetPassword = () => {
         token: token
     }
     
+    
     const {tokenForgot, isLoading, updateStatus} = useSelector(
         (state) => state.login)
     
@@ -25,11 +26,14 @@ export const ResetPassword = () => {
         password: '',
         confirmPassword: ''
     })
+    const [error, setError] = useState({})
     
     const handleChange = (e) => {
         const { name, value } = e.target;
         const newForm = { ...input, [name]: value };
         setInput(newForm);
+        const errors = validateform(newForm);
+        setError(errors);
     };
 
     const onSubmit = (e) => {
@@ -44,7 +48,15 @@ export const ResetPassword = () => {
             password: '',
             confirmPassword: ''
         })
-    }   
+    }
+    const validateform = function (form) {
+        const errors = {};
+
+        if (form.password !== form.confirmPassword) {
+          errors.contrasenaConfirm = "Las contraseñas deben coincidir";
+        }
+        return errors;
+      };   
     
 
 
@@ -64,7 +76,12 @@ export const ResetPassword = () => {
                 <span>Ingrese su nueva contraseña</span>
                 <input className={styles.input} type="password" value={input.password} name="password" onChange={handleChange}  placeholder="Nueva contraseña"/>
                 <input className={styles.input} type="password" value={input.confirmPassword} name="confirmPassword" onChange={handleChange}   placeholder="Confirmar contraseña" />
-                <button className={styles.btn} type="submit" onClick={onSubmit}>Enviar</button>
+                {error.contrasenaConfirm && <span style={{marginTop:'1rem', fontWeight:'bold', color:'red'}}>{error.contrasenaConfirm}</span>}
+
+                {
+                    error.contrasenaConfirm || input.password.length < 1 ? <button className={styles.btnDisabled} disabled type="submit" onClick={onSubmit}>Enviar</button> :
+                    <button className={styles.btn} type="submit" onClick={onSubmit}>Enviar</button>
+                }
                 {
                 updateStatus && updateStatus.status === true ? 
                 
