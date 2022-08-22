@@ -7,14 +7,11 @@
     text-align: -webkit-center;
 }
 
-.title{
-    color: black;
-    margin-left: 4rem;
-}
 .titleContainer{
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 2rem;
 
 }
 
@@ -48,6 +45,7 @@
 .inputSelect{
     display: grid;
     grid-template-columns: 1fr 1fr;
+    width: 45rem;
 }
 .inputSelect select{
     width: 20rem;
@@ -62,7 +60,6 @@
     border-top: 2px solid #3c8dbc;
     border-radius: 10px;
     box-shadow: 2px 2px 2px 1px #80808029;
-    margin: 2rem;
     box-shadow: 1px;
     background-color: #ffff;
     width: 60rem;
@@ -97,6 +94,12 @@
 .inputSelect span {
     font-weight: 600;
 }
+.title{
+    margin: 0;
+    color: black;
+    margin-left: 4rem;
+    width: 20rem;
+}
 .btn{
  margin-top: 2rem;
  width: 7rem;
@@ -108,6 +111,11 @@
  color: white;
 
 }
+.hr{
+    width: 30rem;
+    opacity: 0.5;
+   }
+
 
 
 .btn:hover{

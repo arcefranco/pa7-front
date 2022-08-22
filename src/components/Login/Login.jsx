@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import {useNavigate} from 'react-router-dom'
 import Swal from 'sweetalert2'
 import { Link } from 'react-router-dom'
+import * as BiIcons from 'react-icons/bi';
 import { useSelector } from 'react-redux/es/exports'
 import styles from './Login.module.css'
 import { login, reset } from '../../reducers/Login/loginSlice'
@@ -26,15 +27,18 @@ export const Login = () => {
           Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: message
+            text: message.message
           })
         }
         if (user?.newUser === true) {
           Swal.fire({
             icon: 'info',
-            title: `${user.message} en /recovery`,
-            showConfirmButton: false,
-            timer: 1500
+            title: `${user.message}`,
+            showConfirmButton: true,
+            timer: 5000
+          }).then((result) => {
+            if(result.isConfirmed)
+            navigate('/recovery')
           })
           dispatch(reset())
           localStorage.removeItem('user')
@@ -71,9 +75,12 @@ export const Login = () => {
     
   return (
     <div className={styles.container}>
-         <h1>Login</h1>
+   
+         
 
+          <h3 className={styles.title}>Planes de Ahorro 7</h3>
          <form className={styles.form}>
+
           <select className={styles.input} name="empresa" value={input.empresa} onChange={handleChange} required>
                 <option value="">--Elegir empresa--</option>
                 <option value="Car Group S.A." id="carGroup">Car Group S.A.</option>
@@ -86,8 +93,21 @@ export const Login = () => {
           </select>
         <input value={input.login} name='login' onChange={handleChange} className={styles.input} placeholder='User' type="text" />
          <input value={input.password} name='password' onChange={handleChange} className={styles.input} type="password" placeholder='Password'/>
+
+          <span>Iniciar sesión</span>
+          <div style={{position:'relative', margin: '1rem'}}>
+            <BiIcons.BiUser className={styles.icon}/>
+            <input value={input.login} name='login' onChange={handleChange} className={styles.input} placeholder='Usuario' type="text" />
+          </div>
+          <div style={{position:'relative', margin: '1rem'}}>
+            <BiIcons.BiLockAlt className={styles.icon}/>
+            <input value={input.password} name='password' onChange={handleChange} className={styles.input} type="password" placeholder='Contraseña'/>
+          </div>
+         
+         <hr className={styles.hr} />
+
           <Link to={'/recovery'} className={styles.forgotLink}>Olvido su contraseña?</Link>
-         <button onClick={onSubmit} className={styles.buttonSubmit}>Log in</button>
+         <button onClick={onSubmit} className={styles.btn}>Loguearse</button>
          
          </form>
       

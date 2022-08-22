@@ -68,7 +68,7 @@ useEffect(() => {
             icon: 'success',
             title: statusNuevoUsuario[0]?.data,
             showConfirmButton: false,
-            timer: 1500
+            timer: 5000
           })
         navigate('/usuarios')
     }else if(statusNuevoUsuario.length && statusNuevoUsuario[0]?.status === false){
@@ -188,20 +188,24 @@ useEffect(() => {
         <div className={styles.container}>
 
             <div className={styles.titleContainer}>
-            <h3 className={styles.title}>{usuarioById.length ? 'Modificacion usuario' : 'Alta de usuarios'}</h3>
-            <Link to={'/usuarios'}><button style={{marginRight: '4rem'}} className={styles.btn}>Tabla Usuarios</button></Link>
+                <h3 className={styles.title}>{usuarioById.length ? 'Modificación de usuario' : 'Alta de usuarios'}</h3>
+                <Link to={'/usuarios'}><button style={{marginRight: '4rem', width:'9rem'}} className={styles.btn} >Volver a Usuarios</button></Link>
             </div>
             
             <form action="" className={styles.form}>
+
+
                 <div className={styles.containerInputText}>
                     
 
                         <div className={styles.col1}>
                             <span>Nombre: </span> 
                             <input type="text" name="Nombre" value={input.Nombre} onChange={handleChange} placeholder="Nombre" />
+                            
                             <span>Nombre de usuario: </span> 
                             <input type="text" name="Usuario" value={input.Usuario} className={error.usuario && styles.inputError} onChange={handleChange} placeholder="Usuario"/>
                             {error.usuario && <div className={styles.error}>{error.usuario}</div>}
+                            
                             {!usuarioById.length && <div>
                                 <span>Contraseña: </span>
                                 <input type="text" name="password" value={input.password}  onChange={handleChange} placeholder="Contraseña"/>
@@ -210,95 +214,120 @@ useEffect(() => {
 
                             
                         </div>
-                            <div className={styles.col2}>
+                        <div className={styles.col2}>
+                            
                             {!usuarioById.length && <div>
-                                <span>Confirmar contraseña: </span>
-                                <input type="text" name="confirmPassword" value={input.confirmPassword} onChange={handleChange} placeholder="Repetir Contraseña"/>
+                            <span>Confirmar contraseña: </span>
+                            <input type="text" name="confirmPassword" value={input.confirmPassword} onChange={handleChange} placeholder="Repetir Contraseña"/>
                                  
                             </div>} 
                             {!usuarioById.length && error.contrasenaConfirm ? <div className={styles.error}>{error.contrasenaConfirm}</div>: null}
                             <span>Usuario anura: </span>
                             <input type="text" name="UsuarioAnura"  value={input.UsuarioAnura} onChange={handleChange} placeholder="Usuario Anura"/>
+                            
                             <span>Email: </span>
                             <input type="text" name="email" value={input.email}  onChange={handleChange} className={error.email && styles.inputError} placeholder="Email"/>
                             {error.email && <div className={styles.error}>{error.email}</div>}
-                            </div>
+                        </div>
                     
 
                     
                 </div>
+                                                    <hr className={styles.hr}/>
                 <div className={styles.inputSelect}>
+
                 <div className={styles.col1}>
-                <div>
-                    <span>Vendedor: </span> <br />
-                <select name="Vendedor" value={input.Vendedor} onChange={handleChange} id="">
-                {
-                    !id ? <option value="">---</option> : 
-                       userVendedor && Object.keys(userVendedor).length ?
-                        <option key={userVendedor.Codigo}>{`${userVendedor.Codigo} ${userVendedor.Nombre}`}</option> : <option value="">---</option>
-                    }
-                    {vendedores && vendedores.map(e => <option key={e.Codigo}>{`${e.Codigo} ${e.Nombre}`}</option>)}
-                </select>
-                </div>
-                <div>
-                    <span>Gerente: </span> <br />
-                <select name="Gerente" value={input.Gerente}  onChange={handleChange} id="">
-                {
-                    !id ? <option value="">---</option> : 
-                       userGerente && Object.keys(userGerente).length ? 
-                       <option key={userGerente.Codigo}>{`${userGerente.Codigo} ${userGerente.Nombre}`}</option> : <option value="">---</option>
-                    }
-                    {gerentes && gerentes.map(e => <option key={e.Codigo}>{`${e.Codigo} ${e.Nombre}`}</option>)}
-                </select>
-                </div>   
-                </div>
-                    <div className={styles.col2}>
-                               <div>
-                    <span>Supervisor: </span> <br />
+                        <div>
+                            <span>Vendedor: </span> <br />
+                            <select name="Vendedor" value={input.Vendedor} onChange={handleChange} id="">
+                        {
+                                    !id ? <option value="">---</option> : 
+                                    userVendedor && Object.keys(userVendedor).length ?
+                                            <option key={userVendedor.Codigo}>{`${userVendedor.Codigo} ${userVendedor.Nombre}`}</option> : <option value="">---</option>
+                                    }
+                                    {vendedores && vendedores.map(e => 
+                                            <option key={e.Codigo}>{`${e.Codigo} ${e.Nombre}`}</option>
+                                            )}
+                            </select>
+                        </div>
+
+                        <div>
+                            <span>Supervisor: </span> <br />
                     
-                <select name="Supervisor" value={input.Supervisor}  onChange={handleChange} id="">
-                    {
-                    !id ? <option value="">---</option> : 
-                       userSupervisor && Object.keys(userSupervisor).length ? 
-                       <option key={userSupervisor.Codigo}>{`${userSupervisor.Codigo} ${userSupervisor.Nombre}`}</option> : <option value="">---</option> 
-                    }        
+                            <select name="Supervisor" value={input.Supervisor}  onChange={handleChange} id="">
+                                    {
+                                    !id ? <option value="">---</option> : 
+                                    userSupervisor && Object.keys(userSupervisor).length ? 
+                                    <option key={userSupervisor.Codigo}>{`${userSupervisor.Codigo} ${userSupervisor.Nombre}`}</option> : <option value="">---</option> 
+                                    }        
                   
-                  {supervisores && supervisores.map(e => <option key={e.Codigo}>{`${e.Codigo} ${e.Nombre}`}</option>)}
-              </select>
+                                {supervisores && supervisores.map(e => <option key={e.Codigo}>{`${e.Codigo} ${e.Nombre}`}</option>)}
+                            </select>
                     
     
-                </div>
-                <div>
-                    <span>Team Leader: </span> <br />
-                <select name="TeamLeader" value={input.TeamLeader}  onChange={handleChange} id="">
-                {
-                    !id ? <option value="">---</option> : 
-                       userTeamLeader && Object.keys(userTeamLeader).length ?  
-                       <option key={userTeamLeader.Codigo}>{`${userTeamLeader.Codigo} ${userTeamLeader.Nombre}`}</option> : <option value="">---</option> 
-                    }
-                    {teamLeaders && teamLeaders.map(e => <option key={e.Codigo}>{`${e.Codigo} ${e.Nombre}`}</option>)}
-                </select>
-                </div>         
-                    </div>
+                        </div>
+
+                        <div className={styles.inputCheck}>
+                            <div>
+                                <span>Bloqueado </span>
+                                <input name="us_bloqueado" value={input.us_bloqueado} checked={input.us_bloqueado === 1 ? true : false} onChange={handleCheckChange} type="checkbox" />
+                            </div>
+                        </div>
    
                 </div>
+
+
+                <div className={styles.col2}>
+                    <div>
+                        <span>Team Leader: </span> <br />
+                        <select name="TeamLeader" value={input.TeamLeader}  onChange={handleChange} id="">
+                            {
+                                !id ? <option value="">---</option> : 
+                                userTeamLeader && Object.keys(userTeamLeader).length ?  
+                                <option key={userTeamLeader.Codigo}>{`${userTeamLeader.Codigo} ${userTeamLeader.Nombre}`}</option> : <option value="">---</option> 
+                                }
+                                {teamLeaders && teamLeaders.map(e => <option key={e.Codigo}>{`${e.Codigo} ${e.Nombre}`}</option>)}
+                                </select>
+                    </div>    
+
+                    <div>
+                        <span>Gerente: </span> <br />
+                        <select name="Gerente" value={input.Gerente}  onChange={handleChange} id="">
+                            {
+                                !id ? <option value="">---</option> : 
+                                userGerente && Object.keys(userGerente).length ? 
+                                <option key={userGerente.Codigo}>{`${userGerente.Codigo} ${userGerente.Nombre}`}</option> : 
+                                <option value="">---</option>
+                                }
+                                {gerentes && gerentes.map(e => <option key={e.Codigo}>{`${e.Codigo} ${e.Nombre}`}</option>)}
+                        </select>
+                    </div>
+
                     <div className={styles.inputCheck}>
 
-                <div> <span>Ver solo scoring asingado </span><input name="scoringAsignado" checked={input.scoringAsignado === 1 ? true : false} value={input.scoringAsignado} onChange={handleCheckChange} type="checkbox" /></div>
-                <div><span>Bloqueado </span><input name="us_bloqueado" value={input.us_bloqueado} checked={input.us_bloqueado === 1 ? true : false} onChange={handleCheckChange} type="checkbox" /></div>
-                
-                <div><span>Activo </span>
-                {
-                 <input type="checkbox" name="us_activo" value={input.us_activo} checked={input.us_activo === 1 ? true : false} onChange={handleCheckChange}/> 
-                    
-                }
-                
-                </div>
+                        <div style={{width: '15rem'}}> 
+                            <span>Ver solo scoring asingado </span>
+                            <input name="scoringAsignado" checked={input.scoringAsignado === 1 ? true : false} value={input.scoringAsignado} onChange={handleCheckChange} type="checkbox" />
+                        </div>
+
+
+                        <div>
+                            <span>Activo </span>
+                            {
+                            <input type="checkbox"  name="us_activo" value={input.us_activo} checked={input.us_activo === 1 ? true : false} onChange={handleCheckChange}/>               
+                            }
+
+                        </div>
                     </div>
+    
+                </div>
+   
+                </div>
+ 
                 
                 {
                     usuarioById.length? 
-                    <button type="submit" onClick={(e) => handleUpdate(e)}>Actualizar</button> : 
+                    <button type="submit" className={styles.btn} onClick={(e) => handleUpdate(e)}>Actualizar</button> : 
                     (
                         !Object.keys(error).length ? <button className={styles.btn} style={{alignSelf: 'center'}} type="submit" onClick={(e) => handleSubmit(e)}>Enviar</button> :
                         <button className={styles.btn}  style={{alignSelf: 'center'}} disabled>Enviar</button>
