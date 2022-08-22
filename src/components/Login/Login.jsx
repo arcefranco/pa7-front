@@ -2,6 +2,7 @@ import React, {useState} from 'react'
 import {useNavigate} from 'react-router-dom'
 import Swal from 'sweetalert2'
 import { Link } from 'react-router-dom'
+import * as BiIcons from 'react-icons/bi';
 import { useSelector } from 'react-redux/es/exports'
 import styles from './Login.module.css'
 import { login, reset } from '../../reducers/Login/loginSlice'
@@ -70,13 +71,24 @@ export const Login = () => {
     
   return (
     <div className={styles.container}>
-         <h1>Login</h1>
+   
+         
 
+          <h3 className={styles.title}>Planes de Ahorro 7</h3>
          <form className={styles.form}>
-        <input value={input.login} name='login' onChange={handleChange} className={styles.input} placeholder='User' type="text" />
-         <input value={input.password} name='password' onChange={handleChange} className={styles.input} type="password" placeholder='Password'/>
+          <span>Iniciar sesión</span>
+          <div style={{position:'relative', margin: '1rem'}}>
+            <BiIcons.BiUser className={styles.icon}/>
+            <input value={input.login} name='login' onChange={handleChange} className={styles.input} placeholder='Usuario' type="text" />
+          </div>
+          <div style={{position:'relative', margin: '1rem'}}>
+            <BiIcons.BiLockAlt className={styles.icon}/>
+            <input value={input.password} name='password' onChange={handleChange} className={styles.input} type="password" placeholder='Contraseña'/>
+          </div>
+         
+         <hr className={styles.hr} />
           <Link to={'/recovery'} className={styles.forgotLink}>Olvido su contraseña?</Link>
-         <button onClick={onSubmit} className={styles.buttonSubmit}>Log in</button>
+         <button onClick={onSubmit} className={styles.btn}>Loguearse</button>
          
          </form>
       

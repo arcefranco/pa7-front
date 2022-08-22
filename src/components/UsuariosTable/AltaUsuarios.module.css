@@ -62,7 +62,6 @@
     border-top: 2px solid #3c8dbc;
     border-radius: 10px;
     box-shadow: 2px 2px 2px 1px #80808029;
-    margin: 2rem;
     box-shadow: 1px;
     background-color: #ffff;
     width: 60rem;
@@ -96,6 +95,10 @@
 }
 .inputSelect span {
     font-weight: 600;
+}
+.title{
+    margin: 0;
+    width: 16rem;
 }
 .btn{
  margin-top: 2rem;
