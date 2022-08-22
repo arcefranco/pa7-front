@@ -7,17 +7,21 @@ import {BiLogOut } from "react-icons/bi";
 import SideBarItem from './SideBarItem'
 import { Link } from 'react-router-dom'
 import styles from './SideBar.module.css'
+import ReactTooltip from 'react-tooltip';
+
+
 
 const SideBar = () => {
 
-    const [sidebar, setSidebar] = useState(false)
-    const {user} = useSelector(
-        (state) => state.login)
-    const dispatch = useDispatch()    
     
+    
+    const dispatch = useDispatch()    
+    const [sidebar, setSidebar] = useState(false);
     const showSideBar = () => {setSidebar(!sidebar)
         dispatch(setToggle())
     }
+    const {user,toggle} = useSelector(
+        (state) => state.login)
 
     const closeSideBar = () => {
         setSidebar(false)
@@ -27,11 +31,11 @@ const SideBar = () => {
     return (
     <>
         
-            <nav style={{width: sidebar ?  "250px" : "55px" }} className={styles.menu} >
+            <nav style={{width: toggle?  "250px" : "55px" }} className={styles.menu} >
                 <div className={styles.menuItems}>
                     <div className={styles.toggle}>
-                    <p style={{display: sidebar ? "grid" : "none" }} className={styles.menuBars}><b>Planes de Ahorro 7</b></p>
-                <div style={{marginLeft: sidebar ? "0px" : "15px"}} className={styles.menuBars}>
+                    <p style={{display: toggle ? "grid" : "none" }} className={styles.menuBars}><b>Planes de Ahorro 7</b></p>
+                <div style={{marginLeft: toggle ? "0px" : "15px"}} className={styles.menuBars}>
                     
                 <FaIcons.FaBars onClick={showSideBar}/>
             </div>
@@ -51,12 +55,12 @@ const SideBar = () => {
                      </div>         
              
                 </div>
-                <div className={styles.navbar} style={{width: sidebar ? "250px" : "55px"}}>
-                <div className={styles.username} style={{display: sidebar ? "block" : "none" }}>
+                <div className={styles.navbar} style={{width: toggle ? "250px" : "55px"}}>
+                <div className={styles.username} style={{display: toggle ? "block" : "none" }}>
                             {/* <AiIcons.AiOutlineUser className={styles.username}/> */}
-                            <h3 className={styles.username}>{user.username}</h3>
+                            <h4 className={styles.username}>{user.Nombre}</h4>
                         </div>
-            <Link to="/"><button className={styles.logOut} onClick={() => dispatch(logout())}><BiLogOut/></button></Link>
+            <Link to="/"><button data-tip="Salir del Sistema" data-effect="solid" data-place="right" style={{marginRight: toggle ? "10px" : "-50px"}} className={styles.logOut} onClick={() => dispatch(logout())}><ReactTooltip/><BiLogOut/></button></Link>
         </div>
             </nav>
 

@@ -1,10 +1,14 @@
 import React from 'react';
 import * as AiIcons from 'react-icons/ai';
 import * as IoIcons from 'react-icons/io';
+import {  BiMenu, BiLogOut, BiBus,BiListPlus, BiFile, BiTimeFive, BiPhoneCall,
+  BiIdCard, BiGroup, BiCog, BiLineChart, BiPrinter,
+   BiTachometer, BiLinkExternal, BiCart, BiCar, BiLock, BiChevronUp, BiChevronDown
+ } from "react-icons/bi";
 export const SidebarData = [
   {
     title: 'Operaciones',
-    icon: <AiIcons.AiFillHome />,
+    icon: <BiListPlus />,
 
     cName: 'nav-text',
     options: 
@@ -59,7 +63,7 @@ export const SidebarData = [
   },
   {
     title: 'Mora',
-    icon: <IoIcons.IoIosPaper />,
+    icon: <BiTimeFive />,
     cName: 'nav-text',
     options: 
     [
@@ -85,7 +89,7 @@ export const SidebarData = [
 
   {
     title: 'Call Center',
-    icon: <IoIcons.IoIosPaper />,
+    icon: <BiPhoneCall />,
     cName: 'nav-text',
     options: [
       {title: 'Definicion Campana Mails', rol:'1.5.1'},
@@ -100,7 +104,7 @@ export const SidebarData = [
   },
   {
     title: 'Personal',
-    icon: <IoIcons.IoIosPaper />,
+    icon: <BiIdCard />,
     cName: 'nav-text',
     options: [
       {title: 'Legajos', rol:'1.6.1', unique:true},
@@ -112,7 +116,7 @@ export const SidebarData = [
   },
   {
     title: 'Mesa de Planes',
-    icon: <IoIcons.IoIosPaper />,
+    icon: <BiFile />,
     cName: 'nav-text',
     options: 
     [
@@ -128,7 +132,7 @@ export const SidebarData = [
   },
   {
     title: 'Configuracion de Datos Generales',
-    icon: <IoIcons.IoIosPaper />,
+    icon: <BiCog />,
     cName: 'nav-text',
     options: 
     [
@@ -163,7 +167,7 @@ export const SidebarData = [
   },
   {
     title: 'Contabilidad',
-    icon: <IoIcons.IoIosPaper />,
+    icon: <BiLineChart />,
     cName: 'nav-text',
     options: 
     [
@@ -276,7 +280,7 @@ export const SidebarData = [
   },
   {
     title: 'Reportes',
-    icon: <IoIcons.IoIosPaper />,
+    icon: <BiPrinter />,
     cName: 'nav-text',
     options: 
     [
@@ -293,7 +297,7 @@ export const SidebarData = [
   },
   {
     title: 'Emprendedores',
-    icon: <IoIcons.IoIosPaper />,
+    icon: <BiGroup />,
     cName: 'nav-text',
     options: 
     [
@@ -302,7 +306,7 @@ export const SidebarData = [
   },
   {
     title: 'Usados',
-    icon: <IoIcons.IoIosPaper />,
+    icon: <BiCar />,
     cName: 'nav-text',
     options: 
     [
@@ -328,7 +332,7 @@ export const SidebarData = [
   },
   {
     title: 'Seguros',
-    icon: <IoIcons.IoIosPaper />,
+    icon: <BiLock />,
     cName: 'nav-text',
     options: 
     [

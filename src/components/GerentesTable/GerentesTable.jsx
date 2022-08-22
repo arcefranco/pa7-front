@@ -2,14 +2,15 @@ import React, {useEffect, useMemo, useState} from 'react'
 import { useSelector, useDispatch} from 'react-redux'
 import { deleteGerentes, getGerentes, getGerentesById, postGerentes, updateGerentes, } from '../../reducers/Gerentes/gerentesSlice'
 import TableContainer from './TableContainer'
-import { useFilters, useRowSelect,useSortBy} from 'react-table'
+import { useFilters, usePagination,useSortBy} from 'react-table'
 import ActiveFilter from './ActiveFilter'
 import { useTable } from 'react-table'
 import styles from './Gerentes.module.css'
 import {FcApproval, FcCancel, FcSurvey, FcDataSheet} from 'react-icons/fc'
-import {BiPencil, BiXCircle, BiLogOut } from 'react-icons/bi'
+import {BiPencil, BiTrash, BiLogOut } from 'react-icons/bi'
 import { Checkbox } from './Checkbox'
 import {Link, useNavigate} from 'react-router-dom'
+import ReactTooltip from 'react-tooltip';
 
 /*FUNCION DEL COMPONENTE*/
 const GerentesTable = () => {
@@ -65,51 +66,60 @@ useEffect(() => {
       {
         Header: "Activo",
         accessor: "Activo",
-        Cell: ({ value }) => <input type="checkbox" className={styles.checkbox} checked={value === 0  
+        Cell: ({ value }) => <input  type="checkbox" className={styles.checkbox} checked={value === 0  
                               ?false
                               :true}/> ,
         Filter: ActiveFilter
       },
       {
-        Header: "Modificar",
+        Header: "",
         accessor: "Codigo" , 
         id:'Modificar',
         disableSortBy: true,
         Filter: false,
-        Cell: (value) => <button onClick=  {(()=> navigate(`/modificarGerentes/${value.value}`))}
-        className={styles.buttonRows} disabled={modificar || nuevo} ><BiPencil style={{color:"brown"}}/>Modificar</button>,
+        Cell: (value) => <button data-tip="Modificar" data-effect="solid" data-place="right"  style={{background:"burlywood"}} onClick=  {(()=> navigate(`/modificarGerentes/${value.value}`))}
+        className={styles.buttonRows} disabled={modificar || nuevo} ><ReactTooltip /><BiPencil style={{color:"white"}}/></button>,
               },
       {
-        Header: "Eliminar",
+        Header: "",
         accessor: "Codigo",
         id:'Eliminar',
         disableSortBy: true,
         Filter: false,
-        Cell: (value) =>  <button onClick={(()=>{
+        Cell: (value) =>  <button data-tip="Eliminar" data-effect="solid" data-place="right"   style={{background:"red"}} onClick={(()=>{
           
           let respuesta = window.confirm("Desea eliminar el campo?");
           if(respuesta == true){
           dispatch(deleteGerentes({Codigo: value.value}))
           window.location.reload()}
       })} 
-        className={styles.buttonRows} disabled={modificar || nuevo} ><BiXCircle style={{color:"rgb(232, 76, 76)"}}/>Eliminar</button>,
+        className={styles.buttonRows} disabled={modificar || nuevo} ><ReactTooltip /><BiTrash style={{color:"white"}}/></button>,
       },
       
     ],
     []
   );
-  const tableInstance = useTable({ columns: columns, data: gerentes },    useFilters, useSortBy,
+  const tableInstance = useTable({ columns: columns, data: gerentes },    useFilters, useSortBy, usePagination
     );
+
 
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    rows,
+    page,
+    nextPage,
+    previousPage,
+    canNextPage,
+    canPreviousPage,
+    pageOptions,
+    state,
     prepareRow,
     selectedFlatRows,
   } = tableInstance;
-  
+  const {pageIndex} = state
+
+
   useEffect(() => {
     setInput({
       Codigo: gerentesById?.Codigo,
@@ -123,7 +133,7 @@ useEffect(() => {
   return (
     <div className={styles.container}>
       <div className={styles.gerentesTitle}>
-      <h1>Gerentes</h1>
+      <h3>Gerentes</h3>
      <div>
       {/*POSIBLE UBICACION DE INPUT RADIO FILTER DE TABLA*/}
      </div>
@@ -154,7 +164,7 @@ useEffect(() => {
           ))}
         </thead>
         <tbody {...getTableBodyProps()}>
-          {rows.map((row) => {
+          {page.map((row) => {
             prepareRow(row);
             return (
               <tr  {...row.getRowProps()}>
@@ -168,6 +178,15 @@ useEffect(() => {
           })}
         </tbody>
       </table>
+      <div>
+        <span>Página {' '}
+        <strong>
+          {pageIndex + 1} de {pageOptions.length}
+        </strong>{' '}
+        </span>
+        <button onClick={()=> previousPage()} disabled={!canPreviousPage}>Anterior</button>
+        <button onClick={()=> nextPage()} disabled={!canNextPage}>Siguiente</button>
+      </div>
         </div>
         </>
        </TableContainer>

@@ -6,8 +6,9 @@ text-align: -webkit-center;
 padding: 0.5rem;
   table {
     border-spacing: 0;
-    border: 2px solid burlywood;
-    width: 50rem;
+    border: 1px solid burlywood;
+    width: 100%;
+    
    
     tr {
       :last-child {
@@ -20,9 +21,9 @@ padding: 0.5rem;
     th,
     td {
       margin: 0;
-      padding: 0.1rem;
-      border-bottom: 1px solid black;
-      border-right: 1px solid black;
+      padding: 0.05rem;
+      border-bottom: 0px solid black;
+      border-right: 0px solid black;
 
       :last-child {
         border-right: 0;
