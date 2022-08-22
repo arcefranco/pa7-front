@@ -1,10 +1,10 @@
 .navbar {
     background-color: #060b26;
-    height: 50px;
+    height: 15%;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    transition: linear 850ms;
+    transition: linear 550ms;
   }
   
   .menuBars {
@@ -16,7 +16,7 @@
 
   .logOut {
     background: none;
-    border: 2px solid;
+    border: none;
     border-radius: 7px;
     font: inherit;
     line-height: 1;
@@ -27,7 +27,8 @@
   }
   .logOut:hover {
     background-color: #ff7f82;
-    transition: 1000ms;
+    transition: 850ms;
+    margin: auto;
     color: black;
   }
 
@@ -35,7 +36,7 @@
     display: flex;
     align-items: center;
   }
-  .username h3 {
+  .username h4 {
     color: white;
     margin: 1rem;
   }
@@ -52,7 +53,7 @@
     justify-content: center;
     z-index: 1;
     top: 0;
-    transition: linear 850ms;
+    transition: linear 550ms;
   }
   
   .menuActive {
@@ -63,7 +64,7 @@
     position: fixed;
     z-index: 1;
     top: 0;
-    transition: linear 850ms;
+    transition: linear 550ms;
   }
   
   
@@ -144,7 +145,7 @@
   .toggle {
     background-color: #000;
     width: 100%;
-    height: 80px;
+    height: 75px;
     display: flex;
     justify-content: flex-start;
     align-items: center;

@@ -1,14 +1,25 @@
 import React, {useState} from 'react'
 import styles from './SideBar.module.css'
 import * as AiIcons from 'react-icons/ai';
-import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom';
+import ReactTooltip from 'react-tooltip';
+import { useSelector, useDispatch } from 'react-redux'
+import { setToggle,  logout  } from '../../reducers/Login/loginSlice.js'
+
+
+
 
 const SideBarItem = ({item, index}) => {
-
+    const dispatch = useDispatch()
     const [open, setOpen] = useState(false)
-    const {user} = useSelector(
+    const {user, toggle} = useSelector(
         (state) => state.login)
+        const [sidebar, setSidebar] = useState(false);
+        const showSideBar = () => {setSidebar(!sidebar)
+         dispatch(setToggle())   }
+
+        
+
     return (
         
     <div  key={index}  className={open ? styles.textOpen : styles.text}>
@@ -28,10 +39,14 @@ const SideBarItem = ({item, index}) => {
                     
                     </span> : 
                 
-            <span>
+            <span >
+                {toggle
+                ?<div>{item.icon}</div>
+                :<div onClick={showSideBar} data-tip={item.title} data-effect="solid" data-place="right">{item.icon}<ReactTooltip /></div>}
+                <div style={{display: toggle? "block" : "none" }}> 
+                {item.title}
                 {open ? <AiIcons.AiOutlineArrowUp  onClick={() => setOpen(!open)} /> :<AiIcons.AiOutlineArrowDown  onClick={() => setOpen(!open)} />}
-                    {item.icon}
-                    {item.title}
+                </div>    
             </span>
                 }
         </div> : <option value="*" disabled>{item.title}</option>
