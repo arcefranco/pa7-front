@@ -36,7 +36,7 @@
     display: flex;
     align-items: center;
   }
-  .username h5 {
+  .username p {
     color: white;
     margin: 0.7rem;
   }

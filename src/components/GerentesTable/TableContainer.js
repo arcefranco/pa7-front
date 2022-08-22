@@ -3,7 +3,7 @@ import styled from "styled-components";
 export default styled.div`
 
 text-align: -webkit-center;
-padding: 0.5rem;
+padding: 0.2rem;
   table {
     border-spacing: 0;
     border: 0.8px solid burlywood;
@@ -25,10 +25,10 @@ padding: 0.5rem;
     th,
     td {
       margin: 0;
-      padding: 0.15rem;
+      padding: 0.1rem;
       border-bottom: 0px solid black;
       border-right: 0px solid black;
-      font-size: 14px;
+      font-size: 12px;
 
       :last-child {
         border-right: 0;

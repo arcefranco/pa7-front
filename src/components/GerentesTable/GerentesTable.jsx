@@ -104,7 +104,8 @@ useEffect(() => {
     ],
     []
   );
-  const tableInstance = useTable({ columns: columns, data: gerentes },    useFilters, useSortBy, usePagination
+  const tableInstance = useTable({ columns: columns, data: gerentes },    
+    useFilters, useSortBy, usePagination
     );
 
 
@@ -137,7 +138,7 @@ useEffect(() => {
 /*RENDER PAGINA GERENTES*/
   return (
     <div className={styles.container}>
-      <div className={styles.gerentesTitle}>
+      <div className={styles.title}>
       <h3>Gerentes</h3>
      <div>
       {/*POSIBLE UBICACION DE INPUT RADIO FILTER DE TABLA*/}
