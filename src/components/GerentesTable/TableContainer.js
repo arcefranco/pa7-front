@@ -6,7 +6,6 @@ text-align: -webkit-center;
 padding: 0.2rem;
   table {
     border-spacing: 0;
-    border: 0.8px solid burlywood;
     width: 100%;
     height:75vh;
 
