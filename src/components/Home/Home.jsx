@@ -15,10 +15,10 @@ const dispatch = useDispatch()
         dispatch(reset())
     }, [])
   return (
-    <div>
+    <div className={styles.home}>
         
         
-             <div className={toggle ? styles.HomeSmall : styles.HomeBig}>
+             <div >
                 
                 
                 <h1>Bienvenido!</h1>

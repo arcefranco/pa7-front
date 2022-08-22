@@ -8,6 +8,7 @@ padding: 0.2rem;
     border-spacing: 0;
     border: 0.8px solid burlywood;
     width: 100%;
+    height:75vh;
 
     th{
       border: ridge 0.5px
@@ -29,6 +30,7 @@ padding: 0.2rem;
       border-bottom: 0px solid black;
       border-right: 0px solid black;
       font-size: 12px;
+
 
       :last-child {
         border-right: 0;

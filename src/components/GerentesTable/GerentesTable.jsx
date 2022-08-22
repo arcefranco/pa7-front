@@ -11,6 +11,7 @@ import {BiPencil, BiTrash, BiLogOut } from 'react-icons/bi'
 import { Checkbox } from './Checkbox'
 import {Link, useNavigate} from 'react-router-dom'
 import ReactTooltip from 'react-tooltip';
+import Swal from 'sweetalert2'
 
 /*FUNCION DEL COMPONENTE*/
 const GerentesTable = () => {
@@ -52,14 +53,9 @@ useEffect(() => {
   const columns = useMemo(
     () => [
       {
-        Header: () => (
-          <div
-            style={{
-              textAlign:"center"
-            }}
-          >Código</div>),
+        Header: "Código",
         accessor: "Codigo",
-        Cell: ({ value }) => <div style={{ textIndent: "50px" }}><strong  >{value}</strong></div>,
+        Cell: ({ value }) => <div style={{ textIndent: "40px" }}><strong  >{value}</strong></div>,
         Filter: ActiveFilter,
         
       },
@@ -93,10 +89,18 @@ useEffect(() => {
         Filter: false,
         Cell: (value) =>  <button   style={{background:"red"}} onClick={(()=>{
           
-          let respuesta = window.confirm("Desea eliminar el campo?");
-          if(respuesta == true){
-          dispatch(deleteGerentes({Codigo: value.value}))
-          window.location.reload()}
+          Swal.fire({
+            icon:'info',
+            showConfirmButton: true,
+            showCancelButton:true,
+            text: 'Esta seguro que desea eliminar?'
+          }).then((result) => {
+            if(result.isConfirmed){
+              dispatch(deleteGerentes({Codigo: value.value}))
+              window.location.reload()
+            }
+          })
+          
       })} 
         className={styles.buttonRows} disabled={modificar || nuevo} >  Eliminar</button>,
       },

@@ -34,3 +34,23 @@ tbody
     background-color: #fff;
 }
 
+.pageButton
+{   
+    border-radius: 10px;
+    width:80px;
+    border:solid 0.5px;
+}
+button:hover{
+    opacity: 0.8;
+}
+
+.buttonRows{
+    border-radius: 20px;
+    border: solid 0px rgb(0, 0, 0);
+    color: #fff;
+    font-weight: bolder;
+    height: 20px;
+    width: 70px;
+    margin: auto;
+    font-size: 13px;
+}
