@@ -12,7 +12,9 @@
     padding:auto;
     font-size: 1rem;
     color: #fff;
+    vertical-align: middle;
   }
+  
 
   .logOut {
     background: none;
@@ -118,13 +120,12 @@
   } 
   .textOpen option {
     text-decoration: none;
- 
     font-size: 12px;
     width: 95%;
     height: 100%;
     display: flex;
     align-items: center;
-    padding: 0 16px;
+    padding: 0 5px;
     border-radius: 4px;
     cursor: pointer;
   } 
@@ -173,7 +174,7 @@
 }
   .sidebarContent{
     padding-top: .25em;
-    margin-left: 2rem;
+    margin-left: 1rem;
     
   }
   .sidebarTitle{

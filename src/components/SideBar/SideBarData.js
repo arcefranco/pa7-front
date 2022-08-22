@@ -62,6 +62,22 @@ export const SidebarData = [
     ]
   },
   {
+    title: 'Mesa de Planes',
+    icon: <BiFile />,
+    cName: 'nav-text',
+    options: 
+    [
+      {title: 'Admin Ahorristas Adjudicados', rol:'1.3.1'},
+      {title: 'Scoring', rol:'1.3.2'},
+      {title: 'Haberes Netos', rol:'1.3.3'},
+      {title: 'Gestion de Señas Anuladas', rol:'1.3.5'},
+  
+      {title: 'Autorizador Clasificaciones', rol:'1.3.6'},
+      {title: 'Stock Contable', rol:'1.3.7'},
+      {title: 'Stock Para Ventas', rol:'1.3.8'},
+    ]
+  },
+  {
     title: 'Mora',
     icon: <BiTimeFive />,
     cName: 'nav-text',
@@ -115,21 +131,15 @@ export const SidebarData = [
 
   },
   {
-    title: 'Mesa de Planes',
-    icon: <BiFile />,
+    title: 'Emprendedores',
+    icon: <BiGroup />,
     cName: 'nav-text',
     options: 
     [
-      {title: 'Admin Ahorristas Adjudicados', rol:'1.3.1'},
-      {title: 'Scoring', rol:'1.3.2'},
-      {title: 'Haberes Netos', rol:'1.3.3'},
-      {title: 'Gestion de Señas Anuladas', rol:'1.3.5'},
-  
-      {title: 'Autorizador Clasificaciones', rol:'1.3.6'},
-      {title: 'Stock Contable', rol:'1.3.7'},
-      {title: 'Stock Para Ventas', rol:'1.3.8'},
+      {title: 'Circulares', rol:'1.13.1'},
     ]
   },
+  
   {
     title: 'Configuracion de Datos Generales',
     icon: <BiCog />,
@@ -295,15 +305,7 @@ export const SidebarData = [
       {title: 'Micro Emprendedores', rol:'1.10.8'},
     ]
   },
-  {
-    title: 'Emprendedores',
-    icon: <BiGroup />,
-    cName: 'nav-text',
-    options: 
-    [
-      {title: 'Circulares', rol:'1.13.1'},
-    ]
-  },
+  
   {
     title: 'Usados',
     icon: <BiCar />,

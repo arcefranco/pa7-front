@@ -112,23 +112,23 @@ const { toggle } = useSelector(
         
       },
       {
-        Header: "Modificar",
+        Header: "",
         accessor: "ID",
         id: 'modify',
         Cell: (value) => ( rolAltayModif ? 
-        <button onClick={(()=> navigate(`/modifUsuarios/${value.value}`))}>Modificar</button> :
-        <button disabled>Modificar</button>
+        <button style={{background:"burlywood"}} className={styles.buttonRows} onClick={(()=> navigate(`/modifUsuarios/${value.value}`))}>Modificar</button> :
+        <button style={{background:"silver"}} className={styles.buttonRows} disabled>Modificar</button>
           
         ),
 
       },
       {
-        Header: "Eliminar",
+        Header: "",
         accessor: "ID",
         id: 'delete',
         Cell: (value) => (
           rolAltayModif ? 
-          <button onClick={(()=> {
+          <button style={{background:"red"}} onClick={(()=> {
             Swal.fire({
               icon:'info',
               showConfirmButton: true,
@@ -140,7 +140,7 @@ const { toggle } = useSelector(
               }
             })
 
-        })}>Eliminar</button> : <button disabled>Eliminar</button> )
+        })} className={styles.buttonRows} >Eliminar</button> : <button style={{background:"silver"}} className={styles.buttonRows} disabled>Eliminar</button> )
       },
 
          
