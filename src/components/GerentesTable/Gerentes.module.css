@@ -8,11 +8,15 @@
 
 .gerentesTitle
 {   
+    border-radius: 2.5px;
+    margin:10px;
     text-align: start;
-    text-indent: 30px;
-    color:white;
-    background-color: Navy;
-    height: 40px;
+    text-indent: 15px;
+    color:black;
+    background-color: ghostwhite;
+    height: 90%;
+    border-top: solid 3px navy;
+    padding:2px;
 }
 
 
@@ -27,7 +31,6 @@
     position: sticky;
     z-index: 0;
     top: 0;
-    width: 30px;
     font-size: 15px;
     font-weight: 500;
     border: 1px solid burlywood;
@@ -38,62 +41,19 @@
 
 tbody
 {   
-    font-size: 15px;
+    
     background-color: #fff;
 }
 
-td
-{
-    width: 20px;
-}
+
 
 
 .checkbox
 {
     text-align: center;
-    height: 20px;
-    width: 20px;
+    height: 18px;
+    width: 18px;
 }
-/* .scrollbar
-{
-scrollbar-width: thin;
-border-radius: 5px;
-width: 100%;
-z-index: -1;
-height: 100%;
-position: static;
-overflow-y: hidden;
-overflow-x: hidden;
-}
-
-.scrollbar:hover
-{
-overflow-y: auto;
-overflow-x: auto;
-} */
-
-/* Scrollbar Style */ 
-
-
-
-#style-1::-webkit-scrollbar-track
-{
-border-radius: 2px;
-}
-
-#style-1::-webkit-scrollbar
-{
-width: 5px;
-background-color: #3f3d3d;
-}
-
-#style-1::-webkit-scrollbar-thumb
-{
-border-radius: 10px;
--webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-background-color: #ecebeb;
-}
-/* Scrollbar End */ 
 
 
 
@@ -124,10 +84,11 @@ margin: auto;
 {
     margin:auto;
     margin-top: 2px;
-    width: 90%;
+    width: 40%;
     height: 30px;
-    border: solid 1px rgb(0, 0, 0);
-    
+    border: solid 1px rgba(93, 93, 93, 0.64);
+    border-radius: 10px;
+    display: block;
     justify-content: space-between;
 }
 
@@ -135,19 +96,33 @@ margin: auto;
 {   
     border-radius: 10px;
     margin:20px;
-    margin-top:0px;
+    margin-top: auto;
     width:100px;
     border:solid 0.5px;
 }
-
-.buttonRows{
+.pageButton
+{   
     border-radius: 10px;
-    border: solid 0px rgb(0, 0, 0);
-    height: 28px;
-    width: 28px;
-    margin: auto;
+    width:80px;
+    border:solid 0.5px;
+}
+button:hover{
+    opacity: 0.8;
 }
 
+.buttonRows{
+    border-radius: 20px;
+    border: solid 0px rgb(0, 0, 0);
+    color: #fff;
+    font-weight: bolder;
+    height: 20px;
+    width: 70px;
+    margin: auto;
+    font-size: 13px;
+}
+.buttonRows:hover{
+    opacity: 0.8;
+}
 /* .buttonRows:hover::after {
     content: "Modificar" ;
     position: absolute ;

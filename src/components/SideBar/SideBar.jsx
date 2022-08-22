@@ -35,7 +35,7 @@ const SideBar = () => {
                 <div className={styles.menuItems}>
                     <div className={styles.toggle}>
                     <p style={{display: toggle ? "grid" : "none" }} className={styles.menuBars}><b>Planes de Ahorro 7</b></p>
-                <div style={{marginLeft: toggle ? "0px" : "15px"}} className={styles.menuBars}>
+                <div style={{marginLeft: toggle ? "0px" : "auto"}} className={styles.menuBars}>
                     
                 <FaIcons.FaBars onClick={showSideBar}/>
             </div>
@@ -55,12 +55,12 @@ const SideBar = () => {
                      </div>         
              
                 </div>
-                <div className={styles.navbar} style={{width: toggle ? "250px" : "55px"}}>
+                <div className={styles.navbar} style={{width: toggle ? "230px" : "55px"}}>
                 <div className={styles.username} style={{display: toggle ? "block" : "none" }}>
                             {/* <AiIcons.AiOutlineUser className={styles.username}/> */}
-                            <h4 className={styles.username}>{user.Nombre}</h4>
+                            <h5 className={styles.username}>{user.Nombre}</h5>
                         </div>
-            <Link to="/"><button data-tip="Salir del Sistema" data-effect="solid" data-place="right" style={{marginRight: toggle ? "10px" : "-50px"}} className={styles.logOut} onClick={() => dispatch(logout())}><ReactTooltip/><BiLogOut/></button></Link>
+            <Link to="/"><button data-tip="Salir del Sistema" data-effect="solid" data-place="right" style={{marginRight: toggle ? "10px" : "-52px"}} className={styles.logOut} onClick={() => dispatch(logout())}><ReactTooltip/><BiLogOut/></button></Link>
         </div>
             </nav>
 
