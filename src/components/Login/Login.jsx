@@ -26,15 +26,18 @@ export const Login = () => {
           Swal.fire({
             icon: 'error',
             title: 'Oops...',
-            text: message
+            text: message.message
           })
         }
         if (user?.newUser === true) {
           Swal.fire({
             icon: 'info',
-            title: `${user.message} en /recovery`,
-            showConfirmButton: false,
-            timer: 1500
+            title: `${user.message}`,
+            showConfirmButton: true,
+            timer: 5000
+          }).then((result) => {
+            if(result.isConfirmed)
+            navigate('/recovery')
           })
           dispatch(reset())
           localStorage.removeItem('user')

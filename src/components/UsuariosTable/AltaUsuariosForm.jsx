@@ -68,7 +68,7 @@ useEffect(() => {
             icon: 'success',
             title: statusNuevoUsuario[0]?.data,
             showConfirmButton: false,
-            timer: 1500
+            timer: 5000
           })
         navigate('/usuarios')
     }else if(statusNuevoUsuario.length && statusNuevoUsuario[0]?.status === false){
@@ -236,7 +236,7 @@ useEffect(() => {
 
                 <div className={styles.inputSelect}>
 
-                    <div className={styles.col1}>
+                <div className={styles.col1}>
                         <div>
                             <span>Vendedor: </span> <br />
                             <select name="Vendedor" value={input.Vendedor} onChange={handleChange} id="">
@@ -250,21 +250,7 @@ useEffect(() => {
                             )}
                             </select>
                         </div>
-                <div>
-                            <span>Gerente: </span> <br />
-                    <       select name="Gerente" value={input.Gerente}  onChange={handleChange} id="">
-                {
-                    !id ? <option value="">---</option> : 
-                       userGerente && Object.keys(userGerente).length ? 
-                       <option key={userGerente.Codigo}>{`${userGerente.Codigo} ${userGerente.Nombre}`}</option> : 
-                       <option value="">---</option>
-                    }
-                    {gerentes && gerentes.map(e => <option key={e.Codigo}>{`${e.Codigo} ${e.Nombre}`}</option>)}
-                </select>
-                </div>   
-                </div>
-                    <div className={styles.col2}>
-                               <div>
+                        <div>
                     <span>Supervisor: </span> <br />
                     
                 <select name="Supervisor" value={input.Supervisor}  onChange={handleChange} id="">
@@ -279,6 +265,12 @@ useEffect(() => {
                     
     
                 </div>
+                    <div className={styles.inputCheck}>
+                    <div><span>Bloqueado </span><input name="us_bloqueado" value={input.us_bloqueado} checked={input.us_bloqueado === 1 ? true : false} onChange={handleCheckChange} type="checkbox" /></div>
+                    </div>
+   
+                </div>
+                <div className={styles.col2}>
                 <div>
                     <span>Team Leader: </span> <br />
                 <select name="TeamLeader" value={input.TeamLeader}  onChange={handleChange} id="">
@@ -289,23 +281,41 @@ useEffect(() => {
                     }
                     {teamLeaders && teamLeaders.map(e => <option key={e.Codigo}>{`${e.Codigo} ${e.Nombre}`}</option>)}
                 </select>
-                </div>         
+                </div>    
+
+                <div>
+                            <span>Gerente: </span> <br />
+                    <       select name="Gerente" value={input.Gerente}  onChange={handleChange} id="">
+                {
+                    !id ? <option value="">---</option> : 
+                       userGerente && Object.keys(userGerente).length ? 
+                       <option key={userGerente.Codigo}>{`${userGerente.Codigo} ${userGerente.Nombre}`}</option> : 
+                       <option value="">---</option>
+                    }
+                    {gerentes && gerentes.map(e => <option key={e.Codigo}>{`${e.Codigo} ${e.Nombre}`}</option>)}
+                </select>
+                </div>
+                <div className={styles.inputCheck}>
+
+                    <div> 
+                    <span>Ver solo scoring asingado </span>
+                    <input name="scoringAsignado" checked={input.scoringAsignado === 1 ? true : false} value={input.scoringAsignado} onChange={handleCheckChange} type="checkbox" />
                     </div>
+
+
+                    <div ><span>Activo </span>
+                    {
+                    <input type="checkbox"  name="us_activo" value={input.us_activo} checked={input.us_activo === 1 ? true : false} onChange={handleCheckChange}/> 
+                                                
+                    }
+
+</div>
+    </div>
+    
+                </div>
    
                 </div>
-                    <div className={styles.inputCheck}>
-
-                <div> <span>Ver solo scoring asingado </span><input name="scoringAsignado" checked={input.scoringAsignado === 1 ? true : false} value={input.scoringAsignado} onChange={handleCheckChange} type="checkbox" /></div>
-                <div><span>Bloqueado </span><input name="us_bloqueado" value={input.us_bloqueado} checked={input.us_bloqueado === 1 ? true : false} onChange={handleCheckChange} type="checkbox" /></div>
-                
-                <div><span>Activo </span>
-                {
-                 <input type="checkbox" name="us_activo" value={input.us_activo} checked={input.us_activo === 1 ? true : false} onChange={handleCheckChange}/> 
-                    
-                }
-                
-                </div>
-                    </div>
+ 
                 
                 {
                     usuarioById.length? 
