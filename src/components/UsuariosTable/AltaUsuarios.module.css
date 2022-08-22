@@ -7,10 +7,6 @@
     text-align: -webkit-center;
 }
 
-.title{
-    color: black;
-    margin-left: 4rem;
-}
 .titleContainer{
     display: flex;
     justify-content: space-between;
@@ -49,6 +45,7 @@
 .inputSelect{
     display: grid;
     grid-template-columns: 1fr 1fr;
+    width: 45rem;
 }
 .inputSelect select{
     width: 20rem;
@@ -99,7 +96,9 @@
 }
 .title{
     margin: 0;
-    width: 16rem;
+    color: black;
+    margin-left: 4rem;
+    width: 20rem;
 }
 .btn{
  margin-top: 2rem;
@@ -112,6 +111,11 @@
  color: white;
 
 }
+.hr{
+    width: 30rem;
+    opacity: 0.5;
+   }
+
 
 
 .btn:hover{
