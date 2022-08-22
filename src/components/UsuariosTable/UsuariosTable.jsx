@@ -3,9 +3,8 @@ import { useSelector, useDispatch} from 'react-redux'
 import { deleteUsuario, getAllUsuarios, reset } from '../../reducers/Usuarios/UsuariosSlice'
 import TableContainer from '../GerentesTable/TableContainer'
 import { Link, useNavigate } from 'react-router-dom'
-
 import * as BiIcons from 'react-icons/bi';
-import { useTable, useSortBy} from 'react-table'
+import { useTable, useSortBy, usePagination} from 'react-table'
 import styles from './UsuariosTable.module.css'
 import Swal from 'sweetalert2'
 
@@ -150,26 +149,32 @@ const { toggle } = useSelector(
   );
 
   const { getTableProps, getTableBodyProps, 
-    headerGroups, rows, 
+    headerGroups, page,  nextPage,
+    previousPage,
+    canNextPage,
+    canPreviousPage,
+    pageOptions,
+    state,
     prepareRow,
   } =
     useTable({ columns: columns, data: usuarios },  
-        useSortBy, 
+        useSortBy, usePagination,
         );
-
+        const {pageIndex} = state
 
   return (
     
 
-    <div >
+    <div className={styles.container} >
+      
 {/* <div className={toggle ? styles.tableSmall : styles.tableBig}> */}
+      
+  <div className={styles.title}>
+      <span style={{display:"flex"}}><h3>Usuarios</h3>
       {
         rolAltayModif ? <Link to={'/altaUsuarios'}><button>Alta usuarios</button></Link> :
          <Link to={'/altaUsuarios'}><button disabled>Alta usuarios</button></Link>
-      }
-
-      <h1>Usuarios</h1>
-
+      }</span>
       <TableContainer>
       <div className={styles.scrollbar}>
       <table {...getTableProps()}>
@@ -191,7 +196,7 @@ const { toggle } = useSelector(
           ))}
         </thead>
         <tbody {...getTableBodyProps()}>
-          {rows.map((row) => {
+          {page.map((row) => {
             prepareRow(row);
             return (
               <tr {...row.getRowProps()}>
@@ -206,8 +211,18 @@ const { toggle } = useSelector(
           })}
         </tbody>
       </table>
+      <div>
+        <span>Página {' '}
+        <strong>
+          {pageIndex + 1} de {pageOptions.length}
+        </strong>{' '}
+        </span>
+        <button className={styles.pageButton} onClick={()=> previousPage()} disabled={!canPreviousPage}>Anterior</button>
+        <button className={styles.pageButton} onClick={()=> nextPage()} disabled={!canNextPage}>Siguiente</button>
       </div>
-       </TableContainer>    
+      </div>
+       </TableContainer>
+       </div>    
     </div> 
        
    

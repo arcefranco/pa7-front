@@ -41,8 +41,8 @@ const SideBarItem = ({item, index}) => {
                 
             <span >
                 {toggle
-                ?<div>{item.icon}</div>
-                :<div onClick={showSideBar} data-tip={item.title} data-effect="solid" data-place="right">{item.icon}<ReactTooltip /></div>}
+                ?<div style={{fontSize : "12px"}}>{item.icon}</div>
+                :<div style={{fontSize : "14px"}} onClick={showSideBar} data-tip={item.title} data-effect="solid" data-place="right">{item.icon}<ReactTooltip /></div>}
                 <div style={{display: toggle? "block" : "none" }}> 
                 {item.title}
                 {open ? <AiIcons.AiOutlineArrowUp  onClick={() => setOpen(!open)} /> :<AiIcons.AiOutlineArrowDown  onClick={() => setOpen(!open)} />}

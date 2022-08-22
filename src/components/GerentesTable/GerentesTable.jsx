@@ -52,9 +52,14 @@ useEffect(() => {
   const columns = useMemo(
     () => [
       {
-        Header: "Código",
+        Header: () => (
+          <div
+            style={{
+              textAlign:"center"
+            }}
+          >Código</div>),
         accessor: "Codigo",
-        Cell: ({ value }) => <strong  >{value}</strong>,
+        Cell: ({ value }) => <div style={{ textIndent: "50px" }}><strong  >{value}</strong></div>,
         Filter: ActiveFilter,
         
       },
@@ -66,9 +71,9 @@ useEffect(() => {
       {
         Header: "Activo",
         accessor: "Activo",
-        Cell: ({ value }) => <input  type="checkbox" className={styles.checkbox} checked={value === 0  
+        Cell: ({ value }) => <div style={{ textIndent: "15px" }}><input   type="checkbox" className={styles.checkbox} checked={value === 0  
                               ?false
-                              :true}/> ,
+                              :true}/></div> ,
         Filter: ActiveFilter
       },
       {
@@ -77,8 +82,8 @@ useEffect(() => {
         id:'Modificar',
         disableSortBy: true,
         Filter: false,
-        Cell: (value) => <button data-tip="Modificar" data-effect="solid" data-place="right"  style={{background:"burlywood"}} onClick=  {(()=> navigate(`/modificarGerentes/${value.value}`))}
-        className={styles.buttonRows} disabled={modificar || nuevo} ><ReactTooltip /><BiPencil style={{color:"white"}}/></button>,
+        Cell: (value) => <button  style={{background:"burlywood"}} onClick=  {(()=> navigate(`/modificarGerentes/${value.value}`))}
+        className={styles.buttonRows} disabled={modificar || nuevo} >Modificar</button>,
               },
       {
         Header: "",
@@ -86,20 +91,21 @@ useEffect(() => {
         id:'Eliminar',
         disableSortBy: true,
         Filter: false,
-        Cell: (value) =>  <button data-tip="Eliminar" data-effect="solid" data-place="right"   style={{background:"red"}} onClick={(()=>{
+        Cell: (value) =>  <button   style={{background:"red"}} onClick={(()=>{
           
           let respuesta = window.confirm("Desea eliminar el campo?");
           if(respuesta == true){
           dispatch(deleteGerentes({Codigo: value.value}))
           window.location.reload()}
       })} 
-        className={styles.buttonRows} disabled={modificar || nuevo} ><ReactTooltip /><BiTrash style={{color:"white"}}/></button>,
+        className={styles.buttonRows} disabled={modificar || nuevo} >  Eliminar</button>,
       },
       
     ],
     []
   );
-  const tableInstance = useTable({ columns: columns, data: gerentes },    useFilters, useSortBy, usePagination
+  const tableInstance = useTable({ columns: columns, data: gerentes },    
+    useFilters, useSortBy, usePagination
     );
 
 
@@ -132,16 +138,16 @@ useEffect(() => {
 /*RENDER PAGINA GERENTES*/
   return (
     <div className={styles.container}>
-      <div className={styles.gerentesTitle}>
+      <div className={styles.title}>
       <h3>Gerentes</h3>
      <div>
       {/*POSIBLE UBICACION DE INPUT RADIO FILTER DE TABLA*/}
      </div>
-      </div>
+      
       <div className={styles.buttonContainer}>
          <button onClick={()=>navigate('/modificarGerentes')}   className={styles.buttonLeft} disabled={modificar || nuevo}><FcSurvey/>Nuevo</button>
          <button className={styles.buttonRight} disabled={modificar || nuevo}><FcDataSheet/>Excel</button>
-         <Link to="/" className={styles.buttonRight} disabled={modificar || nuevo}><button><BiLogOut/>Salir</button></Link>
+         {/* <Link to="/" className={styles.buttonRight} disabled={modificar || nuevo}><button><BiLogOut/>Salir</button></Link> */}
         </div> 
       <TableContainer>
         <>
@@ -153,11 +159,12 @@ useEffect(() => {
               {headerGroup.headers.map((column) => (
                 <th >
                 <div {...column.getHeaderProps(column.getSortByToggleProps())}>
-                  {column.render("Header")}
-                  <span>{column.isSorted? (column.isSortedDesc? ' ▼' : '▲'  ): ''}</span>
-                </div>
+                 
+                  <span > {column.render("Header")}{column.isSorted? (column.isSortedDesc? ' ▼' : '▲'  ): ''}</span>
+                
                 {/* {column.canFilter? <div>O</div> : null} */}
                 <div style={{display:"flex"}}>{column.canFilter ? column.render('Filter') : null}</div>
+                </div>
                 </th>
               ))}
             </tr>
@@ -184,12 +191,13 @@ useEffect(() => {
           {pageIndex + 1} de {pageOptions.length}
         </strong>{' '}
         </span>
-        <button onClick={()=> previousPage()} disabled={!canPreviousPage}>Anterior</button>
-        <button onClick={()=> nextPage()} disabled={!canNextPage}>Siguiente</button>
+        <button className={styles.pageButton} onClick={()=> previousPage()} disabled={!canPreviousPage}>Anterior</button>
+        <button className={styles.pageButton} onClick={()=> nextPage()} disabled={!canNextPage}>Siguiente</button>
       </div>
         </div>
         </>
        </TableContainer>
+       </div>
     </div>
   )
 }
