@@ -43,6 +43,9 @@ tbody
     display: block;
     justify-content: space-between;
 }
+.pageButton:disabled {
+    background-color: silver;
+    }
 
 .buttonContainer button
 {   
