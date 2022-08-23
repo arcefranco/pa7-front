@@ -23,8 +23,12 @@ function App() {
         <Routes>
           <Route path='/' element={<Home/>}/>
           <Route path='/gerentes' element={<GerentesTable/>}/>
-          <Route path='/modificarGerentes/' element={<GerentesFormulario/>}/>
+          <Route path='/altaGerentes/' element={<PrivateRoute rol={'1.7.18.1' && '1'}/>} >
+          <Route path='/altaGerentes/' element={<GerentesFormulario/>}/>
+          </Route>
+          <Route path='/modificarGerentes/:id' element={<PrivateRoute rol={'1.7.18.2' && '1'}/>}>
           <Route path='/modificarGerentes/:id' element={<GerentesFormulario/>}/>
+          </Route>
           <Route path='/usuarios' element={<UsuariosTable/>}/>
           <Route path='/altaUsuarios' element={<PrivateMasterRoute rol={'1.7.16.3.1'}/>}>
               <Route path='/altaUsuarios' element={<AltaUsuariosForm/>}/>
