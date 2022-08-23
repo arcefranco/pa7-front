@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import { useDispatch } from "react-redux";
 import { verify, updatePass } from "../../reducers/Login/loginSlice";
 import { useSelector } from "react-redux";
+import styles from './RecoveryPass.module.css'
 import { useParams, Link } from "react-router-dom";
 
 export const ResetPassword = () => {
@@ -17,6 +18,7 @@ export const ResetPassword = () => {
         token: token
     }
     
+    
     const {tokenForgot, isLoading, updateStatus} = useSelector(
         (state) => state.login)
     
@@ -24,11 +26,14 @@ export const ResetPassword = () => {
         password: '',
         confirmPassword: ''
     })
+    const [error, setError] = useState({})
     
     const handleChange = (e) => {
         const { name, value } = e.target;
         const newForm = { ...input, [name]: value };
         setInput(newForm);
+        const errors = validateform(newForm);
+        setError(errors);
     };
 
     const onSubmit = (e) => {
@@ -43,31 +48,46 @@ export const ResetPassword = () => {
             password: '',
             confirmPassword: ''
         })
-    }   
+    }
+    const validateform = function (form) {
+        const errors = {};
+
+        if (form.password !== form.confirmPassword) {
+          errors.contrasenaConfirm = "Las contraseñas deben coincidir";
+        }
+        return errors;
+      };   
     
 
 
     return (
         
         tokenForgot.status === false && isLoading === false ? 
-        <div><h1>Your token has expired</h1></div> :
+        <div className={styles.container}><h1 className={styles.title}>Su token de recupero ha expirado :( </h1>
+        <Link to={'/'}>Volver al inicio</Link>
+        </div> :
         <div>
-            <div>
+            <div className={styles.container}>
                 {
-                isLoading ? <h1>...Loading</h1> : 
+                isLoading ? <span>...Cargando</span> : 
                 <div>
-                <h1>Reset Password</h1>
-                <form>
+                <h1 className={styles.title}>Planes de Ahorro 7</h1>
+                <form className={styles.form}>
+                <span>Ingrese su nueva contraseña</span>
+                <input className={styles.input} type="password" value={input.password} name="password" onChange={handleChange}  placeholder="Nueva contraseña"/>
+                <input className={styles.input} type="password" value={input.confirmPassword} name="confirmPassword" onChange={handleChange}   placeholder="Confirmar contraseña" />
+                {error.contrasenaConfirm && <span style={{marginTop:'1rem', fontWeight:'bold', color:'red'}}>{error.contrasenaConfirm}</span>}
 
-                <input type="text" value={input.password} name="password" onChange={handleChange}  placeholder="Nueva contraseña"/>
-                <input type="text" value={input.confirmPassword} name="confirmPassword" onChange={handleChange}   placeholder="Confirmar contraseña" />
-                <button type="submit" onClick={onSubmit}>Enviar</button>
+                {
+                    error.contrasenaConfirm || input.password.length < 1 ? <button className={styles.btnDisabled} disabled type="submit" onClick={onSubmit}>Enviar</button> :
+                    <button className={styles.btn} type="submit" onClick={onSubmit}>Enviar</button>
+                }
                 {
                 updateStatus && updateStatus.status === true ? 
                 
-                <Link to={'/'}>Inicie sesion con su nueva contraseña</Link> : 
+                <Link style={{marginTop:'1rem'}} to={'/'}>Inicie sesion con su nueva contraseña</Link> : 
                 
-                <div>{updateStatus ? updateStatus.message : null}</div>
+                <div style={{marginTop:'1rem'}}>{updateStatus ? updateStatus.message : null}</div>
                 
                 }
             </form>

@@ -14,7 +14,7 @@
     text-indent: 15px;
     color:black;
     background-color: ghostwhite;
-    height: 90%;
+    height: 95%;
     border-top: solid 3px navy;
     padding:2px;
 }
@@ -78,7 +78,7 @@ margin: auto;
 /* ----------------------BUTTONS---------------------- */
 .buttonContainer
 {
-    margin:auto;
+    /* margin:auto; */
     margin-top: 2px;
     width: 40%;
     height: 30px;
@@ -90,10 +90,14 @@ margin: auto;
 .buttonContainer button
 {   
     border-radius: 10px;
-    margin:20px;
-    margin-top: auto;
-    width:100px;
-    border:solid 0.5px;
+    margin:10px;
+    width:120px;
+    padding: 0.2px ;
+    height: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: normal;
+    border:groove 1px;
 }
 .pageIndex{
     font-size: 11px;
@@ -106,8 +110,9 @@ margin: auto;
     border-radius: 10px;
     width:80px;
     height: 20px;
+    margin: 10px;
     font-size: 12px;
-    border:solid 0.5px;
+    border:groove 0.5px;
     font-weight: bold;
 
 }

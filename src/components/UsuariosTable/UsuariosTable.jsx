@@ -1,12 +1,14 @@
-import React, {useEffect, useMemo} from 'react'
-import { useSelector, useDispatch} from 'react-redux'
-import { deleteUsuario, getAllUsuarios, reset } from '../../reducers/Usuarios/UsuariosSlice'
-import TableContainer from '../GerentesTable/TableContainer'
-import { Link, useNavigate } from 'react-router-dom'
+import React, {useEffect, useMemo} from 'react';
+import { useSelector, useDispatch} from 'react-redux';
+import { deleteUsuario, getAllUsuarios, reset } from '../../reducers/Usuarios/UsuariosSlice';
+import TableContainer from '../GerentesTable/TableContainer';
+import { Link, useNavigate } from 'react-router-dom';
 import * as BiIcons from 'react-icons/bi';
-import { useTable, useSortBy, usePagination} from 'react-table'
-import styles from './UsuariosTable.module.css'
-import Swal from 'sweetalert2'
+import { useTable, useSortBy, usePagination} from 'react-table';
+import styles from './UsuariosTable.module.css';
+import Swal from 'sweetalert2';
+import {FcApproval, FcCancel, FcSurvey, FcDataSheet} from 'react-icons/fc'
+
 
 
 const UsuariosTable = () => {
@@ -171,10 +173,12 @@ const { toggle } = useSelector(
       
   <div className={styles.title}>
       <span style={{display:"flex"}}><h3>Usuarios</h3>
+      <div className={styles.buttonContainer}>
       {
-        rolAltayModif ? <Link to={'/altaUsuarios'}><button>Alta usuarios</button></Link> :
-         <Link to={'/altaUsuarios'}><button disabled>Alta usuarios</button></Link>
-      }</span>
+        rolAltayModif ? <Link to={'/altaUsuarios'}><button><FcSurvey/>Alta Usuarios</button></Link> :
+         <Link to={'/altaUsuarios'}><button disabled><FcSurvey/>Alta Usuarios</button></Link>
+      }</div>
+      </span>
       <TableContainer>
       <div className={styles.scrollbar}>
       <table {...getTableProps()}>
