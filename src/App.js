@@ -14,12 +14,29 @@ import AltaUsuariosForm from './components/UsuariosTable/AltaUsuariosForm';
 import  GerentesFormulario  from './components/GerentesTable/GerentesFormulario.jsx';
 import NotPermission from './NotPermission';
 function App() {
-  const {user} = useSelector(
+  const {user, toggle} = useSelector(
     (state) => state.login)
   return (
     user && (user?.newUser === 0 || user?.newUser === null || !user?.newUser) ?
     <div className="App">
         <SideBar/>
+        <div className='appContainer' style={{
+          width: '100%',
+          position: 'absolute',
+          paddingLeft: '3rem' 
+          
+        }}>
+          <div style={{
+         width: '100%',
+         height: '100vh',
+         opacity: 0.5,
+         position: 'absolute',
+         zIndex: toggle ? 1 : -1,
+         backgroundColor: 'black',
+         display: !toggle && 'none'
+         
+          
+        }}></div>
         <Routes>
           <Route path='/' element={<Home/>}/>
           <Route path='/gerentes' element={<PrivateMasterRoute rol={'1.7.18'}/>}>
@@ -42,6 +59,7 @@ function App() {
           </Route>
           <Route path='/permission' element={<NotPermission/>}/>
         </Routes> 
+        </div>
        
     </div> :
 

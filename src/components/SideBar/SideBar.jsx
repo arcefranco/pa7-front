@@ -26,7 +26,7 @@ const SideBar = () => {
   
     return (
     <>
-            <nav style={{width: toggle?  "190px" : "55px" }} className={styles.menu} onMouseLeave={showSideBar}>
+            <nav style={{width: toggle?  "190px" : "55px" }} className={styles.menu}  onMouseLeave={showSideBar} >
                 <div className={styles.menuItems}>
                     <div className={styles.toggle}>
                     <p style={{display: toggle ? "grid" : "none" }} className={styles.menuBars}><b>Planes de Ahorro 7</b></p>

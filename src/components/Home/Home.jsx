@@ -18,7 +18,9 @@ const dispatch = useDispatch()
     <div className={styles.home}>
         
         
-             <div >
+             <div style={{
+              height: '100vh'
+             }}>
                 
                 
                 <h1>Bienvenido!</h1>
