@@ -54,9 +54,11 @@ tbody
     padding: 0.2px ;
     height: 20px;
     font-size: 14px;
-    font-weight: bold;
+    font-weight: 400;
     line-height: normal;
     border:solid 0.5px;
+    color: #fff;
+    background-color: #5a99bd;
 }
 
 .pageIndex{
@@ -74,6 +76,8 @@ tbody
     font-size: 12px;
     border:groove 0.5px;
     font-weight: bold;
+    color: #fff;
+    background-color: #5a99bd;
 
 }
 button:hover{

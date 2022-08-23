@@ -8,8 +8,8 @@ import Swal from "sweetalert2";
 import { useParams, useNavigate, Link } from "react-router-dom";
 
 const AltaUsuariosForm = () => {
+    const {id} = useParams()
 const dispatch = useDispatch()
-const {id} = useParams()
 const {vendedores, gerentes, supervisores, teamLeaders, statusNuevoUsuario, usuarioById} = useSelector(
     (state) => state.usuarios)
 
@@ -187,13 +187,11 @@ useEffect(() => {
     return (
         <div className={styles.container}>
 
+            <form action="" className={styles.form}>
             <div className={styles.titleContainer}>
-                <h3 className={styles.title}>{usuarioById.length ? 'Modificación de usuario' : 'Alta de usuarios'}</h3>
+                <h3 className={styles.title}>{id?.length ? 'Modificar Usuario' : 'Alta de Usuario'}</h3>
                 <Link to={'/usuarios'}><button style={{marginRight: '4rem', width:'9rem'}} className={styles.btn} >Volver a Usuarios</button></Link>
             </div>
-            
-            <form action="" className={styles.form}>
-
 
                 <div className={styles.containerInputText}>
                     
@@ -206,7 +204,7 @@ useEffect(() => {
                             <input type="text" name="Usuario" value={input.Usuario} className={error.usuario && styles.inputError} onChange={handleChange} placeholder="Usuario"/>
                             {error.usuario && <div className={styles.error}>{error.usuario}</div>}
                             
-                            {!usuarioById.length && <div>
+                            {!id?.length && <div>
                                 <span>Contraseña: </span>
                                 <input type="text" name="password" value={input.password}  onChange={handleChange} placeholder="Contraseña"/>
                             </div> }
@@ -216,12 +214,12 @@ useEffect(() => {
                         </div>
                         <div className={styles.col2}>
                             
-                            {!usuarioById.length && <div>
+                            {!id?.length && <div>
                             <span>Confirmar contraseña: </span>
                             <input type="text" name="confirmPassword" value={input.confirmPassword} onChange={handleChange} placeholder="Repetir Contraseña"/>
                                  
                             </div>} 
-                            {!usuarioById.length && error.contrasenaConfirm ? <div className={styles.error}>{error.contrasenaConfirm}</div>: null}
+                            {!id?.length && error.contrasenaConfirm ? <div className={styles.error}>{error.contrasenaConfirm}</div>: null}
                             <span>Usuario anura: </span>
                             <input type="text" name="UsuarioAnura"  value={input.UsuarioAnura} onChange={handleChange} placeholder="Usuario Anura"/>
                             
@@ -326,7 +324,7 @@ useEffect(() => {
  
                 
                 {
-                    usuarioById.length? 
+                    id?.length? 
                     <button type="submit" className={styles.btn} onClick={(e) => handleUpdate(e)}>Actualizar</button> : 
                     (
                         !Object.keys(error).length ? <button className={styles.btn} style={{alignSelf: 'center'}} type="submit" onClick={(e) => handleSubmit(e)}>Enviar</button> :

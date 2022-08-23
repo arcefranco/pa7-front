@@ -1,7 +1,7 @@
 import React, {useEffect, useReducer, useState} from "react";
 import { useDispatch,  useSelector} from "react-redux";
 import { useParams } from "react-router-dom";
-import styles from './Gerentes.module.css';
+import styles from '../UsuariosTable/AltaUsuarios.module.css';
 import {FcApproval, FcCancel, FcSurvey, FcDataSheet} from 'react-icons/fc'
 import {BiPencil, BiXCircle, BiLogOut } from 'react-icons/bi'  
 import {Link, useNavigate} from 'react-router-dom';
@@ -87,8 +87,12 @@ const HandleSubmitUpdate =async (event) =>{
 return(   
     <div className={styles.container}>
   {/*--------------------------------------GERENTES FORMS--------------------------------------------------  */}
- <form action=""  className={styles.formContainer}>
- 
+ <form action=""  className={styles.form}>
+ <div className={styles.titleContainer}>
+                <h3 className={styles.title}>{id?.length ? 'Modificar Gerente' : 'Alta de Gerente'}</h3>
+                <Link to={'/gerentes'}><button style={{marginRight: '4rem', width:'9rem'}} className={styles.btn} >Volver a Gerentes</button></Link>
+            </div>
+            <div className={styles.col1}>
  {id?.length  &&
  <>
     <label>Codigo</label><input type="text" style={{width:"6rem", textAlign:"center" }} name="Codigo" onChange={HandleChange} value={input.Codigo} disabled /></>}
@@ -96,11 +100,12 @@ return(
    <label>Nombre</label><input type="text" style={{width:"15rem", textAlign:"center" }} name="Nombre" onChange={HandleChange} 
    value={input.Nombre} />
    <label>Activo</label><input type="checkbox" name="Activo" onChange={handleCheckChange} value={input.Activo} checked={input.Activo}/> 
+   </div>
    {
-                    id?.length? <button type="submit"  onClick={HandleSubmitUpdate}><FcApproval/>Actualizar</button>
-                    : <button type="submit" onClick={HandleSubmitInsert}><FcApproval/>Enviar</button>
+                    id?.length? <button className={styles.btn} type="submit"  onClick={HandleSubmitUpdate}><FcApproval/>Actualizar</button>
+                    : <button className={styles.btn} type="submit" onClick={HandleSubmitInsert}><FcApproval/>Enviar</button>
                 }
-                <button type='button' onClick={()=>{
+                <button type='button' className={styles.btn} onClick={()=>{
                     navigate('/gerentes')
                     window.location.reload()}}><FcCancel/>Cancelar</button>
 
