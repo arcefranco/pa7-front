@@ -17,7 +17,7 @@ const dispatch = useDispatch()
 const navigate = useNavigate()
 const {roles} = useSelector((state) => state.login.user)
 const {statusNuevoUsuario} = useSelector((state) => state.usuarios)
-const rolAltayModif = roles.find(e => e.rl_codigo === '1.2.2')
+const rolAltayModif = roles.find(e => e.rl_codigo === '1.2.2' || e.rl_codigo === '1')
 const { toggle } = useSelector(
   (state) => state.login)
   useEffect(() => {
@@ -120,7 +120,6 @@ const { toggle } = useSelector(
         Cell: (value) => ( rolAltayModif ? 
         <button style={{background:"burlywood"}} className={styles.buttonRows} onClick={(()=> navigate(`/modifUsuarios/${value.value}`))}>Modificar</button> :
         <button style={{background:"silver"}} className={styles.buttonRows} disabled>Modificar</button>
-          
         ),
 
       },

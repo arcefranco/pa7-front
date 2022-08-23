@@ -4,7 +4,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    transition: linear 550ms;
+    transition: linear 500ms;
+    transition-delay: -5ms ;
   }
   
   .menuBars {
@@ -29,19 +30,21 @@
   }
   .logOut:hover {
     background-color: #ff7f82;
-    transition: 850ms;
+    transition: 600ms;
     margin: auto;
     color: black;
   }
 
-  .username{
-    display: flex;
+  .username p{
+    display: block;
     align-items: center;
-  }
-  .username p {
     color: white;
-    margin: 0.7rem;
+    margin: 1px;
+    text-indent: 12px;
+    text-align: start;
+   
   }
+
   .username svg {
     color: white;
     width: 2rem;
@@ -55,7 +58,7 @@
     justify-content: center;
     z-index: 1;
     top: 0;
-    transition: linear 550ms;
+    transition: linear 500ms;
   }
   
   .menuActive {
@@ -66,7 +69,7 @@
     position: fixed;
     z-index: 1;
     top: 0;
-    transition: linear 550ms;
+    transition: linear 500ms;
   }
   
   

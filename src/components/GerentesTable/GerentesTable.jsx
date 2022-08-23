@@ -22,6 +22,9 @@ const toggleModificar = () => setModificar(!modificar);
 const dispatch = useDispatch();
 const [lastCode, setLastCode ] = useState({});
 const navigate = useNavigate();
+const {roles} = useSelector((state) => state.login.user)
+const rolAltayModif = roles.find(e => e.rl_codigo === '1.7.18'
+||e.rl_codigo === '1')
 const [form, setForm] = useState({
   Codigo:'',
   Nombre:'',
@@ -78,8 +81,9 @@ useEffect(() => {
         id:'Modificar',
         disableSortBy: true,
         Filter: false,
-        Cell: (value) => <button  style={{background:"burlywood"}} onClick=  {(()=> navigate(`/modificarGerentes/${value.value}`))}
-        className={styles.buttonRows} disabled={modificar || nuevo} >Modificar</button>,
+        Cell: (value) => (rolAltayModif ? <button  style={{background:"burlywood"}} onClick=  {(()=> navigate(`/modificarGerentes/${value.value}`))}
+        className={styles.buttonRows} >Modificar</button>:
+        <button style={{background:"silver"}} className={styles.buttonRows} disabled>Modificar</button>),
               },
       {
         Header: "",
@@ -87,7 +91,8 @@ useEffect(() => {
         id:'Eliminar',
         disableSortBy: true,
         Filter: false,
-        Cell: (value) =>  <button   style={{background:"red"}} onClick={(()=>{
+        Cell: (value) => ( rolAltayModif ?
+            <button   style={{background:"red"}} onClick={(()=>{
           
           Swal.fire({
             icon:'info',
@@ -102,7 +107,8 @@ useEffect(() => {
           })
           
       })} 
-        className={styles.buttonRows} disabled={modificar || nuevo} >  Eliminar</button>,
+        className={styles.buttonRows} >  Eliminar</button>
+        :<button style={{background:"silver"}} className={styles.buttonRows} disabled>Eliminar</button> ),
       },
       
     ],
@@ -146,9 +152,12 @@ useEffect(() => {
       <span style={{display:"flex"}}>
       <h3>Gerentes</h3>
       <div className={styles.buttonContainer}>
-         <button onClick={()=>navigate('/modificarGerentes')}   className={styles.buttonLeft} disabled={modificar || nuevo}><FcSurvey/>Alta Gerentes</button>
-         <button className={styles.buttonRight} disabled={modificar || nuevo}><FcDataSheet/>Exportar Excel</button>
-      </div> 
+      { rolAltayModif ? 
+       <> <button onClick={()=>navigate('/modificarGerentes')}   className={styles.buttonLeft} ><FcSurvey/>Alta Gerentes</button>
+        <button className={styles.buttonRight} ><FcDataSheet/>Exportar Excel</button></>
+        : <><button onClick={()=>navigate('/modificarGerentes')}   className={styles.buttonLeft} disabled><FcSurvey/>Alta Gerentes</button>
+        <button className={styles.buttonRight} disabled ><FcDataSheet/>Exportar Excel</button></>
+         } </div> 
       </span>
      <div>
       {/*POSIBLE UBICACION DE INPUT RADIO FILTER DE TABLA*/}

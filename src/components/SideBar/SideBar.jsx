@@ -9,12 +9,7 @@ import { Link } from 'react-router-dom'
 import styles from './SideBar.module.css'
 import ReactTooltip from 'react-tooltip';
 
-
-
 const SideBar = () => {
-
-    
-    
     const dispatch = useDispatch()    
     const [sidebar, setSidebar] = useState(false);
     const showSideBar = () => {setSidebar(!sidebar)
@@ -30,42 +25,32 @@ const SideBar = () => {
   
     return (
     <>
-        
             <nav style={{width: toggle?  "190px" : "55px" }} className={styles.menu} >
                 <div className={styles.menuItems}>
                     <div className={styles.toggle}>
                     <p style={{display: toggle ? "grid" : "none" }} className={styles.menuBars}><b>Planes de Ahorro 7</b></p>
                 <div style={{marginLeft: toggle ? "0px" : "auto"}} className={styles.menuBars}>
-                    
                 <FaIcons.FaBars onClick={showSideBar}/>
             </div>
                     </div>
                     <div className={styles.sidebar}>
-                       
-                        
-                   
                     {
                     SidebarData.map((item, index) => {
                         return (
-                                
                                 <SideBarItem item={item} key={index}/>
-                            
                                 )})
                      }
                      </div>         
-             
                 </div>
                 <div className={styles.navbar} style={{width: toggle ? "190px" : "55px"}}>
                 <div className={styles.username} style={{display: toggle ? "block" : "none" }}>
                             {/* <AiIcons.AiOutlineUser className={styles.username}/> */}
-                            <p >{user.empresa}</p>
-                            <p className={styles.username}>{user.Nombre}</p>
+                            <p style={{fontSize:"14px", fontWeight:"500" }} >{user.empresa}</p>
+                            <p style={{fontSize:"12px", fontStyle:"italic"}} >{user.Nombre}</p>
                         </div>
             <Link to="/"><button data-tip="Salir del Sistema" data-effect="solid" data-place="right" style={{marginRight: toggle ? "10px" : "-52px"}} className={styles.logOut} onClick={() => dispatch(logout())}><ReactTooltip/><BiLogOut/></button></Link>
         </div>
             </nav>
-
-        
     </>
   )
 }
