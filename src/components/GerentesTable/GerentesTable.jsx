@@ -143,16 +143,18 @@ useEffect(() => {
   return (
     <div className={styles.container}>
       <div className={styles.title}>
+      <span style={{display:"flex"}}>
       <h3>Gerentes</h3>
+      <div className={styles.buttonContainer}>
+         <button onClick={()=>navigate('/modificarGerentes')}   className={styles.buttonLeft} disabled={modificar || nuevo}><FcSurvey/>Alta Gerentes</button>
+         <button className={styles.buttonRight} disabled={modificar || nuevo}><FcDataSheet/>Exportar Excel</button>
+      </div> 
+      </span>
      <div>
       {/*POSIBLE UBICACION DE INPUT RADIO FILTER DE TABLA*/}
      </div>
       
-      <div className={styles.buttonContainer}>
-         <button onClick={()=>navigate('/modificarGerentes')}   className={styles.buttonLeft} disabled={modificar || nuevo}><FcSurvey/>Nuevo</button>
-         <button className={styles.buttonRight} disabled={modificar || nuevo}><FcDataSheet/>Excel</button>
-         {/* <Link to="/" className={styles.buttonRight} disabled={modificar || nuevo}><button><BiLogOut/>Salir</button></Link> */}
-        </div> 
+      
       <TableContainer>
         <>
         <div className={styles.scrollbar}>
