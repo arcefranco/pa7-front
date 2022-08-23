@@ -22,14 +22,18 @@ function App() {
         <SideBar/>
         <Routes>
           <Route path='/' element={<Home/>}/>
-          <Route path='/gerentes' element={<GerentesTable/>}/>
+          <Route path='/gerentes' element={<PrivateMasterRoute rol={'1.7.18'}/>}>
+            <Route path='/gerentes' element={<GerentesTable/>}/>
+          </Route>
           <Route path='/altaGerentes/' element={<PrivateMasterRoute rol={'1.7.18.1'}/>} >
-          <Route path='/altaGerentes/' element={<GerentesFormulario/>}/>
+            <Route path='/altaGerentes/' element={<GerentesFormulario/>}/>
           </Route>
           <Route path='/modificarGerentes/:id' element={<PrivateMasterRoute rol={'1.7.18.2'}/>}>
-          <Route path='/modificarGerentes/:id' element={<GerentesFormulario/>}/>
+            <Route path='/modificarGerentes/:id' element={<GerentesFormulario/>}/>
           </Route>
-          <Route path='/usuarios' element={<UsuariosTable/>}/>
+          <Route path='/usuarios' element={<PrivateMasterRoute rol={'1.7.16'}/>}>
+            <Route path='/usuarios' element={<UsuariosTable/>}/>
+          </Route>
           <Route path='/altaUsuarios' element={<PrivateMasterRoute rol={'1.7.16.3.1'}/>}>
               <Route path='/altaUsuarios' element={<AltaUsuariosForm/>}/>
           </Route>
