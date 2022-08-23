@@ -23,8 +23,9 @@ const dispatch = useDispatch();
 const [lastCode, setLastCode ] = useState({});
 const navigate = useNavigate();
 const {roles} = useSelector((state) => state.login.user)
-const rolAltayModif = roles.find(e => e.rl_codigo === '1.7.18'
-||e.rl_codigo === '1')
+const rolAlta = roles.find(e => e.rl_codigo === '1.7.18.1' || e.rl_codigo === '1')
+const rolModificar = roles.find(e => e.rl_codigo === '1.7.18.2'||e.rl_codigo === '1')
+const rolEliminar = roles.find(e => e.rl_codigo === '1.7.18.3' || e.rl_codigo === '1')
 const [form, setForm] = useState({
   Codigo:'',
   Nombre:'',
@@ -81,7 +82,7 @@ useEffect(() => {
         id:'Modificar',
         disableSortBy: true,
         Filter: false,
-        Cell: (value) => (rolAltayModif ? <button  style={{background:"burlywood"}} onClick=  {(()=> navigate(`/modificarGerentes/${value.value}`))}
+        Cell: (value) => (rolModificar ? <button  style={{background:"burlywood"}} onClick=  {(()=> navigate(`/modificarGerentes/${value.value}`))}
         className={styles.buttonRows} >Modificar</button>:
         <button style={{background:"silver"}} className={styles.buttonRows} disabled>Modificar</button>),
               },
@@ -91,7 +92,7 @@ useEffect(() => {
         id:'Eliminar',
         disableSortBy: true,
         Filter: false,
-        Cell: (value) => ( rolAltayModif ?
+        Cell: (value) => ( rolEliminar ?
             <button   style={{background:"red"}} onClick={(()=>{
           
           Swal.fire({
@@ -152,10 +153,10 @@ useEffect(() => {
       <span style={{display:"flex"}}>
       <h3>Gerentes</h3>
       <div className={styles.buttonContainer}>
-      { rolAltayModif ? 
-       <> <button onClick={()=>navigate('/modificarGerentes')}   className={styles.buttonLeft} ><FcSurvey/>Alta Gerentes</button>
+      { rolAlta ? 
+       <> <button onClick={()=>navigate('/altaGerentes')}   className={styles.buttonLeft} ><FcSurvey/>Alta Gerentes</button>
         <button className={styles.buttonRight} ><FcDataSheet/>Exportar Excel</button></>
-        : <><button onClick={()=>navigate('/modificarGerentes')}   className={styles.buttonLeft} disabled><FcSurvey/>Alta Gerentes</button>
+        : <><button onClick={()=>navigate('/altaGerentes')}   className={styles.buttonLeft} disabled><FcSurvey/>Alta Gerentes</button>
         <button className={styles.buttonRight} disabled ><FcDataSheet/>Exportar Excel</button></>
          } </div> 
       </span>
