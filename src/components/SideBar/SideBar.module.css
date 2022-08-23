@@ -53,18 +53,18 @@
     background-color: #060b26;
     height: 100vh;
     justify-content: center;
-    z-index: 1;
-    /* top: 0; */
+    z-index: 2;
+    top: 0;
     transition: linear 350ms;
   }
   
   .menuActive {
     background-color: #060b26;
-    height: 50vh;
+    height: 100vh;
     display: block;
     justify-content: center;
     position: fixed;
-    z-index: 1;
+    z-index: 2;
     top: 0;
     transition: linear 350ms;
   }
