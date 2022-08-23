@@ -6,6 +6,7 @@ import validateEmail from "../../helpers/validateEmail";
 import styles from './AltaUsuarios.module.css'
 import Swal from "sweetalert2";
 import { useParams, useNavigate, Link } from "react-router-dom";
+import {FcApproval} from 'react-icons/fc';
 
 const AltaUsuariosForm = () => {
     const {id} = useParams()
@@ -325,10 +326,10 @@ useEffect(() => {
                 
                 {
                     id?.length? 
-                    <button type="submit" className={styles.btn} onClick={(e) => handleUpdate(e)}>Actualizar</button> : 
+                    <button type="submit" className={styles.btn} onClick={(e) => handleUpdate(e)}><FcApproval/>Actualizar</button> : 
                     (
-                        !Object.keys(error).length ? <button className={styles.btn} style={{alignSelf: 'center'}} type="submit" onClick={(e) => handleSubmit(e)}>Enviar</button> :
-                        <button className={styles.btn}  style={{alignSelf: 'center'}} disabled>Enviar</button>
+                        !Object.keys(error).length ? <button className={styles.btn} style={{alignSelf: 'center'}} type="submit" onClick={(e) => handleSubmit(e)}><FcApproval/>Enviar</button> :
+                        <button className={styles.btn}  style={{alignSelf: 'center'}} disabled><FcApproval/>Enviar</button>
                     )
                     
                 }

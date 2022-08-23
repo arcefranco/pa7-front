@@ -105,11 +105,7 @@ return(
                     id?.length? <button className={styles.btn} type="submit"  onClick={HandleSubmitUpdate}><FcApproval/>Actualizar</button>
                     : <button className={styles.btn} type="submit" onClick={HandleSubmitInsert}><FcApproval/>Enviar</button>
                 }
-                <button type='button' className={styles.btn} onClick={()=>{
-                    navigate('/gerentes')
-                    window.location.reload()}}><FcCancel/>Cancelar</button>
-
-   
+                   
  </form>
                 </div>
 )
