@@ -39,7 +39,9 @@ const updateUsuario = async (usuarioData) => {
     return response.data
 }
 const deleteUsuario = async (usuarioData) => {
-    const response = await axios.delete(API_URL + 'usuarios',  { data: { Codigo: usuarioData } }, headers)
+    const response = await axios.delete(API_URL + 'usuarios',  {  headers: {
+        'x-auth-token': window.localStorage.getItem('userToken').split(" ")[1]
+      }, data: { Codigo: usuarioData } })
     return response.data
 }
 
