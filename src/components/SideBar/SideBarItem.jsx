@@ -15,8 +15,11 @@ const SideBarItem = ({item, index}) => {
     const {user, toggle} = useSelector(
         (state) => state.login)
         const [sidebar, setSidebar] = useState(false);
-        const showSideBar = () => {setSidebar(!sidebar)
-         dispatch(setToggle())   }
+        const showSideBar = () => {
+            if(toggle === false){
+                dispatch(setToggle())
+            }
+        }
 
         
 
@@ -31,7 +34,7 @@ const SideBarItem = ({item, index}) => {
             ? <div className={styles.sidebarTitle}>
                 {
                     item.path ? 
-                    <span>
+                    <span onMouseOver={showSideBar}>
                     <Link to={item.path}>
                     {item.icon}
                     {item.title}
@@ -41,8 +44,8 @@ const SideBarItem = ({item, index}) => {
                 
             <span >
                 {toggle
-                ?<div style={{fontSize : "12px"}}>{item.icon}</div>
-                :<div style={{fontSize : "14px"}} onClick={showSideBar} data-tip={item.title} data-effect="solid" data-place="right">{item.icon}<ReactTooltip /></div>}
+                ?<div style={{fontSize : "12px"}} onMouseOver={showSideBar}>{item.icon}</div>
+                :<div style={{fontSize : "14px"}} onMouseOver={showSideBar} onClick={showSideBar} data-tip={item.title} data-effect="solid" data-place="right">{item.icon}<ReactTooltip /></div>}
                 <div style={{display: toggle? "block" : "none" , fontSize:"12px" }}> 
                 {item.title}
                 {open ? <AiIcons.AiOutlineArrowUp  onClick={() => setOpen(!open)} /> :<AiIcons.AiOutlineArrowDown  onClick={() => setOpen(!open)} />}
