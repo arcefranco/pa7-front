@@ -190,7 +190,7 @@ useEffect(() => {
         </tbody>
       </table>
       <div>
-        <span>Página {' '}
+        <span className={styles.pageIndex}>Página {' '}
         <strong>
           {pageIndex + 1} de {pageOptions.length}
         </strong>{' '}

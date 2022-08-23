@@ -20,7 +20,7 @@ const SideBar = () => {
     const showSideBar = () => {setSidebar(!sidebar)
         dispatch(setToggle())
     }
-    const {user,toggle} = useSelector(
+    const {user,toggle, } = useSelector(
         (state) => state.login)
 
     const closeSideBar = () => {
@@ -58,6 +58,7 @@ const SideBar = () => {
                 <div className={styles.navbar} style={{width: toggle ? "190px" : "55px"}}>
                 <div className={styles.username} style={{display: toggle ? "block" : "none" }}>
                             {/* <AiIcons.AiOutlineUser className={styles.username}/> */}
+                            <p >{user.empresa}</p>
                             <p className={styles.username}>{user.Nombre}</p>
                         </div>
             <Link to="/"><button data-tip="Salir del Sistema" data-effect="solid" data-place="right" style={{marginRight: toggle ? "10px" : "-52px"}} className={styles.logOut} onClick={() => dispatch(logout())}><ReactTooltip/><BiLogOut/></button></Link>

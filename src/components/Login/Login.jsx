@@ -16,6 +16,7 @@ export const Login = () => {
     const {user, isError, message, isSuccess} = useSelector(
         (state) => state.login)
     const [input, setInput] = useState({
+        empresa:'',
         login: '',
         password: ''
     })
@@ -79,6 +80,20 @@ export const Login = () => {
 
           <h3 className={styles.title}>Planes de Ahorro 7</h3>
          <form className={styles.form}>
+
+          <select className={styles.input} name="empresa" value={input.empresa} onChange={handleChange} required>
+                <option value="">--Elegir empresa--</option>
+                <option value="Car Group S.A." id="carGroup">Car Group S.A.</option>
+                <option value="Gestion Financiera S.A." id="gestionFinanciera">Gestion Financiera S.A.</option>
+                <option value="Auto Net S.A." id="autoNet">AutoNet S.A</option>
+                <option value="Autos del Plata S.A." id="autosDelPlata">Autos del Plata S.A.</option>
+                <option value="Detroit S.A." id="detroit">Detroit S.A.</option>
+                <option value="Gestion Financiera Luxcar" id="gestionFinancieraLuxcar">Gestión Financiera Luxcar</option>
+                <option value="Alizze S.A." id="alizze">Alizze S.A.</option>
+          </select>
+        <input value={input.login} name='login' onChange={handleChange} className={styles.input} placeholder='User' type="text" />
+         <input value={input.password} name='password' onChange={handleChange} className={styles.input} type="password" placeholder='Password'/>
+
           <span>Iniciar sesión</span>
           <div style={{position:'relative', margin: '1rem'}}>
             <BiIcons.BiUser className={styles.icon}/>
@@ -90,6 +105,7 @@ export const Login = () => {
           </div>
          
          <hr className={styles.hr} />
+
           <Link to={'/recovery'} className={styles.forgotLink}>Olvido su contraseña?</Link>
          <button onClick={onSubmit} className={styles.btn}>Loguearse</button>
          
