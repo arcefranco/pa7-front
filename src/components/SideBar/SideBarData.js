@@ -168,7 +168,7 @@ export const SidebarData = [
             {title: 'Alta y Modificacion de Usuarios', rol: '1.7.16.3', path: '/usuarios'},
        ]},
       {title: 'ABM Intereses', rol:'1.7.17'},
-      {title: 'Gerentes', rol:'1.7.18', path:'/gerentes'},
+      {title: 'Gerentes', rol:'1.7.18', path:'/gerentes', icon: <BiListPlus />},
       {title: 'Team Leader', rol:'1.7.19'},
       {title: 'Estructura Comercial', rol:'1.7.20'},
       {title: 'Entrega Asegurada', rol:'1.7.21'},
