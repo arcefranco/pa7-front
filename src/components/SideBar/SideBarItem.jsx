@@ -18,6 +18,7 @@ const SideBarItem = ({item, index}) => {
         const showSideBar = () => {
             if(toggle === false){
                 dispatch(setToggle())
+                setOpen(false)
             }
         }
 

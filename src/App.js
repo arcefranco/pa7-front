@@ -22,8 +22,8 @@ function App() {
         <SideBar/>
         <div className='appContainer' style={{
           width: '100%',
-          position: 'absolute',
-          paddingLeft: '3rem' 
+          position: toggle && 'absolute',
+          
           
         }}>
           <div style={{
