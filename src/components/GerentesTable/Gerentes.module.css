@@ -95,9 +95,11 @@ margin: auto;
     padding: 0.2px ;
     height: 20px;
     font-size: 14px;
-    font-weight: bold;
+    font-weight: 400;
     line-height: normal;
     border:groove 1px;
+    color: #fff;
+    background-color: #5a99bd;
 }
 .pageIndex{
     font-size: 11px;
@@ -114,6 +116,8 @@ margin: auto;
     font-size: 12px;
     border:groove 0.5px;
     font-weight: bold;
+    color: #fff;
+    background-color: #3c8dbc;
 
 }
 button:hover{
@@ -130,4 +134,5 @@ button:hover{
     margin: auto;
     font-size: 11px;
     vertical-align: middle;
+    
 }

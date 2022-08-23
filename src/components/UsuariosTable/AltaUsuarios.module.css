@@ -9,9 +9,9 @@
 
 .titleContainer{
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
+    justify-content: start;
+    align-items: start;
+    margin-bottom: 0.8rem;
 
 }
 
@@ -26,9 +26,9 @@
     align-items: center;
 }
 .col1 input {
-    margin: 1rem;
-    width: 20rem;
-    margin-bottom: 0.5;
+    margin: .5rem;
+    width: 18rem;
+    margin-bottom: 0.4;
 
 }
 .col2{
@@ -37,9 +37,9 @@
     align-items: center;
 }
 .col2 input {
-    margin: 1rem;
-    width: 20rem;
-    margin-bottom: 0.5;   
+    margin: .5rem;
+    width: 18rem;
+    margin-bottom: 0.4;   
 }
 
 .inputSelect{
@@ -48,27 +48,28 @@
     width: 45rem;
 }
 .inputSelect select{
-    width: 20rem;
-    margin: 1rem;
+    width: 18rem;
+    margin: .5rem;
 }
 
 .form{
     display: flex;
     flex-direction: column;
-    padding: 1rem;
+    padding: 0.5rem;
+    margin: 10px ;
     align-items: center;
     border-top: 2px solid #3c8dbc;
     border-radius: 10px;
     box-shadow: 2px 2px 2px 1px #80808029;
     box-shadow: 1px;
     background-color: #ffff;
-    width: 60rem;
+    width: 95%;
 
 }
 .error {
     color: red;
     font-size: small;
-    margin-bottom: 1rem;
+    /* margin-bottom: .1rem; */
 }
 .inputError{
     border: 1px solid red;
@@ -95,18 +96,19 @@
     font-weight: 600;
 }
 .title{
-    margin: 0;
+    margin: auto;
     color: black;
-    margin-left: 4rem;
     width: 20rem;
 }
 .btn{
- margin-top: 2rem;
+ margin-top: .2rem;
  width: 7rem;
- padding: 0.5rem;
+ height: 24px ;
+ line-height: normal ;
+ padding: 0.2rem;
  border: none;
  background-color: #3c8dbc;
- border-radius: 3px;
+ border-radius: 10px;
  box-shadow: none;
  color: white;
 
@@ -119,5 +121,5 @@
 
 
 .btn:hover{
-    background-color: #1971a4
+    opacity: 0.8;
 }
