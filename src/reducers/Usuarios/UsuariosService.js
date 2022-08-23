@@ -1,6 +1,7 @@
 import axios from 'axios'
-
+import getHeaderToken from '../../helpers/getHeaderToken';
 const API_URL = 'http://localhost:3001/'
+const headers = getHeaderToken();
 
 const getUsuarioById = async(id) => {
     const response = await axios.post(API_URL + 'usuarios/id', id)
@@ -30,15 +31,17 @@ const getAllTeamLeaders = async () => {
 }
 
 const createUsuario = async (usuarioData) => {
-    const response = await axios.post(API_URL + 'usuarios', usuarioData)
+    const response = await axios.post(API_URL + 'usuarios', usuarioData, headers)
     return response.data
 }
 const updateUsuario = async (usuarioData) => {
-    const response = await axios.put(API_URL + 'usuarios', usuarioData)
+    const response = await axios.put(API_URL + 'usuarios', usuarioData, headers)
     return response.data
 }
 const deleteUsuario = async (usuarioData) => {
-    const response = await axios.delete(API_URL + 'usuarios',  { data: { Codigo: usuarioData } })
+    const response = await axios.delete(API_URL + 'usuarios',  {  headers: {
+        'x-auth-token': window.localStorage.getItem('userToken').split(" ")[1]
+      }, data: { Codigo: usuarioData } })
     return response.data
 }
 

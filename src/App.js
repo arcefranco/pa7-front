@@ -2,7 +2,7 @@ import './App.css';
 import {Routes, Route} from 'react-router-dom'
 import { Login } from './components/Login/Login';
 import Home from './components/Home/Home';
-import PrivateRoute from './PrivateRoute';
+import PrivateMasterRoute from './PrivateMasterRoute';
 import SideBar from './components/SideBar/SideBar';
 import { ResetPassword } from './components/ForgotPassword/ResetPassword';
 import { RecoveryPass } from './components/ForgotPassword/RecoveryPass';
@@ -12,6 +12,7 @@ import UsuariosTable from './components/UsuariosTable/UsuariosTable';
 import { useSelector } from 'react-redux';
 import AltaUsuariosForm from './components/UsuariosTable/AltaUsuariosForm';
 import  GerentesFormulario  from './components/GerentesTable/GerentesFormulario.jsx';
+import NotPermission from './NotPermission';
 function App() {
   const {user} = useSelector(
     (state) => state.login)
@@ -29,12 +30,13 @@ function App() {
           <Route path='/modificarGerentes/:id' element={<GerentesFormulario/>}/>
           </Route>
           <Route path='/usuarios' element={<UsuariosTable/>}/>
-          <Route path='/altaUsuarios' element={<PrivateRoute rol={'1.2.2' && '1'}/>}>
+          <Route path='/altaUsuarios' element={<PrivateMasterRoute rol={'1.7.16.3.1'}/>}>
               <Route path='/altaUsuarios' element={<AltaUsuariosForm/>}/>
           </Route>
-          <Route path='/modifUsuarios/:id' element={<PrivateRoute rol={'1.2.2' && '1'}/>} >
-          <Route path='/modifUsuarios/:id' element={<AltaUsuariosForm/>}/>
+          <Route path='/modifUsuarios/:id' element={<PrivateMasterRoute rol={'1.7.16.3.2'}/>}>
+              <Route path='/modifUsuarios/:id' element={<AltaUsuariosForm/>}/>
           </Route>
+          <Route path='/permission' element={<NotPermission/>}/>
         </Routes> 
        
     </div> :
