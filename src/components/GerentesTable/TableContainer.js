@@ -25,7 +25,6 @@ padding: 0.2rem;
     th,
     td {
       margin: 0;
-      padding: 0.1rem;
       border-bottom: 0px solid black;
       border-right: 0px solid black;
       font-size: 12px;
