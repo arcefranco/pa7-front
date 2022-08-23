@@ -51,7 +51,7 @@
   
   .menu {
     background-color: #060b26;
-    height: 80vh;
+    height: 100vh;
     justify-content: center;
     z-index: 2;
     top: 0;
@@ -60,7 +60,7 @@
   
   .menuActive {
     background-color: #060b26;
-    height: 50vh;
+    height: 100vh;
     display: block;
     justify-content: center;
     position: fixed;

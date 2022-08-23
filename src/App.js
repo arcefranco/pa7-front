@@ -22,7 +22,8 @@ function App() {
         <SideBar/>
         <div className='appContainer' style={{
           width: '100%',
-          position: toggle && 'absolute',
+          
+       
           
           
         }}>
