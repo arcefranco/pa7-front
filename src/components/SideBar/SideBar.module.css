@@ -4,8 +4,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    transition: linear 500ms;
-    transition-delay: -5ms ;
+    transition: all linear 350ms;
   }
   
   .menuBars {
@@ -23,14 +22,12 @@
     border-radius: 7px;
     font: inherit;
     line-height: 1;
-    /* margin: 0.5em; */
-    /* padding: 0.5em 2em; */
     color: #ff7f82;
    
   }
   .logOut:hover {
     background-color: #ff7f82;
-    transition: 600ms;
+    transition: 500ms;
     margin: auto;
     color: black;
   }
@@ -58,18 +55,18 @@
     justify-content: center;
     z-index: 1;
     top: 0;
-    transition: linear 500ms;
+    transition: linear 350ms;
   }
   
   .menuActive {
     background-color: #060b26;
     height: 50vh;
-    display: flex;
+    display: block;
     justify-content: center;
     position: fixed;
     z-index: 1;
     top: 0;
-    transition: linear 500ms;
+    transition: linear 350ms;
   }
   
   
