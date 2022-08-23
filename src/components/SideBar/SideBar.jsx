@@ -12,7 +12,8 @@ import ReactTooltip from 'react-tooltip';
 const SideBar = () => {
     const dispatch = useDispatch()    
     const [sidebar, setSidebar] = useState(false);
-    const showSideBar = () => {setSidebar(!sidebar)
+    const showSideBar = () => {
+        setSidebar(!sidebar)
         dispatch(setToggle())
     }
     const {user,toggle, } = useSelector(
@@ -25,12 +26,12 @@ const SideBar = () => {
   
     return (
     <>
-            <nav style={{width: toggle?  "190px" : "55px" }} className={styles.menu} >
+            <nav style={{width: toggle?  "190px" : "55px" }} className={styles.menu} onMouseLeave={showSideBar}>
                 <div className={styles.menuItems}>
                     <div className={styles.toggle}>
                     <p style={{display: toggle ? "grid" : "none" }} className={styles.menuBars}><b>Planes de Ahorro 7</b></p>
                 <div style={{marginLeft: toggle ? "0px" : "auto"}} className={styles.menuBars}>
-                <FaIcons.FaBars onClick={showSideBar}/>
+                <FaIcons.FaBars onMouseOver={showSideBar}/>
             </div>
                     </div>
                     <div className={styles.sidebar}>
