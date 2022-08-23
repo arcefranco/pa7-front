@@ -79,7 +79,10 @@ export const Login = () => {
 
           <h3 className={styles.title}>Planes de Ahorro 7</h3>
          <form className={styles.form}>
+<<<<<<< HEAD
          <span>Iniciar sesión</span>
+=======
+>>>>>>> 114b659246da0335132163b17de8ec6fb88a120f
 
           <select className={styles.input} name="empresa" value={input.empresa} onChange={handleChange} required>
                 <option value="">--Elegir empresa--</option>
@@ -91,7 +94,14 @@ export const Login = () => {
                 <option value="Gestion Financiera Luxcar" id="gestionFinancieraLuxcar">Gestión Financiera Luxcar</option>
                 <option value="Alizze S.A." id="alizze">Alizze S.A.</option>
           </select>
+<<<<<<< HEAD
           
+=======
+        <input value={input.login} name='login' onChange={handleChange} className={styles.input} placeholder='User' type="text" />
+         <input value={input.password} name='password' onChange={handleChange} className={styles.input} type="password" placeholder='Password'/>
+
+          <span>Iniciar sesión</span>
+>>>>>>> 114b659246da0335132163b17de8ec6fb88a120f
           <div style={{position:'relative', margin: '1rem'}}>
             <BiIcons.BiUser className={styles.icon}/>
             <input value={input.login} name='login' onChange={handleChange} className={styles.input} placeholder='Usuario' type="text" />
@@ -102,6 +112,10 @@ export const Login = () => {
           </div>
          
          <hr className={styles.hr} />
+<<<<<<< HEAD
+=======
+
+>>>>>>> 114b659246da0335132163b17de8ec6fb88a120f
           <Link to={'/recovery'} className={styles.forgotLink}>Olvido su contraseña?</Link>
          <button onClick={onSubmit} className={styles.btn}>Loguearse</button>
          
