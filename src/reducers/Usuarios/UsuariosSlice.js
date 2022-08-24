@@ -11,6 +11,9 @@ const initialState = {
     teamLeaders: [],
     statusNuevoUsuario: [],
     usuarioById: [],
+    selectedRoles: [],
+    userSelectedRoles: [],
+    rolStatus: '',
     isError: false,
     isSuccess: false,
     isLoading: false,
@@ -107,6 +110,62 @@ export const getAllUsuarios = createAsyncThunk('usuarios/All', async (thunkAPI) 
     try {
       
       const data = await usuariosService.getUsuarioById(id)
+
+      return data
+    } catch (error) {
+
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+  })
+  export const getSelectedRoles = createAsyncThunk('selectedRoles', async (rolData, thunkAPI) => {
+    try {
+      
+      const data = await usuariosService.getSelectedRoles(rolData)
+
+      return data
+    } catch (error) {
+
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+  })
+  export const getUserSelectedRoles = createAsyncThunk('userSelectedRoles', async (user, thunkAPI) => {
+    try {
+      
+      const data = await usuariosService.getUserSelectedRoles(user)
+
+      return data
+    } catch (error) {
+
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+  })
+  export const addRol = createAsyncThunk('addRol', async (rolData, thunkAPI) => {
+    try {
+      
+      const data = await usuariosService.addRol(rolData)
+
+      return data
+    } catch (error) {
+
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+  })
+  export const deleteRol = createAsyncThunk('deleteRol', async (rolData, thunkAPI) => {
+    try {
+      
+      const data = await usuariosService.deleteRol(rolData)
 
       return data
     } catch (error) {
@@ -277,6 +336,7 @@ export const getAllUsuarios = createAsyncThunk('usuarios/All', async (thunkAPI) 
             state.isError = true
             state.message = action.payload
           })
+          
           .addCase(deleteUsuario.pending, (state) => {
             state.isLoading = true
             state.statusNuevoUsuario = []
@@ -291,6 +351,64 @@ export const getAllUsuarios = createAsyncThunk('usuarios/All', async (thunkAPI) 
             state.isError = true
             
             state.statusNuevoUsuario = [action.payload]
+          })
+          .addCase(getSelectedRoles.pending, (state) => {
+            state.isLoading = true
+            
+          })
+          .addCase(getSelectedRoles.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.isSuccess = true
+            state.selectedRoles = action.payload
+          }) 
+          .addCase(getSelectedRoles.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            state.message = action.payload
+          })
+          .addCase(getUserSelectedRoles.pending, (state) => {
+            state.isLoading = true
+            
+          })
+          .addCase(getUserSelectedRoles.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.isSuccess = true
+            state.userSelectedRoles = action.payload
+          }) 
+          .addCase(getUserSelectedRoles.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            state.message = action.payload
+          })
+          .addCase(addRol.pending, (state) => {
+            state.isLoading = true
+            
+          })
+          .addCase(addRol.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.isSuccess = true
+            state.rolStatus = action.payload
+          }) 
+          .addCase(addRol.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            state.rolStatus = action.payload
+            state.message = action.payload
+          })
+          .addCase(deleteRol.pending, (state) => {
+            state.isLoading = true
+            
+          })
+          .addCase(deleteRol.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.isSuccess = true
+            state.rolStatus = action.payload
+          }) 
+          .addCase(deleteRol.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            state.rolStatus = action.payload
+            state.message = action.payload
           })
         }
 
