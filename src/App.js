@@ -8,10 +8,11 @@ import { ResetPassword } from './components/ForgotPassword/ResetPassword';
 import { RecoveryPass } from './components/ForgotPassword/RecoveryPass';
 import GerentesTable from './components/GerentesTable/GerentesTable';
 import UsuariosTable from './components/UsuariosTable/UsuariosTable';
-
+import SupervisoresTable from './components/SupervisoresTable/SupervisoresTable';
 import { useSelector } from 'react-redux';
 import AltaUsuariosForm from './components/UsuariosTable/AltaUsuariosForm';
 import  GerentesFormulario  from './components/GerentesTable/GerentesFormulario.jsx';
+import  SupervisoresFormulario  from './components/SupervisoresTable/SupervisoresFormulario.jsx';
 import NotPermission from './NotPermission';
 function App() {
   const {user, toggle} = useSelector(
@@ -52,6 +53,9 @@ function App() {
           <Route path='/modificarGerentes/:id' element={<PrivateMasterRoute rol={'1.7.18.2'}/>}>
             <Route path='/modificarGerentes/:id' element={<GerentesFormulario/>}/>
           </Route>
+          <Route path='/supervisores' element={<SupervisoresTable/>}/>
+          <Route path='/altaSupervisores/' element={<SupervisoresFormulario/>}/>
+          <Route path='/modificarSupervisores/:id' element={<SupervisoresFormulario/>}/>
           <Route path='/usuarios' element={<PrivateMasterRoute rol={'1.7.16'}/>}>
             <Route path='/usuarios' element={<UsuariosTable/>}/>
           </Route>
