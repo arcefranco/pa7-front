@@ -14,6 +14,7 @@ import AltaUsuariosForm from './components/UsuariosTable/AltaUsuariosForm';
 import  GerentesFormulario  from './components/GerentesTable/GerentesFormulario.jsx';
 import  SupervisoresFormulario  from './components/SupervisoresTable/SupervisoresFormulario.jsx';
 import NotPermission from './NotPermission';
+import RolesForm from './components/RolesForm/RolesForm';
 function App() {
   const {user, toggle} = useSelector(
     (state) => state.login)
@@ -65,6 +66,7 @@ function App() {
           <Route path='/modifUsuarios/:id' element={<PrivateMasterRoute rol={'1.7.16.3.2'}/>}>
               <Route path='/modifUsuarios/:id' element={<AltaUsuariosForm/>}/>
           </Route>
+          <Route path='/roles' element={<RolesForm/>}/>
           <Route path='/permission' element={<NotPermission/>}/>
         </Routes> 
         </div>

@@ -30,6 +30,25 @@ const getAllTeamLeaders = async () => {
     return response.data
 }
 
+const getSelectedRoles = async (rol) => {
+    console.log('service rol', rol)
+    const response = await axios.post(API_URL + 'roles', rol)
+    return response.data
+}
+const getUserSelectedRoles = async (user) => {
+    const response = await axios.post(API_URL + 'roles/user', {user: user})
+    return response.data
+}
+const addRol = async (rolData) => {
+    const {Usuario, rol} = rolData
+    const response = await axios.post(API_URL + 'roles/rol', {Usuario: Usuario, rol: rol})
+    return response.data
+}
+
+const deleteRol = async (rolData) => {
+    const response = await axios.delete(API_URL + 'roles',  { data: rolData })
+    return response.data
+}
 const createUsuario = async (usuarioData) => {
     const response = await axios.post(API_URL + 'usuarios', usuarioData, headers)
     return response.data
@@ -54,6 +73,10 @@ const usuariosService = {
     getAllGerentes,
     getAllSupervisores,
     getAllTeamLeaders,
+    getSelectedRoles,
+    getUserSelectedRoles,
+    addRol,
+    deleteRol,
     createUsuario,
     getUsuarioById,
     updateUsuario,
