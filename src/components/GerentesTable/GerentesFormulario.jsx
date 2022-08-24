@@ -1,11 +1,10 @@
-import React, {useEffect, useReducer, useState} from "react";
+import React, {useEffect, useState} from "react";
 import { useDispatch,  useSelector} from "react-redux";
 import { useParams } from "react-router-dom";
 import styles from '../UsuariosTable/AltaUsuarios.module.css';
-import {FcApproval, FcCancel, FcSurvey, FcDataSheet} from 'react-icons/fc'
-import {BiPencil, BiXCircle, BiLogOut } from 'react-icons/bi'  
+import {FcApproval} from 'react-icons/fc'
 import {Link, useNavigate} from 'react-router-dom';
-import { deleteGerentes, getGerentes, getGerentesById, postGerentes, updateGerentes, reset,} from '../../reducers/Gerentes/gerentesSlice';
+import { getGerentesById, postGerentes, updateGerentes } from '../../reducers/Gerentes/gerentesSlice';
 
 
 const GerentesFormulario = () =>{
