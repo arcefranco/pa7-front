@@ -92,6 +92,9 @@ export const loginSlice = createSlice({
       },
       setToggle: (state) => {
         state.toggle = !state.toggle
+      },
+      setToggleFalse: (state) => {
+        state.toggle = false
       }
     },
     extraReducers: (builder) => {
@@ -170,5 +173,5 @@ export const loginSlice = createSlice({
 
 
 
-export const { reset, setToggle } = loginSlice.actions
+export const { reset, setToggle, setToggleFalse } = loginSlice.actions
 export default loginSlice.reducer

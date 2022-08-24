@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import styles from './SideBar.module.css'
-import * as AiIcons from 'react-icons/ai';
+import * as MdIcons from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import ReactTooltip from 'react-tooltip';
 import { useSelector, useDispatch } from 'react-redux'
@@ -26,16 +26,16 @@ const SideBarItem = ({item, index}) => {
 
     return (
         
-    <div  key={index}  className={open ? styles.textOpen : styles.text}>
+    <div  key={index}    className={open ? styles.textOpen : styles.text} onMouseOver={showSideBar}>
         {/**Si el Item no tiene un rol asignado, es un Menú (Nivel 0) */}
         {
             !item.rol || 
             user.roles?.find(e=> e.rl_codigo === item.rol) || 
             (user.roles?.find(e=> e.rl_codigo === "1") && !item.unique)
-            ? <div className={styles.sidebarTitle}>
+            ? <div className={styles.sidebarTitle} onMouseOver={showSideBar}>
                 {
                     item.path ? 
-                    <span onMouseOver={showSideBar}>
+                    <span >
                     <Link to={item.path}>
                     {item.icon}
                     {item.title}
@@ -47,15 +47,15 @@ const SideBarItem = ({item, index}) => {
                 {toggle
                 ?<div style={{fontSize : "12px"}} onMouseOver={showSideBar}>{item.icon}</div>
                 :<div style={{fontSize : "14px"}} onMouseOver={showSideBar} onClick={showSideBar} data-tip={item.title} data-effect="solid" data-place="right">{item.icon}<ReactTooltip /></div>}
-                <div style={{display: toggle? "block" : "none" , fontSize:"12px" }}> 
+                <div style={{display: toggle? "block" : "none" , fontSize:"12px" }} onClick={() => setOpen(!open)}> 
                 {item.title}
-                {open ? <AiIcons.AiOutlineArrowUp  onClick={() => setOpen(!open)} /> :<AiIcons.AiOutlineArrowDown  onClick={() => setOpen(!open)} />}
+                {open ? <MdIcons.MdOutlineKeyboardArrowUp onClick={() => setOpen(!open)} /> :<MdIcons.MdOutlineKeyboardArrowDown  onClick={() => setOpen(!open)} />}
                 </div>    
             </span>
                 }
-        </div> : <option value="*" disabled>{item.title}</option>
+        </div> : <option value="*" disabled>{item.titleee}</option>
         }
-            <div className={styles.sidebarContent}>
+            <div className={styles.sidebarContent} style={{ display: toggle? "block" : "none"}}>
              {
             open && item.options ? 
             
