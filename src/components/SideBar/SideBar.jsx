@@ -1,8 +1,9 @@
 import React, {useState} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { setToggle,  logout  } from '../../reducers/Login/loginSlice.js'
+import { setToggle,  logout, setToggleFalse  } from '../../reducers/Login/loginSlice.js'
 import {SidebarData} from './SideBarData.js'
 import * as FaIcons from 'react-icons/fa'
+import * as ImIcons from 'react-icons/im';
 import {BiLogOut } from "react-icons/bi";
 import SideBarItem from './SideBarItem'
 import { Link } from 'react-router-dom'
@@ -26,13 +27,14 @@ const SideBar = () => {
   
     return (
     <>
-            <nav style={{width: toggle?  "190px" : "70px" }} className={styles.menu}  onMouseLeave={showSideBar} >
+            <nav style={{width: toggle?  "190px" : "70px" }} className={styles.menu}  onMouseLeave={() => dispatch(setToggleFalse())}  >
                 <div className={styles.menuItems}>
                     <div className={styles.toggle}>
                     <p style={{display: toggle ? "grid" : "none" }} className={styles.menuBars}><b>Planes de Ahorro 7</b></p>
                 <div style={{marginLeft: toggle ? "0px" : "auto"}} className={styles.menuBars}>
                  {
                    !toggle && <FaIcons.FaBars onMouseOver={showSideBar}/> 
+                   
                  }
             </div>
                     </div>

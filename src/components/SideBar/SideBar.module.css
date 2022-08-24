@@ -93,9 +93,10 @@
     opacity:0.6;
   }
   .text{
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
     cursor: pointer;
+    
     
   }
    .text span {
@@ -103,7 +104,7 @@
     color: #545e65;
     font-size: 12px;
     font-weight: bold;
-    width: 95%;
+    width: 100%;
     height: 100%;
     display: flex;
     align-items: center;
@@ -133,9 +134,13 @@
     border-radius: 4px;
     cursor: pointer;
   } 
+
+ .sidebarContent .text {
+    padding-left: 2rem;
+  }
   
   .text:hover {
-    background-color: #1a83ff;
+    background-color: #e4e1e1
   }
 
 
@@ -167,7 +172,9 @@
       height: 72vh;
       overflow-y: hidden;
       overflow-x: hidden;
-    
+      display: flex;
+      flex-direction: column;
+      place-content: space-between;
     
   }
   .sidebar:hover{

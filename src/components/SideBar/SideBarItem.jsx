@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
 import styles from './SideBar.module.css'
-import * as AiIcons from 'react-icons/ai';
 import * as MdIcons from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import ReactTooltip from 'react-tooltip';
@@ -27,7 +26,7 @@ const SideBarItem = ({item, index}) => {
 
     return (
         
-    <div  key={index}  className={open ? styles.textOpen : styles.text} onMouseOver={showSideBar}>
+    <div  key={index}    className={open ? styles.textOpen : styles.text} onMouseOver={showSideBar}>
         {/**Si el Item no tiene un rol asignado, es un Menú (Nivel 0) */}
         {
             !item.rol || 
@@ -56,7 +55,7 @@ const SideBarItem = ({item, index}) => {
                 }
         </div> : <option value="*" disabled>{item.titleee}</option>
         }
-            <div className={styles.sidebarContent} style={{marginLeft: toggle && '2rem', display: toggle? "block" : "none"}}>
+            <div className={styles.sidebarContent} style={{ display: toggle? "block" : "none"}}>
              {
             open && item.options ? 
             

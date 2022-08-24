@@ -1,5 +1,5 @@
 .container
-{   background-color: aliceblue;
+{   /* background-color: aliceblue; */
     align-items: center;
     width: 100%;
     height: 100vh;
@@ -9,14 +9,13 @@
 .title
 {   
     border-radius: 2.5px;
-    margin:10px;
     text-align: start;
     text-indent: 15px;
     color:black;
-    background-color: ghostwhite;
+/*     background-color: ghostwhite; */
     height: 95%;
     border-top: solid 3px navy;
-    padding:2px;
+    padding-top:2rem;
 }
 
 
