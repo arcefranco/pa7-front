@@ -8,7 +8,7 @@ import { useTable, useSortBy, usePagination} from 'react-table';
 import styles from './UsuariosTable.module.css';
 import Swal from 'sweetalert2';
 import {FcApproval, FcCancel, FcSurvey, FcDataSheet} from 'react-icons/fc'
-
+import { ExportCSV } from '../../helpers/exportCSV';
 
 
 const UsuariosTable = () => {
@@ -173,8 +173,9 @@ const { toggle } = useSelector(
   <div className={styles.title}>
       <span style={{display:"flex"}}><h3>Usuarios</h3>
       <div className={styles.buttonContainer}>
-      {
-        rolAltayModif ? <Link to={'/altaUsuarios'}><button><FcSurvey/>Alta Usuarios</button></Link> :
+      {rolAltayModif ?
+       <><Link to={'/altaUsuarios'}><button><FcSurvey/>Alta Usuarios</button></Link>
+        <ExportCSV csvData={usuarios} fileName={'usuarios'} /></> :
          <Link to={'/altaUsuarios'}><button disabled><FcSurvey/>Alta Usuarios</button></Link>
       }</div>
       </span>
