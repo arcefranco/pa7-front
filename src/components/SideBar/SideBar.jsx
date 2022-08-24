@@ -31,8 +31,8 @@ const SideBar = () => {
                     <div className={styles.toggle}>
                     <p style={{display: toggle ? "grid" : "none" }} className={styles.menuBars}><b>Planes de Ahorro 7</b></p>
                 <div style={{marginLeft: toggle ? "0px" : "auto"}} className={styles.menuBars}>
-                <FaIcons.FaBars onMouseOver={showSideBar}/>
-            </div>
+                <FaIcons.FaBars/>
+                 </div>
                     </div>
                     <div className={styles.sidebar}>
                     {

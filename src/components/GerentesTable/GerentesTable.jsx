@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo, useState} from 'react'
+import React, {useEffect, useMemo, useState, useRef} from 'react'
 import { useSelector, useDispatch} from 'react-redux'
 import { deleteGerentes, getGerentes, getGerentesById, postGerentes, updateGerentes, } from '../../reducers/Gerentes/gerentesSlice'
 import TableContainer from './TableContainer'
@@ -6,12 +6,10 @@ import { useFilters, usePagination,useSortBy} from 'react-table'
 import ActiveFilter from './ActiveFilter'
 import { useTable } from 'react-table'
 import styles from './Gerentes.module.css'
-import {FcApproval, FcCancel, FcSurvey, FcDataSheet} from 'react-icons/fc'
-import {BiPencil, BiTrash, BiLogOut } from 'react-icons/bi'
-import { Checkbox } from './Checkbox'
+import {FcSurvey, FcDataSheet} from 'react-icons/fc'
 import {Link, useNavigate} from 'react-router-dom'
-import ReactTooltip from 'react-tooltip';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2';
+import { ExportCSV } from '../../helpers/exportCSV';
 
 /*FUNCION DEL COMPONENTE*/
 const GerentesTable = () => {
@@ -26,11 +24,6 @@ const {roles} = useSelector((state) => state.login.user)
 const rolAlta = roles.find(e => e.rl_codigo === '1.7.18.1' || e.rl_codigo === '1')
 const rolModificar = roles.find(e => e.rl_codigo === '1.7.18.2'||e.rl_codigo === '1')
 const rolEliminar = roles.find(e => e.rl_codigo === '1.7.18.3' || e.rl_codigo === '1')
-const [form, setForm] = useState({
-  Codigo:'',
-  Nombre:'',
-  Activo: '',
-});
 const [input, setInput] = useState({
   Codigo:'',
   Nombre:'',
@@ -45,6 +38,7 @@ useEffect(() => {
 
  const {gerentes, gerentesById} = useSelector(
     (state) => state.gerentes)
+
     
    
     
@@ -138,13 +132,14 @@ useEffect(() => {
 
 
   useEffect(() => {
+    console.log(gerentes)
     setInput({
       Codigo: gerentesById?.Codigo,
       Nombre: gerentesById?.Nombre,
       Activo: gerentesById?.Activo,
     });
   }, [gerentesById]);
-  
+
   
 /*RENDER PAGINA GERENTES*/
   return (
@@ -155,9 +150,9 @@ useEffect(() => {
       <div className={styles.buttonContainer}>
       { rolAlta ? 
        <> <button onClick={()=>navigate('/altaGerentes')}   className={styles.buttonLeft} ><FcSurvey/>Alta Gerentes</button>
-        <button className={styles.buttonRight} ><FcDataSheet/>Exportar Excel</button></>
+         <ExportCSV csvData={gerentes} fileName={'gerentes'} /></>
         : <><button onClick={()=>navigate('/altaGerentes')}   className={styles.buttonLeft} disabled><FcSurvey/>Alta Gerentes</button>
-        <button className={styles.buttonRight} disabled ><FcDataSheet/>Exportar Excel</button></>
+        <button className={styles.buttonRight}  disabled ><FcDataSheet/>Exportar Excel</button></>
          } </div> 
       </span>
      <div>
@@ -168,7 +163,7 @@ useEffect(() => {
       <TableContainer>
         <>
         <div className={styles.scrollbar}>
-        <table {...getTableProps()}>
+        <table {...getTableProps()} >
         <thead>
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
