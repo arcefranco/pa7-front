@@ -31,7 +31,7 @@ function App() {
           
         }}>
           <div style={{
-         width: '81.3%',
+         width: '100%',
          height: '100vh',
          opacity: 0.5,
          position: 'absolute',
