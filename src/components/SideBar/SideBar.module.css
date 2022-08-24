@@ -1,9 +1,7 @@
 .navbar {
 
   background-color: #f5f5f5;
-    height: 15%;
-
-
+    height: 8%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -93,8 +91,8 @@
     opacity:0.6;
   }
   .text{
-    padding-top: 2rem;
-    padding-bottom: 2rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
     cursor: pointer;
     
     
@@ -217,10 +215,10 @@
   }
   
   .sidebar::-webkit-scrollbar-track {
-    background: #060b26;        /* color of the tracking area */
+    background: rgba(255, 255, 255, 0.866);        /* color of the tracking area */
   }
   
   .sidebar::-webkit-scrollbar-thumb {
-    background-color: rgba(255, 255, 255, 0.866);    /* color of the scroll thumb */
+    background-color: #545e65;    /* color of the scroll thumb */
     border-radius: 20px;       /* roundness of the scroll thumb */
   }

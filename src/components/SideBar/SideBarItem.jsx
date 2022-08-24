@@ -46,7 +46,7 @@ const SideBarItem = ({item, index}) => {
             <span >
                 {toggle
                 ?<div style={{fontSize : "12px"}} onMouseOver={showSideBar}>{item.icon}</div>
-                :<div style={{fontSize : "14px"}} onMouseOver={showSideBar} onClick={showSideBar} data-tip={item.title} data-effect="solid" data-place="right">{item.icon}<ReactTooltip /></div>}
+                :<div style={{fontSize : "14px" , marginLeft: "5px"}} onMouseOver={showSideBar} onClick={showSideBar} data-tip={item.title} data-effect="solid" data-place="right">{item.icon}<ReactTooltip /></div>}
                 <div style={{display: toggle? "block" : "none" , fontSize:"12px" }} onClick={() => setOpen(!open)}> 
                 {item.title}
                 {open ? <MdIcons.MdOutlineKeyboardArrowUp onClick={() => setOpen(!open)} /> :<MdIcons.MdOutlineKeyboardArrowDown  onClick={() => setOpen(!open)} />}

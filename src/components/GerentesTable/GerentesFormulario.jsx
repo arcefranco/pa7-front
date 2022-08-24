@@ -78,7 +78,6 @@ const HandleSubmitUpdate =async (event) =>{
   }
   )
   window.location.reload()
-  
   }
 
  
