@@ -1,6 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useAsyncDebounce } from 'react-table';
+import styles from './Gerentes.module.css'
 
-function ActiveFilter({column }) {
+
+export function ActiveFilter({column }) {
     const { filterValue, setFilter, preFilteredRows, id } = column
     // Calculate the options for filtering
     // using the preFilteredRows
@@ -37,4 +40,26 @@ function ActiveFilter({column }) {
     );
   }
 
-export default ActiveFilter
+  export function SearchFilter({column }) {
+    const { filterValue, setFilter,  } = column
+    // Calculate the options for filtering
+    // using the preFilteredRows
+      const [value, setValue] = useState(filterValue)  
+      const onChange = useAsyncDebounce(value => {setFilter(value || undefined)}, 1000)
+  
+    // Render a multi-select box
+    return (
+      <input
+        type="text" 
+        style={{height:"17px", borderRadius: "10px", border: "groove"}}
+        className={styles.search}
+        value={value || ''}
+        onChange={e => {
+          setValue(e.target.value)
+          onChange(e.target.value)
+        }}
+        placeholder="Buscar..."
+      
+        />
+    );
+  }

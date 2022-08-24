@@ -1,18 +1,18 @@
 import React, {useEffect, useMemo, useState, useRef} from 'react'
 import { useSelector, useDispatch} from 'react-redux'
-import { deleteGerentes, getGerentes, getGerentesById, postGerentes, updateGerentes, } from '../../reducers/Gerentes/gerentesSlice'
-import TableContainer from './TableContainer'
+import { deleteSupervisores, getSupervisores, getSupervisoresById, postSupervisores, updateSupervisores, } from '../../reducers/Supervisores/supervisoresSlice.js'
+import TableContainer from '../GerentesTable/TableContainer'
 import { useFilters, usePagination,useSortBy} from 'react-table'
-import {ActiveFilter, SearchFilter} from './ActiveFilter'
+import {ActiveFilter, SearchFilter} from '../GerentesTable/ActiveFilter'
 import { useTable } from 'react-table'
-import styles from './Gerentes.module.css'
+import styles from '../GerentesTable/Gerentes.module.css'
 import {FcSurvey, FcDataSheet} from 'react-icons/fc'
 import {Link, useNavigate} from 'react-router-dom'
 import Swal from 'sweetalert2';
 import { ExportCSV } from '../../helpers/exportCSV';
 
 /*FUNCION DEL COMPONENTE*/
-const GerentesTable = () => {
+const SupervisoresTable = () => {
 const [nuevo, setNuevo] = useState(false);
 const toggleNuevo = () => setNuevo(!nuevo);
 const [modificar, setModificar] = useState(false);
@@ -31,18 +31,18 @@ const [input, setInput] = useState({
 })
 
 
-/*GET API GERENTES*/
+/*GET API SUPERVISORES*/
 useEffect(() => {
-  dispatch(getGerentes())
+  dispatch(getSupervisores())
   }, [dispatch])
 
- const {gerentes, gerentesById} = useSelector(
-    (state) => state.gerentes)
+ const {supervisores, supervisoresById} = useSelector(
+    (state) => state.supervisores)
 
     
    
     
-// /*LAST OBJECT OF THE GERENTES ARRAY  */
+// /*LAST OBJECT OF THE SUPERVISORES ARRAY  */
 //     var lastObject =useMemo( () => gerentes[(gerentes.length)-1])
 //       // setLastCode()    
 //     console.log(lastObject?.Codigo)
@@ -63,11 +63,39 @@ useEffect(() => {
         Filter: SearchFilter
       },
       {
-        Header: "Activo",
-        accessor: "Activo",
+        Header: "Email",
+        accessor: "Email",
+        Filter: ActiveFilter
+      },
+      {
+        Header: "Gerente",
+        accessor: "Gerente",
+        Filter: ActiveFilter
+      },
+      {
+        Header: "Es Micro Emprendedor",
+        accessor: "EsMiniEmprendedor",
         Cell: ({ value }) => <div style={{ textIndent: "15px" }}><input   type="checkbox" className={styles.checkbox} checked={value === 0  
                               ?false
                               :true}/></div> ,
+        Filter: ActiveFilter
+      },
+      {
+        Header: "Valor Promedio Movil Micro Emp.",
+        accessor: "ValorPromedioMovil",
+        Filter: ActiveFilter
+      },
+      {
+        Header: "Activo",
+        accessor: "Inactivo",
+        Cell: ({ value }) => <div style={{ textIndent: "15px" }}><input   type="checkbox" className={styles.checkbox} checked={value === 1  
+                              ?false
+                              :true}/></div> ,
+        Filter: ActiveFilter
+      },
+      {
+        Header: "Zona",
+        accessor: "Zona",
         Filter: ActiveFilter
       },
       {
@@ -76,7 +104,7 @@ useEffect(() => {
         id:'Modificar',
         disableSortBy: true,
         Filter: false,
-        Cell: (value) => (rolModificar ? <button  style={{background:"burlywood"}} onClick=  {(()=> navigate(`/modificarGerentes/${value.value}`))}
+        Cell: (value) => (rolModificar ? <button  style={{background:"burlywood"}} onClick=  {(()=> navigate(`/modificarSupervisores/${value.value}`))}
         className={styles.buttonRows} >Modificar</button>:
         <button style={{background:"silver"}} className={styles.buttonRows} disabled>Modificar</button>),
               },
@@ -96,7 +124,7 @@ useEffect(() => {
             text: 'Esta seguro que desea eliminar?'
           }).then((result) => {
             if(result.isConfirmed){
-              dispatch(deleteGerentes({Codigo: value.value}))
+              dispatch(deleteSupervisores({Codigo: value.value}))
               window.location.reload()
             }
           })
@@ -109,7 +137,7 @@ useEffect(() => {
     ],
     []
   );
-  const tableInstance = useTable({ columns: columns, data: gerentes },    
+  const tableInstance = useTable({ columns: columns, data: supervisores },    
     useFilters, useSortBy, usePagination
     );
 
@@ -132,26 +160,26 @@ useEffect(() => {
 
 
   useEffect(() => {
-    console.log(gerentes)
+    console.log(supervisores)
     setInput({
-      Codigo: gerentesById?.Codigo,
-      Nombre: gerentesById?.Nombre,
-      Activo: gerentesById?.Activo,
+      Codigo: supervisoresById?.Codigo,
+      Nombre: supervisoresById?.Nombre,
+      Activo: supervisoresById?.Activo,
     });
-  }, [gerentesById]);
+  }, [supervisoresById]);
 
   
-/*RENDER PAGINA GERENTES*/
+/*RENDER PAGINA SUPERVISORES*/
   return (
     <div className={styles.container}>
       <div className={styles.title}>
       <span style={{display:"flex"}}>
-      <h3>Gerentes</h3>
+      <h3>Supervisores</h3>
       <div className={styles.buttonContainer}>
       { rolAlta ? 
-       <> <button onClick={()=>navigate('/altaGerentes')}   className={styles.buttonLeft} ><FcSurvey/>Alta Gerentes</button>
-         <ExportCSV csvData={gerentes} fileName={'gerentes'} /></>
-        : <><button onClick={()=>navigate('/altaGerentes')}   className={styles.buttonLeft} disabled><FcSurvey/>Alta Gerentes</button>
+       <> <button onClick={()=>navigate('/altaSupervisores')}   className={styles.buttonLeft} ><FcSurvey/>Nuevo</button>
+         <ExportCSV csvData={supervisores} fileName={'supervisores'} /></>
+        : <><button onClick={()=>navigate('/altaSupervisores')}   className={styles.buttonLeft} disabled><FcSurvey/>Alta Supervisores</button>
         <button className={styles.buttonRight}  disabled ><FcDataSheet/>Exportar Excel</button></>
          } </div> 
       </span>
@@ -213,4 +241,4 @@ useEffect(() => {
   )
 }
 
-export default GerentesTable
+export default SupervisoresTable

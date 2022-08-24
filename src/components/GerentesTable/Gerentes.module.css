@@ -15,7 +15,7 @@
 /*     background-color: ghostwhite; */
     height: 95%;
     border-top: solid 3px navy;
-    padding-top:2rem;
+    padding-top:1rem;
 }
 
 
@@ -139,3 +139,11 @@ button:hover{
     vertical-align: middle;
     
 }
+
+.search{height:17px;
+     border-radius: 10px;
+      border: groove}
+
+input[type="text"]:focus {
+        border: 2px solid #862d59;
+    }

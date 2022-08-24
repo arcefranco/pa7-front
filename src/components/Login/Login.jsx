@@ -81,7 +81,7 @@ export const Login = () => {
          <h3 className={styles.title}>Planes de Ahorro 7</h3>
 
          <span>Iniciar sesión</span>
-          <select className={styles.input} name="empresa" value={input.empresa} onChange={handleChange} required>
+          <select className={styles.input} name="empresa" value={input.empresa} onChange={handleChange} aria-required>
                 <option value="" >--Elegir empresa--</option>
                 <option value="Car Group S.A." id="carGroup">Car Group S.A.</option>
                 <option value="Gestion Financiera S.A." id="gestionFinanciera">Gestion Financiera S.A.</option>
