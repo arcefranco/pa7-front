@@ -4,8 +4,10 @@ import { deleteUsuario, getAllUsuarios, reset } from '../../reducers/Usuarios/Us
 import TableContainer from '../GerentesTable/TableContainer';
 import { Link, useNavigate } from 'react-router-dom';
 import * as BiIcons from 'react-icons/bi';
+
 import { useTable, useSortBy, usePagination, useGlobalFilter} from 'react-table';
 import styles from './UsuariosTable.module.css';
+
 import Swal from 'sweetalert2';
 import {FcApproval, FcCancel, FcSurvey, FcDataSheet} from 'react-icons/fc'
 import { ExportCSV } from '../../helpers/exportCSV';
@@ -181,9 +183,9 @@ const {globalFilter} = state
       <span style={{display:"flex"}}><h3>Usuarios</h3>
       <div className={styles.buttonContainer}>
       {rolAltayModif ?
-       <><Link to={'/altaUsuarios'}><button><FcSurvey/>Alta Usuarios</button></Link>
+       <><Link to={'/altaUsuarios'}><button><FcSurvey/>Nuevo</button></Link>
         <ExportCSV csvData={usuarios} fileName={'usuarios'} /></> :
-         <Link to={'/altaUsuarios'}><button disabled><FcSurvey/>Alta Usuarios</button></Link>
+         <Link to={'/altaUsuarios'}><button disabled><FcSurvey/>Nuevo</button></Link>
       }</div>
       </span>
       <>

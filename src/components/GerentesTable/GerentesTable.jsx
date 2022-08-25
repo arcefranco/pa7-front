@@ -48,6 +48,9 @@ useEffect(() => {
 //     console.log(lastObject?.Codigo)
  
   /*GERENTES TABLEDATA*/ 
+
+  
+
   const columns = useMemo(
     () => [
       {
@@ -111,7 +114,7 @@ useEffect(() => {
     ],
     []
   );
-  const tableInstance = useTable({ columns: columns, data: gerentes },    
+  const tableInstance = useTable({ columns: columns, data: gerentes, },    
     useFilters, useSortBy, usePagination
     );
 
@@ -151,10 +154,10 @@ useEffect(() => {
       <h3>Gerentes</h3>
       <div className={styles.buttonContainer}>
       { rolAlta ? 
-       <> <button onClick={()=>navigate('/altaGerentes')}   className={styles.buttonLeft} ><FcSurvey/>Alta Gerentes</button>
+       <> <button onClick={()=>navigate('/altaGerentes')}   className={styles.buttonLeft} ><FcSurvey/>Nuevo</button>
          <ExportCSV csvData={gerentes} fileName={'gerentes'} /></>
-        : <><button onClick={()=>navigate('/altaGerentes')}   className={styles.buttonLeft} disabled><FcSurvey/>Alta Gerentes</button>
-        <button className={styles.buttonRight}  disabled ><FcDataSheet/>Exportar Excel</button></>
+        : <><button onClick={()=>navigate('/altaGerentes')}   className={styles.buttonLeft} disabled><FcSurvey/>Nuevo</button>
+        <button className={styles.buttonRight}  disabled ><FcDataSheet/>Excel</button></>
          } </div> 
       </span>
      <div>
@@ -170,13 +173,13 @@ useEffect(() => {
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
-                <th >
+                <th ><div style={{display:"flex"}}>{column.canFilter ? column.render('Filter') : null}</div>
                 <div {...column.getHeaderProps(column.getSortByToggleProps())}>
                  
                   <span > {column.render("Header")}{column.isSorted? (column.isSortedDesc? ' ▼' : '▲'  ): ''}</span>
                 
                 {/* {column.canFilter? <div>O</div> : null} */}</div>
-                <div style={{display:"flex"}}>{column.canFilter ? column.render('Filter') : null}</div>
+                
                 
                 </th>
               ))}

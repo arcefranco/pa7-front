@@ -20,7 +20,8 @@ const GerentesFormulario = () =>{
         dispatch(getSupervisoresById(id))
         }
   }, [id])
-    
+  const supervisorGerente = gerentes?.find(e => e.Nombre === supervisoresById?.Gerente,);
+  const supervisorZona = zonas?.find(e =>  e.Nombre === supervisoresById?.Zona )
   useEffect(() => {
     console.log(zonas)
     setInput({
@@ -29,10 +30,10 @@ const GerentesFormulario = () =>{
       Nombre: supervisoresById?.Nombre,
       Activo: supervisoresById?.Activo,
       Email: supervisoresById?.Email,
-      Gerente: supervisoresById?.Gerente,
+      Gerente: supervisorGerente?.Codigo,
       EsMiniEmprendedor: supervisoresById?.EsMiniEmprendedor,
       ValorPromedioMovil: supervisoresById?.ValorPromedioMovil,
-      Zona: supervisoresById?.Zona,
+      Zona: supervisorZona?.codigo,
 
     });
   }, [supervisoresById]);
@@ -49,8 +50,9 @@ const GerentesFormulario = () =>{
       Zona:'',
     })
 
-const supervisorGerente = gerentes?.find(e => e.Nombre === supervisoresById?.Gerente);
-const supervisorZona = zonas?.find(e => e.Nombre === supervisoresById?.Zona )
+
+
+
 
 
 /*----------------------HANDLE CHANGE DEL FORM------------------------------------ */
@@ -64,7 +66,7 @@ const HandleChange =  (e) =>{
       }
     
     setInput(newForm )
-    
+    console.log(newForm)
   }
   const handleCheckChange = (e) => {
     const { name} = e.target;
@@ -76,6 +78,14 @@ const HandleChange =  (e) =>{
 /*---------------------------------HANDLE SUBMIT FUNCION INSERT---------------------------------*/
 const HandleSubmitInsert = async (event) =>{
 event.preventDefault()
+setInput({
+   Codigo:'',
+  Nombre:'',
+  Gerente:'',
+  Activo: '',
+  ValorPromedioMovil:'',
+  EsMiniEmprendedor:'',
+  Zona:'',})
 console.log(input)
 dispatch(postSupervisores(input))
 navigate('/supervisores')
@@ -86,14 +96,21 @@ window.location.reload()
 const HandleSubmitUpdate =async (event) =>{
   event.preventDefault()
   console.log(input)
-  dispatch(updateSupervisores(input))
-  navigate('/supervisores')
   setInput({
     Codigo:'',
-  Nombre:'',
-  Activo: '',
-  }
-  )
+   Nombre:'',
+   Gerente:'',
+   Activo: 0,
+   ValorPromedioMovil:'',
+   EsMiniEmprendedor:0,
+   Zona:'',
+ 
+   }
+   )
+ 
+  dispatch(updateSupervisores(input))
+  navigate('/supervisores')
+
   window.location.reload()
   }
 
@@ -107,39 +124,60 @@ return(
                 <h3 className={styles.title}>{id?.length ? 'Modificar Supervisores' : 'Alta de Supervisores'}</h3>
                 <Link to={'/supervisores'}><button style={{marginRight: '4rem', width:'9rem'}} className={styles.btn} >Volver</button></Link>
             </div>
+            <div className={styles.containerInputText}>
+
             <div className={styles.col1}>
  {id?.length  &&
- <>
-    <label>Codigo</label><input type="text" style={{width:"6rem", textAlign:"center" }} name="Codigo" onChange={HandleChange} value={input.Codigo} disabled /></>}
-    <label>Nombre</label><input type="text" style={{width:"15rem", textAlign:"center" }} name="Nombre" onChange={HandleChange} 
-   value={input.Nombre} />
-   <label>Email</label><input type="email" style={{width:"15rem", textAlign:"center" }} name="Email" onChange={HandleChange} 
-   value={input.Email} />
+ <><span>Codigo</span>
+   <input type="text" style={{width:"6rem", textAlign:"center" }} name="Codigo" onChange={HandleChange} value={input.Codigo} disabled /></>}
+    
+    <span>Nombre</span>
+    <input type="text" style={{width:"15rem", textAlign:"center" }} name="Nombre" onChange={HandleChange} 
+   value={input.Nombre} required />
+   <span>Email</span>
+   <input type="email" style={{width:"15rem", textAlign:"center" }} name="Email" onChange={HandleChange} 
+   value={input.Email} required />
+   <span>Valor Promedio Movil Micro Emp.</span>
+   <input type="number" style={{width:"15rem", textAlign:"center" }} name="ValorPromedioMovil" onChange={HandleChange} 
+   value={input.ValorPromedioMovil} required/>
+   </div>
+   
+   <div className={styles.inputSelect} >
+
+   <div className={styles.col2}>
    <div>
       <span>Gerente: </span> <br />
-      <select name="Gerente" value={input.Gerente}  onChange={HandleChange} id="">
+      <select name="Gerente" value={input.Gerente}  onChange={HandleChange} id="" required>
           {   !id ? <option value="">---</option> 
               :supervisorGerente && Object.keys(supervisorGerente).length 
-              ?<option key={supervisorGerente.Codigo}>{`${supervisorGerente.Codigo} ${supervisorGerente.Nombre}`}</option> 
+              ?<option key={supervisorGerente.Codigo} value={supervisorGerente.Codigo}>{`${supervisorGerente.Nombre}`}</option> 
               :<option value="">---</option>  }
-              {gerentes && gerentes.map(e => <option key={e.Nombre}>{`${e.Codigo} ${e.Nombre}`}</option>)}
+              {gerentes && gerentes.map(e => <option key={e.Codigo} value={e.Codigo}>{`${e.Nombre}`}</option>)}
       </select>
   </div>
-   <label>Activo</label><input type="checkbox" name="Activo" onChange={handleCheckChange} value={input.Activo} checked={input.Activo }/>
-   <label>Valor Promedio Movil Micro Emp.</label><input type="number" style={{width:"15rem", textAlign:"center" }} name="ValorPromedioMovil" onChange={HandleChange} 
-   value={input.ValorPromedioMovil} />
-   <label>Es Micro Emprendedor</label><input type="checkbox" name="EsMiniEmprendedor" onChange={handleCheckChange} value={input.EsMiniEmprendedor} checked={input.EsMiniEmprendedor}/>  
-   <div>
-        <span>Zona: </span> <br />
-        <select name="Zona" value={input.Zona}  onChange={HandleChange} id="">
+  <div>
+        <span>Zona: </span> <br />  
+        <select name="Zona" value={input.Zona}  onChange={HandleChange} id="" required>
             {   !id ? <option value="">---</option> 
                 :supervisorZona && Object.keys(supervisorZona).length 
-                ?<option key={supervisorZona.Nombre}>{`${supervisorZona.Codigo} ${supervisorZona.Nombre}`}</option> 
+                ?<option key={supervisorZona.codigo} value={supervisorZona.codigo}>{`${supervisorZona.Nombre}`}</option> 
                 :<option value="">---</option>  }
-                {zonas && zonas.map(e => <option key={e.Nombre}>{`${e.codigo} ${e.Nombre}`}</option>)}
+                {zonas && zonas.map(e => <option  key={e.codigo} value={e.codigo}>{`${e.Nombre}`}</option>)}
         </select>
     </div>
+    
+   <span>Activo</span>
+   <input className={styles.inputCheck} type="checkbox" name="Activo" onChange={handleCheckChange} value={input.Activo} checked={input.Activo } required/>
+   
+   
+   
+   <span>Es Micro Emprendedor</span>
+   <input className={styles.inputCheck} type="checkbox" name="EsMiniEmprendedor" onChange={handleCheckChange} value={input.EsMiniEmprendedor} checked={input.EsMiniEmprendedor } required/>  
    </div>
+ 
+   </div>
+  </div>
+
    {
                     id?.length? <button className={styles.btn} type="submit"  onClick={HandleSubmitUpdate}><FcApproval/>Actualizar</button>
                     : <button className={styles.btn} type="submit" onClick={HandleSubmitInsert}><FcApproval/>Enviar</button>
