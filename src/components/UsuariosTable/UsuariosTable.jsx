@@ -4,11 +4,12 @@ import { deleteUsuario, getAllUsuarios, reset } from '../../reducers/Usuarios/Us
 import TableContainer from '../GerentesTable/TableContainer';
 import { Link, useNavigate } from 'react-router-dom';
 import * as BiIcons from 'react-icons/bi';
-import { useTable, useSortBy, usePagination} from 'react-table';
+import { useTable, useSortBy, usePagination, useGlobalFilter} from 'react-table';
 import styles from './UsuariosTable.module.css';
 import Swal from 'sweetalert2';
 import {FcApproval, FcCancel, FcSurvey, FcDataSheet} from 'react-icons/fc'
 import { ExportCSV } from '../../helpers/exportCSV';
+import { GlobalFilter } from './GlobalFilter';
 
 
 const UsuariosTable = () => {
@@ -57,53 +58,55 @@ const { toggle } = useSelector(
         Header: "Código",
         accessor: "ID",
         Cell: ({ value }) => <strong>{value}</strong>,
+        Filter: false
         
       },      
       {
         Header: "Usuario",
         accessor: "Usuario",
-       
+        Filter: false
       },
       {
         Header: "Nombre",
         accessor: "Nombre",
-        
+        Filter: false
       },
       {
         Header: "Vendedor",
         accessor: "Vendedor",
-        
+        Filter: false
       },
       {
         Header: "Team Leader",
         accessor: "Team Leader",
-        
+        Filter: false
       },
       {
         Header: "Supervisor",
         accessor: "Supervisor",
-        
+        Filter: false
       },
       {
         Header: "Gerente",
         accessor: "Gerente",
-        
+        Filter: false
       },
       {
         Header: "Usuario Anura",
         accessor: "UsuarioAnura",
-        
+        Filter: false
       },
       {
         Header: "Scoring Asignado",
         accessor: "VerSoloScoringAsignado",
         Cell: ({ value }) => <strong>{value === 0 ? 'No' : 'Si'}</strong>,
-        
+        Filter: false
       },
       {
         Header: "Usuario bloqueado",
         accessor: "us_bloqueado",
         Cell: ({ value }) => <strong>{value === 0 ? 'No' : 'Si'}</strong>,
+        Filter: false
       },
       
 
@@ -111,6 +114,7 @@ const { toggle } = useSelector(
         Header: "Usuario activo",
         accessor: "us_activo",
         Cell: ({ value }) => <strong>{value === 0 ? 'No' : 'Si'}</strong>,
+        Filter: false
         
       },
       {
@@ -121,7 +125,7 @@ const { toggle } = useSelector(
         <button style={{background:"burlywood"}} className={styles.buttonRows} onClick={(()=> navigate(`/modifUsuarios/${value.value}`))}>Modificar</button> :
         <button style={{background:"silver"}} className={styles.buttonRows} disabled>Modificar</button>
         ),
-
+        Filter: false
       },
       {
         Header: "",
@@ -141,7 +145,8 @@ const { toggle } = useSelector(
               }
             })
 
-        })} className={styles.buttonRows} >Eliminar</button> : <button style={{background:"silver"}} className={styles.buttonRows} disabled>Eliminar</button> )
+        })} className={styles.buttonRows} >Eliminar</button> : <button style={{background:"silver"}} className={styles.buttonRows} disabled>Eliminar</button> ),
+        Filter: false
       },
 
          
@@ -156,12 +161,14 @@ const { toggle } = useSelector(
     canPreviousPage,
     pageOptions,
     state,
+    setGlobalFilter,
     prepareRow,
   } =
-    useTable({ columns: columns, data: usuarios },  
+    useTable({ columns: columns, data: usuarios }, useGlobalFilter, 
         useSortBy, usePagination,
         );
         const {pageIndex} = state
+const {globalFilter} = state
 
   return (
     
@@ -179,6 +186,8 @@ const { toggle } = useSelector(
          <Link to={'/altaUsuarios'}><button disabled><FcSurvey/>Alta Usuarios</button></Link>
       }</div>
       </span>
+      <>
+      <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}/>
       <TableContainer>
       <div className={styles.scrollbar}>
       <table {...getTableProps()}>
@@ -226,6 +235,7 @@ const { toggle } = useSelector(
       </div>
       </div>
        </TableContainer>
+       </>
        </div>    
     </div> 
        

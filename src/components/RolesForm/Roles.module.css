@@ -1,0 +1,16 @@
+.checkbox{
+
+        border: 1px solid;
+       border-radius: 20px;
+       height: 9px;
+       max-width: 9px;
+      
+}
+
+.rolesContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 2rem;
+    place-content:'center';
+}
+

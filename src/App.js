@@ -24,7 +24,7 @@ function App() {
     <div className="App">
         <SideBar/>
         <div className='appContainer' style={{
-          width: '100%',
+          width: '100vw',
           height:'100%',
           maxHeight:'100vh',
           position: 'absolute',
