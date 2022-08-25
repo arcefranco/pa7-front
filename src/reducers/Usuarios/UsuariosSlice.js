@@ -176,6 +176,20 @@ export const getAllUsuarios = createAsyncThunk('usuarios/All', async (thunkAPI) 
       return thunkAPI.rejectWithValue(error.response.data)
     }
   })
+  export const copyRoles = createAsyncThunk('copyRol', async (usersData, thunkAPI) => {
+    try {
+      
+      const data = await usuariosService.copyRoles(usersData)
+
+      return data
+    } catch (error) {
+
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+  })
   export const updateUsuario = createAsyncThunk('updateUsuario', async (usuarioData, thunkAPI) => {
     try {
       
@@ -405,6 +419,21 @@ export const getAllUsuarios = createAsyncThunk('usuarios/All', async (thunkAPI) 
             state.rolStatus = action.payload
           }) 
           .addCase(deleteRol.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            state.rolStatus = action.payload
+            state.message = action.payload
+          })
+          .addCase(copyRoles.pending, (state) => {
+            state.isLoading = true
+            
+          })
+          .addCase(copyRoles.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.isSuccess = true
+            state.rolStatus = action.payload
+          }) 
+          .addCase(copyRoles.rejected, (state, action) => {
             state.isLoading = false
             state.isError = true
             state.rolStatus = action.payload

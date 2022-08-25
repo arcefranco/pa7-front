@@ -7,6 +7,7 @@ import SideBar from './components/SideBar/SideBar';
 import { ResetPassword } from './components/ForgotPassword/ResetPassword';
 import { RecoveryPass } from './components/ForgotPassword/RecoveryPass';
 import GerentesTable from './components/GerentesTable/GerentesTable';
+import CopyRoles from './components/RolesForm/CopyRoles';
 import UsuariosTable from './components/UsuariosTable/UsuariosTable';
 import SupervisoresTable from './components/SupervisoresTable/SupervisoresTable';
 import { useSelector } from 'react-redux';
@@ -67,6 +68,7 @@ function App() {
               <Route path='/modifUsuarios/:id' element={<AltaUsuariosForm/>}/>
           </Route>
           <Route path='/roles' element={<RolesForm/>}/>
+          <Route path='/copyRoles' element={<CopyRoles/>}/>
           <Route path='/permission' element={<NotPermission/>}/>
         </Routes> 
         </div>
