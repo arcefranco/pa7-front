@@ -6,6 +6,9 @@ import supervisoresService from './supervisoresService'
 const initialState = {
     supervisores: [],
     supervisoresById: [],
+    gerentes:[],
+    zonas:[],
+    statusNuevoSupervisor: [],
     isError: false,
     isSuccess: false,
     isLoading: false,
@@ -29,6 +32,34 @@ export const getSupervisores = createAsyncThunk('supervisores', async (thunkAPI)
       const data = await supervisoresService.getSupervisoresById(supervisoresData)
       return data
     } catch (error) {
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+  })
+  export const getAllGerentes = createAsyncThunk('supervisores/gerentes', async (thunkAPI) => {
+    try {
+      
+      const data = await supervisoresService.getAllGerentes()
+
+      return data
+    } catch (error) {
+
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+  })
+  export const getAllZonas = createAsyncThunk('supervisores/zonas', async (thunkAPI) => {
+    try {
+      
+      const data = await supervisoresService.getAllZonas()
+
+      return data
+    } catch (error) {
+
         (error.response && error.response.data && error.response.data.message) ||
         error.message ||
         error.toString()
@@ -83,6 +114,8 @@ export const supervisoresSlice = createSlice({
         state.isSuccess = false
         state.isError = false
         state.message = ''
+        state.supervisoresById =[]
+        state.statusNuevoSupervisor = []
       },
     },
 
@@ -117,8 +150,34 @@ export const supervisoresSlice = createSlice({
             state.message = action.payload
             state.supervisoresById = null
           });
-
-          
+          builder.addCase(getAllGerentes.pending, (state) => {
+            state.isLoading = true
+          })
+          builder.addCase(getAllGerentes.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.isSuccess = true
+            state.gerentes = action.payload
+          }) 
+          builder.addCase(getAllGerentes.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            state.message = action.payload
+            state.gerentes = null
+          })
+          builder.addCase(getAllZonas.pending, (state) => {
+            state.isLoading = true
+          })
+          builder.addCase(getAllZonas.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.isSuccess = true
+            state.zonas = action.payload
+          }) 
+          builder.addCase(getAllZonas.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            state.message = action.payload
+            state.zonas = null
+          })
         builder.addCase(postSupervisores.pending, (state) => {
             state.isLoading = true
           })

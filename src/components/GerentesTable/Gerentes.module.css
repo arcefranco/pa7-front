@@ -27,8 +27,6 @@
     position: sticky;
     z-index: 0;
     top: 0;
-    font-size: 15px;
-    font-weight: 500;
     color:black;
     background: ghostwhite ;
 }
@@ -139,8 +137,13 @@ button:hover{
     vertical-align: middle;
     
 }
+/* -----------------------------FILTERS------------------------------- */
+.filter{
+max-width:60px;
+}
 
 .search{height:17px;
+    max-width: 100px;
      border-radius: 10px;
       border: groove}
 

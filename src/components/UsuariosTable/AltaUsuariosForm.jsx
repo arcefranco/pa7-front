@@ -240,9 +240,10 @@ useEffect(() => {
                             <span>Vendedor: </span> <br />
                             <select name="Vendedor" value={input.Vendedor} onChange={handleChange} id="">
                         {
-                                    !id ? <option value="">---</option> : 
-                                    userVendedor && Object.keys(userVendedor).length ?
-                                            <option key={userVendedor.Codigo}>{`${userVendedor.Codigo} ${userVendedor.Nombre}`}</option> : <option value="">---</option>
+                                    !id ? <option value="">---</option> 
+                                    : userVendedor && Object.keys(userVendedor).length 
+                                    ?<option key={userVendedor.Codigo}>{`${userVendedor.Codigo} ${userVendedor.Nombre}`}</option> 
+                                    :<option value="">---</option>
                                     }
                                     {vendedores && vendedores.map(e => 
                                             <option key={e.Codigo}>{`${e.Codigo} ${e.Nombre}`}</option>
@@ -252,14 +253,11 @@ useEffect(() => {
 
                         <div>
                             <span>Supervisor: </span> <br />
-                    
                             <select name="Supervisor" value={input.Supervisor}  onChange={handleChange} id="">
-                                    {
-                                    !id ? <option value="">---</option> : 
-                                    userSupervisor && Object.keys(userSupervisor).length ? 
-                                    <option key={userSupervisor.Codigo}>{`${userSupervisor.Codigo} ${userSupervisor.Nombre}`}</option> : <option value="">---</option> 
-                                    }        
-                  
+                                    {!id ? <option value="">---</option> 
+                                    :userSupervisor && Object.keys(userSupervisor).length 
+                                    ?<option key={userSupervisor.Codigo}>{`${userSupervisor.Codigo} ${userSupervisor.Nombre}`}</option> 
+                                    :<option value="">---</option> }        
                                 {supervisores && supervisores.map(e => <option key={e.Codigo}>{`${e.Codigo} ${e.Nombre}`}</option>)}
                             </select>
                     
@@ -280,11 +278,10 @@ useEffect(() => {
                     <div>
                         <span>Team Leader: </span> <br />
                         <select name="TeamLeader" value={input.TeamLeader}  onChange={handleChange} id="">
-                            {
-                                !id ? <option value="">---</option> : 
-                                userTeamLeader && Object.keys(userTeamLeader).length ?  
-                                <option key={userTeamLeader.Codigo}>{`${userTeamLeader.Codigo} ${userTeamLeader.Nombre}`}</option> : <option value="">---</option> 
-                                }
+                            {   !id ? <option value="">---</option> 
+                                :userTeamLeader && Object.keys(userTeamLeader).length 
+                                ?<option key={userTeamLeader.Codigo}>{`${userTeamLeader.Codigo} ${userTeamLeader.Nombre}`}</option> 
+                                :<option value="">---</option> }
                                 {teamLeaders && teamLeaders.map(e => <option key={e.Codigo}>{`${e.Codigo} ${e.Nombre}`}</option>)}
                                 </select>
                     </div>    
@@ -292,12 +289,10 @@ useEffect(() => {
                     <div>
                         <span>Gerente: </span> <br />
                         <select name="Gerente" value={input.Gerente}  onChange={handleChange} id="">
-                            {
-                                !id ? <option value="">---</option> : 
-                                userGerente && Object.keys(userGerente).length ? 
-                                <option key={userGerente.Codigo}>{`${userGerente.Codigo} ${userGerente.Nombre}`}</option> : 
-                                <option value="">---</option>
-                                }
+                            {   !id ? <option value="">---</option> 
+                                :userGerente && Object.keys(userGerente).length 
+                                ?<option key={userGerente.Codigo}>{`${userGerente.Codigo} ${userGerente.Nombre}`}</option> 
+                                :<option value="">---</option>  }
                                 {gerentes && gerentes.map(e => <option key={e.Codigo}>{`${e.Codigo} ${e.Nombre}`}</option>)}
                         </select>
                     </div>
@@ -324,14 +319,13 @@ useEffect(() => {
                 </div>
  
                 
-                {
-                    id?.length? 
-                    <button type="submit" className={styles.btn} onClick={(e) => handleUpdate(e)}><FcApproval/>Actualizar</button> : 
-                    (
-                        !Object.keys(error).length ? <button className={styles.btn} style={{alignSelf: 'center'}} type="submit" onClick={(e) => handleSubmit(e)}><FcApproval/>Enviar</button> :
-                        <button className={styles.btn}  style={{alignSelf: 'center'}} disabled><FcApproval/>Enviar</button>
+                {   id?.length? 
+                    <button type="submit" className={styles.btn} onClick={(e) => handleUpdate(e)}><FcApproval/>Actualizar</button> 
+                    :(
+                        !Object.keys(error).length 
+                        ? <button className={styles.btn} style={{alignSelf: 'center'}} type="submit" onClick={(e) => handleSubmit(e)}><FcApproval/>Enviar</button> 
+                        :<button className={styles.btn}  style={{alignSelf: 'center'}} disabled><FcApproval/>Enviar</button>
                     )
-                    
                 }
             </form>
     
