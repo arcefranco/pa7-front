@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import { getAllUsuarios, getSelectedRoles, getUserSelectedRoles, addRol, deleteRol, reset } 
 from "../../reducers/Usuarios/UsuariosSlice";
+import styles from './Roles.module.css'
 
 
 const RolesForm = () => {
@@ -40,6 +41,8 @@ const RolesForm = () => {
     }  
     const handleCheck = (e) => {
         if(!e.target.checked) {
+            console.log('false')
+            
             const rolData = {
                 Usuario: document.getElementById("user").value,
                 rol: e.target.value 
@@ -58,6 +61,8 @@ const RolesForm = () => {
               })
         }
         else if(e.target.checked) {
+            console.log(e)
+            console.log('true')
             const rolData = {
                Usuario: document.getElementById("user").value,
                rol: e.target.value 
@@ -72,6 +77,8 @@ const RolesForm = () => {
                 if(result.isConfirmed){
                   dispatch(addRol(rolData))
                   
+                }else if(result.dismiss){
+                    e.target.checked = false
                 }
               })
         }
@@ -289,26 +296,26 @@ const RolesForm = () => {
             gridTemplateColumns: '1fr 1fr',
             padding: '2rem',
             placeContent:'center'
-        }}>
+        }} className={styles.rolesContainer}>
             
             {
                selectedRoles.length ? selectedRoles.map(e => 
                     <span key={e.rl_codigo} style={{width: 'fit-content'}}>
                         
                         {
-                        userSelectedRoles.find(u => u.rl_codigo === e.rl_codigo) ? 
-                        <input value={e.rl_codigo} 
+                        userSelectedRoles?.find(u => u.rl_codigo === e.rl_codigo) ? 
+                        <input className={styles.checkbox} value={e.rl_codigo} 
                         checked
-                        onChange={(e) => handleCheck(e)} type="checkbox" 
+                        onChange={(e) => handleCheck(e)}  type="checkbox" 
                         style={{width: '1rem'}}/> : 
                         
-                        <input value={e.rl_codigo} 
+                        <input className={styles.checkbox} value={e.rl_codigo} 
                         onChange={(e) => handleCheck(e)} type="checkbox" 
                         style={{width: '1rem'}} />
 
 
-                        }
-                        {e.rl_descripcion} {' '}
+                        }{' '}
+                        <b style={{fontWeight: '6000'}}>{e.rl_descripcion}</b>
 
                     </span> 
                     
