@@ -164,7 +164,11 @@ export const SidebarData = [
       {title: 'Usuarios', rol:'1.7.16',
         options: [
             {title: 'Administracion de Permisos', rol: '1.7.16.1', unique:true},
-            {title: 'Alta y Modificacion de Roles', rol: '1.7.16.2', path:'/roles'},
+            {title: 'Alta y Modificacion de Roles', rol: '1.7.16.2', 
+              options:[
+                {title: 'Alta y Modificacion de Roles', rol: '1.7.16.2', path:'/roles'},
+                {title: 'Copiar Roles', rol: '1.7.16.2', path:'/copyRoles'}
+            ]},
             {title: 'Alta y Modificacion de Usuarios', rol: '1.7.16.3', path: '/usuarios'},
        ]},
       {title: 'ABM Intereses', rol:'1.7.17'},

@@ -7,6 +7,7 @@ import SideBar from './components/SideBar/SideBar';
 import { ResetPassword } from './components/ForgotPassword/ResetPassword';
 import { RecoveryPass } from './components/ForgotPassword/RecoveryPass';
 import GerentesTable from './components/GerentesTable/GerentesTable';
+import CopyRoles from './components/RolesForm/CopyRoles';
 import UsuariosTable from './components/UsuariosTable/UsuariosTable';
 import SupervisoresTable from './components/SupervisoresTable/SupervisoresTable';
 import { useSelector } from 'react-redux';
@@ -23,11 +24,11 @@ function App() {
     <div className="App">
         <SideBar/>
         <div className='appContainer' style={{
-          width: '100%',
+          width: '100vw',
           height:'100%',
           maxHeight:'100vh',
           position: 'absolute',
-          marginLeft: '65px'
+          paddingLeft: '65px'
        
           
           
@@ -67,6 +68,7 @@ function App() {
               <Route path='/modifUsuarios/:id' element={<AltaUsuariosForm/>}/>
           </Route>
           <Route path='/roles' element={<RolesForm/>}/>
+          <Route path='/copyRoles' element={<CopyRoles/>}/>
           <Route path='/permission' element={<NotPermission/>}/>
         </Routes> 
         </div>

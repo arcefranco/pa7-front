@@ -20,11 +20,11 @@ const getSupervisores = async () => {
 
 const postSupervisores = async (form) => {
     const response = await axios.post(API_URL + 'supervisores', form )
-    return response.data [0]
+    return response.data[0]
   }
 const updateSupervisores = async (form) => {
   const response = await axios.put(API_URL + 'supervisores' , form)
-  return response.data [0]
+  return response.data[0]
 }  
 
 const deleteSupervisores = async (supervisoresData) => {

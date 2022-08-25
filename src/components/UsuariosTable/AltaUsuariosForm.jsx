@@ -244,7 +244,7 @@ useEffect(() => {
                                     :<option value="">---</option>
                                     }
                                     {vendedores && vendedores.map(e => 
-                                            <option key={e.Codigo}>{`${e.Codigo} ${e.Nombre}`}</option>
+                                            <option key={e.Codigo} value={e.Codigo}>{`${e.Nombre}`}</option>
                                             )}
                             </select>
                         </div>
@@ -256,7 +256,7 @@ useEffect(() => {
                                     :userSupervisor && Object.keys(userSupervisor).length 
                                     ?<option key={userSupervisor.Codigo}>{`${userSupervisor.Codigo} ${userSupervisor.Nombre}`}</option> 
                                     :<option value="">---</option> }        
-                                {supervisores && supervisores.map(e => <option key={e.Codigo}>{`${e.Codigo} ${e.Nombre}`}</option>)}
+                                {supervisores && supervisores.map(e => <option key={e.Codigo} value={e.Codigo}>{`${e.Nombre}`}</option>)}
                             </select>
                     
     
@@ -280,7 +280,7 @@ useEffect(() => {
                                 :userTeamLeader && Object.keys(userTeamLeader).length 
                                 ?<option key={userTeamLeader.Codigo}>{`${userTeamLeader.Codigo} ${userTeamLeader.Nombre}`}</option> 
                                 :<option value="">---</option> }
-                                {teamLeaders && teamLeaders.map(e => <option key={e.Codigo}>{`${e.Codigo} ${e.Nombre}`}</option>)}
+                                {teamLeaders && teamLeaders.map(e => <option key={e.Codigo} value={e.Codigo}>{`${e.Nombre}`}</option>)}
                                 </select>
                     </div>    
 
@@ -291,7 +291,7 @@ useEffect(() => {
                                 :userGerente && Object.keys(userGerente).length 
                                 ?<option key={userGerente.Codigo}>{`${userGerente.Codigo} ${userGerente.Nombre}`}</option> 
                                 :<option value="">---</option>  }
-                                {gerentes && gerentes.map(e => <option key={e.Codigo}>{`${e.Codigo} ${e.Nombre}`}</option>)}
+                                {gerentes && gerentes.map(e => <option key={e.Codigo} value={e.Codigo}>{` ${e.Nombre}`}</option>)}
                         </select>
                     </div>
 
