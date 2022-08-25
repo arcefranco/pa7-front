@@ -18,6 +18,6 @@ export const ExportCSV = ({csvData, fileName}) => {
     }
 
     return (
-        <button variant="none" onClick={(e) => exportToCSV(csvData,fileName)}><FcDataSheet/>Exportar Excel</button>
+        <button  onClick={(e) => exportToCSV(csvData,fileName)}><FcDataSheet/>Excel</button>
     )
 }

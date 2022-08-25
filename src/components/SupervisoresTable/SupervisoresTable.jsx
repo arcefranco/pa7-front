@@ -171,8 +171,8 @@ useEffect(() => {
       { rolAlta ? 
        <> <button onClick={()=>navigate('/altaSupervisores')}   className={styles.buttonLeft} ><FcSurvey/>Nuevo</button>
          <ExportCSV csvData={supervisores} fileName={'supervisores'} /></>
-        : <><button onClick={()=>navigate('/altaSupervisores')}   className={styles.buttonLeft} disabled><FcSurvey/>Alta Supervisores</button>
-        <button className={styles.buttonRight}  disabled ><FcDataSheet/>Exportar Excel</button></>
+        : <><button onClick={()=>navigate('/altaSupervisores')}   className={styles.buttonLeft} disabled><FcSurvey/>Nuevo</button>
+        <button className={styles.buttonRight}  disabled ><FcDataSheet/>Excel</button></>
          } </div> 
       </span>
      <div>

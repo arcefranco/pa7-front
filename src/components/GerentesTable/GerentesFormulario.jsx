@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import { useDispatch,  useSelector} from "react-redux";
 import { useParams } from "react-router-dom";
-import styles from '../UsuariosTable/AltaUsuarios.module.css';
+import styles from './GerentesFormulario.module.css';
 import {FcApproval} from 'react-icons/fc'
 import {Link, useNavigate} from 'react-router-dom';
 import { getGerentesById, postGerentes, updateGerentes } from '../../reducers/Gerentes/gerentesSlice';
@@ -89,7 +89,7 @@ return(
  <div className={styles.titleContainer}>
                 <h3 className={styles.title}>{id?.length ? 'Modificar Gerente' : 'Alta de Gerente'}</h3>
                 <Link to={'/gerentes'}><button style={{marginRight: '4rem', width:'9rem'}} className={styles.btn} >Volver a Gerentes</button></Link>
-            </div>
+            </div >
             <div className={styles.col1}>
  {id?.length  &&
  <>

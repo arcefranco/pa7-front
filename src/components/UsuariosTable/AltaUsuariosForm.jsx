@@ -209,10 +209,8 @@ useEffect(() => {
                                 <span>Contraseña: </span>
                                 <input type="text" name="password" value={input.password}  onChange={handleChange} placeholder="Contraseña"/>
                             </div> }
-                              
-
-                            
                         </div>
+
                         <div className={styles.col2}>
                             
                             {!id?.length && <div>
