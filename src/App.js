@@ -28,7 +28,7 @@ function App() {
           height:'100%',
           maxHeight:'100vh',
           position: 'absolute',
-          marginLeft: '65px'
+          paddingLeft: '65px'
        
           
           
