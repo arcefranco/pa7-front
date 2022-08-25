@@ -19,6 +19,7 @@ export function ActiveFilter({column }) {
     return (
       <select
         value={filterValue}
+        className={styles.filter}
         onChange={e => {
           setFilter(e.target.value || null);
         }}

@@ -33,6 +33,7 @@ const [input, setInput] = useState({
 
 /*GET API SUPERVISORES*/
 useEffect(() => {
+  
   dispatch(getSupervisores())
   }, [dispatch])
 
@@ -55,6 +56,7 @@ useEffect(() => {
         accessor: "Codigo",
         Cell: ({ value }) => <div style={{ textIndent: "40px" }}><strong  >{value}</strong></div>,
         Filter: ActiveFilter,
+        filter: 'equals',
         
       },
       {
@@ -87,8 +89,8 @@ useEffect(() => {
       },
       {
         Header: "Activo",
-        accessor: "Inactivo",
-        Cell: ({ value }) => <div style={{ textIndent: "15px" }}><input   type="checkbox" className={styles.checkbox} checked={value === 1  
+        accessor: "Activo",
+        Cell: ({ value }) => <div style={{ textIndent: "15px" }}><input   type="checkbox" className={styles.checkbox} checked={value === 0  
                               ?false
                               :true}/></div> ,
         Filter: ActiveFilter
@@ -159,16 +161,6 @@ useEffect(() => {
   const {pageIndex} = state
 
 
-  useEffect(() => {
-    console.log(supervisores)
-    setInput({
-      Codigo: supervisoresById?.Codigo,
-      Nombre: supervisoresById?.Nombre,
-      Activo: supervisoresById?.Activo,
-    });
-  }, [supervisoresById]);
-
-  
 /*RENDER PAGINA SUPERVISORES*/
   return (
     <div className={styles.container}>

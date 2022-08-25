@@ -55,6 +55,8 @@ useEffect(() => {
         accessor: "Codigo",
         Cell: ({ value }) => <div style={{ textIndent: "40px" }}><strong  >{value}</strong></div>,
         Filter: ActiveFilter,
+        filter: 'equals',
+
         
       },
       {
