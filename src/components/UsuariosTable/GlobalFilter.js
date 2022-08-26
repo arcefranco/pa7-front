@@ -1,4 +1,5 @@
 import React, {useEffect} from "react";
+import styles from '../GerentesTable/Gerentes.module.css'
 
 export const GlobalFilter = ({filter, setFilter}) => {
     useEffect(() => {
@@ -6,12 +7,12 @@ export const GlobalFilter = ({filter, setFilter}) => {
       }, [filter])
     return (
         <div style={{
-            padding: '1rem'
-        }}>
-            <span>
+            paddingLeft: '0.5rem'
+        }} >
+            {/* <span>
                 Buscar:{' '}
-            </span>
-             <input type="text" value={filter/*  || '' */} onChange={e => setFilter(e.target.value)}></input>
+            </span> */}
+             <input type="text" className={styles.globalSearch} value={filter/*  || '' */} onChange={e => setFilter(e.target.value)} placeholder="Buscar..."></input>
         </div>
     )
 }

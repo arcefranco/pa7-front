@@ -4,12 +4,14 @@ import { deleteSupervisores, getSupervisores, getSupervisoresById, postSuperviso
 import TableContainer from '../GerentesTable/TableContainer'
 import { useFilters, usePagination,useSortBy} from 'react-table'
 import {ActiveFilter, SearchFilter} from '../GerentesTable/ActiveFilter'
+import { GlobalFilter } from '../UsuariosTable/GlobalFilter';
 import { useTable } from 'react-table'
 import styles from '../GerentesTable/Gerentes.module.css'
 import {FcSurvey, FcDataSheet} from 'react-icons/fc'
 import {Link, useNavigate} from 'react-router-dom'
 import Swal from 'sweetalert2';
 import { ExportCSV } from '../../helpers/exportCSV';
+
 
 /*FUNCION DEL COMPONENTE*/
 const SupervisoresTable = () => {
@@ -94,6 +96,7 @@ useEffect(() => {
         Cell: ({ value }) => <div style={{  textAlign:"end", left:"-5em"}}>{value}</div>,
         Filter: <div className={styles.filter}></div>,
       },
+      
       {
         Header: "Activo",
         ShortHeader:"Activo",
@@ -120,6 +123,7 @@ useEffect(() => {
         className={styles.buttonRows} >Modificar</button>:
         <button style={{background:"silver"}} className={styles.buttonRows} disabled>Modificar</button>),
               },
+              
       {
         Header: "",
         ShortHeader:"",
@@ -165,12 +169,13 @@ useEffect(() => {
     canNextPage,
     canPreviousPage,
     pageOptions,
+    setGlobalFilter,
     state,
     prepareRow,
     selectedFlatRows,
   } = tableInstance;
   const {pageIndex} = state
-
+  const {globalFilter} = state
 
 /*RENDER PAGINA SUPERVISORES*/
   return (
@@ -178,6 +183,8 @@ useEffect(() => {
       <div className={styles.title}>
       <span style={{display:"flex"}}>
       <h3>Supervisores</h3>
+      <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}/>
+
       <div className={styles.buttonContainer}>
       { rolAlta ? 
        <> <button onClick={()=>navigate('/altaSupervisores')}   className={styles.buttonLeft} ><FcSurvey/>Nuevo</button>

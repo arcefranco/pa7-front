@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import * as BiIcons from 'react-icons/bi';
 
 import { useTable, useSortBy, usePagination, useGlobalFilter} from 'react-table';
-import styles from './UsuariosTable.module.css';
+import styles from '../GerentesTable/Gerentes.module.css';
 
 import Swal from 'sweetalert2';
 import {FcApproval, FcCancel, FcSurvey, FcDataSheet} from 'react-icons/fc'
@@ -181,6 +181,7 @@ const {globalFilter} = state
       
   <div className={styles.title}>
       <span style={{display:"flex"}}><h3>Usuarios</h3>
+      <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}/>
       <div className={styles.buttonContainer}>
       {rolAltayModif ?
        <><Link to={'/altaUsuarios'}><button><FcSurvey/>Nuevo</button></Link>
@@ -189,7 +190,7 @@ const {globalFilter} = state
       }</div>
       </span>
       <>
-      <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}/>
+      
       <TableContainer>
       <div className={styles.scrollbar}>
       <table {...getTableProps()}>

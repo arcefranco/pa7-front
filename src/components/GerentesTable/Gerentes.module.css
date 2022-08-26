@@ -63,13 +63,13 @@ margin: auto;
 .buttonContainer
 {
     /* margin:auto; */
-    margin-left: 20rem;
+    margin-left: 25%;
     /* margin-top: 0px; */
-    width: 40%;
+    /* width: 40%; */
     height: 30px;
     border-radius: 10px;
-    display: block;
-    justify-content: space-between;
+    display: flex;
+    
 }
 
 .buttonContainer button
@@ -147,6 +147,15 @@ margin-bottom: 10px;
       border: groove;
       margin-top: 20px;
       margin-bottom: 10px;}
+
+.globalSearch{height:20px;
+    max-width: 150px;
+     border-radius: 10px;
+      border: groove;
+      margin-top: 10px;
+      /* margin-bottom: 10px; */
+    }
+
 
 input[type="text"]:focus {
         border: 2px solid #862d59;
