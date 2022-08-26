@@ -39,7 +39,7 @@ input[type=checkbox] {
  max-width: 16px;
 }
 input[type=checkbox]:checked {
-  background-color: grey;
+  background-color: ghostwhite;
   background-image: url('check.png') ;
   /* background-blend-mode: difference ; */
   background-size: 105%;
