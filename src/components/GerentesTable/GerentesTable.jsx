@@ -173,14 +173,11 @@ useEffect(() => {
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
-                <th ><div style={{display:"flex"}}>{column.canFilter ? column.render('Filter') : null}</div>
+                <th >
+                <div >{column.canFilter ? column.render('Filter') : null}</div>
                 <div {...column.getHeaderProps(column.getSortByToggleProps())}>
-                 
                   <span > {column.render("Header")}{column.isSorted? (column.isSortedDesc? ' ▼' : '▲'  ): ''}</span>
-                
                 {/* {column.canFilter? <div>O</div> : null} */}</div>
-                
-                
                 </th>
               ))}
             </tr>

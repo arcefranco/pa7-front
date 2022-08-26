@@ -12,7 +12,9 @@ padding: 5px;
     th{
       border: ridge 0.5px;
       margin: auto;
-      max-width: 160px;
+      padding-left: 2px;
+      min-width:45px;
+      max-width: 170px;
       max-height: 50px;
       border-bottom: 0px solid black;
       border-right: 0px solid black;
@@ -33,7 +35,8 @@ padding: 5px;
       border-bottom: 0px solid black;
       border-right: 0px solid black;
       font-size: 12px;
-      max-width: 200px;
+      min-width:45px;
+      max-width: 210px;
       height:auto;
 
 

@@ -188,7 +188,7 @@ useEffect(() => {
     return (
         <div className={styles.container}>
 
-            <form action="" className={styles.form}>
+            <form action="" className={styles.form} onSubmit={handleSubmit}>
             <div className={styles.titleContainer}>
                 <h3 className={styles.title}>{id?.length ? 'Modificar Usuario' : 'Alta de Usuario'}</h3>
                 <Link to={'/usuarios'}><button style={{marginRight: '4rem', width:'9rem'}} className={styles.btn} >Volver a Usuarios</button></Link>
@@ -199,15 +199,15 @@ useEffect(() => {
 
                         <div className={styles.col1}>
                             <span>Nombre: </span> 
-                            <input type="text" name="Nombre" value={input.Nombre} onChange={handleChange} placeholder="Nombre" />
+                            <input type="text" name="Nombre" value={input.Nombre} onChange={handleChange} placeholder="Nombre" required />
                             
                             <span>Nombre de usuario: </span> 
-                            <input type="text" name="Usuario" value={input.Usuario} className={error.usuario && styles.inputError} onChange={handleChange} placeholder="Usuario"/>
+                            <input type="text" name="Usuario" value={input.Usuario} className={error.usuario && styles.inputError} onChange={handleChange} placeholder="Usuario" required/>
                             {error.usuario && <div className={styles.error}>{error.usuario}</div>}
                             
                             {!id?.length && <div>
                                 <span>Contraseña: </span>
-                                <input type="text" name="password" value={input.password}  onChange={handleChange} placeholder="Contraseña"/>
+                                <input type="text" name="password" value={input.password}  onChange={handleChange} placeholder="Contraseña" required/>
                             </div> }
                         </div>
 
@@ -215,15 +215,15 @@ useEffect(() => {
                             
                             {!id?.length && <div>
                             <span>Confirmar contraseña: </span>
-                            <input type="text" name="confirmPassword" value={input.confirmPassword} onChange={handleChange} placeholder="Repetir Contraseña"/>
+                            <input type="password" name="confirmPassword" value={input.confirmPassword} onChange={handleChange} placeholder="Repetir Contraseña" required/>
                                  
                             </div>} 
                             {!id?.length && error.contrasenaConfirm ? <div className={styles.error}>{error.contrasenaConfirm}</div>: null}
                             <span>Usuario anura: </span>
-                            <input type="text" name="UsuarioAnura"  value={input.UsuarioAnura} onChange={handleChange} placeholder="Usuario Anura"/>
+                            <input type="password" name="UsuarioAnura"  value={input.UsuarioAnura} onChange={handleChange} placeholder="Usuario Anura" />
                             
                             <span>Email: </span>
-                            <input type="text" name="email" value={input.email}  onChange={handleChange} className={error.email && styles.inputError} placeholder="Email"/>
+                            <input type="text" name="email" value={input.email}  onChange={handleChange} className={error.email && styles.inputError} placeholder="Email" required/>
                             {error.email && <div className={styles.error}>{error.email}</div>}
                         </div>
                     
@@ -321,7 +321,7 @@ useEffect(() => {
                     <button type="submit" className={styles.btn} onClick={(e) => handleUpdate(e)}><FcApproval/>Actualizar</button> 
                     :(
                         !Object.keys(error).length 
-                        ? <button className={styles.btn} style={{alignSelf: 'center'}} type="submit" onClick={(e) => handleSubmit(e)}><FcApproval/>Enviar</button> 
+                        ? <button className={styles.btn} style={{alignSelf: 'center'}} type="submit" ><FcApproval/>Enviar</button> 
                         :<button className={styles.btn}  style={{alignSelf: 'center'}} disabled><FcApproval/>Enviar</button>
                     )
                 }

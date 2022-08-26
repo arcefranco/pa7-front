@@ -20,16 +20,16 @@ const SupervisoresFormulario = () =>{
         const validateform = function (form) {
           const errors = {};
       
-          // if(!form.Nombre){
-          //     errors.nombre = "Campo requerido"
-          // }   
+          if(!form.Nombre){
+              errors.Nombre = "Campo requerido"
+          }   
           // if (form.password !== form.confirmPassword) {
           //   errors.contrasenaConfirm = "Las contraseñas deben coincidir";
           // }
         
           if (!form.Email) {
             errors.email = "Campo requerido";
-          } else if (!validateEmail(form.email)) {
+          } else if (!validateEmail(form.Email)) {
             errors.email = "Escriba un email válido";
           }
       
@@ -91,6 +91,8 @@ const HandleChange =  (e) =>{
     
     setInput(newForm )
     console.log(newForm)
+    const errors = validateform(newForm);
+    setError(errors);
   }
   const handleCheckChange = (e) => {
     const { name} = e.target;
@@ -98,8 +100,7 @@ const HandleChange =  (e) =>{
     value = e.target.checked? 1 : 0
     const newForm = { ...input, [name]: value };
     setInput(newForm);
-    const errors = validateform(newForm);
-    setError(errors);
+    
 };
 /*---------------------------------HANDLE SUBMIT FUNCION INSERT---------------------------------*/
 const HandleSubmitInsert = async (event) =>{
@@ -158,15 +159,16 @@ return(
  <><span>Codigo</span>
    <input type="text" style={{width:"6rem", textAlign:"center" }} name="Codigo" onChange={HandleChange} value={input.Codigo} disabled /></>}
     <span>Nombre</span>
-    <input type="text" style={{width:"15rem", textAlign:"center" }} name="Nombre" onChange={HandleChange} 
+    <input type="text" style={{width:"15rem", textAlign:"center" }} name="Nombre" placeholder="Nombre" className={error.Nombre && styles.inputError} onChange={HandleChange} 
    value={input.Nombre} required />
+   {error.Nombre && <div className={styles.error}>{error.Nombre}</div>}
    <span>Email</span>
-   <input type="email" style={{width:"15rem", textAlign:"center" }} name="Email" onChange={HandleChange} 
+   <input type="email" style={{width:"15rem", textAlign:"center" }}  className={error.email && styles.inputError} name="Email" onChange={HandleChange} 
    value={input.Email} required />
    {error.email && <div className={styles.error}>{error.email}</div>}
    <span>Valor Promedio Movil Micro Emp.</span>
    <input type="number" style={{width:"15rem", textAlign:"center" }} name="ValorPromedioMovil" onChange={HandleChange} 
-   value={input.ValorPromedioMovil} required/>
+   value={input.ValorPromedioMovil} />
    </div>
    
    <div className={styles.inputSelect} >
@@ -194,10 +196,10 @@ return(
     </div>
     
    <span>Activo</span>
-   <input className={styles.inputCheck} type="checkbox" name="Activo" onChange={handleCheckChange} value={input.Activo} checked={input.Activo } required/>
+   <input className={styles.inputCheck} type="checkbox" name="Activo" onChange={handleCheckChange} value={input.Activo} checked={input.Activo } />
    
    <span>Es Micro Emprendedor</span>
-   <input className={styles.inputCheck} type="checkbox" name="EsMiniEmprendedor" onChange={handleCheckChange} value={input.EsMiniEmprendedor} checked={input.EsMiniEmprendedor } required/>  
+   <input className={styles.inputCheck} type="checkbox" name="EsMiniEmprendedor" onChange={handleCheckChange} value={input.EsMiniEmprendedor} checked={input.EsMiniEmprendedor } />  
    </div>
  
    </div>
