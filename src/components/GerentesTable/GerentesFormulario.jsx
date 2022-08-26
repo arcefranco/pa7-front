@@ -85,7 +85,7 @@ const HandleSubmitUpdate =async (event) =>{
 return(   
     <div className={styles.container}>
   {/*--------------------------------------GERENTES FORMS--------------------------------------------------  */}
- <form action=""  className={styles.form}>
+ <form action=""  className={styles.form} onSubmit={HandleSubmitInsert}>
  <div className={styles.titleContainer}>
                 <h3 className={styles.title}>{id?.length ? 'Modificar Gerente' : 'Alta de Gerente'}</h3>
                 <Link to={'/gerentes'}><button style={{marginRight: '4rem', width:'9rem'}} className={styles.btn} >Volver a Gerentes</button></Link>
@@ -96,12 +96,12 @@ return(
     <label>Codigo</label><input type="text" style={{width:"6rem", textAlign:"center" }} name="Codigo" onChange={HandleChange} value={input.Codigo} disabled /></>}
  
    <label>Nombre</label><input type="text" style={{width:"15rem", textAlign:"center" }} name="Nombre" onChange={HandleChange} 
-   value={input.Nombre} />
+   value={input.Nombre} required/>
    <label>Activo</label><input type="checkbox" name="Activo" onChange={handleCheckChange} value={input.Activo} checked={input.Activo}/> 
    </div>
    {
-                    id?.length? <button className={styles.btn} type="submit"  onClick={HandleSubmitUpdate}><FcApproval/>Actualizar</button>
-                    : <button className={styles.btn} type="submit" onClick={HandleSubmitInsert}><FcApproval/>Enviar</button>
+                    id?.length? <button className={styles.btn}  onClick={HandleSubmitUpdate}><FcApproval/>Actualizar</button>
+                    : <button className={styles.btn} type="submit" ><FcApproval/>Enviar</button>
                 }
                    
  </form>

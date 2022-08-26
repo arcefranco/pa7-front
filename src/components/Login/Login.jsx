@@ -77,11 +77,11 @@ export const Login = () => {
     <div className={styles.container}>
    
 
-         <form className={styles.form}>
+         <form className={styles.form} onSubmit={onSubmit}>
          <h3 className={styles.title}>Planes de Ahorro 7</h3>
 
          <span>Iniciar sesión</span>
-          <select className={styles.input} name="empresa" value={input.empresa} onChange={handleChange} aria-required>
+          <select className={styles.input} name="empresa" value={input.empresa} onChange={handleChange} required>
                 <option value="" >--Elegir empresa--</option>
                 <option value="Car Group S.A." id="carGroup">Car Group S.A.</option>
                 <option value="Gestion Financiera S.A." id="gestionFinanciera">Gestion Financiera S.A.</option>
@@ -101,7 +101,7 @@ export const Login = () => {
           </div>
          <hr className={styles.hr} />
           <Link to={'/recovery'} className={styles.forgotLink}>Olvido su contraseña?</Link>
-         <button onClick={onSubmit} className={styles.btn}>Loguearse</button>
+         <button  type="submit" className={styles.btn}>Loguearse</button>
          
          </form>
       
