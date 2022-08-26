@@ -53,42 +53,50 @@ useEffect(() => {
     () => [
       {
         Header: "Código",
+        ShortHeader:"Codigo",
         accessor: "Codigo",
-        Cell: ({ value }) => <div style={{ textIndent: "40px" }}><strong  >{value}</strong></div>,
+        Cell: ({ value }) => <div style={{ textIndent: "20px" }}><strong  >{value}</strong></div>,
         Filter: ActiveFilter,
         filter: 'equals',
         
       },
       {
         Header: "Nombre",
+        ShortHeader:"Nombre",
         accessor: "Nombre",
         Filter: SearchFilter
       },
       {
         Header: "Email",
+        ShortHeader:"Email",
         accessor: "Email",
-        Filter: ActiveFilter
+        Filter: SearchFilter
       },
       {
         Header: "Gerente",
+        ShortHeader:"Gerente",
         accessor: "Gerente",
-        Filter: ActiveFilter
+        Filter: SearchFilter
       },
       {
-        Header: "Es Micro Emprendedor",
+        Header: <div style={{marginBottom:"-16px"}}>Es Micro<br/> Emprendedor</div>,
+        ShortHeader: "Es Micro...",
         accessor: "EsMiniEmprendedor",
-        Cell: ({ value }) => <div style={{ textIndent: "15px" }}><input   type="checkbox" className={styles.checkbox} checked={value === 0  
+        Cell: ({ value }) => <div style={{ textIndent: "15px"}}><input   type="checkbox" className={styles.checkbox} checked={value === 0  
                               ?false
                               :true}/></div> ,
         Filter: ActiveFilter
       },
       {
-        Header: "Valor Promedio Movil Micro Emp.",
+        Header: <div >Valor Promedio<br/>Movil Micro Emp.</div>,
+        ShortHeader: "Valor Promedio...",
         accessor: "ValorPromedioMovil",
-        Filter: ActiveFilter
+        Cell: ({ value }) => <div style={{  textAlign:"end", left:"-5em"}}>{value}</div>,
+        Filter: <div className={styles.filter}></div>,
       },
       {
         Header: "Activo",
+        ShortHeader:"Activo",
         accessor: "Activo",
         Cell: ({ value }) => <div style={{ textIndent: "15px" }}><input   type="checkbox" className={styles.checkbox} checked={value === 0  
                               ?false
@@ -97,11 +105,13 @@ useEffect(() => {
       },
       {
         Header: "Zona",
+        ShortHeader:"Zona",
         accessor: "Zona",
         Filter: ActiveFilter
       },
       {
         Header: "",
+        ShortHeader:"",
         accessor: "Codigo" , 
         id:'Modificar',
         disableSortBy: true,
@@ -112,6 +122,7 @@ useEffect(() => {
               },
       {
         Header: "",
+        ShortHeader:"",
         accessor: "Codigo",
         id:'Eliminar',
         disableSortBy: true,
@@ -191,7 +202,7 @@ useEffect(() => {
                 <th >
                 <div {...column.getHeaderProps(column.getSortByToggleProps())}>
                  
-                  <span > {column.render("Header")}{column.isSorted? (column.isSortedDesc? ' ▼' : '▲'  ): ''}</span>
+                  <span >{column.isSorted? (column.isSortedDesc? column.render("ShortHeader") +' ▼' : column.render("ShortHeader")+ '▲'  ): column.render("Header")}</span>
                 
                 {/* {column.canFilter? <div>O</div> : null} */}</div>
                 <div style={{display:"flex"}}>{column.canFilter ? column.render('Filter') : null}</div>
@@ -216,7 +227,7 @@ useEffect(() => {
           })}
         </tbody>
       </table>
-      <div>
+      <div className={styles.Pagination}>
         <span className={styles.pageIndex}>Página {' '}
         <strong>
           {pageIndex + 1} de {pageOptions.length}

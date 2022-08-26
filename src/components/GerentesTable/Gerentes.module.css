@@ -13,6 +13,7 @@
     text-indent: 15px;
     color:black;
 /*     background-color: ghostwhite; */
+    /* width:55em; */
     height: 95%;
     border-top: solid 3px navy;
     padding-top:1rem;
@@ -62,7 +63,8 @@ margin: auto;
 .buttonContainer
 {
     /* margin:auto; */
-    margin-top: 2px;
+    margin-left: 20rem;
+    /* margin-top: 0px; */
     width: 40%;
     height: 30px;
     border-radius: 10px;
@@ -85,6 +87,11 @@ margin: auto;
     color: #fff;
     background-color: #5a99bd;
 }
+.Pagination{
+    margin-top: 8px;
+    
+}
+
 .pageIndex{
     font-size: 11px;
     margin: 10px;
@@ -93,6 +100,7 @@ margin: auto;
 
 .pageButton
 {   
+    
     border-radius: 10px;
     width:80px;
     height: 20px;
@@ -129,12 +137,16 @@ button:hover{
 /* -----------------------------FILTERS------------------------------- */
 .filter{
 max-width:60px;
+margin-top: 20px;
+margin-bottom: 10px;
 }
 
 .search{height:17px;
     max-width: 100px;
      border-radius: 10px;
-      border: groove}
+      border: groove;
+      margin-top: 20px;
+      margin-bottom: 10px;}
 
 input[type="text"]:focus {
         border: 2px solid #862d59;
