@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import { setToggle,  logout, setToggleFalse  } from '../../reducers/Login/loginSlice.js'
 import {SidebarData} from './SideBarData.js'
 import * as FaIcons from 'react-icons/fa'
-import * as ImIcons from 'react-icons/im';
 import {BiLogOut } from "react-icons/bi";
 import SideBarItem from './SideBarItem'
 import { Link } from 'react-router-dom'
@@ -17,7 +16,7 @@ const SideBar = () => {
         setSidebar(!sidebar)
         dispatch(setToggle())
     }
-    const {user,toggle, } = useSelector(
+    const {user,toggle} = useSelector(
         (state) => state.login)
 
     const closeSideBar = () => {
