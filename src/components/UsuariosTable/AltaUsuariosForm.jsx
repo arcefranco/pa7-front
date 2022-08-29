@@ -1,5 +1,9 @@
 import React, {useEffect, useState} from "react";
 import { useDispatch,  useSelector} from "react-redux";
+import TitlePrimary from "../../styled-components/h/TitlePrimary";
+import ButtonPrimary from "../../styled-components/buttons/ButtonPrimary";
+import InputText from "../../styled-components/inputs/InputText";
+import Select from "../../styled-components/inputs/Select";
 import { getAllGerentes, getAllSupervisores, getAllTeamLeaders, 
     getAllVendedores, createUsuario, reset, getUsuarioById, updateUsuario} from "../../reducers/Usuarios/UsuariosSlice";
 import validateEmail from "../../helpers/validateEmail";
@@ -188,44 +192,56 @@ useEffect(() => {
     return (
         <div className={styles.container}>
 
-            <form action="" className={styles.form} onSubmit={handleSubmit}>
             <div className={styles.titleContainer}>
-                <h3 className={styles.title}>{id?.length ? 'Modificar Usuario' : 'Alta de Usuario'}</h3>
-                <Link to={'/usuarios'}><button style={{marginRight: '4rem', width:'9rem'}} className={styles.btn} >Volver a Usuarios</button></Link>
+                <TitlePrimary>{id?.length ? 'Modificar Usuario' : 'Alta de Usuario'}</TitlePrimary>
+                <Link to={'/usuarios'}><ButtonPrimary style={{marginRight: '1rem'}}>Volver a Usuarios</ButtonPrimary></Link>
             </div>
+            <form action="" className={styles.form} onSubmit={handleSubmit}>
 
                 <div className={styles.containerInputText}>
                     
 
                         <div className={styles.col1}>
+                            <div style={{marginTop:'1rem', marginBottom: '1rem'}}>
+
                             <span>Nombre: </span> 
-                            <input type="text" name="Nombre" value={input.Nombre} onChange={handleChange} placeholder="Nombre" required />
-                            
+                            <InputText style={{margin:'1rem'}} type="text" name="Nombre" value={input.Nombre} onChange={handleChange} placeholder="Nombre" required />
+                            </div>
+                            <div style={{marginTop:'1rem', marginBottom: '1rem'}}>
+
                             <span>Nombre de usuario: </span> 
-                            <input type="text" name="Usuario" value={input.Usuario} className={error.usuario && styles.inputError} onChange={handleChange} placeholder="Usuario" required/>
+                            <InputText style={{margin:'1rem'}} type="text" name="Usuario" value={input.Usuario} className={error.usuario && styles.inputError} onChange={handleChange} placeholder="Usuario" required/>
                             {error.usuario && <div className={styles.error}>{error.usuario}</div>}
                             
-                            {!id?.length && <>
+
+                            </div>
+                            {!id?.length && <div style={{marginTop:'1rem', marginBottom: '1rem'}}>
                                 <span>Contraseña: </span>
-                                <input type="text" name="password" value={input.password}  onChange={handleChange} placeholder="Contraseña" required/>
-                            </> }
+                                <InputText style={{margin:'1rem'}} type="password" name="password" value={input.password}  onChange={handleChange} placeholder="Contraseña" required/>
+                            </div> }
 
                         </div>
 
                         <div className={styles.col2}>
-                            
-                            {!id?.length &&<> 
+
+                            {!id?.length && <div style={{marginTop:'1rem', marginBottom: '1rem'}}>
                             <span>Confirmar contraseña: </span>
-                            <input type="password" name="confirmPassword" value={input.confirmPassword} onChange={handleChange} placeholder="Repetir Contraseña" required/>
-                            </>    
-                            } 
+                            <InputText style={{margin:'1rem'}} type="password" name="confirmPassword" value={input.confirmPassword} onChange={handleChange} placeholder="Repetir Contraseña" required/>
+                                 
+                            </div>} 
+
                             {!id?.length && error.contrasenaConfirm ? <div className={styles.error}>{error.contrasenaConfirm}</div>: null}
+                            <div style={{marginTop:'1rem', marginBottom: '1rem'}}>
+
                             <span>Usuario anura: </span>
-                            <input type="text" name="UsuarioAnura"  value={input.UsuarioAnura} onChange={handleChange} placeholder="Usuario Anura" />
-                            
+                            <InputText style={{margin:'1rem'}} type="text" name="UsuarioAnura"  value={input.UsuarioAnura} onChange={handleChange} placeholder="Usuario Anura" />
+                            </div>
+                            <div style={{marginTop:'1rem', marginBottom: '1rem'}}>
+
                             <span>Email: </span>
-                            <input type="text" name="email" value={input.email}  onChange={handleChange} className={error.email && styles.inputError} placeholder="Email" required/>
+                            <InputText style={{margin:'1rem'}} type="text" name="email" value={input.email}  onChange={handleChange} className={error.email && styles.inputError} placeholder="Email" required/>
                             {error.email && <div className={styles.error}>{error.email}</div>}
+                            </div>
                         </div>
                     
 
@@ -237,7 +253,7 @@ useEffect(() => {
                 <div className={styles.col3}>
                         <div>
                             <span>Vendedor: </span> <br />
-                            <select name="Vendedor" value={input.Vendedor} onChange={handleChange} id="">
+                            <Select name="Vendedor" value={input.Vendedor} onChange={handleChange} id="">
                         {
                                     !id ? <option value="">---</option> 
                                     : userVendedor && Object.keys(userVendedor).length 
@@ -247,26 +263,28 @@ useEffect(() => {
                                     {vendedores && vendedores.map(e => 
                                             <option key={e.Codigo} value={e.Codigo}>{`${e.Nombre}`}</option>
                                             )}
-                            </select>
+                            </Select>
                         </div>
 
                         <div>
                             <span>Supervisor: </span> <br />
-                            <select name="Supervisor" value={input.Supervisor}  onChange={handleChange} id="">
+                            <Select name="Supervisor" value={input.Supervisor}  onChange={handleChange} id="">
                                     {!id ? <option value="">---</option> 
                                     :userSupervisor && Object.keys(userSupervisor).length 
                                     ?<option key={userSupervisor.Codigo}>{`${userSupervisor.Codigo} ${userSupervisor.Nombre}`}</option> 
                                     :<option value="">---</option> }        
                                 {supervisores && supervisores.map(e => <option key={e.Codigo} value={e.Codigo}>{`${e.Nombre}`}</option>)}
-                            </select>
+                            </Select>
                     
     
                         </div>
 
-                        <div >
-                            <div style={{display:"flex",}}>
+
+                        <div className={styles.inputCheck}>
+                            <div style={{marginTop: '1.5rem'}}>
+                                <input name="us_bloqueado" style={{marginRight:'0.5rem'}} value={input.us_bloqueado} checked={input.us_bloqueado === 1 ? true : false} onChange={handleCheckChange} type="checkbox" />
                                 <span>Bloqueado </span>
-                                <input className={styles.inputCheck} name="us_bloqueado" value={input.us_bloqueado} checked={input.us_bloqueado === 1 ? true : false} onChange={handleCheckChange} type="checkbox" />
+
                             </div>
                         </div>
    
@@ -276,34 +294,41 @@ useEffect(() => {
                 <div className={styles.col2}>
                     <div>
                         <span>Team Leader: </span> <br />
-                        <select name="TeamLeader" value={input.TeamLeader}  onChange={handleChange} id="">
+                        <Select name="TeamLeader" value={input.TeamLeader}  onChange={handleChange} id="">
                             {   !id ? <option value="">---</option> 
                                 :userTeamLeader && Object.keys(userTeamLeader).length 
                                 ?<option key={userTeamLeader.Codigo}>{`${userTeamLeader.Codigo} ${userTeamLeader.Nombre}`}</option> 
                                 :<option value="">---</option> }
                                 {teamLeaders && teamLeaders.map(e => <option key={e.Codigo} value={e.Codigo}>{`${e.Nombre}`}</option>)}
-                                </select>
+                                </Select>
                     </div>    
 
                     <div>
                         <span>Gerente: </span> <br />
-                        <select name="Gerente" value={input.Gerente}  onChange={handleChange} id="">
+                        <Select name="Gerente" value={input.Gerente}  onChange={handleChange} id="">
                             {   !id ? <option value="">---</option> 
                                 :userGerente && Object.keys(userGerente).length 
                                 ?<option key={userGerente.Codigo}>{`${userGerente.Codigo} ${userGerente.Nombre}`}</option> 
                                 :<option value="">---</option>  }
                                 {gerentes && gerentes.map(e => <option key={e.Codigo} value={e.Codigo}>{` ${e.Nombre}`}</option>)}
-                        </select>
+                        </Select>
                     </div>
 
-                    <div >
+       
+                    <div className={styles.inputCheck}>
 
-                        <div style={{display:"flex",}} > 
+                        <div style={{marginTop: '1.5rem'}}> 
+                            <input name="scoringAsignado" style={{marginRight:'0.5rem'}} checked={input.scoringAsignado === 1 ? true : false} value={input.scoringAsignado} onChange={handleCheckChange} type="checkbox" />
                             <span>Ver solo scoring asingado </span>
-                            <input className={styles.inputCheck} name="scoringAsignado" checked={input.scoringAsignado === 1 ? true : false} value={input.scoringAsignado} onChange={handleCheckChange} type="checkbox" />
+                        </div>
+
+
+                        <div style={{marginTop: '1.5rem'}}>
+                            {
+                                <input type="checkbox" style={{marginRight:'0.5rem'}}  name="us_activo" value={input.us_activo} checked={input.us_activo === 1 ? true : false} onChange={handleCheckChange}/>               
+                            }
                             <span>Activo </span>
-                            <input className={styles.inputCheck} type="checkbox"  name="us_activo" value={input.us_activo} checked={input.us_activo === 1 ? true : false} onChange={handleCheckChange}/>               
-                            
+
 
                         </div>
                     </div>
@@ -311,14 +336,14 @@ useEffect(() => {
                 </div>
    
                 </div>
- 
+                <hr className={styles.hr}/>
                 
                 {   id?.length? 
-                    <button type="submit" className={styles.btn} onClick={(e) => handleUpdate(e)}><FcApproval/>Actualizar</button> 
+                    <ButtonPrimary type="submit" style={{marginTop:'1rem', marginBottom:'1rem'}}  onClick={(e) => handleUpdate(e)}><FcApproval/>Actualizar</ButtonPrimary> 
                     :(
                         !Object.keys(error).length 
-                        ? <button className={styles.btn} style={{alignSelf: 'center'}} type="submit" ><FcApproval/>Enviar</button> 
-                        :<button className={styles.btn}  style={{alignSelf: 'center'}} disabled><FcApproval/>Enviar</button>
+                        ? <ButtonPrimary  style={{marginTop:'1rem', marginBottom:'1rem'}} type="submit" ><FcApproval/>Enviar</ButtonPrimary> 
+                        :<ButtonPrimary  style={{marginTop:'1rem', marginBottom:'1rem'}} disabled><FcApproval/>Enviar</ButtonPrimary>
                     )
                 }
             </form>
