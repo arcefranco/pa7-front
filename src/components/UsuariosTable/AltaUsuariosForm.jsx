@@ -205,19 +205,19 @@ useEffect(() => {
                             <input type="text" name="Usuario" value={input.Usuario} className={error.usuario && styles.inputError} onChange={handleChange} placeholder="Usuario" required/>
                             {error.usuario && <div className={styles.error}>{error.usuario}</div>}
                             
-                            {!id?.length && <div>
+                            {!id?.length && <>
                                 <span>Contraseña: </span>
                                 <input type="text" name="password" value={input.password}  onChange={handleChange} placeholder="Contraseña" required/>
-                            </div> }
+                            </> }
                         </div>
 
                         <div className={styles.col2}>
                             
-                            {!id?.length && <div>
+                            {!id?.length &&<> 
                             <span>Confirmar contraseña: </span>
                             <input type="password" name="confirmPassword" value={input.confirmPassword} onChange={handleChange} placeholder="Repetir Contraseña" required/>
-                                 
-                            </div>} 
+                            </>    
+                            } 
                             {!id?.length && error.contrasenaConfirm ? <div className={styles.error}>{error.contrasenaConfirm}</div>: null}
                             <span>Usuario anura: </span>
                             <input type="password" name="UsuarioAnura"  value={input.UsuarioAnura} onChange={handleChange} placeholder="Usuario Anura" />
@@ -233,7 +233,7 @@ useEffect(() => {
                                                     <hr className={styles.hr}/>
                 <div className={styles.inputSelect}>
 
-                <div className={styles.col1}>
+                <div className={styles.col3}>
                         <div>
                             <span>Vendedor: </span> <br />
                             <select name="Vendedor" value={input.Vendedor} onChange={handleChange} id="">
@@ -262,10 +262,10 @@ useEffect(() => {
     
                         </div>
 
-                        <div className={styles.inputCheck}>
-                            <div>
+                        <div >
+                            <div style={{display:"flex",}}>
                                 <span>Bloqueado </span>
-                                <input name="us_bloqueado" value={input.us_bloqueado} checked={input.us_bloqueado === 1 ? true : false} onChange={handleCheckChange} type="checkbox" />
+                                <input className={styles.inputCheck} name="us_bloqueado" value={input.us_bloqueado} checked={input.us_bloqueado === 1 ? true : false} onChange={handleCheckChange} type="checkbox" />
                             </div>
                         </div>
    
@@ -295,19 +295,14 @@ useEffect(() => {
                         </select>
                     </div>
 
-                    <div className={styles.inputCheck}>
+                    <div >
 
-                        <div style={{width: '15rem'}}> 
+                        <div style={{display:"flex",}} > 
                             <span>Ver solo scoring asingado </span>
-                            <input name="scoringAsignado" checked={input.scoringAsignado === 1 ? true : false} value={input.scoringAsignado} onChange={handleCheckChange} type="checkbox" />
-                        </div>
-
-
-                        <div>
+                            <input className={styles.inputCheck} name="scoringAsignado" checked={input.scoringAsignado === 1 ? true : false} value={input.scoringAsignado} onChange={handleCheckChange} type="checkbox" />
                             <span>Activo </span>
-                            {
-                            <input type="checkbox"  name="us_activo" value={input.us_activo} checked={input.us_activo === 1 ? true : false} onChange={handleCheckChange}/>               
-                            }
+                            <input className={styles.inputCheck} type="checkbox"  name="us_activo" value={input.us_activo} checked={input.us_activo === 1 ? true : false} onChange={handleCheckChange}/>               
+                            
 
                         </div>
                     </div>

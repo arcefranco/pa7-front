@@ -147,10 +147,9 @@ return(
     <div className={styles.container}>
   {/*--------------------------------------SUPERVISORES FORMS--------------------------------------------------  */}
  <form action=""  className={styles.form} onSubmit={HandleSubmitInsert}>
-  <div style={{alignItems:'center', marginLeft:"40px" }}>
  <div className={styles.titleContainer}  >
                 <h3 className={styles.title}>{id?.length ? 'Modificar Supervisores' : 'Alta de Supervisores'}</h3>
-                <Link to={'/supervisores'}><button style={{marginRight: '4rem', width:'9rem'}} className={styles.btn} >Volver</button></Link>
+                <Link to={'/supervisores'}><button  className={styles.btn} >Volver</button></Link>
             </div>
             <div className={styles.containerInputText}>
 
@@ -169,9 +168,9 @@ return(
    <span>Valor Promedio Movil Micro Emp.</span>
    <input type="number" style={{width:"15rem", textAlign:"center" }} name="ValorPromedioMovil" onChange={HandleChange} 
    value={input.ValorPromedioMovil} />
+   {/* </div> */}
    </div>
-   
-   <div className={styles.inputSelect} >
+   {/* <div className={styles.inputSelect} > */}
 
    <div className={styles.col2}>
    <div>
@@ -203,13 +202,13 @@ return(
    </div>
  
    </div>
-  </div>
+ 
 
    {
                     id?.length? <button className={styles.btn}   onClick={HandleSubmitUpdate}><FcApproval/>Actualizar</button>
                     : <button className={styles.btn} type="submit" ><FcApproval/>Enviar</button>
                 }
-   </div>                
+                   
  </form>
                 </div>
 )
