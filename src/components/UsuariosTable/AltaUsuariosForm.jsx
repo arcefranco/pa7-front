@@ -213,20 +213,23 @@ useEffect(() => {
                             <InputText style={{margin:'1rem'}} type="text" name="Usuario" value={input.Usuario} className={error.usuario && styles.inputError} onChange={handleChange} placeholder="Usuario" required/>
                             {error.usuario && <div className={styles.error}>{error.usuario}</div>}
                             
+
                             </div>
                             {!id?.length && <div style={{marginTop:'1rem', marginBottom: '1rem'}}>
                                 <span>Contraseña: </span>
                                 <InputText style={{margin:'1rem'}} type="password" name="password" value={input.password}  onChange={handleChange} placeholder="Contraseña" required/>
                             </div> }
+
                         </div>
 
                         <div className={styles.col2}>
-                            
+
                             {!id?.length && <div style={{marginTop:'1rem', marginBottom: '1rem'}}>
                             <span>Confirmar contraseña: </span>
                             <InputText style={{margin:'1rem'}} type="password" name="confirmPassword" value={input.confirmPassword} onChange={handleChange} placeholder="Repetir Contraseña" required/>
                                  
                             </div>} 
+
                             {!id?.length && error.contrasenaConfirm ? <div className={styles.error}>{error.contrasenaConfirm}</div>: null}
                             <div style={{marginTop:'1rem', marginBottom: '1rem'}}>
 
@@ -247,7 +250,7 @@ useEffect(() => {
                                                     <hr className={styles.hr}/>
                 <div className={styles.inputSelect}>
 
-                <div className={styles.col1}>
+                <div className={styles.col3}>
                         <div>
                             <span>Vendedor: </span> <br />
                             <Select name="Vendedor" value={input.Vendedor} onChange={handleChange} id="">
@@ -276,10 +279,12 @@ useEffect(() => {
     
                         </div>
 
+
                         <div className={styles.inputCheck}>
                             <div style={{marginTop: '1.5rem'}}>
                                 <input name="us_bloqueado" style={{marginRight:'0.5rem'}} value={input.us_bloqueado} checked={input.us_bloqueado === 1 ? true : false} onChange={handleCheckChange} type="checkbox" />
                                 <span>Bloqueado </span>
+
                             </div>
                         </div>
    
@@ -308,6 +313,7 @@ useEffect(() => {
                                 {gerentes && gerentes.map(e => <option key={e.Codigo} value={e.Codigo}>{` ${e.Nombre}`}</option>)}
                         </Select>
                     </div>
+
        
                     <div className={styles.inputCheck}>
 
@@ -322,6 +328,7 @@ useEffect(() => {
                                 <input type="checkbox" style={{marginRight:'0.5rem'}}  name="us_activo" value={input.us_activo} checked={input.us_activo === 1 ? true : false} onChange={handleCheckChange}/>               
                             }
                             <span>Activo </span>
+
 
                         </div>
                     </div>
