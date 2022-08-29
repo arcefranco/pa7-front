@@ -1,12 +1,13 @@
 .container {
     /* display: flex; */
     align-items: center;
-    width: 95%;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     place-content: center;
     background-color: #ecf0f5;
     font-size: small;
     text-align: -webkit-center;
+    overflow: auto;
 }
 
 .titleContainer{
@@ -50,7 +51,6 @@
 .inputSelect{
     display: grid;
     grid-template-columns: 1fr 1fr;
-    width: 45rem;
 }
 .inputSelect select{
     width: 18rem;

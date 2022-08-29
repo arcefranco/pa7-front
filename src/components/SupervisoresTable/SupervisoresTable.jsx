@@ -93,8 +93,8 @@ useEffect(() => {
         Header: <div >Valor Promedio<br/>Movil Micro Emp.</div>,
         ShortHeader: "Valor Promedio...",
         accessor: "ValorPromedioMovil",
-        Cell: ({ value }) => <div style={{  textAlign:"end", left:"-5em"}}>{value}</div>,
-        Filter: <div className={styles.filter}></div>,
+        Cell: ({ value }) => <div style={{  textAlign:"end", marginRight:"2.5em"}}>{value}</div>,
+        Filter: <div className={styles.filter} style={{border:'none'}} ></div>,
       },
       
       {
@@ -181,26 +181,26 @@ useEffect(() => {
   return (
     <div className={styles.container}>
       <div className={styles.title}>
-      <span style={{display:"flex"}}>
-      <h3>Supervisores</h3>
-      <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}/>
+      <span className={styles.titleContainer}>
+          <h3>Supervisores</h3>
+          <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}/>
 
-      <div className={styles.buttonContainer}>
-      { rolAlta ? 
-       <> <button onClick={()=>navigate('/altaSupervisores')}   className={styles.buttonLeft} ><FcSurvey/>Nuevo</button>
-         <ExportCSV csvData={supervisores} fileName={'supervisores'} /></>
-        : <><button onClick={()=>navigate('/altaSupervisores')}   className={styles.buttonLeft} disabled><FcSurvey/>Nuevo</button>
-        <button className={styles.buttonRight}  disabled ><FcDataSheet/>Excel</button></>
-         } </div> 
+          <div className={styles.buttonContainer}>
+          { rolAlta ? 
+          <> <button onClick={()=>navigate('/altaSupervisores')}   className={styles.buttonLeft} ><FcSurvey/>Nuevo</button>
+            <ExportCSV csvData={supervisores} fileName={'supervisores'} /></>
+            : <><button onClick={()=>navigate('/altaSupervisores')}   className={styles.buttonLeft} disabled><FcSurvey/>Nuevo</button>
+            <button className={styles.buttonRight}  disabled ><FcDataSheet/>Excel</button></>
+            } </div> 
       </span>
      <div>
       {/*POSIBLE UBICACION DE INPUT RADIO FILTER DE TABLA*/}
      </div>
       
-      
       <TableContainer>
         <>
-        <div className={styles.scrollbar}>
+        <div className={styles.tableContainer}>
+          
         <table {...getTableProps()} >
         <thead>
           {headerGroups.map((headerGroup) => (
@@ -234,6 +234,7 @@ useEffect(() => {
           })}
         </tbody>
       </table>
+      </div>
       <div className={styles.Pagination}>
         <span className={styles.pageIndex}>Página {' '}
         <strong>
@@ -243,9 +244,9 @@ useEffect(() => {
         <button className={styles.pageButton} onClick={()=> previousPage()} disabled={!canPreviousPage}>Anterior</button>
         <button className={styles.pageButton} onClick={()=> nextPage()} disabled={!canNextPage}>Siguiente</button>
       </div>
-        </div>
         </>
        </TableContainer>
+       
        </div>
     </div>
   )
