@@ -209,6 +209,7 @@ useEffect(() => {
                                 <span>Contraseña: </span>
                                 <input type="text" name="password" value={input.password}  onChange={handleChange} placeholder="Contraseña" required/>
                             </> }
+
                         </div>
 
                         <div className={styles.col2}>
@@ -220,7 +221,7 @@ useEffect(() => {
                             } 
                             {!id?.length && error.contrasenaConfirm ? <div className={styles.error}>{error.contrasenaConfirm}</div>: null}
                             <span>Usuario anura: </span>
-                            <input type="password" name="UsuarioAnura"  value={input.UsuarioAnura} onChange={handleChange} placeholder="Usuario Anura" />
+                            <input type="text" name="UsuarioAnura"  value={input.UsuarioAnura} onChange={handleChange} placeholder="Usuario Anura" />
                             
                             <span>Email: </span>
                             <input type="text" name="email" value={input.email}  onChange={handleChange} className={error.email && styles.inputError} placeholder="Email" required/>
