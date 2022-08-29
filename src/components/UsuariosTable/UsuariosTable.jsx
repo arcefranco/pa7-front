@@ -180,7 +180,8 @@ const {globalFilter} = state
 {/* <div className={toggle ? styles.tableSmall : styles.tableBig}> */}
       
   <div className={styles.title}>
-      <span style={{display:"flex"}}><h3>Usuarios</h3>
+      <span className={styles.titleContainer}>
+        <h3>Usuarios</h3>
       <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}/>
       <div className={styles.buttonContainer}>
       {rolAltayModif ?
@@ -190,9 +191,8 @@ const {globalFilter} = state
       }</div>
       </span>
       <>
-      
       <TableContainer>
-      <div className={styles.scrollbar}>
+      <div className={styles.tableContainer}>
       <table {...getTableProps()}>
 
         <thead>
@@ -227,6 +227,7 @@ const {globalFilter} = state
           })}
         </tbody>
       </table>
+      </div>
       <div>
         <span className={styles.pageIndex}>Página {' '}
         <strong>
@@ -236,9 +237,10 @@ const {globalFilter} = state
         <button className={styles.pageButton} onClick={()=> previousPage()} disabled={!canPreviousPage}>Anterior</button>
         <button className={styles.pageButton} onClick={()=> nextPage()} disabled={!canNextPage}>Siguiente</button>
       </div>
-      </div>
+      
        </TableContainer>
        </>
+       
        </div>    
     </div> 
        

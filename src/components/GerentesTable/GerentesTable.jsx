@@ -4,6 +4,7 @@ import { deleteGerentes, getGerentes, getGerentesById, postGerentes, updateGeren
 import TableContainer from './TableContainer'
 import { useFilters, usePagination,useSortBy} from 'react-table'
 import {ActiveFilter, SearchFilter} from './ActiveFilter'
+import { GlobalFilter } from '../UsuariosTable/GlobalFilter';
 import { useTable } from 'react-table'
 import styles from './Gerentes.module.css'
 import {FcSurvey, FcDataSheet} from 'react-icons/fc'
@@ -129,12 +130,13 @@ useEffect(() => {
     canNextPage,
     canPreviousPage,
     pageOptions,
+    setGlobalFilter,
     state,
     prepareRow,
     selectedFlatRows,
   } = tableInstance;
   const {pageIndex} = state
-
+  const {globalFilter} = state
 
   useEffect(() => {
     console.log(gerentes)
@@ -150,8 +152,10 @@ useEffect(() => {
   return (
     <div className={styles.container}>
       <div className={styles.title}>
-      <span style={{display:"flex"}}>
+      <span className={styles.titleContainer}>
       <h3>Gerentes</h3>
+      <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}/>
+
       
       <div className={styles.buttonContainer}>
       { rolAlta ? 
@@ -165,10 +169,9 @@ useEffect(() => {
       {/*POSIBLE UBICACION DE INPUT RADIO FILTER DE TABLA*/}
      </div>
       
-      
       <TableContainer>
         <>
-        <div className={styles.scrollbar}>
+        <div className={styles.tableContainer}>
         <table {...getTableProps()} >
         <thead>
           {headerGroups.map((headerGroup) => (
@@ -201,6 +204,7 @@ useEffect(() => {
           })}
         </tbody>
       </table>
+      </div>
       <div>
         <span className={styles.pageIndex}>Página {' '}
         <strong>
@@ -210,11 +214,11 @@ useEffect(() => {
         <button className={styles.pageButton} onClick={()=> previousPage()} disabled={!canPreviousPage}>Anterior</button>
         <button className={styles.pageButton} onClick={()=> nextPage()} disabled={!canNextPage}>Siguiente</button>
       </div>
-        </div>
+        
         </>
        </TableContainer>
        </div>
-    </div>
+      </div>
   )
 }
 

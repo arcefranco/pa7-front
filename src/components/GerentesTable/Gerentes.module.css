@@ -17,7 +17,22 @@
     height: 95%;
     border-top: solid 3px navy;
     padding-top:1rem;
+    align-items: right;
 }
+
+.titleContainer{
+/* display:flex;     */
+vertical-align: middle;
+    
+}
+
+
+
+.tableContainer{
+    max-height: 75vh;
+    overflow: auto;
+}
+
  thead
 {   
     position: sticky;
@@ -25,10 +40,12 @@
     top: 0;
     color:black;
     background: ghostwhite ;
+    /* max-height: 30px; */
 }
 tbody
 {   
     background-color: #fff;
+    /* overflow-x: scroll; */
 }
 .checkbox
 {
@@ -63,13 +80,13 @@ margin: auto;
 .buttonContainer
 {
     /* margin:auto; */
-    margin-left: 25%;
-    /* margin-top: 0px; */
+    /* margin-left: 25%; */
     /* width: 40%; */
+    margin-top: -40px;
     height: 30px;
     border-radius: 10px;
     display: flex;
-    
+    justify-content: flex-end;
 }
 
 .buttonContainer button
@@ -86,6 +103,7 @@ margin: auto;
     border:groove 1px;
     color: #fff;
     background-color: #5a99bd;
+    
 }
 .Pagination{
     margin-top: 8px;
@@ -126,11 +144,11 @@ button:hover{
     border: solid 0px rgb(0, 0, 0);
     color: #fff;
     font-weight: bold;
-    height: 20px;
-    width: 80px;
+    height: 18px;
+    width: 70px;
     letter-spacing: 1px;
     margin: auto;
-    font-size: 12px;
+    font-size: 10px;
     vertical-align: middle;
     
 }
@@ -139,24 +157,58 @@ button:hover{
 max-width:60px;
 margin-top: 20px;
 margin-bottom: 10px;
+border-radius: 20px;
+border:groove;
 }
 
 .search{height:17px;
-    max-width: 100px;
+    max-width: 90px;
      border-radius: 10px;
       border: groove;
       margin-top: 20px;
       margin-bottom: 10px;}
 
+.containerGlobalFilter{
+    display: flex;
+    justify-content: center;
+    margin-right: 25rem;
+    
+}      
+
 .globalSearch{height:20px;
     max-width: 150px;
      border-radius: 10px;
       border: groove;
-      margin-top: 10px;
+      margin-top: -30px;
       /* margin-bottom: 10px; */
+      
     }
 
 
 input[type="text"]:focus {
         border: 2px solid #862d59;
     }
+
+    @media only screen and (max-width: 600px){
+        .containerGlobalFilter{            margin-right: 40px; }
+        .globalSearch{  max-width:90px; }
+        .tableContainer{
+            height: 80vh;
+            
+            overflow-y: scroll;
+            overflow-x: scroll;}
+
+    }
+
+    .tableContainer::-webkit-scrollbar {
+        width: 6px;               /* width of the entire scrollbar */
+      }
+      
+      .tableContainer::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.866);        /* color of the tracking area */
+      }
+      
+      .tableContainer::-webkit-scrollbar-thumb {
+        background-color: #545e65;    /* color of the scroll thumb */
+        border-radius: 20px;       /* roundness of the scroll thumb */
+      }

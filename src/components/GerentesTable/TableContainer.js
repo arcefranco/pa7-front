@@ -14,11 +14,11 @@ padding: 5px;
       margin: auto;
       padding-left: 2px;
       min-width:45px;
-      max-width: 170px;
+      max-width: 180px;
       max-height: 50px;
       border-bottom: 0px solid black;
       border-right: 0px solid black;
-      font-size: 12px;
+      font-size: 11.5px;
     }
    
     tr {
@@ -34,9 +34,9 @@ padding: 5px;
       margin: 0;
       border-bottom: 0px solid black;
       border-right: 0px solid black;
-      font-size: 12px;
+      font-size: 11.5px;
       min-width:45px;
-      max-width: 210px;
+      max-width: 200px;
       height:auto;
 
 

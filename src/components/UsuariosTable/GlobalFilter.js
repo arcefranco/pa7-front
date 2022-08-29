@@ -6,9 +6,7 @@ export const GlobalFilter = ({filter, setFilter}) => {
         console.log(filter)
       }, [filter])
     return (
-        <div style={{
-            paddingLeft: '0.5rem'
-        }} >
+        <div className={styles.containerGlobalFilter} >
             {/* <span>
                 Buscar:{' '}
             </span> */}

@@ -15,6 +15,7 @@
     height: 95%;
     border-top: solid 3px navy;
     padding:1px;
+    /* overflow-y: scroll; */
 }
 
 thead
@@ -36,13 +37,13 @@ tbody
 .buttonContainer
 {
     /* margin:auto; */
-    margin-left: 30%;
+    /* margin-left: 30%; */
     margin-top: 2px;
     width: 40%;
     height: 30px;
     border-radius: 10px;
     display: flex;
-    /* justify-content: space-between; */
+    justify-content: space-between;
 }
 .pageButton:disabled {
     background-color: silver;
