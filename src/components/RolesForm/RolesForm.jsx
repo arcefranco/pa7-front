@@ -91,9 +91,10 @@ const RolesForm = () => {
         <div>
             <h1 style={{textAlign:'start'}}>Asignación de roles</h1>
             <div className={styles.container}>
-            <div>
-
-            <span>Usuario: </span><br />
+            <div className={styles.selects}>
+            <div className={styles.select}>
+                
+            <span style={{marginTop: '1rem'}}>Usuario: </span>
             <select name="" id="user" onChange={handleUserChange}>
                 <option value="*">---</option>
                 {
@@ -102,8 +103,11 @@ const RolesForm = () => {
                         )
                 }
             </select>
-            {' '}
-            <span>Categoría: </span><br />
+            </div>
+            
+            <div className={styles.select}>
+
+            <span style={{paddingTop: '2rem'}}>Categoría: </span>
             <select name="" id="rol" onChange={handleRolChange}>
                 <option value="*">---</option>
                 <option value="operaciones" className="Operaciones">Operaciones</option>
@@ -291,6 +295,7 @@ const RolesForm = () => {
                 <option value="1.17.%" className="Stock vehiculos Plan Ahorro">Stock vehiculos Plan Ahorro</option>
                 <option value="1.18.%" className="Seguros">Seguros</option>
             </select>
+            </div>
             </div>
         {
             d?.value.length && <h4 style={{paddingTop: '1rem'}}>{d.options[d.selectedIndex].className}</h4>

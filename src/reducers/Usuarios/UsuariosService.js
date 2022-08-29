@@ -53,6 +53,10 @@ const copyRoles = async (usersData) => {
     const response = await axios.post(API_URL + 'roles/copy', usersData)
     return response.data
 }
+const replaceRoles = async (usersData) => {
+    const response = await axios.post(API_URL + 'roles/replace', usersData)
+    return response.data
+}
 const createUsuario = async (usuarioData) => {
     const response = await axios.post(API_URL + 'usuarios', usuarioData, headers)
     return response.data
@@ -82,6 +86,7 @@ const usuariosService = {
     addRol,
     deleteRol,
     copyRoles,
+    replaceRoles,
     createUsuario,
     getUsuarioById,
     updateUsuario,
