@@ -1,6 +1,8 @@
 import React, {useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
+import TitlePrimary from "../../styled-components/h/TitlePrimary";
 import Swal from "sweetalert2";
+import Select from "../../styled-components/inputs/Select";
 import { getAllUsuarios, getSelectedRoles, getUserSelectedRoles, addRol, deleteRol, reset } 
 from "../../reducers/Usuarios/UsuariosSlice";
 import styles from './Roles.module.css'
@@ -88,27 +90,27 @@ const RolesForm = () => {
     var d = document.getElementById('rol')
 
     return (
-        <div>
-            <h1 style={{textAlign:'start'}}>Asignación de roles</h1>
+        <div style={{textAlign: '-webkit-center'}}>
+            <TitlePrimary style={{textAlign:'start'}}>Asignación de roles</TitlePrimary>
             <div className={styles.container}>
             <div className={styles.selects}>
             <div className={styles.select}>
                 
             <span style={{marginTop: '1rem'}}>Usuario: </span>
-            <select name="" id="user" onChange={handleUserChange}>
+            <Select name="" id="user" onChange={handleUserChange}>
                 <option value="*">---</option>
                 {
                     usuarios && usuarios.map(e => 
                         <option key={e.Usuario} value={e.Usuario}>{e.Nombre}</option>
                         )
                 }
-            </select>
+            </Select>
             </div>
             
             <div className={styles.select}>
 
             <span style={{paddingTop: '2rem'}}>Categoría: </span>
-            <select name="" id="rol" onChange={handleRolChange}>
+            <Select name="" id="rol" onChange={handleRolChange}>
                 <option value="*">---</option>
                 <option value="operaciones" className="Operaciones">Operaciones</option>
                     <option value="1.2.1._%" className="Alta Pre Solicitudes (Operaciones)">--Alta Pre Solicitudes</option>
@@ -294,9 +296,12 @@ const RolesForm = () => {
                 <option value="1.16.%" className="Pilot">Pilot</option>
                 <option value="1.17.%" className="Stock vehiculos Plan Ahorro">Stock vehiculos Plan Ahorro</option>
                 <option value="1.18.%" className="Seguros">Seguros</option>
-            </select>
+            </Select>
             </div>
             </div>
+            {
+                d?.value.length && <hr style={{width:'25rem'}} />
+            }
         {
             d?.value.length && <h4 style={{paddingTop: '1rem'}}>{d.options[d.selectedIndex].className}</h4>
         }
@@ -321,7 +326,7 @@ const RolesForm = () => {
 
 
                         }{' '}
-                        <b style={{fontWeight: '6000'}}>{e.rl_descripcion}</b>
+                        <span>{e.rl_descripcion}</span>
 
                     </span> 
                     

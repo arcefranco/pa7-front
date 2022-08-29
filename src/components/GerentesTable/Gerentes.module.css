@@ -184,11 +184,11 @@ border:groove;
       
     }
 
-
+/* 
 input[type="text"]:focus {
         border: 2px solid #862d59;
     }
-
+ */
     @media only screen and (max-width: 600px){
         .containerGlobalFilter{            margin-right: 40px; }
         .globalSearch{  max-width:90px; }

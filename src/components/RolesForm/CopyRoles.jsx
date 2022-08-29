@@ -1,9 +1,12 @@
 import React, {useEffect} from "react";
 import { useNavigate } from "react-router-dom";
+import ButtonPrimary from "../../styled-components/buttons/ButtonPrimary";
+import TitlePrimary from "../../styled-components/h/TitlePrimary";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import styles from './Roles.module.css'
 import { copyRoles, getAllUsuarios, reset, replaceRoles } from "../../reducers/Usuarios/UsuariosSlice";
+import Select from "../../styled-components/inputs/Select";
 
 
 const CopyRoles = () => {
@@ -60,7 +63,7 @@ const CopyRoles = () => {
             userFrom: document.getElementById("userFrom").value,
             userTo: document.getElementById("userTo").value
         }
-        !rolStatus.status ?
+        !rolStatus.status &&
         Swal.fire({
             icon:'info',
             showConfirmButton: true,
@@ -72,25 +75,13 @@ const CopyRoles = () => {
              dispatch(copyRoles(userData))
               
             }
-        }) : 
-        Swal.fire({
-            icon:'info',
-            showConfirmButton: true,
-            showCancelButton:true,
-            timer: 5000,
-            text: rolStatus.message
-        }).then((result) => {
-            if(result.isConfirmed){
-             dispatch(copyRoles(userData))
-              
-            }
         })
 
         
     }
     return (
-        <div>
-            <h1 style={{textAlign:'start'}}>Copiar Roles</h1>
+        <div style={{textAlign: '-webkit-center'}}>
+            <TitlePrimary style={{textAlign:'start'}}>Copiar Roles</TitlePrimary>
             <div className={styles.container}>
 
             <form action="">
@@ -99,30 +90,30 @@ const CopyRoles = () => {
             <div className={styles.select}>
 
             <span>Copiar de: </span>
-            <select name="" id="userFrom" onChange={handleUserChange}>
+            <Select name="" id="userFrom" onChange={handleUserChange}>
                 <option value="">---</option>
                 {
                     usuarios && usuarios.map(e => 
                         <option key={e.Usuario} value={e.Usuario}>{e.Nombre}</option>
                         )
                 }
-            </select>
+            </Select>
             </div>
             <div className={styles.select}>
 
             <span>a: </span>
-            <select name="" id="userTo" onChange={handleUserChange}>
+            <Select name="" id="userTo" onChange={handleUserChange}>
                 <option value="">---</option>
                 {
                     usuarios && usuarios.map(e => 
                         <option key={e.Usuario} value={e.Usuario}>{e.Nombre}</option>
                         )
                 }
-            </select>
+            </Select>
             </div>
                 </div>
-                <hr />
-                <button className={styles.btn} type="submit" onClick={(e) => handleSubmit(e)}>Copiar</button>
+                <hr  style={{width: '25rem'}}/>
+                <ButtonPrimary type="submit" onClick={(e) => handleSubmit(e)}>Copiar</ButtonPrimary>
             </form>
             </div>
         </div>
