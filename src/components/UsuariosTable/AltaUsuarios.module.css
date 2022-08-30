@@ -32,6 +32,14 @@
     flex-flow: column;
     align-items: center;
 }
+.col1 div {
+    display: flex;
+    flex-direction: column;
+}
+.col2 div {
+    display: flex;
+    flex-direction: column;
+}
 .col1 input {
 
     width: 18rem;
@@ -95,8 +103,19 @@
 }
 .inputCheck{
     display: flex;
-    grid-template-columns: 1fr 1fr;
+    width: 30rem;
+    justify-content: space-around;
 }
+.inputCheck div{
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+.inputCheck div input{
+    align-self: center;
+    width: 2rem;
+}
+
 .inputCheck span{
     font-weight: 600;
 }

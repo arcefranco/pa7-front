@@ -250,7 +250,7 @@ useEffect(() => {
                                                     <hr className={styles.hr}/>
                 <div className={styles.inputSelect}>
 
-                <div className={styles.col3}>
+                <div className={styles.col1}>
                         <div>
                             <span>Vendedor: </span> <br />
                             <Select name="Vendedor" value={input.Vendedor} onChange={handleChange} id="">
@@ -280,13 +280,6 @@ useEffect(() => {
                         </div>
 
 
-                        <div className={styles.inputCheck}>
-                            <div style={{marginTop: '1.5rem'}}>
-                                <input name="us_bloqueado" style={{marginRight:'0.5rem'}} value={input.us_bloqueado} checked={input.us_bloqueado === 1 ? true : false} onChange={handleCheckChange} type="checkbox" />
-                                <span>Bloqueado </span>
-
-                            </div>
-                        </div>
    
                 </div>
 
@@ -315,26 +308,33 @@ useEffect(() => {
                     </div>
 
        
+                    </div>
+   
+                </div>
                     <div className={styles.inputCheck}>
 
                         <div style={{marginTop: '1.5rem'}}> 
-                            <input name="scoringAsignado" style={{marginRight:'0.5rem'}} checked={input.scoringAsignado === 1 ? true : false} value={input.scoringAsignado} onChange={handleCheckChange} type="checkbox" />
+                            <input name="scoringAsignado"  checked={input.scoringAsignado === 1 ? true : false} value={input.scoringAsignado} onChange={handleCheckChange} type="checkbox" />
                             <span>Ver solo scoring asingado </span>
                         </div>
 
 
                         <div style={{marginTop: '1.5rem'}}>
                             {
-                                <input type="checkbox" style={{marginRight:'0.5rem'}}  name="us_activo" value={input.us_activo} checked={input.us_activo === 1 ? true : false} onChange={handleCheckChange}/>               
+                                <input type="checkbox"   name="us_activo" value={input.us_activo} checked={input.us_activo === 1 ? true : false} onChange={handleCheckChange}/>               
                             }
                             <span>Activo </span>
 
-
+                            
                         </div>
-                    </div>
+               
+                            <div style={{marginTop: '1.5rem'}}>
+                                <input name="us_bloqueado"  value={input.us_bloqueado} checked={input.us_bloqueado === 1 ? true : false} onChange={handleCheckChange} type="checkbox" />
+                                <span>Bloqueado </span>
+
+                       
+                        </div>
     
-                </div>
-   
                 </div>
                 <hr className={styles.hr}/>
                 
