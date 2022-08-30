@@ -4,10 +4,11 @@ export default styled.div`
 
 text-align: -webkit-center;
 padding: 5px;
+margin-top:5px;
   table {
     border-spacing: 0;
     width: 100%;
-    height:75vh;
+    // height:22em;
 
     th{
       border: ridge 0.5px;
@@ -15,14 +16,16 @@ padding: 5px;
       padding-left: 2px;
       min-width:45px;
       max-width: 180px;
-      max-height: 50px;
+      max-height: 40px;
       border-bottom: 0px solid black;
       border-right: 0px solid black;
       font-size: 11.5px;
     }
-   
+    tr:nth-child(even){background-color: whitesmoke;}
+    
     tr {
-      
+      height:2em;
+      ;
       :last-child {
         td {
           border-bottom: 0;
