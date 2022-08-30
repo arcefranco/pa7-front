@@ -1,0 +1,63 @@
+.container{
+    max-width: 45rem;
+    min-width: 45rem;
+    margin-left: 10rem;
+    margin-right: 10rem;
+    border-top: 3px solid #d2d6de;
+    box-shadow: 0 1px 1px rgb(0 0 0 / 10%);
+    background: white;
+    padding: 1rem;
+    border-radius: 0.25rem;
+}
+.btn{
+    background-color: #3c8dbc;
+    border-color: #367fa9;
+    color: white;
+    box-shadow: none;
+    border: 1px solid transparent;
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    background-image: none;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+}
+.select{
+    display: flex;
+    flex-direction: column;
+}
+.select select {
+    width: 20rem;
+    margin-bottom: 1rem ;
+}
+
+.selects{
+    
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    
+}
+.checkbox{
+
+        border: 1px solid;
+       border-radius: 20px;
+       height: 9px;
+       max-width: 9px;
+      
+}
+
+.rolesContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 2rem;
+    place-content:'center';
+}
+

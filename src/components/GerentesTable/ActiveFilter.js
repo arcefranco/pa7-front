@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useAsyncDebounce } from 'react-table';
+import styles from './Gerentes.module.css'
 
-function ActiveFilter({
-    column: { filterValue, setFilter, preFilteredRows, id }
-  }) {
+
+export function ActiveFilter({column }) {
+    const { filterValue, setFilter, preFilteredRows, id } = column
     // Calculate the options for filtering
     // using the preFilteredRows
     const options = React.useMemo(() => {
@@ -17,8 +19,9 @@ function ActiveFilter({
     return (
       <select
         value={filterValue}
+        className={styles.filter}
         onChange={e => {
-          setFilter(e.target.value || undefined);
+          setFilter(e.target.value || null);
         }}
       >
         <option value="">Todos</option>
@@ -38,4 +41,26 @@ function ActiveFilter({
     );
   }
 
-export default ActiveFilter
+  export function SearchFilter({column }) {
+    const { filterValue, setFilter,  } = column
+    // Calculate the options for filtering
+    // using the preFilteredRows
+      const [value, setValue] = useState(filterValue)  
+      const onChange = useAsyncDebounce(value => {setFilter(value || undefined)}, 1000)
+  
+    // Render a multi-select box
+    return (
+      <input
+        type="text" 
+        style={{height:"17px", borderRadius: "10px", border: "groove"}}
+        className={styles.search}
+        value={value || ''}
+        onChange={e => {
+          setValue(e.target.value)
+          onChange(e.target.value)
+        }}
+        placeholder="Buscar..."
+      
+        />
+    );
+  }

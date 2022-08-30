@@ -1,0 +1,221 @@
+.container {
+    /* display: flex; */
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    place-content: center;
+    font-size: small;
+    text-align: -webkit-center;
+    overflow: auto;
+}
+
+.titleContainer{
+    display: flex;
+    margin-bottom: 0.4rem;
+
+    justify-content: space-between;
+    align-items: center;
+    height: 4rem;
+
+}
+
+.containerInputText{
+    display: flex;
+    grid-template-columns: 1fr 1fr;
+    /* margin-left: 20rem; */
+    /* margin: auto; */
+    
+}
+.col1{
+    padding:10px;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+}
+.col1 div {
+    display: flex;
+    flex-direction: column;
+}
+.col2 div {
+    display: flex;
+    flex-direction: column;
+}
+.col1 input {
+
+    width: 18rem;
+    margin-bottom: 0.4;
+    text-align: -webkit-center;
+
+}
+
+
+
+.col2{
+    padding:10px;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+}
+.col2 input {
+
+    width: 18rem;
+    margin-bottom: 0.4; 
+    text-align: -webkit-center;  
+}
+
+.inputSelect{
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+}
+.inputSelect select{
+    width: 18rem;
+    height:25px;
+    margin: .5rem;
+}
+.containerInputText select{
+    width: 15rem;
+    height:25px;
+    margin: .5rem;
+}
+.form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-top: 3px solid #d2d6de;
+    border-radius: 10px;
+    box-shadow: 2px 2px 2px 1px #80808029;
+    box-shadow: 1px;
+    background-color: #ffff;
+    max-width: 55rem;
+    min-width: 55rem;
+    margin-bottom: 2rem;
+
+}
+.error {
+    color: red;
+    font-size: small;
+    /* margin-bottom: .1rem; */
+}
+.inputError{
+    border: 1px solid red;
+    margin-bottom: 0;
+}
+.inputCheck{
+    display: flex;
+    width: 30rem;
+    justify-content: space-around;
+}
+.inputCheck div{
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+.inputCheck div input{
+    align-self: center;
+    width: 2rem;
+}
+
+.inputCheck span{
+    font-weight: 600;
+}
+
+/* .inputCheck input {
+    width: 1rem;
+    height: 1rem;
+    background-color: red;
+} */
+.containerInputText span {
+    font-weight: 600;
+}
+.inputSelect span {
+    font-weight: 600;
+}
+
+
+.hr{
+    width: 50%;
+    margin:5px;
+    opacity: 0.5;
+   }
+
+
+
+.btn:hover{
+    opacity: 0.8;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+@media only screen and (max-width:750px){
+    .containerInputText{
+        margin-left: -10rem;
+    }
+    .inputSelect{
+        margin-left: -6rem;
+    }
+    .containerInputText select{
+        width: 9rem;
+        height:25px;
+        margin: .5rem;
+    }
+    
+    .inputSelect select{
+        width: 9rem;
+        height:25px;
+        margin: .5rem;
+    }
+    .col1 {
+        max-width: 10rem;
+        margin-left: 10rem;
+
+    }
+
+    .col1 input[type="text"],
+    input[type="number"],
+    input[type="email"],
+    input[type="password"]{
+        max-width: 9rem;
+        /* margin-left: auto; */
+
+    }
+
+    .col2 {
+        max-width: 10rem;
+        margin-left: 2rem;
+
+    }
+
+    .col2 input[type="text"],
+    input[type="number"],
+    input[type="email"],
+    input[type="password"]{
+        max-width: 9rem;
+        /* margin-left: auto; */
+
+    }
+    .col3 {
+        max-width: 9rem;
+        margin-left: 9rem;
+
+    }
+
+    .col3 input[type="text"],
+    input[type="number"],
+    input[type="email"],
+    input[type="password"]{
+        max-width: 9rem;
+        /* margin-left: auto; */
+
+    }
+}

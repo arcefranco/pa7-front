@@ -1,4 +1,6 @@
-.HomeSmall {
-    margin-left: 250px;
-    transition: 1500ms;
+.home {
+    background: aliceblue;
+    width: 100%;
+    text-indent: 20px;
+    text-align: start;
 }

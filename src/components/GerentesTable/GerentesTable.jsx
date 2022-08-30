@@ -1,103 +1,224 @@
-import React, {useEffect, useMemo} from 'react'
+import React, {useEffect, useMemo, useState, useRef} from 'react'
 import { useSelector, useDispatch} from 'react-redux'
-import { getGerentes } from '../../reducers/Gerentes/gerentesSlice'
+import { deleteGerentes, getGerentes, getGerentesById, postGerentes, updateGerentes, } from '../../reducers/Gerentes/gerentesSlice'
 import TableContainer from './TableContainer'
-import { useFilters } from 'react-table'
-import ActiveFilter from './ActiveFilter'
+import { useFilters, usePagination,useSortBy} from 'react-table'
+import {ActiveFilter, SearchFilter} from './ActiveFilter'
+import { GlobalFilter } from '../UsuariosTable/GlobalFilter';
 import { useTable } from 'react-table'
+import styles from './Gerentes.module.css'
+import {FcSurvey, FcDataSheet} from 'react-icons/fc'
+import {Link, useNavigate} from 'react-router-dom'
+import Swal from 'sweetalert2';
+import { ExportCSV } from '../../helpers/exportCSV';
 
+/*FUNCION DEL COMPONENTE*/
 const GerentesTable = () => {
+const [nuevo, setNuevo] = useState(false);
+const toggleNuevo = () => setNuevo(!nuevo);
+const [modificar, setModificar] = useState(false);
+const toggleModificar = () => setModificar(!modificar);
+const dispatch = useDispatch();
+const [lastCode, setLastCode ] = useState({});
+const navigate = useNavigate();
+const {roles} = useSelector((state) => state.login.user)
+const rolAlta = roles.find(e => e.rl_codigo === '1.7.18.1' || e.rl_codigo === '1')
+const rolModificar = roles.find(e => e.rl_codigo === '1.7.18.2'||e.rl_codigo === '1')
+const rolEliminar = roles.find(e => e.rl_codigo === '1.7.18.3' || e.rl_codigo === '1')
+const [input, setInput] = useState({
+  Codigo:'',
+  Nombre:'',
+  Activo: '',
+})
 
-const dispatch = useDispatch()
 
-  useEffect(() => {
-
+/*GET API GERENTES*/
+useEffect(() => {
   dispatch(getGerentes())
-    
-    
-  }, [])
+  }, [dispatch])
 
-  
-
-
- const {gerentes} = useSelector(
+ const {gerentes, gerentesById} = useSelector(
     (state) => state.gerentes)
+
+    
+   
+    
+// /*LAST OBJECT OF THE GERENTES ARRAY  */
+//     var lastObject =useMemo( () => gerentes[(gerentes.length)-1])
+//       // setLastCode()    
+//     console.log(lastObject?.Codigo)
+ 
+  /*GERENTES TABLEDATA*/ 
+
   
+
   const columns = useMemo(
     () => [
       {
         Header: "Código",
         accessor: "Codigo",
-        Cell: ({ value }) => <strong>{value}</strong>,
-        Filter: ActiveFilter
+        Cell: ({ value }) => <div style={{ textIndent: "40px" }}><strong  >{value}</strong></div>,
+        Filter: ActiveFilter,
+        filter: 'equals',
+
+        
       },
       {
         Header: "Nombre",
         accessor: "Nombre",
-        Filter: ActiveFilter
+        Filter: SearchFilter
       },
       {
         Header: "Activo",
         accessor: "Activo",
-        Cell: ({ value }) => <strong>{value === 0 ? 'No' : 'Si'}</strong>,
+        Cell: ({ value }) => <div style={{ textIndent: "15px" }}><input   type="checkbox" className={styles.checkbox} checked={value === 0  
+                              ?false
+                              :true}/></div> ,
         Filter: ActiveFilter
-      }
+      },
+      {
+        Header: "",
+        accessor: "Codigo" , 
+        id:'Modificar',
+        disableSortBy: true,
+        Filter: false,
+        Cell: (value) => (rolModificar ? <button  style={{background:"burlywood"}} onClick=  {(()=> navigate(`/modificarGerentes/${value.value}`))}
+        className={styles.buttonRows} >Modificar</button>:
+        <button style={{background:"silver"}} className={styles.buttonRows} disabled>Modificar</button>),
+              },
+      {
+        Header: "",
+        accessor: "Codigo",
+        id:'Eliminar',
+        disableSortBy: true,
+        Filter: false,
+        Cell: (value) => ( rolEliminar ?
+            <button   style={{background:"red"}} onClick={(()=>{
+          
+          Swal.fire({
+            icon:'info',
+            showConfirmButton: true,
+            showCancelButton:true,
+            text: 'Esta seguro que desea eliminar?'
+          }).then((result) => {
+            if(result.isConfirmed){
+              dispatch(deleteGerentes({Codigo: value.value}))
+              window.location.reload()
+            }
+          })
+          
+      })} 
+        className={styles.buttonRows} >  Eliminar</button>
+        :<button style={{background:"silver"}} className={styles.buttonRows} disabled>Eliminar</button> ),
+      },
+      
     ],
     []
   );
-  const tableInstance = useTable({ columns: columns, data: gerentes }, useFilters);
+  const tableInstance = useTable({ columns: columns, data: gerentes, },    
+    useFilters, useSortBy, usePagination
+    );
+
 
   const {
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    rows,
-    prepareRow
+    page,
+    nextPage,
+    previousPage,
+    canNextPage,
+    canPreviousPage,
+    pageOptions,
+    setGlobalFilter,
+    state,
+    prepareRow,
+    selectedFlatRows,
   } = tableInstance;
+  const {pageIndex} = state
+  const {globalFilter} = state
+
+  useEffect(() => {
+    console.log(gerentes)
+    setInput({
+      Codigo: gerentesById?.Codigo,
+      Nombre: gerentesById?.Nombre,
+      Activo: gerentesById?.Activo,
+    });
+  }, [gerentesById]);
+
   
-
-
-
+/*RENDER PAGINA GERENTES*/
   return (
+    <div className={styles.container}>
+      <div className={styles.title}>
+      <span className={styles.titleContainer}>
+      <h3>Gerentes</h3>
+      <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}/>
 
-    <div style={{alignItems: 'center'}}>
-      <h1>Gerentes</h1>
+      
+      <div className={styles.buttonContainer}>
+      { rolAlta ? 
+       <> <button onClick={()=>navigate('/altaGerentes')}   className={styles.buttonLeft} ><FcSurvey/>Nuevo</button>
+         <ExportCSV csvData={gerentes} fileName={'gerentes'} /></>
+        : <><button onClick={()=>navigate('/altaGerentes')}   className={styles.buttonLeft} disabled><FcSurvey/>Nuevo</button>
+        <button className={styles.buttonRight}  disabled ><FcDataSheet/>Excel</button></>
+         } </div> 
+      </span>
+     <div>
+      {/*POSIBLE UBICACION DE INPUT RADIO FILTER DE TABLA*/}
+     </div>
+      
       <TableContainer>
-      <table {...getTableProps()}>
+        <>
+        <div className={styles.tableContainer}>
+        <table {...getTableProps()} >
         <thead>
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
-                <th {...column.getHeaderProps()}>{column.render("Header")}
-                <div>{column.canFilter ? column.render('Filter') : null}</div>
+                <th >
+                
+                <div {...column.getHeaderProps(column.getSortByToggleProps())}>
+                  <span > {column.render("Header")}{column.isSorted? (column.isSortedDesc? ' ▼' : '▲'  ): ''}</span>
+                  
+                {/* {column.canFilter? <div>O</div> : null} */}</div>
+                <div >{column.canFilter ? column.render('Filter') : null}</div>
                 </th>
               ))}
             </tr>
           ))}
         </thead>
         <tbody {...getTableBodyProps()}>
-          {rows.map((row) => {
+          {page.map((row) => {
             prepareRow(row);
             return (
-              <tr {...row.getRowProps()}>
+              <tr  {...row.getRowProps()}>
                 {row.cells.map((cell) => {
                   return (
-                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                    <td  {...cell.getCellProps()} >{cell.render("Cell")}</td>
                   );
                 })}
               </tr>
-            );
+            ); 
           })}
         </tbody>
       </table>
-       </TableContainer>    
-    </div>
-       
-   
-
+      </div>
+      <div>
+        <span className={styles.pageIndex}>Página {' '}
+        <strong>
+          {pageIndex + 1} de {pageOptions.length}
+        </strong>{' '}
+        </span>
+        <button className={styles.pageButton} onClick={()=> previousPage()} disabled={!canPreviousPage}>Anterior</button>
+        <button className={styles.pageButton} onClick={()=> nextPage()} disabled={!canNextPage}>Siguiente</button>
+      </div>
         
-    
-
+        </>
+       </TableContainer>
+       </div>
+      </div>
   )
 }
 

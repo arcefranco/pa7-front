@@ -3,13 +3,29 @@ import styled from "styled-components";
 export default styled.div`
 
 text-align: -webkit-center;
-padding: 2rem;
+padding: 5px;
+margin-top:5px;
   table {
     border-spacing: 0;
-    border: 1px solid black;
-    width: 100rem;
-   
+    width: 100%;
+    // height:22em;
+
+    th{
+      border: ridge 0.5px;
+      margin: auto;
+      padding-left: 2px;
+      min-width:45px;
+      max-width: 180px;
+      max-height: 40px;
+      border-bottom: 0px solid black;
+      border-right: 0px solid black;
+      font-size: 11.5px;
+    }
+    tr:nth-child(even){background-color: whitesmoke;}
+    
     tr {
+      height:2em;
+      ;
       :last-child {
         td {
           border-bottom: 0;
@@ -17,12 +33,15 @@ padding: 2rem;
       }
     }
 
-    th,
     td {
       margin: 0;
-      padding: 0.1rem;
-      border-bottom: 1px solid black;
-      border-right: 1px solid black;
+      border-bottom: 0px solid black;
+      border-right: 0px solid black;
+      font-size: 11.5px;
+      min-width:45px;
+      max-width: 200px;
+      height:auto;
+
 
       :last-child {
         border-right: 0;
@@ -32,7 +51,7 @@ padding: 2rem;
     tfoot {
       tr:first-child {
         td {
-          border-top: 2px solid black;
+          border-top: 0px solid black;
         }
       }
       font-weight: bolder;

@@ -1,0 +1,217 @@
+.container
+{   /* background-color: aliceblue; */
+    align-items: center;
+    width: 100%;
+    height: 100vh;
+    justify-content: center;
+}
+
+.title
+{   
+    border-radius: 2.5px;
+    text-align: start;
+    text-indent: 15px;
+    color:black;
+/*     background-color: ghostwhite; */
+    /* width:55em; */
+    height: 95%;
+    border-top: solid 3px navy;
+    padding-top:1rem;
+    
+    align-items: right;
+    
+}
+
+.titleContainer{
+/* display:flex;     */
+vertical-align: middle;
+
+}
+
+
+
+.tableContainer{
+    max-height: 75vh;
+    overflow: auto;
+}
+
+ thead
+{   
+    position: sticky;
+    z-index: 0;
+    top: 0;
+    color:black;
+    background: aliceblue ;
+    /* max-height: 30px; */
+}
+tbody
+{   
+    background-color: #fff;
+    /* overflow-x: scroll; */
+}
+.checkbox
+{
+    text-align: center;
+    height: 18px;
+    width: 18px;
+}
+
+/*---------------------------FORM CONTAINER-----------------------------*/
+.formContainer
+{
+    background-color: #fff;
+    width: 30rem;
+    height: auto;
+    margin-top:-10px;
+    padding: 0.5rem 0.5rem 0.5rem;
+    margin: auto ;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+}
+.formContainer input{
+margin: auto;
+}
+.formContainer button {
+    width:auto;
+    margin: auto;
+    margin-top: 10px;
+}
+
+/* ----------------------BUTTONS---------------------- */
+.buttonContainer
+{
+    /* margin:auto; */
+    /* margin-left: 25%; */
+    /* width: 40%; */
+    margin-top: -40px;
+    height: 30px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.buttonContainer button
+{   
+    border-radius: 10px;
+    margin:10px;
+    width:80px;
+    padding: 0.2px ;
+    height: 20px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    font-weight: 600;
+    line-height: normal;
+    border:groove 1px;
+    color: #fff;
+    background-color: #5a99bd;
+    
+}
+.Pagination{
+    margin-top: 8px;
+    
+}
+
+.pageIndex{
+    font-size: 11px;
+    margin: 10px;
+    justify-content: space-between;
+}
+
+.pageButton
+{   
+    
+    border-radius: 10px;
+    width:80px;
+    height: 20px;
+    margin: 10px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    border:groove 0.5px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #3c8dbc;
+
+}
+.pageButton:disabled {
+background-color: silver;
+}
+
+button:hover{
+    opacity: 0.7;
+}
+
+.buttonRows{
+    border-radius: 20px;
+    border: solid 0px rgb(0, 0, 0);
+    color: #fff;
+    font-weight: bold;
+    height: 18px;
+    width: 70px;
+    letter-spacing: 1px;
+    margin: auto;
+    font-size: 10px;
+    vertical-align: middle;
+    
+}
+/* -----------------------------FILTERS------------------------------- */
+.filter{
+max-width:60px;
+margin-top: 20px;
+margin-bottom: 10px;
+border-radius: 20px;
+border:groove;
+}
+
+.search{height:17px;
+    max-width: 90px;
+     border-radius: 10px;
+      border: groove;
+      margin-top: 20px;
+      margin-bottom: 10px;}
+
+.containerGlobalFilter{
+    display: flex;
+    justify-content: center;
+    margin-right: 25rem;
+    
+}      
+
+.globalSearch{height:20px;
+    max-width: 150px;
+     border-radius: 10px;
+      border: groove;
+      margin-top: -30px;
+      /* margin-bottom: 10px; */
+      
+    }
+
+/* 
+input[type="text"]:focus {
+        border: 2px solid #862d59;
+    }
+ */
+    @media only screen and (max-width: 600px){
+        .containerGlobalFilter{            margin-right: 40px; }
+        .globalSearch{  max-width:90px; }
+        .tableContainer{
+            height: 80vh;
+            
+            overflow-y: scroll;
+            overflow-x: scroll;}
+
+    }
+
+    .tableContainer::-webkit-scrollbar {
+        width: 6px;
+        height:6px;               /* width of the entire scrollbar */
+      }
+      
+      .tableContainer::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.866);        /* color of the tracking area */
+      }
+      
+      .tableContainer::-webkit-scrollbar-thumb {
+        background-color: #545e65;    /* color of the scroll thumb */
+        border-radius: 20px;       /* roundness of the scroll thumb */
+      }
