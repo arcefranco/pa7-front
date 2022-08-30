@@ -17,13 +17,15 @@
     height: 95%;
     border-top: solid 3px navy;
     padding-top:1rem;
+    
     align-items: right;
+    
 }
 
 .titleContainer{
 /* display:flex;     */
 vertical-align: middle;
-    
+
 }
 
 
@@ -201,7 +203,8 @@ input[type="text"]:focus {
     }
 
     .tableContainer::-webkit-scrollbar {
-        width: 6px;               /* width of the entire scrollbar */
+        width: 6px;
+        height:6px;               /* width of the entire scrollbar */
       }
       
       .tableContainer::-webkit-scrollbar-track {

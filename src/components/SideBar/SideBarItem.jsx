@@ -1,5 +1,6 @@
 import React, {useState} from 'react'
 import styles from './SideBar.module.css'
+import './SideBar.module.css'
 import * as MdIcons from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import ReactTooltip from 'react-tooltip';
@@ -32,23 +33,24 @@ const SideBarItem = ({item, index}) => {
             !item.rol || 
             user.roles?.find(e=> e.rl_codigo === item.rol) || 
             (user.roles?.find(e=> e.rl_codigo === "1") && !item.unique)
-            ? <div className={styles.sidebarTitle} onMouseOver={showSideBar}>
+            ? <div className={styles[item.cName]} onMouseOver={showSideBar}>
                 {
                     item.path ? 
-                    <span >
-                    <Link to={item.path}>
+                    
+                    <span className={styles[item.cName]}><Link to={item.path} >
                     {item.icon}
                     {item.title}
-                    </Link>
                     
-                    </span> : 
+                    </Link></span>
+                    
+                     : 
                 
             <span  >
                 {toggle
-                ?<div style={{fontSize : "12px"}} onMouseOver={showSideBar}>{item.icon}</div>
-                :<div style={{fontSize : "14px" , marginLeft: "10px"}} onMouseOver={showSideBar} onClick={showSideBar} data-tip={item.title} data-effect="solid" data-place="right">{item.icon}<ReactTooltip /></div>}
+                ?<div style={{fontSize : "12px",color: open? "#3483fa":"#545e65"}} onMouseOver={showSideBar}>{item.icon}</div>
+                :<div style={{fontSize : "14px" , marginLeft: "10px",color: open? "#3483fa":"#545e65"}} onMouseOver={showSideBar}   >{item.icon}</div>}
                 <div style={{display: toggle? "block" : "none" , fontSize:"12px" }} onClick={() => setOpen(!open)}> 
-                <div style={{fontSize:"12px", width:"130px"}}>{item.title}</div>
+                <div  className={styles[item.cName]} style={{color: open? "#3483fa":"#545e65"}}>{item.title}</div>
                 <div style={{textAlign:"right", width:"150px", marginTop:"-20px"}}>
                 {open ? <MdIcons.MdOutlineKeyboardArrowDown className={styles.arrow}  onClick={() => setOpen(!open)} /> :<MdIcons.MdOutlineKeyboardArrowDown className={styles.arrowDown} onClick={() => setOpen(!open)} />}
                 </div>

@@ -5,7 +5,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    transition: all linear 350ms;
+    transition: all linear 250ms;
   }
   
   .menuBars {
@@ -57,7 +57,7 @@
     justify-content: center;
     z-index: 2;
     top: 0;
-    transition: linear 350ms;
+    transition: linear 250ms;
   }
   
   .menuActive {
@@ -68,7 +68,7 @@
     position: fixed;
     z-index: 2;
     top: 0;
-    transition: linear 350ms;
+    transition: linear 250ms;
   }
   
   
@@ -76,11 +76,13 @@
 
     width:100%;
     height: auto;
-    padding-top: 1.2rem;
-    padding-bottom: 1.2rem;
-
+    padding-bottom: 5px;
+    font-weight: 600;
     cursor: pointer;
   }
+
+  
+
   .textDisabled {
     display: flex;
     justify-content: flex-start;
@@ -92,13 +94,14 @@
     opacity:0.6;
   }
   .text{
-    padding-top: 1.2rem;
-    padding-bottom: 1.2rem;
+    padding-top: 10px;
+    padding-bottom: 10px;
     cursor: pointer;
     font-size: 10px;
     
     
   }
+ 
    .text span {
     text-decoration: none;
     color: #545e65;
@@ -106,19 +109,19 @@
     width: 90%;
     height: 100%;
     display: flex;
-    align-items: center;
-    padding: 0 16px;
+    /* align-items: center; */
+    /* padding: 0 16px; */
     /* border-radius: 4px; */
     cursor: pointer;
   } 
   .text span a {
     text-decoration: none;
     color: #545e65;
-    font-size: 10px;
+    font-size: 11px;
     width: 95%;
     height: 100%;
     display: flex;
-    align-items: center;
+    /* align-items: center; */
     /* border-radius: 4px; */
     cursor: pointer;
   } 
@@ -129,7 +132,7 @@
     height: 100%;
     display: flex;
     align-items: center;
-    padding: 0 5px;
+    /* padding: 0 5px; */
     border-radius: 0px;
     cursor: pointer;
   } 
@@ -139,24 +142,90 @@
     background-color: #e4e1e1;
     color: #3483fa;
   }
-
-
   .text svg{
-   color: #6b7780
+    color: #6b7780;
+    line-height: normal;
+ 
+   }
+/*-----------------------------SUBMENU NIVEL 2-------------------------------*/
+  .subMenuL2{
+    font-size: 11px;
+    width:120px;
+    text-align: start;
+    margin-left: 5px;
+    line-height: normal;
   }
-  
+
+  .subMenuL2:active{
+    font-size: 11px;
+    text-align: start;
+    line-height: normal;
+  }
+  .subMenuL2 svg{
+    font-size: 14px;
+    line-height: normal;
+  }
+
+
+ 
+
+  /*---------------------------SUBMENU NIVEL 1----------------------------------*/
+  .nav-text{
+    width:130px;
+    line-height: normal;
+  }
+
   .menuItems {
     width: 100%;
   }
+  /*CONTAINER SUBMENU*/
+.sidebarContent{
+  margin-left: 1em;
+  margin-top: .4em;
+  margin-bottom: .8em;
+  border-left: solid 4px #3483fa ;
+  transition: linear 250ms;
+
+  
+}
+.nav-text{
+  display: flex;
+  color: #545e65;
+  cursor: pointer;
+  text-align: start;
+  justify-content: space-between;
+}
+
+.nav-text span svg{
+  display: inline-block;
+  width: 1.2rem;
+  height: 2rem;
+  margin-right: 0.5rem;
+   /* margin-top: 2px;  */
+   margin-bottom: 5px;
+}
+.nav-text span {
+  font-size: 10px;
+  font-weight: bold;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding: 0 10px ;
+  cursor: pointer;
+
+}
+
+  /*------------------------FLECHAS TOGGLE-----------------------------*/
   .arrow{
     transform : rotateZ(180deg);
-    transition: 400ms;
+    transition: linear 250ms;
     
   }
 
   .arrowDown{
     transform : rotateZ(0deg);
-    transition: 400ms;
+    transition: linear 250ms;
 
   }
   .toggle {
@@ -192,41 +261,8 @@
   
   
 }
-  .sidebarContent{
-    margin-left: 1em;
-    margin-top: 1em;
-    border-left: solid 4px #3483fa ;
-    transition: 200ms;
+ 
 
-    
-  }
-  .sidebarTitle{
-    display: flex;
-    color: #3483fa;
-    cursor: pointer;
-    text-align: start;
-    justify-content: space-between;
-    
-    
-  }
-  .sidebarTitle span svg{
-    display: inline-block;
-    width: 1.2rem;
-    height: 1.2rem;
-    margin-right: 0.2rem;
-  }
-  .sidebarTitle span {
-    font-size: 10px;
-    font-weight: bold;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    padding: 0 10px ;
-    /* border-radius: 0px; */
-    cursor: pointer;
-
-  }
 
   .sidebar::-webkit-scrollbar {
     width: 6px;               /* width of the entire scrollbar */
