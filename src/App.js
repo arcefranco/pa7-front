@@ -25,16 +25,16 @@ function App() {
         <SideBar/>
         <div className='appContainer' style={{
           width: '100%',
-          height:'100%',
-          maxHeight:'100vh',
+          height:'45em',
+          maxHeight:'45rem',
           position: 'absolute',
-          paddingLeft: '65px'
+          paddingLeft: '6.5em'
        
           
           
         }}>
           <div style={{
-         width: '95.8%',
+         width: '93.3%',
          height: '100vh',
          opacity: 0.5,
          position: 'absolute',
