@@ -214,7 +214,7 @@ useEffect(() => {
                                 label="Nombre"
                                 style={{textAlign:"start", paddingTop:"5px"}}
                             >
-                            <Form.Control type="text" placeholder="Nombre" required />
+                            <Form.Control type="text" value={input.Nombre} placeholder="Nombre" required />
                             </FloatingLabel>
                             </Form.Group>
                             
