@@ -19,12 +19,12 @@ margin-top:5px;
       max-height: 40px;
       border-bottom: 0px solid black;
       border-right: 0px solid black;
-      font-size: 11.5px;
+      font-size: auto;
     }
     tr:nth-child(even){background-color: whitesmoke;}
     
     tr {
-      height:2em;
+      height:4em;
       ;
       :last-child {
         td {
@@ -37,7 +37,7 @@ margin-top:5px;
       margin: 0;
       border-bottom: 0px solid black;
       border-right: 0px solid black;
-      font-size: 11.5px;
+      font-size: auto;
       min-width:45px;
       max-width: 200px;
       height:auto;
