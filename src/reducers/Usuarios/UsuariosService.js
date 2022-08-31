@@ -1,6 +1,6 @@
 import axios from 'axios'
 import getHeaderToken from '../../helpers/getHeaderToken';
-const API_URL = 'http://ec2-52-33-204-119.us-west-2.compute.amazonaws.com:3001'
+const API_URL = 'http://localhost:3001/'
 const headers = getHeaderToken();
 
 const getUsuarioById = async(id) => {
