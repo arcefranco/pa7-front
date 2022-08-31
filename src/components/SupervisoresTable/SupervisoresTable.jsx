@@ -81,7 +81,7 @@ useEffect(() => {
         Filter: SearchFilter
       },
       {
-        Header: <div style={{marginBottom:"-16px"}}>Es Micro<br/> Emprendedor</div>,
+        Header: <div style={{marginBottom:"-1.6em"}}>Es Micro<br/>Emprendedor</div>,
         ShortHeader: "Es Micro...",
         accessor: "EsMiniEmprendedor",
         Cell: ({ value }) => <div style={{ textIndent: "15px"}}><input   type="checkbox" className={styles.checkbox} checked={value === 0  
@@ -93,7 +93,7 @@ useEffect(() => {
         Header: <div >Valor Promedio<br/>Movil Micro Emp.</div>,
         ShortHeader: "Valor Promedio...",
         accessor: "ValorPromedioMovil",
-        Cell: ({ value }) => <div style={{  textAlign:"end", marginRight:"2.5em"}}>{value}</div>,
+        Cell: ({ value }) => <div style={{  textAlign:"end", marginRight:"3rem"}}>{value}</div>,
         Filter: <div className={styles.filter} style={{border:'none'}} ></div>,
       },
       

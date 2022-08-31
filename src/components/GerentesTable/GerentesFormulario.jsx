@@ -1,16 +1,25 @@
 import React, {useEffect, useState} from "react";
 import { useDispatch,  useSelector} from "react-redux";
 import { useParams } from "react-router-dom";
-import styles from './GerentesFormulario.module.css';
+import styles from '../UsuariosTable/AltaUsuarios.module.css';
+import Form from 'react-bootstrap/Form';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+import Stack from 'react-bootstrap/Stack';
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import InputGroup from 'react-bootstrap/InputGroup';
 import {FcApproval} from 'react-icons/fc'
 import {Link, useNavigate} from 'react-router-dom';
 import { getGerentesById, postGerentes, updateGerentes } from '../../reducers/Gerentes/gerentesSlice';
+import TitlePrimary from "../../styled-components/h/TitlePrimary";
+import ButtonPrimary from "../../styled-components/buttons/ButtonPrimary";
 
 
 const GerentesFormulario = () =>{
     const {id} = useParams()
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [error, setError] = useState({})
     const {gerentesById} = useSelector(
         (state) => state.gerentes)
         
@@ -20,6 +29,25 @@ const GerentesFormulario = () =>{
         }
   }, [id])
     
+
+  const validateform = function (form) {
+    const errors = {};
+
+    if(!form.Nombre){
+        errors.Nombre = "Campo requerido"
+    }   
+    // if (form.password !== form.confirmPassword) {
+    //   errors.contrasenaConfirm = "Las contraseñas deben coincidir";
+    // }
+  
+    
+
+  
+    return errors;
+  };
+
+
+
     const [input, setInput] = useState({
       Codigo:'',
       Nombre:'',
@@ -85,26 +113,52 @@ const HandleSubmitUpdate =async (event) =>{
 return(   
     <div className={styles.container}>
   {/*--------------------------------------GERENTES FORMS--------------------------------------------------  */}
- <form action=""  className={styles.form} onSubmit={HandleSubmitInsert}>
- <div className={styles.titleContainer}>
-                <h3 className={styles.title}>{id?.length ? 'Modificar Gerente' : 'Alta de Gerente'}</h3>
-                <Link to={'/gerentes'}><button style={{marginRight: '4rem', width:'9rem'}} className={styles.btn} >Volver a Gerentes</button></Link>
-            </div >
-            <div className={styles.col1}>
+ <Form action=""  className={styles.form} onSubmit={HandleSubmitInsert}>
+ <Stack className={styles.titleContainer} direction="horizontal" gap={3}>
+                <TitlePrimary className={styles.title}>{id?.length ? 'Modificar Gerente' : 'Alta de Gerente'}</TitlePrimary>
+                <Link className="ms-auto" style={{marginRight:"1rem", marginTop:"-1rem"}} to={'/gerentes'}><ButtonPrimary style={{marginRight: '4rem', width:'9rem'}} className={styles.btn} >Volver</ButtonPrimary></Link>
+            </Stack >
+            <div className={styles.containerInputText}>
+            <Row>
  {id?.length  &&
  <>
-    <label>Codigo</label><input type="text" style={{width:"6rem", textAlign:"center" }} name="Codigo" onChange={HandleChange} value={input.Codigo} disabled /></>}
- 
-   <label>Nombre</label><input type="text" style={{width:"15rem", textAlign:"center" }} name="Nombre" onChange={HandleChange} 
-   value={input.Nombre} required/>
-   <label>Activo</label><input type="checkbox" name="Activo" onChange={handleCheckChange} value={input.Activo} checked={input.Activo}/> 
+    <Form.Group as={Col} style={{marginTop:'1rem', marginBottom: '.5rem'}}>
+    <FloatingLabel
+    controlId="floatingInputGrid"
+    label="Codigo"
+    style={{textAlign:"start", paddingTop:"0.2em", fontSize:"1.5em"}}
+    >
+   <Form.Control type="text" style={{width:"6rem"}} name="Codigo" onChange={HandleChange} value={input.Codigo} disabled />
+   </FloatingLabel>
+   </Form.Group></>}
+   <Form.Group as={Col} style={{marginTop:'1rem', marginBottom: '.5rem'}}>
+   <FloatingLabel
+    controlId="floatingInputGrid"
+    label="Nombre"
+    style={{textAlign:"start", paddingTop:"0.2em", fontSize:"1.5em"}}
+    >
+    <Form.Control type="text"  name="Nombre" placeholder="Nombre" className={error.Nombre && styles.inputError} onChange={HandleChange} 
+   value={input.Nombre} required />
+   {error.Nombre && <div className={styles.error}>{error.Nombre}</div>}
+   </FloatingLabel>
+   </Form.Group>
+   <Form.Group as={Col} style={{marginTop:'1rem', marginBottom: '.5rem'}}>
+   <div className={styles.inputCheck}>
+   <div style={{marginTop: '.5rem'}}>
+   <span>Activo</span>
+   <input type="checkbox" name="Activo" onChange={handleCheckChange} value={input.Activo} checked={input.Activo}/>
+   </div>
+   </div>
+   </Form.Group>
+    
+   </Row>
    </div>
    {
-                    id?.length? <button className={styles.btn}  onClick={HandleSubmitUpdate}><FcApproval/>Actualizar</button>
-                    : <button className={styles.btn} type="submit" ><FcApproval/>Enviar</button>
+                    id?.length? <ButtonPrimary className={styles.btn}  onClick={HandleSubmitUpdate}><FcApproval/>Actualizar</ButtonPrimary>
+                    : <ButtonPrimary className={styles.btn} type="submit" ><FcApproval/>Enviar</ButtonPrimary>
                 }
                    
- </form>
+ </Form>
                 </div>
 )
 }

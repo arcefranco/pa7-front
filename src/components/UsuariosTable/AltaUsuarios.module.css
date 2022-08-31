@@ -41,7 +41,8 @@
 input {
 
     max-width: auto;
-    max-height: 40px;
+    max-height: 4em;
+    font-size:medium;
     text-align: -webkit-start;
 
 }
@@ -49,7 +50,7 @@ input {
 
 .inputSelect{
     display: grid;
-    gap:10px;
+    gap:1em;
     grid-template-columns: 4fr 0fr;
     margin-left: 8rem;
     margin-right: 7.5rem;
@@ -62,21 +63,21 @@ select{
 }
 .containerInputText select{
     width: 15rem;
-    height:25px;
+    height:2.5em;
     margin: .5rem;
 }
 .form{
     /* display: flex; */
 
     flex-direction: column;
-    border-top: 3px solid #d2d6de;
+    border-top: 0.3em solid #d2d6de;
     border-radius: 10px;
     box-shadow: 2px 2px 2px 1px #80808029;
     box-shadow: 1px;
     background-color: #ffff;
     max-width:95%;
     /* min-width: 55rem; */
-    margin-bottom: 1rem;
+    margin-top: 1em;
 
 }
 .error {
@@ -105,7 +106,7 @@ select{
 
 .inputCheck span{
     font-weight: 600;
-    font-size: 12.5px;
+    font-size: 1.25em;
 }
 
 .containerInputText span {
@@ -114,7 +115,7 @@ select{
 .inputSelect span {
     height:auto;
     font-weight: 100;
-    font-size: 14px;
+    font-size: 1.4em;
 }
 
 
@@ -173,7 +174,7 @@ input[type=number] {
     }
     .error {
         color: red;
-        font-size: 9px;
+        font-size: 0.9em;
         font-weight: 600;
         /* margin-bottom: 0rem; */
     }

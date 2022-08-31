@@ -47,12 +47,13 @@ const SideBarItem = ({item, index}) => {
                 
             <span  >
                 {toggle
-                ?<div style={{fontSize : "12px",color: open? "#3483fa":"#545e65"}} onMouseOver={showSideBar}>{item.icon}</div>
-                :<div style={{fontSize : "14px" , marginLeft: "10px",color: open? "#3483fa":"#545e65"}} onMouseOver={showSideBar}   >{item.icon}</div>}
-                <div style={{display: toggle? "block" : "none" , fontSize:"12px" }} onClick={() => setOpen(!open)}> 
+                ?<div style={{fontSize : "1.2em",color: open? "#3483fa":"#545e65"}} onMouseOver={showSideBar}>{item.icon}</div>
+                :<div style={{fontSize : "2em" , marginLeft: "0.7em",color: open? "#3483fa":"#545e65"}} onMouseOver={showSideBar}   >{item.icon}</div>}
+                <div style={{display: toggle? "block" : "none" , fontSize:"1.3em" }} onClick={() => setOpen(!open)}> 
                 <div  className={styles[item.cName]} style={{color: open? "#3483fa":"#545e65"}}>{item.title}</div>
-                <div style={{textAlign:"right", width:"150px", marginTop:"-20px"}}>
-                {open ? <MdIcons.MdOutlineKeyboardArrowDown className={styles.arrow}  onClick={() => setOpen(!open)} /> :<MdIcons.MdOutlineKeyboardArrowDown className={styles.arrowDown} onClick={() => setOpen(!open)} />}
+                <div style={{textAlign:"right", width:"11.5em", marginTop:"-1.5em"}}>
+                {open ? <MdIcons.MdOutlineKeyboardArrowDown className={styles.arrow}  onClick={() => setOpen(!open)} /> 
+                :<MdIcons.MdOutlineKeyboardArrowDown className={styles.arrowDown} onClick={() => setOpen(!open)} />}
                 </div>
                 </div>    
             </span>
