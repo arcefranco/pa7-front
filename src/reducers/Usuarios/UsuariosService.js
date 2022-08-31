@@ -1,6 +1,6 @@
 import axios from 'axios'
 import getHeaderToken from '../../helpers/getHeaderToken';
-const API_URL = 'http://localhost:3001/'
+import { API_URL } from '../APIURL';
 const headers = getHeaderToken();
 
 const getUsuarioById = async(id) => {

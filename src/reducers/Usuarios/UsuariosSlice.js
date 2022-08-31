@@ -426,7 +426,7 @@ export const getAllUsuarios = createAsyncThunk('usuarios/All', async (thunkAPI) 
           })
           .addCase(deleteRol.pending, (state) => {
             state.isLoading = true
-            
+            state.rolStatus = 'Cargando...'
           })
           .addCase(deleteRol.fulfilled, (state, action) => {
             state.isLoading = false
