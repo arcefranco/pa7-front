@@ -94,6 +94,7 @@
     opacity:0.6;
   }
   .text{
+    text-decoration: none;
     padding-top: 10px;
     padding-bottom: 10px;
     cursor: pointer;
@@ -114,7 +115,7 @@
     /* border-radius: 4px; */
     cursor: pointer;
   } 
-  .text span a {
+  .text a {
     text-decoration: none;
     color: #545e65;
     font-size: 11px;
@@ -149,6 +150,7 @@
    }
 /*-----------------------------SUBMENU NIVEL 2-------------------------------*/
   .subMenuL2{
+    
     font-size: 11px;
     width:120px;
     text-align: start;
