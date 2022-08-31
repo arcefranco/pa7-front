@@ -37,11 +37,11 @@ const SideBarItem = ({item, index}) => {
                 {
                     item.path ? 
                     
-                    <span className={styles[item.cName]}><Link to={item.path} >
+                    <Link to={item.path} ><span className={styles[item.cName]}>
                     {item.icon}
                     {item.title}
                     
-                    </Link></span>
+                    </span></Link>
                     
                      : 
                 

@@ -1,5 +1,4 @@
 .container {
-    /* display: flex; */
     align-items: center;
     width: 100%;
     height: 100%;
@@ -11,23 +10,23 @@
 
 .titleContainer{
     display: flex;
-    margin-bottom: 0.4rem;
-
-    justify-content: space-between;
-    align-items: center;
-    height: 4rem;
+    margin-top: 1rem;
+    
+    justify-content: start;
+    line-height: normal;
+    align-items: right;
+    height: 2rem;
 
 }
 
 .containerInputText{
-    display: flex;
-    grid-template-columns: 1fr 1fr;
-    /* margin-left: 20rem; */
-    /* margin: auto; */
-    
+    margin-left: calc(8rem);
+    margin-right: calc(8rem);
+    display: grid;
+    /* grid-template-columns: 4fr 0fr; */
 }
 .col1{
-    padding:10px;
+    /* padding:10px; */
     display: flex;
     flex-flow: column;
     align-items: center;
@@ -40,38 +39,27 @@
     display: flex;
     flex-direction: column;
 }
-.col1 input {
+input {
 
-    width: 18rem;
-    margin-bottom: 0.4;
-    text-align: -webkit-center;
+    max-width: auto;
+    max-height: 40px;
+    text-align: -webkit-start;
 
 }
 
-
-
-.col2{
-    padding:10px;
-    display: flex;
-    flex-flow: column;
-    align-items: center;
-}
-.col2 input {
-
-    width: 18rem;
-    margin-bottom: 0.4; 
-    text-align: -webkit-center;  
-}
 
 .inputSelect{
     display: grid;
-
-    grid-template-columns: 1fr 1fr;
+    gap:10px;
+    grid-template-columns: 4fr 0fr;
+    margin-left: 8rem;
+    margin-right: 7.5rem;
 }
-.inputSelect select{
-    width: 18rem;
-    height:25px;
-    margin: .5rem;
+select{
+    max-width: auto;
+    max-height:3.5rem;
+    /* font-size: 1em; */
+    /* margin: .5rem; */
 }
 .containerInputText select{
     width: 15rem;
@@ -79,35 +67,35 @@
     margin: .5rem;
 }
 .form{
-    display: flex;
+    /* display: flex; */
+
     flex-direction: column;
-    align-items: center;
     border-top: 3px solid #d2d6de;
     border-radius: 10px;
     box-shadow: 2px 2px 2px 1px #80808029;
     box-shadow: 1px;
     background-color: #ffff;
-    max-width: 55rem;
-    min-width: 55rem;
-    margin-bottom: 2rem;
+    max-width:95%;
+    /* min-width: 55rem; */
+    margin-bottom: 1rem;
 
 }
 .error {
     color: red;
     font-size: small;
-    /* margin-bottom: .1rem; */
+    /* margin-bottom: 0rem; */
 }
 .inputError{
     border: 1px solid red;
-    margin-bottom: 0;
+    /* margin-bottom: 0; */
 }
 .inputCheck{
     display: flex;
-    width: 30rem;
+    width: auto;
     justify-content: space-around;
 }
 .inputCheck div{
-    margin-top: 1.5rem;
+    margin-top: .5rem;
     display: flex;
     flex-direction: column;
 }
@@ -118,25 +106,23 @@
 
 .inputCheck span{
     font-weight: 600;
+    font-size: 12.5px;
 }
 
-/* .inputCheck input {
-    width: 1rem;
-    height: 1rem;
-    background-color: red;
-} */
 .containerInputText span {
     font-weight: 600;
 }
 .inputSelect span {
-    font-weight: 600;
+    height:auto;
+    font-weight: 100;
+    font-size: 14px;
 }
 
 
 .hr{
     width: 50%;
-    margin:5px;
     opacity: 0.5;
+    justify-content: center;
    }
 
 
@@ -157,65 +143,41 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
+/*------------------------------RESPONSIVE DESIGN-------------------------------------*/
+
 @media only screen and (max-width:750px){
     .containerInputText{
-        margin-left: -10rem;
+    margin-left: calc(3em);
+    margin-right: calc(3em);
+        
     }
     .inputSelect{
-        margin-left: -6rem;
+    margin-left: calc(3em);
+    margin-right: calc(2.2em);
     }
-    .containerInputText select{
-        width: 9rem;
-        height:25px;
-        margin: .5rem;
+    select{
+        max-width: auto;
+        max-height:5rem;
+        /* margin: .5rem; */
     }
     
-    .inputSelect select{
-        width: 9rem;
-        height:25px;
-        margin: .5rem;
-    }
-    .col1 {
-        max-width: 10rem;
-        margin-left: 10rem;
+    
+    
 
-    }
-
-    .col1 input[type="text"],
+    input[type="text"],
     input[type="number"],
     input[type="email"],
     input[type="password"]{
-        max-width: 9rem;
-        /* margin-left: auto; */
-
+        max-width: auto;
+        max-height:2.8rem;
+        text-align: start;
+    }
+    .error {
+        color: red;
+        font-size: 9px;
+        font-weight: 600;
+        /* margin-bottom: 0rem; */
     }
 
-    .col2 {
-        max-width: 10rem;
-        margin-left: 2rem;
-
-    }
-
-    .col2 input[type="text"],
-    input[type="number"],
-    input[type="email"],
-    input[type="password"]{
-        max-width: 9rem;
-        /* margin-left: auto; */
-
-    }
-    .col3 {
-        max-width: 9rem;
-        margin-left: 9rem;
-
-    }
-
-    .col3 input[type="text"],
-    input[type="number"],
-    input[type="email"],
-    input[type="password"]{
-        max-width: 9rem;
-        /* margin-left: auto; */
-
-    }
+    
 }
