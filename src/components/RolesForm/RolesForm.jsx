@@ -1,11 +1,13 @@
 import React, {useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import TitlePrimary from "../../styled-components/h/TitlePrimary";
+import ButtonPrimary from '../../styled-components/buttons/ButtonPrimary'
 import Swal from "sweetalert2";
 import Select from "../../styled-components/inputs/Select";
-import { getAllUsuarios, getSelectedRoles, getUserSelectedRoles, addRol, deleteRol, reset } 
+import { getAllUsuarios, getSelectedRoles, getUserSelectedRoles, addRol, deleteRol, reset, replaceRoles } 
 from "../../reducers/Usuarios/UsuariosSlice";
 import styles from './Roles.module.css'
+import { useState } from "react";
 
 
 const RolesForm = () => {
@@ -17,75 +19,138 @@ const RolesForm = () => {
         Promise.all([dispatch(getAllUsuarios()), dispatch(reset())])
 
     }, [])
+
+ 
+    var sendSelected = []
+    const [roles, setRoles] = useState(sendSelected)
+    const [individualRoles, setIndividualRoles] = useState([])
+    const [toggleRoles, setToggleRoles] = useState(false)
     useEffect(() => {
         rolStatus.length &&
         Swal.fire({
             icon:'info',
             timer: 15000,
             text: rolStatus
-          }).then((result) => {
-            if(result.isConfirmed && isSuccess){
-             window.location.reload()
-            }
           })
 
-    }, [rolStatus])
-
+    }, [rolStatus, deleteRol])
+    
+    useEffect(() => {
+        if(!toggleRoles){
+            setIndividualRoles([])
+        }
+    },[toggleRoles])
+    
     const handleRolChange = () => {
         var d = document.getElementById("rol").value
         dispatch(getSelectedRoles({rol: d}))
-            
-      }
+        
+    }
     const handleUserChange = () => {
         var d = document.getElementById("user").value;  
         dispatch(getUserSelectedRoles(d))
         console.log(d)
     }  
+    useEffect(() => {
+        sendSelected = selectedRoles.map(e => {return {rl_codigo: e.rl_codigo, rl_descripcion: e.rl_descripcion, rl_status: userSelectedRoles?.some(l=> l.rl_codigo === e.rl_codigo) ?  true : false, existing: userSelectedRoles?.some(l=> l.rl_codigo === e.rl_codigo) ?  true : false}})
+        setRoles(sendSelected)
+    }, [toggleRoles, selectedRoles])
+
     const handleCheck = (e) => {
         if(!e.target.checked) {
-            console.log('false')
-            
-            const rolData = {
-                Usuario: document.getElementById("user").value,
-                rol: e.target.value 
-             }
-            Swal.fire({
-                icon:'info',
-                showConfirmButton: true,
-                showCancelButton:true,
-                timer: 5000,
-                text: `Esta seguro que desea eliminarle este rol a ${document.getElementById("user").value}?`
-              }).then((result) => {
-                if(result.isConfirmed){
-                  dispatch(deleteRol(rolData))
-                  
+
+            var rol = e.target.value
+            if(roles.find(e => e.rl_codigo === rol && e.existing === false)){
+                setRoles(roles.map(e => e.rl_codigo === rol ? 
+                    {
+                    rl_codigo: e.rl_codigo,
+                    rl_descripcion: e.rl_descripcion,
+                    rl_status: !e.rl_status,
+                    existing: e.existing
+                
+                } : {
+                    rl_codigo: e.rl_codigo,
+                    rl_descripcion: e.rl_descripcion,
+                    rl_status: e.rl_status,
+                    existing: e.existing
                 }
-              })
+                    
+                    
+                    ))
+
+                setIndividualRoles(individualRoles.filter(e => e !== rol))
+  
+            }else if(roles.find(e => e.rl_codigo === rol) && e.existing === true){
+                dispatch(deleteRol({
+                    Usuario: document.getElementById("user").value,
+                    rol: rol
+                }))
+            }
+            
+            else {
+                dispatch(deleteRol({
+                    Usuario: document.getElementById("user").value,
+                    rol: rol
+                }))
+            }
         }
         else if(e.target.checked) {
-            console.log(e)
             console.log('true')
-            const rolData = {
-               Usuario: document.getElementById("user").value,
-               rol: e.target.value 
-            }
-            Swal.fire({
-                icon:'info',
-                showConfirmButton: true,
-                showCancelButton:true,
-                timer: 5000,
-                text: `Esta seguro que desea agregar este rol a ${document.getElementById("user").value}?`
-              }).then((result) => {
-                if(result.isConfirmed){
-                  dispatch(addRol(rolData))
-                  
-                }else if(result.dismiss){
-                    e.target.checked = false
+            var rol = e.target.value
+            if(roles.find(e => e.rl_codigo === rol)){
+                setRoles(roles.map(e => e.rl_codigo === rol ? 
+                    {
+                    rl_codigo: e.rl_codigo,
+                    rl_descripcion: e.rl_descripcion,
+                    rl_status: !e.rl_status
+                
+                } : {
+                    rl_codigo: e.rl_codigo,
+                    rl_descripcion: e.rl_descripcion,
+                    rl_status: e.rl_status
                 }
-              })
+                    
+                    
+                    ))
+  
+            }
+            setIndividualRoles([...individualRoles, e.target.value])
+            }
         }
-       
+
+    const handleClickToggle = () => {
+        setToggleRoles(!toggleRoles)
+        setRoles(roles.map(e => {
+            return  {
+                rl_codigo: e.rl_codigo,
+                rl_descripcion: e.rl_descripcion,
+                rl_status: toggleRoles ? !e.rl_status : e.rl_status,
+                existing: e.existing
+            }
+        }))
     }
+    
+    const handleSubmit = () => {
+        if(toggleRoles){
+            var unSelectedRoles = roles.filter(e => !userSelectedRoles.includes(e.rl_codigo))
+            var trueSelected = unSelectedRoles.filter(e => e.rl_status === true)
+            trueSelected.forEach(e => dispatch(addRol({
+                Usuario: document.getElementById("user").value,
+                rol: e.rl_codigo
+            })))
+           
+        }else{
+            individualRoles.forEach(e => dispatch(addRol({
+                Usuario: document.getElementById("user").value,
+                rol: e
+            })))
+           
+        }
+        setIndividualRoles([]) 
+        setToggleRoles(false)
+        dispatch(reset())
+    }
+    
     
     var d = document.getElementById('rol')
 
@@ -309,31 +374,48 @@ const RolesForm = () => {
       
         }} className={styles.rolesContainer}>
             
-            {
-               selectedRoles.length ? selectedRoles.map(e => 
-                    <span key={e.rl_codigo} style={{width: 'fit-content'}}>
-                        
                         {
-                        userSelectedRoles?.find(u => u.rl_codigo === e.rl_codigo) ? 
-                        <input className={styles.checkbox} value={e.rl_codigo} 
-                        checked
-                        onChange={(e) => handleCheck(e)}  type="checkbox" 
-                        style={{width: '1rem'}}/> : 
-                        
-                        <input className={styles.checkbox} value={e.rl_codigo} 
-                        onChange={(e) => handleCheck(e)} type="checkbox" 
-                        style={{width: '1rem'}} />
+                            roles.map(e => 
+                            e.rl_status === true || e.existing === true || toggleRoles ?
+                            <span>
+
+                                <input className={styles.checkbox} value={e.rl_codigo} 
+                                checked
+                                onChange={(e) => handleCheck(e)}  type="checkbox" 
+                                style={{width: '1rem'}}/> 
+                         
+                                {' '} 
+                                <span>{e.rl_descripcion}</span> 
 
 
-                        }{' '}
-                        <span>{e.rl_descripcion}</span>
 
-                    </span> 
+                            </span> : 
+                                <span>
+
+                                <input className={styles.checkbox} value={e.rl_codigo} 
+                                onChange={(e) => handleCheck(e)}  type="checkbox" 
+                                style={{width: '1rem'}}/> 
+                         
+                                {' '} 
+                                <span>{e.rl_descripcion}</span> 
+
+
+
+                            </span>
+                            
+                            
+                            )
+                        }
+
+                      
                     
-                    ) : null
-            }
-        </div>
+            
 
+
+        </div>  
+            <ButtonPrimary onClick={handleClickToggle}>Seleccionar todos</ButtonPrimary><br />
+            <br />
+                <ButtonPrimary onClick={handleSubmit}>Enviar</ButtonPrimary>
         </div>
             </div>
     )
