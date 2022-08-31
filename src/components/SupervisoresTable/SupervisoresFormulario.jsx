@@ -2,6 +2,16 @@ import React, {useEffect, useState} from "react";
 import { useDispatch,  useSelector} from "react-redux";
 import { useParams } from "react-router-dom";
 import styles from '../UsuariosTable/AltaUsuarios.module.css';
+import TitlePrimary from "../../styled-components/h/TitlePrimary";
+import ButtonPrimary from "../../styled-components/buttons/ButtonPrimary";
+import InputText from "../../styled-components/inputs/InputText";
+import Select from "../../styled-components/inputs/Select";
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import Form from 'react-bootstrap/Form';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+import Stack from 'react-bootstrap/Stack';
+import InputGroup from 'react-bootstrap/InputGroup';
 import validateEmail from "../../helpers/validateEmail";
 import {FcApproval} from 'react-icons/fc'
 import {Link, useNavigate} from 'react-router-dom';
@@ -146,70 +156,114 @@ const HandleSubmitUpdate =async (event) =>{
 return(   
     <div className={styles.container}>
   {/*--------------------------------------SUPERVISORES FORMS--------------------------------------------------  */}
- <form action=""  className={styles.form} onSubmit={HandleSubmitInsert}>
- <div className={styles.titleContainer}  >
-                <h3 className={styles.title}>{id?.length ? 'Modificar Supervisores' : 'Alta de Supervisores'}</h3>
-                <Link to={'/supervisores'}><button  className={styles.btn} >Volver</button></Link>
-            </div>
+  <Form action=""  className={styles.form} onSubmit={HandleSubmitInsert}>
+ <Stack className={styles.titleContainer} direction="horizontal" gap={3} >
+                <TitlePrimary className={styles.title}>{id?.length ? 'Modificar Supervisores' : 'Alta de Supervisores'}</TitlePrimary>
+                <Link to={'/supervisores'} className="ms-auto" style={{marginRight:"1rem", marginTop:"-1rem"}}><ButtonPrimary  className={styles.btn} >Volver</ButtonPrimary></Link>
+            </Stack>
+            
+
             <div className={styles.containerInputText}>
 
-            <div className={styles.col1}>
+            <Row className="g-1">
  {id?.length  &&
- <><span>Codigo</span>
-   <input type="text" style={{width:"6rem", textAlign:"center" }} name="Codigo" onChange={HandleChange} value={input.Codigo} disabled /></>}
-    <span>Nombre</span>
-    <input type="text" style={{width:"15rem", textAlign:"center" }} name="Nombre" placeholder="Nombre" className={error.Nombre && styles.inputError} onChange={HandleChange} 
+ <><Form.Group as={Col} style={{marginTop:'1rem', marginBottom: '.5rem'}}>
+    <FloatingLabel
+    controlId="floatingInputGrid"
+    label="Codigo"
+    style={{textAlign:"start", paddingTop:"5px"}}
+    >
+   <Form.Control type="text" style={{width:"6rem"}} name="Codigo" onChange={HandleChange} value={input.Codigo} disabled />
+   </FloatingLabel>
+   </Form.Group></>}
+   
+   <Form.Group as={Col} style={{marginTop:'1rem', marginBottom: '.5rem'}}>
+   <FloatingLabel
+    controlId="floatingInputGrid"
+    label="Nombre"
+    style={{textAlign:"start", paddingTop:"5px"}}
+    >
+    <Form.Control type="text"  name="Nombre" placeholder="Nombre" className={error.Nombre && styles.inputError} onChange={HandleChange} 
    value={input.Nombre} required />
    {error.Nombre && <div className={styles.error}>{error.Nombre}</div>}
-   <span>Email</span>
-   <input type="email" style={{width:"15rem", textAlign:"center" }}  className={error.email && styles.inputError} name="Email" onChange={HandleChange} 
+   </FloatingLabel>
+   </Form.Group>
+   </Row>
+   <Row className='g-2'>
+   <Form.Group as={Col} style={{marginTop:'1rem', marginBottom: '.5rem'}}>
+   <FloatingLabel
+    controlId="floatingInputGrid"
+    label="Email"
+    style={{textAlign:"start", paddingTop:"5px"}}
+    >
+   <Form.Control type="email"   className={error.email && styles.inputError} name="Email" onChange={HandleChange} 
    value={input.Email} required />
    {error.email && <div className={styles.error}>{error.email}</div>}
-   <span>Valor Promedio Movil Micro Emp.</span>
-   <input type="number" style={{width:"15rem", textAlign:"center" }} name="ValorPromedioMovil" onChange={HandleChange} 
+   </FloatingLabel>
+   </Form.Group>
+   <Form.Group as={Col} style={{marginTop:'1rem', marginBottom: '.5rem'}}>
+   <FloatingLabel
+    controlId="floatingInputGrid"
+    label="Valor Promedio Movil"
+    style={{textAlign:"start", paddingTop:"5px"}}
+    >
+   <Form.Control type="number"  name="ValorPromedioMovil" onChange={HandleChange} 
    value={input.ValorPromedioMovil} />
-   {/* </div> */}
+   </FloatingLabel>
+   </Form.Group>
+   </Row>
    </div>
-   {/* <div className={styles.inputSelect} > */}
-
-   <div className={styles.col2}>
-   <div>
-      <span>Gerente: </span> <br />
-      <select name="Gerente" value={input.Gerente}  onChange={HandleChange} id="" required>
+   
+   <hr className={styles.hr}/>
+   <div className={styles.inputSelect} >
+   <Row>
+   <Col>
+   <InputGroup>
+   <InputGroup.Text id="basic-addon1">Gerente</InputGroup.Text>
+      <Form.Select size="sm" name="Gerente" value={input.Gerente}  onChange={HandleChange} id="" required>
           {   !id ? <option value="">---</option> 
               :supervisorGerente && Object.keys(supervisorGerente).length 
               ?<option key={supervisorGerente.Codigo} value={supervisorGerente.Codigo}>{`${supervisorGerente.Nombre}`}</option> 
               :<option value="">---</option>  }
               {gerentes && gerentes.map(e => <option key={e.Codigo} value={e.Codigo}>{`${e.Nombre}`}</option>)}
-      </select>
-  </div>
-  <div>
-        <span>Zona: </span> <br />  
-        <select name="Zona" value={input.Zona}  onChange={HandleChange} id="" required>
+      </Form.Select>
+    </InputGroup>
+  </Col>
+  <Col>
+  <InputGroup>
+   <InputGroup.Text id="basic-addon1">Zona</InputGroup.Text>  
+        <Form.Select size="sm" name="Zona" value={input.Zona}  onChange={HandleChange} id="" required>
             {   !id ? <option value="">---</option> 
                 :supervisorZona && Object.keys(supervisorZona).length 
                 ?<option key={supervisorZona.codigo} value={supervisorZona.codigo}>{`${supervisorZona.Nombre}`}</option> 
                 :<option value="">---</option>  }
                 {zonas && zonas.map(e => <option  key={e.codigo} value={e.codigo}>{`${e.Nombre}`}</option>)}
-        </select>
-    </div>
-    
-   <span>Activo</span>
+        </Form.Select>
+      </InputGroup>
+    </Col>
+  </Row>
+  </div>
+  <br/>
+  {/* <hr className={styles.hr}/> */}
+  <div className={styles.inputCheck}>
+  <div style={{marginTop: '.5rem'}}>
    <input className={styles.inputCheck} type="checkbox" name="Activo" onChange={handleCheckChange} value={input.Activo} checked={input.Activo } />
-   
-   <span>Es Micro Emprendedor</span>
+   <span>Activo</span>
+   </div>
+
+   <div style={{marginTop: '.5rem'}}>
    <input className={styles.inputCheck} type="checkbox" name="EsMiniEmprendedor" onChange={handleCheckChange} value={input.EsMiniEmprendedor} checked={input.EsMiniEmprendedor } />  
+   <span>Es Micro Emprendedor</span>
    </div>
- 
    </div>
- 
+   
 
    {
-                    id?.length? <button className={styles.btn}   onClick={HandleSubmitUpdate}><FcApproval/>Actualizar</button>
-                    : <button className={styles.btn} type="submit" ><FcApproval/>Enviar</button>
+                    id?.length? <ButtonPrimary className={styles.btn}   onClick={HandleSubmitUpdate}><FcApproval/>Actualizar</ButtonPrimary>
+                    : <ButtonPrimary className={styles.btn} type="submit" ><FcApproval/>Enviar</ButtonPrimary>
                 }
                    
- </form>
+ </Form>
                 </div>
 )
 }

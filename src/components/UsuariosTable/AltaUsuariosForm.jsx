@@ -2,12 +2,17 @@ import React, {useEffect, useState} from "react";
 import { useDispatch,  useSelector} from "react-redux";
 import TitlePrimary from "../../styled-components/h/TitlePrimary";
 import ButtonPrimary from "../../styled-components/buttons/ButtonPrimary";
-import InputText from "../../styled-components/inputs/InputText";
-import Select from "../../styled-components/inputs/Select";
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import Form from 'react-bootstrap/Form';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+import Stack from 'react-bootstrap/Stack';
+import InputGroup from 'react-bootstrap/InputGroup';
 import { getAllGerentes, getAllSupervisores, getAllTeamLeaders, 
     getAllVendedores, createUsuario, reset, getUsuarioById, updateUsuario} from "../../reducers/Usuarios/UsuariosSlice";
 import validateEmail from "../../helpers/validateEmail";
 import styles from './AltaUsuarios.module.css'
+import './AltaUsuarios.module.css'
 import Swal from "sweetalert2";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import {FcApproval} from 'react-icons/fc';
@@ -191,58 +196,86 @@ useEffect(() => {
 
     return (
         <div className={styles.container}>
-
-            <div className={styles.titleContainer}>
+            <Form action="" className={styles.form} onSubmit={handleSubmit}>
+            <Stack className={styles.titleContainer} direction="horizontal" gap={3}>
                 <TitlePrimary>{id?.length ? 'Modificar Usuario' : 'Alta de Usuario'}</TitlePrimary>
-                <Link to={'/usuarios'}><ButtonPrimary style={{marginRight: '1rem'}}>Volver a Usuarios</ButtonPrimary></Link>
-            </div>
-            <form action="" className={styles.form} onSubmit={handleSubmit}>
+                <Link className="ms-auto" style={{marginRight:"1rem", marginTop:"-1rem"}} to={'/usuarios'}><ButtonPrimary  >Volver</ButtonPrimary></Link>
+            </Stack>
+            
 
                 <div className={styles.containerInputText}>
                     
 
-                        <div className={styles.col1}>
-                            <div style={{marginTop:'1rem', marginBottom: '1rem'}}>
-
-                            <span>Nombre: </span> 
-                            <InputText style={{margin:'1rem'}} type="text" name="Nombre" value={input.Nombre} onChange={handleChange} placeholder="Nombre" required />
-                            </div>
-                            <div style={{marginTop:'1rem', marginBottom: '1rem'}}>
-
-                            <span>Nombre de usuario: </span> 
-                            <InputText style={{margin:'1rem'}} type="text" name="Usuario" value={input.Usuario} className={error.usuario && styles.inputError} onChange={handleChange} placeholder="Usuario" required/>
-                            {error.usuario && <div className={styles.error}>{error.usuario}</div>}
+                <Row className="g-1">
+                        
+                            <Form.Group as={Col} style={{marginTop:'1rem', marginBottom: '.5rem'}}>
+                            <FloatingLabel
+                                controlId="floatingInputGrid"
+                                label="Nombre"
+                                style={{textAlign:"start", paddingTop:"5px"}}
+                            >
+                            <Form.Control type="text" placeholder="Nombre" required />
+                            </FloatingLabel>
+                            </Form.Group>
                             
+                            <Form.Group as={Col} style={{marginTop:'1rem', marginBottom: '.5rem'}}>
+                            <FloatingLabel
+                                controlId="floatingInput"
+                                label="Usuario"
+                                style={{textAlign:"start", paddingTop:"5px"}}
+                            > 
+                            <Form.Control type="text" name="Usuario" value={input.Usuario} className={error.usuario && styles.inputError} onChange={handleChange} placeholder="Usuario" required/>
+                            {error.usuario && <div className={styles.error}>{error.usuario}</div>}
+                            </FloatingLabel>
+                            </Form.Group>
+                            {!id?.length && <Form.Group as={Col} style={{marginTop:'1rem', marginBottom: '.5rem'}}>
+                                <FloatingLabel
+                                controlId="floatingInput"
+                                label="Contraseña"
+                                style={{textAlign:"start", paddingTop:"5px"}}
+                                > 
+                                <Form.Control type="password" name="password" value={input.password}  onChange={handleChange} placeholder="Contraseña" required/>
+                                </FloatingLabel>
+                            </Form.Group> }
+                        </Row>
+                        <pre/>
+                        <Row className="g-1">
 
-                            </div>
-                            {!id?.length && <div style={{marginTop:'1rem', marginBottom: '1rem'}}>
-                                <span>Contraseña: </span>
-                                <InputText style={{margin:'1rem'}} type="password" name="password" value={input.password}  onChange={handleChange} placeholder="Contraseña" required/>
-                            </div> }
-
-                        </div>
-
-                        <div className={styles.col2}>
-
-                            {!id?.length && <div style={{marginTop:'1rem', marginBottom: '1rem'}}>
-                            <span>Confirmar contraseña: </span>
-                            <InputText style={{margin:'1rem'}} type="password" name="confirmPassword" value={input.confirmPassword} onChange={handleChange} placeholder="Repetir Contraseña" required/>
-                                 
-                            </div>} 
-
+                            {!id?.length && <Form.Group as={Col} >
+                            <FloatingLabel
+                                controlId="floatingInputGrid"
+                                label="Confirmar Contraseña"
+                                style={{textAlign:"start", paddingTop:"5px"}}
+                            > 
+                            <Form.Control type="password" name="confirmPassword" value={input.confirmPassword} onChange={handleChange} placeholder="Repetir Contraseña" required/>
                             {!id?.length && error.contrasenaConfirm ? <div className={styles.error}>{error.contrasenaConfirm}</div>: null}
-                            <div style={{marginTop:'1rem', marginBottom: '1rem'}}>
+                            </FloatingLabel>
+     
+                            </Form.Group>} 
 
-                            <span>Usuario anura: </span>
-                            <InputText style={{margin:'1rem'}} type="text" name="UsuarioAnura"  value={input.UsuarioAnura} onChange={handleChange} placeholder="Usuario Anura" />
-                            </div>
-                            <div style={{marginTop:'1rem', marginBottom: '1rem'}}>
+                            
+                            <Form.Group as={Col} >
 
-                            <span>Email: </span>
-                            <InputText style={{margin:'1rem'}} type="text" name="email" value={input.email}  onChange={handleChange} className={error.email && styles.inputError} placeholder="Email" required/>
+                            <FloatingLabel
+                                controlId="floatingInput"
+                                label="Usuario Anura"
+                                style={{textAlign:"start", paddingTop:"5px"}}
+                            > 
+                            <Form.Control  type="text" name="UsuarioAnura"  value={input.UsuarioAnura} onChange={handleChange} placeholder="Usuario Anura" />
+                            </FloatingLabel>
+                            </Form.Group>
+
+                            <Form.Group as={Col} >
+                            <FloatingLabel
+                                controlId="floatingInput"
+                                label="Email"
+                                style={{ textAlign:"start", paddingTop:"5px"}}
+                            > 
+                            <Form.Control  type="text" name="email" value={input.email}  onChange={handleChange} className={error.email && styles.inputError} placeholder="Email" required/>
                             {error.email && <div className={styles.error}>{error.email}</div>}
-                            </div>
-                        </div>
+                            </FloatingLabel>
+                            </Form.Group>
+                        </Row>
                     
 
                     
@@ -250,10 +283,11 @@ useEffect(() => {
                                                     <hr className={styles.hr}/>
                 <div className={styles.inputSelect}>
 
-                <div className={styles.col1}>
-                        <div>
-                            <span>Vendedor: </span> <br />
-                            <Select name="Vendedor" value={input.Vendedor} onChange={handleChange} id="">
+                <Row className='g-1'>
+                        <Col>
+                        <InputGroup>
+                        <InputGroup.Text id="basic-addon1">Vendedor</InputGroup.Text>
+                            <Form.Select size="sm" name="Vendedor" value={input.Vendedor} onChange={handleChange} id="">
                         {
                                     !id ? <option value="">---</option> 
                                     : userVendedor && Object.keys(userVendedor).length 
@@ -263,63 +297,69 @@ useEffect(() => {
                                     {vendedores && vendedores.map(e => 
                                             <option key={e.Codigo} value={e.Codigo}>{`${e.Nombre}`}</option>
                                             )}
-                            </Select>
-                        </div>
+                            </Form.Select>
+                            </InputGroup>
+                        </Col>
 
-                        <div>
-                            <span>Supervisor: </span> <br />
-                            <Select name="Supervisor" value={input.Supervisor}  onChange={handleChange} id="">
+                        <Col>
+                        <InputGroup>
+                        <InputGroup.Text id="basic-addon1">Supervisor</InputGroup.Text>
+                            <Form.Select size="sm" name="Supervisor" value={input.Supervisor}  onChange={handleChange} id="">
                                     {!id ? <option value="">---</option> 
                                     :userSupervisor && Object.keys(userSupervisor).length 
                                     ?<option key={userSupervisor.Codigo}>{`${userSupervisor.Codigo} ${userSupervisor.Nombre}`}</option> 
                                     :<option value="">---</option> }        
                                 {supervisores && supervisores.map(e => <option key={e.Codigo} value={e.Codigo}>{`${e.Nombre}`}</option>)}
-                            </Select>
-                    
-    
-                        </div>
+                            </Form.Select>
+                            </InputGroup>
+                        </Col>
 
 
    
-                </div>
+                </Row>
 
-
-                <div className={styles.col2}>
-                    <div>
-                        <span>Team Leader: </span> <br />
-                        <Select name="TeamLeader" value={input.TeamLeader}  onChange={handleChange} id="">
+                <br/>
+                <Row className='g-1' >
+                    <Col>
+                    <InputGroup>
+                        <InputGroup.Text id="basic-addon1">Team Leader</InputGroup.Text>
+                        <Form.Select size="sm" name="TeamLeader" value={input.TeamLeader}  onChange={handleChange} id="">
                             {   !id ? <option value="">---</option> 
                                 :userTeamLeader && Object.keys(userTeamLeader).length 
                                 ?<option key={userTeamLeader.Codigo}>{`${userTeamLeader.Codigo} ${userTeamLeader.Nombre}`}</option> 
                                 :<option value="">---</option> }
                                 {teamLeaders && teamLeaders.map(e => <option key={e.Codigo} value={e.Codigo}>{`${e.Nombre}`}</option>)}
-                                </Select>
-                    </div>    
+                        </Form.Select>
+                        </InputGroup>
 
-                    <div>
-                        <span>Gerente: </span> <br />
-                        <Select name="Gerente" value={input.Gerente}  onChange={handleChange} id="">
+                    </Col>    
+
+                    <Col>
+                    <InputGroup>
+                        <InputGroup.Text id="basic-addon1">Gerente</InputGroup.Text>
+                        <Form.Select size="sm" name="Gerente" value={input.Gerente}  onChange={handleChange} id="">
                             {   !id ? <option value="">---</option> 
                                 :userGerente && Object.keys(userGerente).length 
                                 ?<option key={userGerente.Codigo}>{`${userGerente.Codigo} ${userGerente.Nombre}`}</option> 
                                 :<option value="">---</option>  }
                                 {gerentes && gerentes.map(e => <option key={e.Codigo} value={e.Codigo}>{` ${e.Nombre}`}</option>)}
-                        </Select>
-                    </div>
-
+                        </Form.Select>
+                    </InputGroup>
+                    </Col>
+                    </Row>
        
                     </div>
    
-                </div>
+               
                     <div className={styles.inputCheck}>
 
-                        <div style={{marginTop: '1.5rem'}}> 
+                        <div style={{marginTop: '.5rem'}}> 
                             <input name="scoringAsignado"  checked={input.scoringAsignado === 1 ? true : false} value={input.scoringAsignado} onChange={handleCheckChange} type="checkbox" />
                             <span>Ver solo scoring asingado </span>
                         </div>
 
 
-                        <div style={{marginTop: '1.5rem'}}>
+                        <div style={{marginTop: '.5rem'}}>
                             {
                                 <input type="checkbox"   name="us_activo" value={input.us_activo} checked={input.us_activo === 1 ? true : false} onChange={handleCheckChange}/>               
                             }
@@ -328,7 +368,7 @@ useEffect(() => {
                             
                         </div>
                
-                            <div style={{marginTop: '1.5rem'}}>
+                            <div style={{marginTop: '.5rem'}}>
                                 <input name="us_bloqueado"  value={input.us_bloqueado} checked={input.us_bloqueado === 1 ? true : false} onChange={handleCheckChange} type="checkbox" />
                                 <span>Bloqueado </span>
 
@@ -339,14 +379,14 @@ useEffect(() => {
                 <hr className={styles.hr}/>
                 
                 {   id?.length? 
-                    <ButtonPrimary type="submit" style={{marginTop:'1rem', marginBottom:'1rem'}}  onClick={(e) => handleUpdate(e)}><FcApproval/>Actualizar</ButtonPrimary> 
+                    <ButtonPrimary type="submit" style={{ marginBottom:'.4rem'}}  onClick={(e) => handleUpdate(e)}><FcApproval/>Actualizar</ButtonPrimary> 
                     :(
                         !Object.keys(error).length 
-                        ? <ButtonPrimary  style={{marginTop:'1rem', marginBottom:'1rem'}} type="submit" ><FcApproval/>Enviar</ButtonPrimary> 
-                        :<ButtonPrimary  style={{marginTop:'1rem', marginBottom:'1rem'}} disabled><FcApproval/>Enviar</ButtonPrimary>
+                        ? <ButtonPrimary  style={{ marginBottom:'.4rem'}} type="submit" ><FcApproval/>Enviar</ButtonPrimary> 
+                        :<ButtonPrimary  style={{ marginBottom:'.4rem'}} disabled><FcApproval/>Enviar</ButtonPrimary>
                     )
                 }
-            </form>
+            </Form>
     
         </div>
     )
