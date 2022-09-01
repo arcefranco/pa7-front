@@ -120,6 +120,7 @@ setInput({
   Nombre:'',
   Gerente:'',
   Activo: '',
+  Email:'',
   ValorPromedioMovil:'',
   EsMiniEmprendedor:'',
   Zona:'',})
@@ -138,6 +139,7 @@ const HandleSubmitUpdate =async (event) =>{
    Nombre:'',
    Gerente:'',
    Activo: 0,
+   Email:'',
    ValorPromedioMovil:'',
    EsMiniEmprendedor:0,
    Zona:'',
@@ -171,7 +173,7 @@ return(
     <FloatingLabel
     controlId="floatingInputGrid"
     label="Codigo"
-    style={{textAlign:"start", paddingTop:"5px"}}
+    style={{textAlign:"start", paddingTop:"0.2em", fontSize:"1.5em"}}
     >
    <Form.Control type="text" style={{width:"6rem"}} name="Codigo" onChange={HandleChange} value={input.Codigo} disabled />
    </FloatingLabel>
@@ -181,7 +183,7 @@ return(
    <FloatingLabel
     controlId="floatingInputGrid"
     label="Nombre"
-    style={{textAlign:"start", paddingTop:"5px"}}
+    style={{textAlign:"start", paddingTop:"0.2em", fontSize:"1.5em"}}
     >
     <Form.Control type="text"  name="Nombre" placeholder="Nombre" className={error.Nombre && styles.inputError} onChange={HandleChange} 
    value={input.Nombre} required />
@@ -194,9 +196,9 @@ return(
    <FloatingLabel
     controlId="floatingInputGrid"
     label="Email"
-    style={{textAlign:"start", paddingTop:"5px"}}
+    style={{textAlign:"start", paddingTop:"0.2em", fontSize:"1.5em"}}
     >
-   <Form.Control type="email"   className={error.email && styles.inputError} name="Email" onChange={HandleChange} 
+   <Form.Control type="email" placeholder="Email"  className={error.email && styles.inputError} name="Email" onChange={HandleChange} 
    value={input.Email} required />
    {error.email && <div className={styles.error}>{error.email}</div>}
    </FloatingLabel>
@@ -205,9 +207,9 @@ return(
    <FloatingLabel
     controlId="floatingInputGrid"
     label="Valor Promedio Movil"
-    style={{textAlign:"start", paddingTop:"5px"}}
+    style={{textAlign:"start", paddingTop:"0.2em", fontSize:"1.5em"}}
     >
-   <Form.Control type="number"  name="ValorPromedioMovil" onChange={HandleChange} 
+   <Form.Control type="number" placeholder="Valor Promedio Movil" name="ValorPromedioMovil" onChange={HandleChange} 
    value={input.ValorPromedioMovil} />
    </FloatingLabel>
    </Form.Group>
@@ -220,7 +222,7 @@ return(
    <Col>
    <InputGroup>
    <InputGroup.Text id="basic-addon1">Gerente</InputGroup.Text>
-      <Form.Select size="sm" name="Gerente" value={input.Gerente}  onChange={HandleChange} id="" required>
+      <Form.Select size="lg" name="Gerente" value={input.Gerente}  onChange={HandleChange} id="" required>
           {   !id ? <option value="">---</option> 
               :supervisorGerente && Object.keys(supervisorGerente).length 
               ?<option key={supervisorGerente.Codigo} value={supervisorGerente.Codigo}>{`${supervisorGerente.Nombre}`}</option> 
@@ -232,7 +234,7 @@ return(
   <Col>
   <InputGroup>
    <InputGroup.Text id="basic-addon1">Zona</InputGroup.Text>  
-        <Form.Select size="sm" name="Zona" value={input.Zona}  onChange={HandleChange} id="" required>
+        <Form.Select size="lg" name="Zona" value={input.Zona}  onChange={HandleChange} id="" required>
             {   !id ? <option value="">---</option> 
                 :supervisorZona && Object.keys(supervisorZona).length 
                 ?<option key={supervisorZona.codigo} value={supervisorZona.codigo}>{`${supervisorZona.Nombre}`}</option> 

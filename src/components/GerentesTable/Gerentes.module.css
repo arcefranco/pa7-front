@@ -10,7 +10,7 @@
 {   
     border-radius: 2.5px;
     text-align: start;
-    text-indent: 15px;
+    text-indent: 1em;
     color:black;
 /*     background-color: ghostwhite; */
     /* width:55em; */
@@ -26,12 +26,15 @@
 /* display:flex;     */
 vertical-align: middle;
 
+
+}
+.title h3{
+    font-size: 2.5em;
 }
 
 
-
 .tableContainer{
-    max-height: 75vh;
+    height: 37rem;
     overflow: auto;
 }
 
@@ -52,8 +55,8 @@ tbody
 .checkbox
 {
     text-align: center;
-    height: 18px;
-    width: 18px;
+    height: 2em;
+    width: 2em;
 }
 
 /*---------------------------FORM CONTAINER-----------------------------*/
@@ -84,8 +87,8 @@ margin: auto;
     /* margin:auto; */
     /* margin-left: 25%; */
     /* width: 40%; */
-    margin-top: -40px;
-    height: 30px;
+    margin-top: -3em;
+    height: 3em;
     border-radius: 10px;
     display: flex;
     justify-content: flex-end;
@@ -93,12 +96,12 @@ margin: auto;
 
 .buttonContainer button
 {   
-    border-radius: 10px;
+    border-radius: 1em;
     margin:10px;
     width:80px;
-    padding: 0.2px ;
-    height: 20px;
-    font-size: 12px;
+    padding: 0.2em ;
+    height: 2em;
+    font-size: 1em;
     letter-spacing: 1px;
     font-weight: 600;
     line-height: normal;
@@ -108,7 +111,7 @@ margin: auto;
     
 }
 .Pagination{
-    margin-top: 8px;
+    margin-top: 0.5em;
     
 }
 
@@ -156,32 +159,32 @@ button:hover{
 }
 /* -----------------------------FILTERS------------------------------- */
 .filter{
-max-width:60px;
-margin-top: 20px;
-margin-bottom: 10px;
-border-radius: 20px;
+max-width:6em;
+margin-top: 2em;
+margin-bottom: 1em;
+border-radius: 2em;
 border:groove;
 }
 
-.search{height:2em;
-    max-width: 90px;
-     border-radius: 10px;
+.search{min-height:1.5em;
+    max-width: 9em;
+     border-radius: 2em;
       border: groove;
-      margin-top: 20px;
-      margin-bottom: 10px;}
+      margin-top: 2em;
+      margin-bottom: 1em;}
 
 .containerGlobalFilter{
     display: flex;
     justify-content: center;
-    margin-right: 25rem;
+    margin-right: auto;
     
 }      
 
-.globalSearch{height:20px;
-    max-width: 150px;
-     border-radius: 10px;
+.globalSearch{height:2em;
+    max-width: 15em;
+     border-radius: 1em;
       border: groove;
-      margin-top: -30px;
+      margin-top: -2.5em;
       /* margin-bottom: 10px; */
       
     }
@@ -192,8 +195,8 @@ input[type="text"]:focus {
     }
  */
     @media only screen and (max-width: 600px){
-        .containerGlobalFilter{            margin-right: 40px; }
-        .globalSearch{  max-width:90px; }
+        .containerGlobalFilter{            margin-right: 4em; }
+        .globalSearch{  max-width:9em; }
         .tableContainer{
             height: 80vh;
             
