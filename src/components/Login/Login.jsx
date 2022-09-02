@@ -83,7 +83,7 @@ export const Login = () => {
          <span>Iniciar sesión</span>
          <div style={{position:'relative', margin: '1rem'}}>
           <select className={styles.input} name="empresa" value={input.empresa} onChange={handleChange} required>
-                <option value="" >--Elegir empresa--</option>
+                <option value="" >-Elegir empresa-</option>
                 <option value="pa7" id="carGroup">Car Group S.A.</option>
                 <option value="pa7_gf_test_2" id="gestionFinanciera">Gestion Financiera S.A.</option>
                 <option value="Auto Net S.A." id="autoNet">AutoNet S.A</option>
