@@ -23,7 +23,7 @@ const dispatch = useDispatch()
              }}>
                 
                 
-                <h1>Bienvenido!</h1>
+                <h1>Bienvenido {user.Nombre}!</h1>
 
                 
                 </div>  
