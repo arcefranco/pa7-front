@@ -162,14 +162,15 @@ const { toggle } = useSelector(
     canNextPage,
     canPreviousPage,
     pageOptions,
+    setPageSize,
     state,
     setGlobalFilter,
     prepareRow,
   } =
-    useTable({ columns: columns, data: usuarios }, useGlobalFilter, 
+    useTable({ columns: columns, data: usuarios, initialState:{pageSize:15} }, useGlobalFilter, 
         useSortBy, usePagination,
         );
-        const {pageIndex} = state
+        const {pageIndex, pageSize} = state
 const {globalFilter} = state
 
   return (

@@ -2,7 +2,7 @@ import React, {useEffect, useMemo, useState, useRef} from 'react'
 import { useSelector, useDispatch} from 'react-redux'
 import { deleteGerentes, getGerentes, getGerentesById, postGerentes, updateGerentes, } from '../../reducers/Gerentes/gerentesSlice'
 import TableContainer from './TableContainer'
-import { useFilters, usePagination,useSortBy} from 'react-table'
+import { useFilters, usePagination,useSortBy, useGlobalFilter} from 'react-table'
 import {ActiveFilter, SearchFilter} from './ActiveFilter'
 import { GlobalFilter } from '../UsuariosTable/GlobalFilter';
 import { useTable } from 'react-table'
@@ -115,8 +115,8 @@ useEffect(() => {
     ],
     []
   );
-  const tableInstance = useTable({ columns: columns, data: gerentes, },    
-    useFilters, useSortBy, usePagination
+  const tableInstance = useTable({ columns: columns, data: gerentes, initialState:{pageSize: 15}, },    
+    useGlobalFilter,useFilters, useSortBy, usePagination
     );
 
 
@@ -132,12 +132,15 @@ useEffect(() => {
     pageOptions,
     setGlobalFilter,
     state,
+    setPageSize,
     prepareRow,
     selectedFlatRows,
   } = tableInstance;
-  const {pageIndex} = state
+  const {pageIndex, pageSize} = state
   const {globalFilter} = state
 
+  
+  
   useEffect(() => {
     console.log(gerentes)
     setInput({

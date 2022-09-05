@@ -14,7 +14,7 @@ margin-top:5px;
       border: ridge 0.5px;
       margin: auto;
       padding-left: 0.2em;
-      min-width:4.5em;
+      min-width:3em;
       max-width: 19em;
       // max-height: 1em;
       border-bottom: 0px solid black;
