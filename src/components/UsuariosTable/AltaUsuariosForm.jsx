@@ -196,7 +196,7 @@ useEffect(() => {
 
     return (
         <div className={styles.container}>
-            <Form action="" className={styles.form} onSubmit={handleSubmit}>
+            <Form action="" className={styles.form} /* onSubmit={handleSubmit} */>
             <Stack className={styles.titleContainer} direction="horizontal" gap={3}>
                 <TitlePrimary>{id?.length ? 'Modificar Usuario' : 'Alta de Usuario'}</TitlePrimary>
                 <Link className="ms-auto" style={{marginRight:"1rem", marginTop:"-1rem"}} to={'/usuarios'}><ButtonPrimary  >Volver</ButtonPrimary></Link>
@@ -382,7 +382,7 @@ useEffect(() => {
                     <ButtonPrimary type="submit" style={{ marginBottom:'.4rem'}}  onClick={(e) => handleUpdate(e)}><FcApproval/>Actualizar</ButtonPrimary> 
                     :(
                         !Object.keys(error).length 
-                        ? <ButtonPrimary  style={{ marginBottom:'.4rem'}} type="submit" ><FcApproval/>Enviar</ButtonPrimary> 
+                        ? <ButtonPrimary onClick={handleSubmit}  style={{ marginBottom:'.4rem'}} type="submit" ><FcApproval/>Enviar</ButtonPrimary> 
                         :<ButtonPrimary  style={{ marginBottom:'.4rem'}} disabled><FcApproval/>Enviar</ButtonPrimary>
                     )
                 }
