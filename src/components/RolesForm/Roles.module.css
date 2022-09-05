@@ -7,6 +7,7 @@
     box-shadow: 0 1px 1px rgb(0 0 0 / 10%);
     background: white;
     padding: 1rem;
+    padding-bottom: 1rem;
     border-radius: 0.25rem;
 }
 .btn{
@@ -50,7 +51,7 @@
         border: 1px solid;
        border-radius: 20px;
        height: 9px;
-       max-width: 9px;
+ /*       max-width: 9px; */
       
 }
 
@@ -59,5 +60,14 @@
     grid-template-columns: 1fr 1fr;
     padding: 2rem;
     place-content:'center';
+}
+
+.checkContainer{
+    display: flex;
+    margin: 0.3rem;
+}
+
+.checkContainer span {
+    font-size: smaller;
 }
 
