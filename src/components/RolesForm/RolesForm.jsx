@@ -10,11 +10,12 @@ import styles from './Roles.module.css'
 import { useState } from "react";
 
 
+
 const RolesForm = () => {
 
     const dispatch = useDispatch()
 
-    const {selectedRoles, usuarios, userSelectedRoles, rolStatus, isSuccess} = useSelector(state => state.usuarios)
+    const {selectedRoles, usuarios, userSelectedRoles, rolStatus} = useSelector(state => state.usuarios)
     useEffect(() => {
         Promise.all([dispatch(getAllUsuarios()), dispatch(reset())])
 
@@ -23,7 +24,6 @@ const RolesForm = () => {
  
     var sendSelected = []
     const [roles, setRoles] = useState(sendSelected)
-    const [individualRoles, setIndividualRoles] = useState([])
     const [toggleRoles, setToggleRoles] = useState(false)
     useEffect(() => {
         rolStatus.length &&
@@ -35,11 +35,7 @@ const RolesForm = () => {
 
     }, [rolStatus, deleteRol])
     
-    useEffect(() => {
-        if(!toggleRoles){
-            setIndividualRoles([])
-        }
-    },[toggleRoles])
+
     
     const handleRolChange = () => {
         var d = document.getElementById("rol").value
@@ -52,103 +48,75 @@ const RolesForm = () => {
         console.log(d)
     }  
     useEffect(() => {
-        sendSelected = selectedRoles.map(e => {return {rl_codigo: e.rl_codigo, rl_descripcion: e.rl_descripcion, rl_status: userSelectedRoles?.some(l=> l.rl_codigo === e.rl_codigo) ?  true : false, existing: userSelectedRoles?.some(l=> l.rl_codigo === e.rl_codigo) ?  true : false}})
+        sendSelected = selectedRoles.map(e => {return {rl_codigo: e.rl_codigo, rl_descripcion: e.rl_descripcion, rl_status: toggleRoles || userSelectedRoles?.some(l=> l.rl_codigo === e.rl_codigo) ?  true : false, existing: userSelectedRoles?.some(l=> l.rl_codigo === e.rl_codigo) ?  true : false}})
         setRoles(sendSelected)
     }, [toggleRoles, selectedRoles])
 
-    const handleCheck = (e) => {
-        if(!e.target.checked) {
+    const handleCheck = (e) => { 
 
-            var rol = e.target.value
-            if(roles.find(e => e.rl_codigo === rol && e.existing === false)){
-                setRoles(roles.map(e => e.rl_codigo === rol ? 
-                    {
-                    rl_codigo: e.rl_codigo,
-                    rl_descripcion: e.rl_descripcion,
-                    rl_status: !e.rl_status,
-                    existing: e.existing
-                
-                } : {
-                    rl_codigo: e.rl_codigo,
-                    rl_descripcion: e.rl_descripcion,
-                    rl_status: e.rl_status,
-                    existing: e.existing
-                }
-                    
-                    
-                    ))
+        let existing = userSelectedRoles.find(rol => rol.rl_codigo === e.target.value)
+        
+        if(!e.target.checked) {//checked
 
-                setIndividualRoles(individualRoles.filter(e => e !== rol))
-  
-            }else if(roles.find(e => e.rl_codigo === rol) && e.existing === true){
+            if(existing){ 
                 dispatch(deleteRol({
                     Usuario: document.getElementById("user").value,
-                    rol: rol
+                    rol: e.target.value
                 }))
+                setRoles(roles.map(rol => (
+                    {
+                       rl_codigo: rol.rl_codigo,
+                       rl_descripcion: rol.rl_descripcion,
+                       rl_status: rol.rl_codigo === e.target.value || !rol.rl_status ? false : true,
+                       existing: rol.rl_codigo === e.target.value ? !rol.existing : rol.existing
+                   }
+               ))) 
             }
             
-            else {
-                dispatch(deleteRol({
-                    Usuario: document.getElementById("user").value,
-                    rol: rol
-                }))
+            if(!existing){
+
+                    setRoles(roles.map(rol => (
+                         {
+                            rl_codigo: rol.rl_codigo,
+                            rl_descripcion: rol.rl_descripcion,
+                            rl_status: rol.rl_codigo === e.target.value || !rol.rl_status ? false : true,
+                            existing: rol.existing
+                        }
+                    ))) 
+                    
+           
             }
+            
         }
-        else if(e.target.checked) {
-            console.log('true')
-            var rol = e.target.value
-            if(roles.find(e => e.rl_codigo === rol)){
-                setRoles(roles.map(e => e.rl_codigo === rol ? 
-                    {
-                    rl_codigo: e.rl_codigo,
-                    rl_descripcion: e.rl_descripcion,
-                    rl_status: !e.rl_status
-                
-                } : {
-                    rl_codigo: e.rl_codigo,
-                    rl_descripcion: e.rl_descripcion,
-                    rl_status: e.rl_status
-                }
-                    
-                    
-                    ))
-  
-            }
-            setIndividualRoles([...individualRoles, e.target.value])
+        else if(e.target.checked) { //no checked
+            setRoles(roles.map(rol => (
+                {
+                   rl_codigo: rol.rl_codigo,
+                   rl_descripcion: rol.rl_descripcion,
+                   rl_status: rol.rl_codigo === e.target.value || rol.rl_status === true ? true : false,
+                   existing: rol.existing
+               }
+           ))) 
+            
             }
         }
 
     const handleClickToggle = () => {
         setToggleRoles(!toggleRoles)
-        setRoles(roles.map(e => {
-            return  {
-                rl_codigo: e.rl_codigo,
-                rl_descripcion: e.rl_descripcion,
-                rl_status: toggleRoles ? !e.rl_status : e.rl_status,
-                existing: e.existing
-            }
-        }))
+
     }
     
     const handleSubmit = () => {
-        if(toggleRoles){
-            var unSelectedRoles = roles.filter(e => !userSelectedRoles.includes(e.rl_codigo))
-            var trueSelected = unSelectedRoles.filter(e => e.rl_status === true)
-            trueSelected.forEach(e => dispatch(addRol({
-                Usuario: document.getElementById("user").value,
-                rol: e.rl_codigo
-            })))
-           
-        }else{
-            individualRoles.forEach(e => dispatch(addRol({
-                Usuario: document.getElementById("user").value,
-                rol: e
-            })))
-           
-        }
-        setIndividualRoles([]) 
-        setToggleRoles(false)
+        var prevRoles = roles
+        var sendRoles = roles.filter(e => !e.existing).filter(r => r.rl_status)
         dispatch(reset())
+        sendRoles.forEach(e => dispatch(addRol({
+            Usuario: document.getElementById("user").value,
+            rol: e.rl_codigo
+        }))) 
+        console.log(sendRoles)
+        setRoles(prevRoles)
+        setToggleRoles(false)
     }
     
     
@@ -376,11 +344,10 @@ const RolesForm = () => {
             
                         {
                             roles.map(e => 
-                            e.rl_status === true || e.existing === true || toggleRoles ?
-                            <span>
+                                !e.rl_status && !e.existing ? 
+                            <span key={e.rl_codigo}>
 
                                 <input className={styles.checkbox} value={e.rl_codigo} 
-                                checked
                                 onChange={(e) => handleCheck(e)}  type="checkbox" 
                                 style={{width: '1rem'}}/> 
                          
@@ -389,10 +356,10 @@ const RolesForm = () => {
 
 
 
-                            </span> : 
-                                <span>
-
+                            </span> :
+                                <span key={e.rl_codigo}>
                                 <input className={styles.checkbox} value={e.rl_codigo} 
+                                checked
                                 onChange={(e) => handleCheck(e)}  type="checkbox" 
                                 style={{width: '1rem'}}/> 
                          
