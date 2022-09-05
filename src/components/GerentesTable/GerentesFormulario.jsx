@@ -118,7 +118,7 @@ const HandleSubmitUpdate =async (event) =>{
   window.location.reload()
   }
 
- const floatingLabel = {textAlign:"start", paddingTop:"0.2em", fontSize:"1.5em"}
+ const floatingLabel = {textAlign:"start", paddingTop:"0.5em", fontSize:"1.3em"}
 
 return(   
     <div className={styles.container}>
@@ -164,8 +164,8 @@ return(
    </Row>
    </div>
    {
-                    id?.length? <ButtonPrimary className={styles.btn}  onClick={HandleSubmitUpdate}><FcApproval/>Actualizar</ButtonPrimary>
-                    : <ButtonPrimary className={styles.btn} type="submit" ><FcApproval/>Enviar</ButtonPrimary>
+                    id?.length? <ButtonPrimary className={styles.btn}  onClick={HandleSubmitUpdate}>Actualizar</ButtonPrimary>
+                    : <ButtonPrimary className={styles.btn} type="submit" >Enviar</ButtonPrimary>
                 }
                    
  </Form>

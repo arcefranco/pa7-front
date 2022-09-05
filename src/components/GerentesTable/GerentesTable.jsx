@@ -162,10 +162,10 @@ useEffect(() => {
       
       <div className={styles.buttonContainer}>
       { rolAlta ? 
-       <> <button onClick={()=>navigate('/altaGerentes')}   className={styles.buttonLeft} ><FcSurvey/>Nuevo</button>
+       <> <button onClick={()=>navigate('/altaGerentes')}   className={styles.buttonLeft} >Nuevo</button>
          <ExportCSV csvData={gerentes} fileName={'gerentes'} /></>
-        : <><button onClick={()=>navigate('/altaGerentes')}   className={styles.buttonLeft} disabled><FcSurvey/>Nuevo</button>
-        <button className={styles.buttonRight}  disabled ><FcDataSheet/>Excel</button></>
+        : <><button onClick={()=>navigate('/altaGerentes')}   className={styles.buttonLeft} disabled>Nuevo</button>
+        <button className={styles.buttonRight}  disabled >Excel</button></>
          } </div> 
       </span>
      <div>
