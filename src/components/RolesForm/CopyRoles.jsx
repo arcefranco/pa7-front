@@ -80,7 +80,7 @@ const CopyRoles = () => {
         
     }
     return (
-        <div style={{textAlign: '-webkit-center'}}>
+        <div style={{textAlign: '-webkit-center', height: '100vh'}}>
             <TitlePrimary style={{textAlign:'start'}}>Copiar Roles</TitlePrimary>
             <div className={styles.container}>
 
