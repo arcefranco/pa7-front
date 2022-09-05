@@ -107,7 +107,6 @@ const RolesForm = () => {
     }
     
     const handleSubmit = () => {
-        var prevRoles = roles
         var sendRoles = roles.filter(e => !e.existing).filter(r => r.rl_status)
         dispatch(reset())
         sendRoles.forEach(e => dispatch(addRol({
@@ -115,7 +114,6 @@ const RolesForm = () => {
             rol: e.rl_codigo
         }))) 
         console.log(sendRoles)
-        setRoles(prevRoles)
         setToggleRoles(false)
     }
     
