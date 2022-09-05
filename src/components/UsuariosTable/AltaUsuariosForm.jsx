@@ -192,7 +192,7 @@ useEffect(() => {
 
     }
 
-      
+    const floatingLabel = {textAlign:"start", paddingTop:"0.2em", fontSize:"1.5em"}
 
     return (
         <div className={styles.container}>
@@ -212,7 +212,7 @@ useEffect(() => {
                             <FloatingLabel
                                 controlId="floatingInputGrid"
                                 label="Nombre"
-                                style={{textAlign:"start", paddingTop:"0.2em", fontSize:"1.5em"}}
+                                style={floatingLabel}
                             >
                             <Form.Control type="text" value={input.Nombre} name="Nombre" placeholder="Nombre" onChange={handleChange} required />
                             </FloatingLabel>
@@ -222,7 +222,7 @@ useEffect(() => {
                             <FloatingLabel
                                 controlId="floatingInput"
                                 label="Usuario"
-                                style={{textAlign:"start", paddingTop:"0.2em", fontSize:"1.5em"}}
+                                style={floatingLabel}
                             > 
                             <Form.Control type="text" name="Usuario" value={input.Usuario} className={error.usuario && styles.inputError} onChange={handleChange} placeholder="Usuario" required/>
                             {error.usuario && <div className={styles.error}>{error.usuario}</div>}
@@ -232,7 +232,7 @@ useEffect(() => {
                                 <FloatingLabel
                                 controlId="floatingInput"
                                 label="Contraseña"
-                                style={{textAlign:"start", paddingTop:"0.2em", fontSize:"1.5em"}}
+                                style={floatingLabel}
                                 > 
                                 <Form.Control type="password" name="password" value={input.password}  onChange={handleChange} placeholder="Contraseña" required/>
                                 </FloatingLabel>
@@ -245,7 +245,7 @@ useEffect(() => {
                             <FloatingLabel
                                 controlId="floatingInputGrid"
                                 label="Confirmar Contraseña"
-                                style={{textAlign:"start", paddingTop:"0.2em", fontSize:"1.5em"}}
+                                style={floatingLabel}
                             > 
                             <Form.Control type="password" name="confirmPassword" value={input.confirmPassword} onChange={handleChange} placeholder="Repetir Contraseña" required/>
                             {!id?.length && error.contrasenaConfirm ? <div className={styles.error}>{error.contrasenaConfirm}</div>: null}
@@ -259,7 +259,7 @@ useEffect(() => {
                             <FloatingLabel
                                 controlId="floatingInput"
                                 label="Usuario Anura"
-                                style={{textAlign:"start", paddingTop:"0.2em", fontSize:"1.5em"}}
+                                style={floatingLabel}
                             > 
                             <Form.Control  type="text" name="UsuarioAnura"  value={input.UsuarioAnura} onChange={handleChange} placeholder="Usuario Anura" />
                             </FloatingLabel>
@@ -269,7 +269,7 @@ useEffect(() => {
                             <FloatingLabel
                                 controlId="floatingInput"
                                 label="Email"
-                                style={{textAlign:"start", paddingTop:"0.2em", fontSize:"1.5em"}}
+                                style={floatingLabel}
                             > 
                             <Form.Control  type="text" name="email" value={input.email}  onChange={handleChange} className={error.email && styles.inputError} placeholder="Email" required/>
                             {error.email && <div className={styles.error}>{error.email}</div>}

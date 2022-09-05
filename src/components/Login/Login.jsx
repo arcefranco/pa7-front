@@ -86,7 +86,7 @@ export const Login = () => {
    
 
          <form className={styles.form} onSubmit={onSubmit}>
-         <h3 className={styles.title}>Planes de Ahorro 7 probando pull</h3>
+         <h3 className={styles.title}>Planes de Ahorro 7</h3>
 
          <span>Iniciar sesión</span>
          <div style={{position:'relative', margin: '1rem'}}>

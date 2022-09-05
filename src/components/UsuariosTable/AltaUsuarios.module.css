@@ -81,12 +81,22 @@ select{
     height:2.5em;
     margin: .5rem;
 }
-
+.containerInputText input[type="text"],
+    input[type="number"],
+    input[type="email"],
+    input[type="password"]{
+        max-width: auto;
+        max-height:2.5rem;
+        text-align: start;
+    }
 .error {
     color: red;
     font-size: small;
     /* margin-bottom: 0rem; */
 }
+.floatingInput{text-align:"start";
+     padding-top:"0.2em";
+      font-size:"1.5em"}
 .inputError{
     border: 1px solid red;
     /* margin-bottom: 0; */

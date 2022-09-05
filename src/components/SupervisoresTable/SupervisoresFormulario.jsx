@@ -153,7 +153,7 @@ const HandleSubmitUpdate =async (event) =>{
   window.location.reload()
   }
 
- 
+ const floatingLabel = {textAlign:"start", paddingTop:"0.2em", fontSize:"1.5em"}
 
 return(   
     <div className={styles.container}>
@@ -173,7 +173,7 @@ return(
     <FloatingLabel
     controlId="floatingInputGrid"
     label="Codigo"
-    style={{textAlign:"start", paddingTop:"0.2em", fontSize:"1.5em"}}
+    style={floatingLabel}
     >
    <Form.Control type="text" style={{width:"6rem"}} name="Codigo" onChange={HandleChange} value={input.Codigo} disabled />
    </FloatingLabel>
@@ -183,7 +183,7 @@ return(
    <FloatingLabel
     controlId="floatingInputGrid"
     label="Nombre"
-    style={{textAlign:"start", paddingTop:"0.2em", fontSize:"1.5em"}}
+    style={floatingLabel}
     >
     <Form.Control type="text"  name="Nombre" placeholder="Nombre" className={error.Nombre && styles.inputError} onChange={HandleChange} 
    value={input.Nombre} required />
@@ -196,7 +196,7 @@ return(
    <FloatingLabel
     controlId="floatingInputGrid"
     label="Email"
-    style={{textAlign:"start", paddingTop:"0.2em", fontSize:"1.5em"}}
+    style={floatingLabel}
     >
    <Form.Control type="email" placeholder="Email"  className={error.email && styles.inputError} name="Email" onChange={HandleChange} 
    value={input.Email} required />
@@ -207,7 +207,7 @@ return(
    <FloatingLabel
     controlId="floatingInputGrid"
     label="Valor Promedio Movil"
-    style={{textAlign:"start", paddingTop:"0.2em", fontSize:"1.5em"}}
+    style={floatingLabel}
     >
    <Form.Control type="number" placeholder="Valor Promedio Movil" name="ValorPromedioMovil" onChange={HandleChange} 
    value={input.ValorPromedioMovil} />
