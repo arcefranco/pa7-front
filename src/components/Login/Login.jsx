@@ -7,7 +7,7 @@ import { useSelector } from 'react-redux/es/exports'
 import styles from './Login.module.css'
 import { login, reset } from '../../reducers/Login/loginSlice'
 import { useDispatch } from 'react-redux'
-import {Howl, Howler} from 'howler'
+// import {Howl, Howler} from 'howler'
 // import mp3 from '../../s'
  
 
@@ -22,10 +22,10 @@ export const Login = () => {
         login: '',
         password: ''
     })
-    const sound= new Howl({
+    /*const sound= new Howl({
       src:['/src/sounds/intro.mp3'],
       html5:true,
-    });
+    });*/
 
     React.useEffect(() => {
         dispatch(reset())
@@ -77,7 +77,7 @@ export const Login = () => {
 
     const onSubmit = (e) => {
         e.preventDefault()
-        sound.play()
+        // sound.play()
         dispatch(login(input))
       }
     
