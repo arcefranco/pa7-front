@@ -51,7 +51,7 @@ const GerentesFormulario = () =>{
     const [input, setInput] = useState({
       Codigo:'',
       Nombre:'',
-      Activo: '',
+      Activo: 1,
     })
 
     useEffect(() => {
@@ -87,6 +87,12 @@ const HandleChange =  (e) =>{
 /*---------------------------------HANDLE SUBMIT FUNCION INSERT---------------------------------*/
 const HandleSubmitInsert = async (event) =>{
 event.preventDefault()
+setInput({
+  Codigo:'',
+Nombre:'',
+Activo: 0,
+}
+)
 console.log(input)
 dispatch(postGerentes(input))
 navigate('/gerentes')
@@ -96,15 +102,16 @@ window.location.reload()
 /*---------------------------------HANDLE SUBMIT FUNCION UPDATE---------------------------------*/
 const HandleSubmitUpdate =async (event) =>{
   event.preventDefault()
-  console.log(input)
-  dispatch(updateGerentes(input))
-  navigate('/gerentes')
   setInput({
     Codigo:'',
   Nombre:'',
-  Activo: '',
+  Activo: 0,
   }
   )
+  console.log(input)
+  dispatch(updateGerentes(input))
+  navigate('/gerentes')
+
   window.location.reload()
   }
 

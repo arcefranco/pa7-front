@@ -2,7 +2,7 @@ import React, {useEffect, useMemo, useState, useRef} from 'react'
 import { useSelector, useDispatch} from 'react-redux'
 import { deleteSupervisores, getSupervisores, getSupervisoresById, postSupervisores, updateSupervisores, } from '../../reducers/Supervisores/supervisoresSlice.js'
 import TableContainer from '../GerentesTable/TableContainer'
-import { useFilters, usePagination,useSortBy} from 'react-table'
+import { useFilters, usePagination,useSortBy, useGlobalFilter} from 'react-table'
 import {ActiveFilter, SearchFilter} from '../GerentesTable/ActiveFilter'
 import { GlobalFilter } from '../UsuariosTable/GlobalFilter';
 import { useTable } from 'react-table'
@@ -154,8 +154,8 @@ useEffect(() => {
     ],
     []
   );
-  const tableInstance = useTable({ columns: columns, data: supervisores },    
-    useFilters, useSortBy, usePagination
+  const tableInstance = useTable({ columns: columns, data: supervisores, initialState:{pageSize:15} },    
+    useGlobalFilter,useFilters, useSortBy, usePagination
     );
 
 
@@ -170,11 +170,12 @@ useEffect(() => {
     canPreviousPage,
     pageOptions,
     setGlobalFilter,
+    setPageSize,
     state,
     prepareRow,
     selectedFlatRows,
   } = tableInstance;
-  const {pageIndex} = state
+  const {pageIndex,pageSize} = state
   const {globalFilter} = state
 
 /*RENDER PAGINA SUPERVISORES*/
