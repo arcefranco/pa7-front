@@ -153,7 +153,7 @@ const HandleSubmitUpdate =async (event) =>{
   window.location.reload()
   }
 
- const floatingLabel = {textAlign:"start", paddingTop:"0.2em", fontSize:"1.5em"}
+ const floatingLabel = {textAlign:"start", paddingTop:"0.5em", fontSize:"1.3em"}
 
 return(   
     <div className={styles.container}>
@@ -222,7 +222,7 @@ return(
    <Col>
    <InputGroup>
    <InputGroup.Text id="basic-addon1">Gerente</InputGroup.Text>
-      <Form.Select size="lg" name="Gerente" value={input.Gerente}  onChange={HandleChange} id="" required>
+      <Form.Select size="" name="Gerente" value={input.Gerente}  onChange={HandleChange} id="" required>
           {   !id ? <option value="">---</option> 
               :supervisorGerente && Object.keys(supervisorGerente).length 
               ?<option key={supervisorGerente.Codigo} value={supervisorGerente.Codigo}>{`${supervisorGerente.Nombre}`}</option> 
@@ -234,7 +234,7 @@ return(
   <Col>
   <InputGroup>
    <InputGroup.Text id="basic-addon1">Zona</InputGroup.Text>  
-        <Form.Select size="lg" name="Zona" value={input.Zona}  onChange={HandleChange} id="" required>
+        <Form.Select size="" name="Zona" value={input.Zona}  onChange={HandleChange} id="" required>
             {   !id ? <option value="">---</option> 
                 :supervisorZona && Object.keys(supervisorZona).length 
                 ?<option key={supervisorZona.codigo} value={supervisorZona.codigo}>{`${supervisorZona.Nombre}`}</option> 
@@ -261,8 +261,8 @@ return(
    
 
    {
-                    id?.length? <ButtonPrimary className={styles.btn}   onClick={HandleSubmitUpdate}><FcApproval/>Actualizar</ButtonPrimary>
-                    : <ButtonPrimary className={styles.btn} type="submit" ><FcApproval/>Enviar</ButtonPrimary>
+                    id?.length? <ButtonPrimary className={styles.btn}   onClick={HandleSubmitUpdate}>Actualizar</ButtonPrimary>
+                    : <ButtonPrimary className={styles.btn} type="submit" >Enviar</ButtonPrimary>
                 }
                    
  </Form>
