@@ -29,12 +29,12 @@ vertical-align: middle;
 
 }
 .title h3{
-    font-size: 2.5em;
+    font-size: 2.2em;
 }
 
 
 .tableContainer{
-    height: 75vh;
+    height: 76vh;
     overflow: auto;
 }
 
@@ -116,7 +116,7 @@ margin: auto;
 }
 
 .pageIndex{
-    font-size: 1em;
+    font-size: .9em;
     margin: 10px;
     justify-content: space-between;
 }
@@ -127,8 +127,8 @@ margin: auto;
     border-radius: 1em;
     width:6em;
     height: 1.8em;
-    margin: 10px;
-    font-size: 1em;
+    margin: 1em;
+    font-size: .9em;
     letter-spacing: 1px;
     border:groove 0.5px;
     font-weight: bold;
@@ -153,14 +153,14 @@ button:hover{
     width: 6em;
     letter-spacing: 1px;
     margin: auto;
-    font-size: 0.9em;
+    font-size: 0.8em;
     vertical-align: middle;
     
 }
 /* -----------------------------FILTERS------------------------------- */
 .filter{
 max-width:6em;
-margin-top: 1.5em;
+margin-top: 1.6em;
 margin-bottom: .5em;
 border-radius: 2em;
 border:groove;
@@ -180,11 +180,11 @@ border:groove;
     
 }      
 
-.globalSearch{height:2em;
+.globalSearch{height:1.8em;
     max-width: 15em;
      border-radius: 1em;
       border: groove;
-      margin-top: -2.5em;
+      margin-top: -2.4em;
       /* margin-bottom: 10px; */
       
     }
@@ -206,7 +206,7 @@ input[type="text"]:focus {
             overflow-y: scroll;
             overflow-x: scroll;}
             .title h3{
-                font-size: 1.5em;
+                font-size: 1.4em;
             }
     }
     
