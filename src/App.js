@@ -45,12 +45,12 @@ function App() {
         }}></div>
         <Routes>
           <Route path='/' element={<Home/>}/>
-          <Route path='/gerentes' element={<PrivateMasterRoute rol={'1.7.18'}/>}>
+{/*           <Route path='/gerentes' element={<PrivateMasterRoute rol={'1.7.18'}/>}> */}
             <Route path='/gerentes' element={<GerentesTable/>}/>
-          </Route>
-          <Route path='/altaGerentes/' element={<PrivateMasterRoute rol={'1.7.18.1'}/>} >
+{/*           </Route> */}
+{/*           <Route path='/altaGerentes/' element={<PrivateMasterRoute rol={'1.7.18.1'}/>} > */}
             <Route path='/altaGerentes/' element={<GerentesFormulario/>}/>
-          </Route>
+{/*           </Route> */}
           <Route path='/modificarGerentes/:id' element={<PrivateMasterRoute rol={'1.7.18.2'}/>}>
             <Route path='/modificarGerentes/:id' element={<GerentesFormulario/>}/>
           </Route>

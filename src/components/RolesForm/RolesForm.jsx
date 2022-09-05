@@ -39,18 +39,21 @@ const RolesForm = () => {
     
     const handleRolChange = () => {
         var d = document.getElementById("rol").value
+        document.getElementById("user").value && dispatch(getUserSelectedRoles(document.getElementById("user").value))
+
         dispatch(getSelectedRoles({rol: d}))
         
     }
     const handleUserChange = () => {
         var d = document.getElementById("user").value;  
         dispatch(getUserSelectedRoles(d))
+        document.getElementById("rol").value && dispatch(getSelectedRoles({rol: document.getElementById("rol").value}))
         console.log(d)
     }  
     useEffect(() => {
         sendSelected = selectedRoles.map(e => {return {rl_codigo: e.rl_codigo, rl_descripcion: e.rl_descripcion, rl_status: toggleRoles || userSelectedRoles?.some(l=> l.rl_codigo === e.rl_codigo) ?  true : false, existing: userSelectedRoles?.some(l=> l.rl_codigo === e.rl_codigo) ?  true : false}})
         setRoles(sendSelected)
-    }, [toggleRoles, selectedRoles])
+    }, [toggleRoles, selectedRoles, userSelectedRoles])
 
     const handleCheck = (e) => { 
 
@@ -113,15 +116,16 @@ const RolesForm = () => {
             Usuario: document.getElementById("user").value,
             rol: e.rl_codigo
         }))) 
-        console.log(sendRoles)
+        dispatch(getSelectedRoles({rol: document.getElementById("rol").value}))
         setToggleRoles(false)
+        dispatch(getUserSelectedRoles(document.getElementById("user").value))
     }
     
     
     var d = document.getElementById('rol')
 
     return (
-        <div style={{textAlign: '-webkit-center'}}>
+        <div style={{textAlign: '-webkit-center', height: '100vh'}}>
             <TitlePrimary style={{textAlign:'start'}}>Asignación de roles</TitlePrimary>
             <div className={styles.container}>
             <div className={styles.selects}>
@@ -343,11 +347,11 @@ const RolesForm = () => {
                         {
                             roles.map(e => 
                                 !e.rl_status && !e.existing ? 
-                            <span key={e.rl_codigo}>
+                            <span key={e.rl_codigo} className={styles.checkContainer}>
 
                                 <input className={styles.checkbox} value={e.rl_codigo} 
                                 onChange={(e) => handleCheck(e)}  type="checkbox" 
-                                style={{width: '1rem'}}/> 
+                                /> 
                          
                                 {' '} 
                                 <span>{e.rl_descripcion}</span> 
@@ -355,11 +359,11 @@ const RolesForm = () => {
 
 
                             </span> :
-                                <span key={e.rl_codigo}>
+                                <span key={e.rl_codigo} className={styles.checkContainer}>
                                 <input className={styles.checkbox} value={e.rl_codigo} 
                                 checked
                                 onChange={(e) => handleCheck(e)}  type="checkbox" 
-                                style={{width: '1rem'}}/> 
+                                /> 
                          
                                 {' '} 
                                 <span>{e.rl_descripcion}</span> 
