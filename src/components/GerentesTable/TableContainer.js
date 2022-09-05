@@ -19,7 +19,7 @@ margin-top:5px;
       // max-height: 1em;
       border-bottom: 0px solid black;
       border-right: 0px solid black;
-      font-size: .92em;
+      font-size: .9em;
     }
     tr:nth-child(even){background-color: whitesmoke;}
     
@@ -37,7 +37,7 @@ margin-top:5px;
       margin: 0;
       border-bottom: 0px solid black;
       border-right: 0px solid black;
-      font-size: 1em;
+      font-size: .95em;
       min-width:1rem;
       max-width: 15rem;
       height:auto;
