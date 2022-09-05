@@ -36,10 +36,14 @@ input[type=checkbox] {
   border: solid 1px;
  -webkit-appearance: none;
  -moz-appearance: none;
+
  height: 1.5em;
  width: 1.5rem;
  margin-right: 0.3rem;
 /*  max-width: 1.5em; */
+
+
+
 }
 input[type=checkbox]:checked {
   background-color: ghostwhite;
