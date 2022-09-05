@@ -188,10 +188,10 @@ useEffect(() => {
 
           <div className={styles.buttonContainer}>
           { rolAlta ? 
-          <> <button onClick={()=>navigate('/altaSupervisores')}   className={styles.buttonLeft} ><FcSurvey/>Nuevo</button>
+          <> <button onClick={()=>navigate('/altaSupervisores')}   className={styles.buttonLeft} >Nuevo</button>
             <ExportCSV csvData={supervisores} fileName={'supervisores'} /></>
-            : <><button onClick={()=>navigate('/altaSupervisores')}   className={styles.buttonLeft} disabled><FcSurvey/>Nuevo</button>
-            <button className={styles.buttonRight}  disabled ><FcDataSheet/>Excel</button></>
+            : <><button onClick={()=>navigate('/altaSupervisores')}   className={styles.buttonLeft} disabled>Nuevo</button>
+            <button className={styles.buttonRight}  disabled >Excel</button></>
             } </div> 
       </span>
      <div>

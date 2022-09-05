@@ -192,7 +192,7 @@ useEffect(() => {
 
     }
 
-    const floatingLabel = {textAlign:"start", paddingTop:"0.2em", fontSize:"1.5em"}
+    const floatingLabel = {textAlign:"start", paddingTop:"0.5em", fontSize:"1.3em"}
 
     return (
         <div className={styles.container}>
@@ -206,9 +206,9 @@ useEffect(() => {
                 <div className={styles.containerInputText}>
                     
 
-                <Row className="g-1">
+                <Row className="g-2">
                         
-                            <Form.Group as={Col} style={{marginTop:'1rem', marginBottom: '.5rem'}}>
+                            <Form.Group as={Col} style={{marginTop:'.5rem', marginBottom: '.2rem'}}>
                             <FloatingLabel
                                 controlId="floatingInputGrid"
                                 label="Nombre"
@@ -218,7 +218,7 @@ useEffect(() => {
                             </FloatingLabel>
                             </Form.Group>
                             
-                            <Form.Group as={Col} style={{marginTop:'1rem', marginBottom: '.5rem'}}>
+                            <Form.Group as={Col} style={{marginTop:'.5rem', marginBottom: '.2rem'}}>
                             <FloatingLabel
                                 controlId="floatingInput"
                                 label="Usuario"
@@ -228,7 +228,7 @@ useEffect(() => {
                             {error.usuario && <div className={styles.error}>{error.usuario}</div>}
                             </FloatingLabel>
                             </Form.Group>
-                            {!id?.length && <Form.Group as={Col} style={{marginTop:'1rem', marginBottom: '.5rem'}}>
+                            {!id?.length && <Form.Group as={Col} style={{marginTop:'.5rem', marginBottom: '.2rem'}}>
                                 <FloatingLabel
                                 controlId="floatingInput"
                                 label="Contraseña"
@@ -239,7 +239,7 @@ useEffect(() => {
                             </Form.Group> }
                         </Row>
                         <pre/>
-                        <Row className="g-1">
+                        <Row className="g-2">
 
                             {!id?.length && <Form.Group as={Col} >
                             <FloatingLabel
@@ -287,7 +287,7 @@ useEffect(() => {
                         <Col>
                         <InputGroup>
                         <InputGroup.Text id="basic-addon1">Vendedor</InputGroup.Text>
-                            <Form.Select size="lg" name="Vendedor" value={input.Vendedor} onChange={handleChange} id="">
+                            <Form.Select size="" name="Vendedor" value={input.Vendedor} onChange={handleChange} id="">
                         {
                                     !id ? <option value="">---</option> 
                                     : userVendedor && Object.keys(userVendedor).length 
@@ -304,7 +304,7 @@ useEffect(() => {
                         <Col>
                         <InputGroup>
                         <InputGroup.Text id="basic-addon1">Supervisor</InputGroup.Text>
-                            <Form.Select size="lg" name="Supervisor" value={input.Supervisor}  onChange={handleChange} id="">
+                            <Form.Select size="" name="Supervisor" value={input.Supervisor}  onChange={handleChange} id="">
                                     {!id ? <option value="">---</option> 
                                     :userSupervisor && Object.keys(userSupervisor).length 
                                     ?<option key={userSupervisor.Codigo}>{`${userSupervisor.Codigo} ${userSupervisor.Nombre}`}</option> 
@@ -323,7 +323,7 @@ useEffect(() => {
                     <Col>
                     <InputGroup>
                         <InputGroup.Text id="basic-addon1">Team Leader</InputGroup.Text>
-                        <Form.Select size="lg" name="TeamLeader" value={input.TeamLeader}  onChange={handleChange} id="">
+                        <Form.Select size="" name="TeamLeader" value={input.TeamLeader}  onChange={handleChange} id="">
                             {   !id ? <option value="">---</option> 
                                 :userTeamLeader && Object.keys(userTeamLeader).length 
                                 ?<option key={userTeamLeader.Codigo}>{`${userTeamLeader.Codigo} ${userTeamLeader.Nombre}`}</option> 
@@ -337,7 +337,7 @@ useEffect(() => {
                     <Col>
                     <InputGroup>
                         <InputGroup.Text id="basic-addon1">Gerente</InputGroup.Text>
-                        <Form.Select size="lg" name="Gerente" value={input.Gerente}  onChange={handleChange} id="">
+                        <Form.Select size="" name="Gerente" value={input.Gerente}  onChange={handleChange} id="">
                             {   !id ? <option value="">---</option> 
                                 :userGerente && Object.keys(userGerente).length 
                                 ?<option key={userGerente.Codigo}>{`${userGerente.Codigo} ${userGerente.Nombre}`}</option> 

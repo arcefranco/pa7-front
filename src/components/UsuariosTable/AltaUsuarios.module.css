@@ -65,20 +65,20 @@
 
 .inputSelect{
     display: grid;
-    gap:1em;
+    gap:.8em;
     grid-template-columns: 4fr 0fr;
     margin-left: 8rem;
     margin-right: 7.5rem;
 }
 select{
     max-width: auto;
-    max-height:3.5rem;
+    max-height:2rem;
     /* font-size: 1em; */
     /* margin: .5rem; */
 }
 .containerInputText select{
     width: 15rem;
-    height:2.5em;
+    height:2.4em;
     margin: .5rem;
 }
 .containerInputText input[type="text"],
@@ -86,17 +86,14 @@ select{
     input[type="email"],
     input[type="password"]{
         max-width: auto;
-        max-height:2.5rem;
+        max-height:2.2rem;
         text-align: start;
     }
 .error {
     color: red;
-    font-size: small;
+    font-size: .7em;
     /* margin-bottom: 0rem; */
 }
-.floatingInput{text-align:"start";
-     padding-top:"0.2em";
-      font-size:"1.5em"}
 .inputError{
     border: 1px solid red;
     /* margin-bottom: 0; */
@@ -113,21 +110,22 @@ select{
 }
 .inputCheck div input{
     align-self: center;
-    width: 2rem;
+    width: 1.5em;
+    height: 1.5em;
 }
 
 .inputCheck span{
     font-weight: 600;
-    font-size: 1.25em;
+    font-size: 1.1em;
 }
 
 .containerInputText span {
     font-weight: 600;
 }
 .inputSelect span {
-    height:auto;
-    font-weight: 100;
-    font-size: 1.4em;
+    max-height:2rem;
+    font-weight: 600;
+    font-size: 1.1em;
 }
 
 
@@ -174,7 +172,7 @@ input[type=number] {
     
     
 
-    input[type="text"],
+    .containerInputText input[type="text"],
     input[type="number"],
     input[type="email"],
     input[type="password"]{
