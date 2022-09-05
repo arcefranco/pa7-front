@@ -7,7 +7,9 @@ import { useSelector } from 'react-redux/es/exports'
 import styles from './Login.module.css'
 import { login, reset } from '../../reducers/Login/loginSlice'
 import { useDispatch } from 'react-redux'
-
+import {Howl, Howler} from 'howler'
+// import mp3 from '../../s'
+ 
 
 export const Login = () => {
 
@@ -20,6 +22,10 @@ export const Login = () => {
         login: '',
         password: ''
     })
+    const sound= new Howl({
+      src:['/src/sounds/intro.mp3'],
+      html5:true,
+    });
 
     React.useEffect(() => {
         dispatch(reset())
@@ -52,6 +58,7 @@ export const Login = () => {
             showConfirmButton: false,
             timer: 1500
           })
+          
           navigate('/')
           dispatch(reset())
         }
@@ -70,6 +77,7 @@ export const Login = () => {
 
     const onSubmit = (e) => {
         e.preventDefault()
+        sound.play()
         dispatch(login(input))
       }
     
@@ -81,8 +89,9 @@ export const Login = () => {
          <h3 className={styles.title}>Planes de Ahorro 7 probando pull</h3>
 
          <span>Iniciar sesión</span>
+         <div style={{position:'relative', margin: '1rem'}}>
           <select className={styles.input} name="empresa" value={input.empresa} onChange={handleChange} required>
-                <option value="" >--Elegir empresa--</option>
+                <option value="" >-Elegir empresa-</option>
                 <option value="pa7" id="carGroup">Car Group S.A.</option>
                 <option value="pa7_gf_test_2" id="gestionFinanciera">Gestion Financiera S.A.</option>
                 <option value="Auto Net S.A." id="autoNet">AutoNet S.A</option>
@@ -91,6 +100,7 @@ export const Login = () => {
                 <option value="Gestion Financiera Luxcar" id="gestionFinancieraLuxcar">Gestión Financiera Luxcar</option>
                 <option value="Alizze S.A." id="alizze">Alizze S.A.</option>
           </select>
+          </div>
           <div style={{position:'relative', margin: '1rem'}}>
             <BiIcons.BiUser className={styles.icon}/>
             <input value={input.login} name='login' onChange={handleChange} className={styles.input} placeholder='Usuario' type="text" />
@@ -100,7 +110,7 @@ export const Login = () => {
             <input value={input.password} name='password' onChange={handleChange} className={styles.input} type="password" placeholder='Contraseña'/>
           </div>
          <hr className={styles.hr} />
-          <Link to={'/recovery'} className={styles.forgotLink}>Olvido su contraseña?</Link>
+          <Link to={'/recovery'} className={styles.forgotLink}>Olvidó su contraseña?</Link>
          <button  type="submit" className={styles.btn}>Loguearse</button>
          
          </form>

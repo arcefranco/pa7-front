@@ -48,10 +48,10 @@ const SideBarItem = ({item, index}) => {
             <span  >
                 {toggle
                 ?<div style={{fontSize : "1.2em",color: open? "#3483fa":"#545e65"}} onMouseOver={showSideBar}>{item.icon}</div>
-                :<div style={{fontSize : "2em" , marginLeft: "0.7em",color: open? "#3483fa":"#545e65"}} onMouseOver={showSideBar}   >{item.icon}</div>}
+                :<div style={{fontSize : "3.2em" , marginLeft: ".45em",color: open? "#3483fa":"#545e65"}} onMouseOver={showSideBar}   >{item.icon}</div>}
                 <div style={{display: toggle? "block" : "none" , fontSize:"1.3em" }} onClick={() => setOpen(!open)}> 
                 <div  className={styles[item.cName]} style={{color: open? "#3483fa":"#545e65"}}>{item.title}</div>
-                <div style={{textAlign:"right", width:"11.5em", marginTop:"-1.5em"}}>
+                <div style={{textAlign:"right", width:"11em", marginTop:"-1.5em"}}>
                 {open ? <MdIcons.MdOutlineKeyboardArrowDown className={styles.arrow}  onClick={() => setOpen(!open)} /> 
                 :<MdIcons.MdOutlineKeyboardArrowDown className={styles.arrowDown} onClick={() => setOpen(!open)} />}
                 </div>

@@ -1,7 +1,7 @@
 .navbar {
 
   background-color: #f5f5f5;
-    height: 10%;
+    height: 8%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -67,7 +67,6 @@
     justify-content: center;
     position: fixed;
     z-index: 2;
-    top: 0;
     transition: linear 250ms;
   }
   
@@ -126,17 +125,8 @@
     /* border-radius: 4px; */
     cursor: pointer;
   } 
-  .textOpen option {
-    text-decoration: none;
-    font-size: 1.2em;
-    width: 95%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    /* padding: 0 5px; */
-    border-radius: 0px;
-    cursor: pointer;
-  } 
+
+
 
   
   .text:hover {
@@ -148,28 +138,7 @@
     line-height: normal;
  
    }
-/*-----------------------------SUBMENU NIVEL 2-------------------------------*/
-  .subMenuL2{
-    
-    font-size: 0.90em;
-    width:10.5em;
-    text-align: start;
-    margin-left: 0.5em;
-    line-height: normal;
-  }
 
-  .subMenuL2:active{
-    font-size: 1.1em;
-    text-align: start;
-    line-height: normal;
-  }
-  .subMenuL2 svg{
-    font-size: 1.1em;
-    line-height: normal;
-  }
-
-
- 
 
   /*---------------------------SUBMENU NIVEL 1----------------------------------*/
   .nav-text{
@@ -180,6 +149,44 @@
   .menuItems {
     width: 100%;
   }
+/*-----------------------------SUBMENU NIVEL 2-------------------------------*/
+.subMenuL2{
+    
+  font-size: 0.85em;
+  width:10em;
+  text-align: start;
+  margin-left: 0.5em;
+  line-height: normal;
+}
+
+.subMenuL2:active{
+  color:#3483fa;
+  text-align: start;
+  line-height: normal;
+}
+.subMenuL2 svg{
+  font-size: 1.1em;
+  line-height: normal;
+}
+.subMenuL2 a{
+  font-size: 1.3em;
+  text-align: start;
+  line-height: normal;
+}
+/* SUBMENU DISABLED */
+.textOpen option {
+text-decoration: none;
+font-size: .9em;
+max-width: 50%;
+height: 100%;
+display: flex;
+align-items: start;
+margin-left: 0.6em;
+cursor: pointer;
+} 
+
+
+
   /*CONTAINER SUBMENU*/
 .sidebarContent{
   margin-left: 1em;
@@ -207,7 +214,7 @@
    margin-bottom: 5px;
 }
 .nav-text span {
-  font-size: 1em;
+  font-size: .8em;
   font-weight: bold;
   width: 100%;
   height: 100%;
@@ -246,10 +253,12 @@
   .option{
     color: white;
   }
+
+  /*------------------ESTILOS BARRA CERRADA--------------------*/
   .sidebar{
       flex-shrink: 0;
       background-color: #f5f5f5;
-      height: 77vh;
+      height: 78vh;
       overflow-y: hidden;
       overflow-x: hidden;
       display: flex;
@@ -278,3 +287,5 @@
     background-color: #545e65;    /* color of the scroll thumb */
     border-radius: 20px;       /* roundness of the scroll thumb */
   }
+
+  /* sas  */

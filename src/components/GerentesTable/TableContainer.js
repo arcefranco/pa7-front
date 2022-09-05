@@ -15,11 +15,11 @@ margin-top:5px;
       margin: auto;
       padding-left: 0.2em;
       min-width:4.5em;
-      max-width: 18em;
-      height: 2em;
+      max-width: 19em;
+      // max-height: 1em;
       border-bottom: 0px solid black;
       border-right: 0px solid black;
-      font-size: 1em;
+      font-size: .9em;
     }
     tr:nth-child(even){background-color: whitesmoke;}
     
@@ -37,7 +37,7 @@ margin-top:5px;
       margin: 0;
       border-bottom: 0px solid black;
       border-right: 0px solid black;
-      font-size: 1em;
+      font-size: .95em;
       min-width:1rem;
       max-width: 15rem;
       height:auto;
