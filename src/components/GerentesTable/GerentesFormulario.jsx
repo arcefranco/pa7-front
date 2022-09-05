@@ -10,7 +10,7 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import InputGroup from 'react-bootstrap/InputGroup';
 import {FcApproval} from 'react-icons/fc'
 import {Link, useNavigate} from 'react-router-dom';
-import { getGerentesById, postGerentes, updateGerentes } from '../../reducers/Gerentes/gerentesSlice';
+import { getGerentesById, postGerentes, updateGerentes , reset} from '../../reducers/Gerentes/gerentesSlice';
 import TitlePrimary from "../../styled-components/h/TitlePrimary";
 import ButtonPrimary from "../../styled-components/buttons/ButtonPrimary";
 
@@ -51,7 +51,7 @@ const GerentesFormulario = () =>{
     const [input, setInput] = useState({
       Codigo:'',
       Nombre:'',
-      Activo: 1,
+      Activo: 0,
     })
 
     useEffect(() => {
@@ -87,14 +87,15 @@ const HandleChange =  (e) =>{
 /*---------------------------------HANDLE SUBMIT FUNCION INSERT---------------------------------*/
 const HandleSubmitInsert = async (event) =>{
 event.preventDefault()
+
+console.log(input)
+dispatch(postGerentes(input))
 setInput({
   Codigo:'',
 Nombre:'',
 Activo: 0,
 }
 )
-console.log(input)
-dispatch(postGerentes(input))
 navigate('/gerentes')
 window.location.reload()
 }
@@ -102,20 +103,22 @@ window.location.reload()
 /*---------------------------------HANDLE SUBMIT FUNCION UPDATE---------------------------------*/
 const HandleSubmitUpdate =async (event) =>{
   event.preventDefault()
+
+  console.log(input)
+  dispatch(updateGerentes(input))
+  dispatch(reset())
   setInput({
     Codigo:'',
   Nombre:'',
   Activo: 0,
   }
   )
-  console.log(input)
-  dispatch(updateGerentes(input))
   navigate('/gerentes')
 
   window.location.reload()
   }
 
- 
+ const floatingLabel = {textAlign:"start", paddingTop:"0.2em", fontSize:"1.5em"}
 
 return(   
     <div className={styles.container}>
@@ -133,7 +136,7 @@ return(
     <FloatingLabel
     controlId="floatingInputGrid"
     label="Codigo"
-    style={{textAlign:"start", paddingTop:"0.2em", fontSize:"1.5em"}}
+    style={floatingLabel}
     >
    <Form.Control type="text" style={{width:"6rem"}} name="Codigo" onChange={HandleChange} value={input.Codigo} disabled />
    </FloatingLabel>
@@ -142,7 +145,7 @@ return(
    <FloatingLabel
     controlId="floatingInputGrid"
     label="Nombre"
-    style={{textAlign:"start", paddingTop:"0.2em", fontSize:"1.5em"}}
+    style={floatingLabel}
     >
     <Form.Control type="text"  name="Nombre" placeholder="Nombre" className={error.Nombre && styles.inputError} onChange={HandleChange} 
    value={input.Nombre} required />
