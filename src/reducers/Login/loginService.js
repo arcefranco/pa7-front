@@ -2,11 +2,11 @@ import axios from 'axios'
 
 const login = async (userData) => {
 
-    const response = await axios.post(process.env.REACT_APP_HOST + 'login', userData) 
-    window.localStorage.setItem('userToken', `Bearer ${response.data.token}`)
-    window.localStorage.setItem('rolesToken', JSON.stringify(`Roles ${response.data.tokenRoles}`))
-    window.localStorage.setItem('user', JSON.stringify(response.data))
-    return response.data 
+  const response = await axios.post(process.env.REACT_APP_HOST + 'login', userData) 
+  window.localStorage.setItem('userToken', `Bearer ${response.data.token}`)
+  window.localStorage.setItem('rolesToken', JSON.stringify(`Roles ${response.data.tokenRoles}`))
+  window.localStorage.setItem('user', JSON.stringify(response.data))
+  return response.data 
   }
 
   const logout = async () => {
