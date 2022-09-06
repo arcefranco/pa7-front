@@ -1,6 +1,6 @@
 import React, {useEffect, useMemo, useState, useRef} from 'react'
 import { useSelector, useDispatch} from 'react-redux'
-import { deleteSupervisores, getSupervisores, getSupervisoresById, postSupervisores, updateSupervisores, } from '../../reducers/Supervisores/supervisoresSlice.js'
+import { deleteSupervisores, getSupervisores, getSupervisoresById, postSupervisores, updateSupervisores, reset } from '../../reducers/Supervisores/supervisoresSlice.js'
 import TableContainer from '../GerentesTable/TableContainer'
 import { useFilters, usePagination,useSortBy, useGlobalFilter} from 'react-table'
 import {ActiveFilter, SearchFilter} from '../GerentesTable/ActiveFilter'
@@ -36,14 +36,41 @@ const [input, setInput] = useState({
 /*GET API SUPERVISORES*/
 useEffect(() => {
   
-  dispatch(getSupervisores())
+  Promise.all(dispatch(getSupervisores()), dispatch(reset()))
   }, [dispatch])
 
- const {supervisores, supervisoresById} = useSelector(
+ const {supervisores, supervisoresById, statusNuevoSupervisor} = useSelector(
     (state) => state.supervisores)
-
+    const {user, } = useSelector(
+      (state) => state.login)
     
-   
+    /*-------------------------SWAL ALERTS--------------------------*/ 
+    useEffect(() => {
+      if(statusNuevoSupervisor.length && statusNuevoSupervisor[0]?.status === true){
+          Swal.fire({
+              icon: 'success',
+              title: statusNuevoSupervisor[0]?.data,
+              showConfirmButton: false,
+              timer: 5000
+            })
+            navigate('/supervisores')
+            dispatch(reset())
+            window.location.reload()
+      }else if(statusNuevoSupervisor.length && statusNuevoSupervisor[0]?.status === false){
+       Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              showConfirmButton: true,
+              
+              text: statusNuevoSupervisor[0]?.data
+            }).then((result) => {
+              if (result.isConfirmed) {
+                window.location.reload()
+                
+              } 
+          })
+            
+      }}, [statusNuevoSupervisor])
     
 // /*LAST OBJECT OF THE SUPERVISORES ARRAY  */
 //     var lastObject =useMemo( () => gerentes[(gerentes.length)-1])
@@ -141,8 +168,8 @@ useEffect(() => {
             text: 'Esta seguro que desea eliminar?'
           }).then((result) => {
             if(result.isConfirmed){
-              dispatch(deleteSupervisores({Codigo: value.value}))
-              window.location.reload()
+              dispatch(deleteSupervisores({Codigo: value.value, HechoPor:user.username}))
+              
             }
           })
           

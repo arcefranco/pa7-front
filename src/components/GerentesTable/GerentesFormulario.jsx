@@ -9,6 +9,7 @@ import Stack from 'react-bootstrap/Stack';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import InputGroup from 'react-bootstrap/InputGroup';
 import {FcApproval} from 'react-icons/fc'
+import Swal from "sweetalert2";
 import {Link, useNavigate} from 'react-router-dom';
 import { getGerentesById, postGerentes, updateGerentes , reset} from '../../reducers/Gerentes/gerentesSlice';
 import TitlePrimary from "../../styled-components/h/TitlePrimary";
@@ -20,15 +21,43 @@ const GerentesFormulario = () =>{
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [error, setError] = useState({})
-    const {gerentesById} = useSelector(
+    const {user, } = useSelector(
+      (state) => state.login)
+    
+    const {gerentesById, statusNuevoGerente} = useSelector(
         (state) => state.gerentes)
         
     useEffect(() => {
+      Promise.all([dispatch(reset())]);
     if(id) {  
         dispatch(getGerentesById(id))
         }
   }, [id])
-    
+  useEffect(() => {
+    if(statusNuevoGerente.length && statusNuevoGerente[0]?.status === true){
+        Swal.fire({
+            icon: 'success',
+            title: statusNuevoGerente[0]?.data,
+            showConfirmButton: false,
+            timer: 5000
+          })
+        navigate('/gerentes')
+        dispatch(reset())
+    }else if(statusNuevoGerente.length && statusNuevoGerente[0]?.status === false){
+     Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            showConfirmButton: true,
+            
+            text: statusNuevoGerente[0]?.data
+          }).then((result) => {
+            if (result.isConfirmed) {
+              window.location.reload()
+              
+            } 
+        })
+          
+    }}, [statusNuevoGerente])
 
   const validateform = function (form) {
     const errors = {};
@@ -48,20 +77,23 @@ const GerentesFormulario = () =>{
 
 
 
-    const [input, setInput] = useState({
-      Codigo:'',
-      Nombre:'',
-      Activo: 0,
-    })
-
+   
     useEffect(() => {
         setInput({
 
           Codigo: gerentesById?.Codigo,
           Nombre: gerentesById?.Nombre,
           Activo: gerentesById?.Activo,
+          HechoPor: user.username,
         });
       }, [gerentesById]);
+
+      const [input, setInput] = useState({
+        Codigo:'',
+        Nombre:'',
+        Activo: 0,
+      })
+  
 
 
 /*----------------------HANDLE CHANGE DEL FORM------------------------------------ */
@@ -89,15 +121,14 @@ const HandleSubmitInsert = async (event) =>{
 event.preventDefault()
 
 console.log(input)
-dispatch(postGerentes(input))
+dispatch(postGerentes(input, user))
 setInput({
   Codigo:'',
 Nombre:'',
 Activo: 0,
 }
 )
-navigate('/gerentes')
-window.location.reload()
+
 }
 
 /*---------------------------------HANDLE SUBMIT FUNCION UPDATE---------------------------------*/
@@ -105,7 +136,7 @@ const HandleSubmitUpdate =async (event) =>{
   event.preventDefault()
 
   console.log(input)
-  dispatch(updateGerentes(input))
+  dispatch(updateGerentes(input, user))
   dispatch(reset())
   setInput({
     Codigo:'',
@@ -113,9 +144,7 @@ const HandleSubmitUpdate =async (event) =>{
   Activo: 0,
   }
   )
-  navigate('/gerentes')
-
-  window.location.reload()
+  
   }
 
  const floatingLabel = {textAlign:"start", paddingTop:"0.5em", fontSize:"1.3em"}

@@ -6,6 +6,7 @@ import gerentesService from './gerentesService'
 const initialState = {
     gerentes: [],
     gerentesById: [],
+    statusNuevoGerente: [],
     isError: false,
     isSuccess: false,
     isLoading: false,
@@ -83,6 +84,8 @@ export const gerentesSlice = createSlice({
         state.isSuccess = false
         state.isError = false
         state.message = ''
+        state.gerentesById= []
+        state.statusNuevoGerente= []
       },
     },
 
@@ -121,47 +124,53 @@ export const gerentesSlice = createSlice({
           
         builder.addCase(postGerentes.pending, (state) => {
             state.isLoading = true
+            state.statusNuevoGerente = []
+
           })
         builder.addCase(postGerentes.fulfilled, (state, action) => {
             state.isLoading = false
             state.isSuccess = true
-            state.gerentes = action.payload
+            state.statusNuevoGerente = [action.payload]
           }) 
         builder.addCase(postGerentes.rejected, (state, action) => {
             state.isLoading = false
             state.isError = true
-            state.message = action.payload
+            state.statusNuevoGerente = [action.payload]
             state.gerentes = null
           });
 
         builder.addCase(updateGerentes.pending, (state) => {
             state.isLoading = true
+            state.statusNuevoGerente = []
+
           })
         builder.addCase(updateGerentes.fulfilled, (state, action) => {
             state.isLoading = false
             state.isSuccess = true
-            state.gerentes = action.payload
+            state.statusNuevoGerente = [action.payload]
+
           }) 
         builder.addCase(updateGerentes.rejected, (state, action) => {
             state.isLoading = false
             state.isError = true
-            state.message = action.payload
-            state.gerentes = null
+            state.statusNuevoGerente = [action.payload]
           });
           
           builder.addCase(deleteGerentes.pending, (state) => {
             state.isLoading = true
+            state.statusNuevoGerente = []
+
           })
         builder.addCase(deleteGerentes.fulfilled, (state, action) => {
             state.isLoading = false
             state.isSuccess = true
-            state.gerentes = action.payload
+            state.statusNuevoGerente = [action.payload]
+
           }) 
         builder.addCase(deleteGerentes.rejected, (state, action) => {
             state.isLoading = false
             state.isError = true
-            state.message = action.payload
-            state.gerentes = null
+            state.statusNuevoGerente = [action.payload]
           });  
 
 

@@ -1,6 +1,6 @@
 import React, {useEffect, useMemo, useState, useRef} from 'react'
 import { useSelector, useDispatch} from 'react-redux'
-import { deleteGerentes, getGerentes, getGerentesById, postGerentes, updateGerentes, } from '../../reducers/Gerentes/gerentesSlice'
+import { deleteGerentes, getGerentes, getGerentesById, postGerentes, updateGerentes, reset } from '../../reducers/Gerentes/gerentesSlice'
 import TableContainer from './TableContainer'
 import { useFilters, usePagination,useSortBy, useGlobalFilter} from 'react-table'
 import {ActiveFilter, SearchFilter} from './ActiveFilter'
@@ -34,12 +34,40 @@ const [input, setInput] = useState({
 
 /*GET API GERENTES*/
 useEffect(() => {
-  dispatch(getGerentes())
+  Promise.all(dispatch(getGerentes()), dispatch(reset()))
   }, [dispatch])
-
- const {gerentes, gerentesById} = useSelector(
+  const {user, } = useSelector(
+    (state) => state.login)
+ const {gerentes, gerentesById,statusNuevoGerente} = useSelector(
     (state) => state.gerentes)
-
+  
+ /*-------------------------SWAL ALERTS--------------------------*/ 
+    useEffect(() => {
+      if(statusNuevoGerente.length && statusNuevoGerente[0]?.status === true){
+          Swal.fire({
+              icon: 'success',
+              title: statusNuevoGerente[0]?.data,
+              showConfirmButton: false,
+              timer: 5000
+            })
+            navigate('/gerentes')
+            dispatch(reset())
+            window.location.reload()
+      }else if(statusNuevoGerente.length && statusNuevoGerente[0]?.status === false){
+       Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              showConfirmButton: true,
+              
+              text: statusNuevoGerente[0]?.data
+            }).then((result) => {
+              if (result.isConfirmed) {
+                window.location.reload()
+                
+              } 
+          })
+            
+      }}, [statusNuevoGerente])
     
    
     
@@ -102,8 +130,8 @@ useEffect(() => {
             text: 'Esta seguro que desea eliminar?'
           }).then((result) => {
             if(result.isConfirmed){
-              dispatch(deleteGerentes({Codigo: value.value}))
-              window.location.reload()
+              dispatch(deleteGerentes({Codigo: value.value, HechoPor:user.username}))
+              
             }
           })
           
