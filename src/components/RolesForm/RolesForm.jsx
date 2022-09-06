@@ -71,7 +71,8 @@ const RolesForm = () => {
         
         if(!e.target.checked) {//checked
 
-            if(existing){ 
+            if(existing){
+                dispatch(reset()) 
                 dispatch(deleteRol({
                     Usuario: document.getElementById("user").value,
                     rol: e.target.value
@@ -83,7 +84,9 @@ const RolesForm = () => {
                        rl_status: rol.rl_codigo === e.target.value || !rol.rl_status ? false : true,
                        existing: rol.rl_codigo === e.target.value ? !rol.existing : rol.existing
                    }
-               ))) 
+               )))
+               
+               
             }
             
             if(!existing){
