@@ -16,6 +16,7 @@ import validateEmail from "../../helpers/validateEmail";
 import {FcApproval} from 'react-icons/fc'
 import {Link, useNavigate} from 'react-router-dom';
 import { getSupervisoresById, postSupervisores, updateSupervisores,getAllGerentes,getAllZonas, reset } from '../../reducers/Supervisores/supervisoresSlice';
+import Swal from "sweetalert2";
 
 
 const SupervisoresFormulario = () =>{
@@ -26,6 +27,8 @@ const SupervisoresFormulario = () =>{
 
     const {supervisoresById, gerentes, zonas, statusNuevoSupervisor} = useSelector(
         (state) => state.supervisores)
+        const {user, } = useSelector(
+          (state) => state.login)
         
         const validateform = function (form) {
           const errors = {};
@@ -54,6 +57,35 @@ const SupervisoresFormulario = () =>{
         dispatch(getSupervisoresById(id))
         }
   }, [id])
+
+
+  useEffect(() => {
+    if(statusNuevoSupervisor.length && statusNuevoSupervisor[0]?.status === true){
+        Swal.fire({
+            icon: 'success',
+            title: statusNuevoSupervisor[0]?.data,
+            showConfirmButton: false,
+            timer: 5000
+          })
+        navigate('/supervisores')
+    }else if(statusNuevoSupervisor.length && statusNuevoSupervisor[0]?.status === false){
+     Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            showConfirmButton: true,
+            
+            text: statusNuevoSupervisor[0]?.data
+          }).then((result) => {
+            if (result.isConfirmed) {
+              window.location.reload()
+              
+            } 
+        })
+          
+    }}, [statusNuevoSupervisor])
+
+
+
   const supervisorGerente = gerentes?.find(e => e.Nombre === supervisoresById?.Gerente,);
   const supervisorZona = zonas?.find(e =>  e.Nombre === supervisoresById?.Zona )
   useEffect(() => {
@@ -68,6 +100,7 @@ const SupervisoresFormulario = () =>{
       EsMiniEmprendedor: supervisoresById?.EsMiniEmprendedor,
       ValorPromedioMovil: supervisoresById?.ValorPromedioMovil,
       Zona: supervisorZona?.codigo,
+      HechoPor: user.username,
 
     });
   }, [supervisoresById]);
@@ -115,25 +148,29 @@ const HandleChange =  (e) =>{
 /*---------------------------------HANDLE SUBMIT FUNCION INSERT---------------------------------*/
 const HandleSubmitInsert = async (event) =>{
 event.preventDefault()
-setInput({
-   Codigo:'',
-  Nombre:'',
-  Gerente:'',
-  Activo: '',
-  Email:'',
-  ValorPromedioMovil:'',
-  EsMiniEmprendedor:'',
-  Zona:'',})
+
 console.log(input)
-dispatch(postSupervisores(input))
-navigate('/supervisores')
-window.location.reload()
+dispatch(postSupervisores(input, user))
+setInput({
+  Codigo:'',
+ Nombre:'',
+ Gerente:'',
+ Activo: 0,
+ Email:'',
+ ValorPromedioMovil:'',
+ EsMiniEmprendedor:'',
+ Zona:'',})
+
 }
 
 /*---------------------------------HANDLE SUBMIT FUNCION UPDATE---------------------------------*/
 const HandleSubmitUpdate =async (event) =>{
   event.preventDefault()
   console.log(input)
+  
+ 
+  dispatch(updateSupervisores(input, user))
+  dispatch(reset())
   setInput({
     Codigo:'',
    Nombre:'',
@@ -146,11 +183,7 @@ const HandleSubmitUpdate =async (event) =>{
  
    }
    )
- 
-  dispatch(updateSupervisores(input))
-  navigate('/supervisores')
 
-  window.location.reload()
   }
 
  const floatingLabel = {textAlign:"start", paddingTop:"0.5em", fontSize:"1.3em"}
