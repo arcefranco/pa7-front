@@ -18,10 +18,13 @@ const RolesForm = () => {
     const {selectedRoles, usuarios, userSelectedRoles, rolStatus} = useSelector(state => state.usuarios)
     useEffect(() => {
         Promise.all([dispatch(getAllUsuarios()), dispatch(reset())])
-
+        
     }, [])
-
- 
+    
+    
+    
+    
+    
     var sendSelected = []
     const [roles, setRoles] = useState(sendSelected)
     const [toggleRoles, setToggleRoles] = useState(false)
@@ -31,16 +34,23 @@ const RolesForm = () => {
             icon:'info',
             timer: 15000,
             text: rolStatus
-          })
-
+        })
+        
     }, [rolStatus, deleteRol])
-    
+    useEffect(() => {
+        if(document.getElementById("user") !== null){
 
+            dispatch(getUserSelectedRoles(document.getElementById("user").value))
+        }
+ 
+    }, [rolStatus]) 
+    
+    
     
     const handleRolChange = () => {
         var d = document.getElementById("rol").value
         document.getElementById("user").value && dispatch(getUserSelectedRoles(document.getElementById("user").value))
-
+        
         dispatch(getSelectedRoles({rol: d}))
         
     }
@@ -117,8 +127,8 @@ const RolesForm = () => {
             rol: e.rl_codigo
         }))) 
         dispatch(getSelectedRoles({rol: document.getElementById("rol").value}))
-        setToggleRoles(false)
         dispatch(getUserSelectedRoles(document.getElementById("user").value))
+        setToggleRoles(false)
     }
     
     
@@ -129,7 +139,7 @@ const RolesForm = () => {
             <TitlePrimary style={{textAlign:'start'}}>Asignación de roles</TitlePrimary>
             <div className={styles.container}>
                 {
-                    userSelectedRoles && !userSelectedRoles.find(e => e.rl_codigo === "1") ? 
+                    Array.isArray(userSelectedRoles) && !userSelectedRoles.find(e => e.rl_codigo === "1") ? 
                     <ButtonPrimary onClick={() => 
                         dispatch(giveMaster({Usuario: document.getElementById("user").value }))}>Habilitar Master</ButtonPrimary> 
                         
@@ -392,7 +402,7 @@ const RolesForm = () => {
         </div>  
             <ButtonPrimary onClick={handleClickToggle}>Seleccionar todos</ButtonPrimary><br />
             <br />
-                <ButtonPrimary onClick={handleSubmit}>Enviar</ButtonPrimary>
+                <ButtonPrimary onClick={handleSubmit}>Guardar</ButtonPrimary>
         </div>
             </div>
     )
