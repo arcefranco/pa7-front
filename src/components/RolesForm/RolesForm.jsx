@@ -4,7 +4,7 @@ import TitlePrimary from "../../styled-components/h/TitlePrimary";
 import ButtonPrimary from '../../styled-components/buttons/ButtonPrimary'
 import Swal from "sweetalert2";
 import Select from "../../styled-components/inputs/Select";
-import { getAllUsuarios, getSelectedRoles, getUserSelectedRoles, addRol, deleteRol, reset, replaceRoles } 
+import { getAllUsuarios, getSelectedRoles, getUserSelectedRoles, addRol, deleteRol, reset, giveMaster } 
 from "../../reducers/Usuarios/UsuariosSlice";
 import styles from './Roles.module.css'
 import { useState } from "react";
@@ -128,6 +128,14 @@ const RolesForm = () => {
         <div style={{textAlign: '-webkit-center', height: '100vh'}}>
             <TitlePrimary style={{textAlign:'start'}}>Asignación de roles</TitlePrimary>
             <div className={styles.container}>
+                {
+                    userSelectedRoles && !userSelectedRoles.find(e => e.rl_codigo === "1") ? 
+                    <ButtonPrimary onClick={() => 
+                        dispatch(giveMaster({Usuario: document.getElementById("user").value }))}>Habilitar Master</ButtonPrimary> 
+                        
+                    : <ButtonPrimary disabled>Habilitar Master</ButtonPrimary>
+                }
+                
             <div className={styles.selects}>
             <div className={styles.select}>
                 
