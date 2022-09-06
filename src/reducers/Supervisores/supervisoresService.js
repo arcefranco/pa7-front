@@ -1,4 +1,5 @@
 import axios from 'axios'
+import getHeaderToken from '../../helpers/getHeaderToken';
 
 
 const getSupervisores = async () => {
@@ -19,15 +20,18 @@ const getSupervisores = async () => {
   }
 
 const postSupervisores = async (form) => {
-    const response = await axios.post(process.env.REACT_APP_HOST + 'supervisores', form )
-    return response.data[0]
+    const headers = getHeaderToken();
+    const response = await axios.post(process.env.REACT_APP_HOST + 'supervisores', form, headers )
+    return response.data
   }
 const updateSupervisores = async (form) => {
-  const response = await axios.put(process.env.REACT_APP_HOST + 'supervisores' , form)
-  return response.data[0]
+  const headers = getHeaderToken();
+  const response = await axios.put(process.env.REACT_APP_HOST + 'supervisores' , form, headers)
+  return response.data
 }  
 
 const deleteSupervisores = async (supervisoresData) => {
+  const headers = getHeaderToken();
   const response = await axios.delete(process.env.REACT_APP_HOST + 'supervisores', {data: supervisoresData})
   return response.data }
 
