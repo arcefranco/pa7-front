@@ -1,7 +1,5 @@
 import axios from 'axios'
 import getHeaderToken from '../../helpers/getHeaderToken';
-const API_URL = 'http://localhost:3001/'
-/* const headers = getHeaderToken(); */
 
 const getUsuarioById = async(id) => {
     const response = await axios.post(process.env.REACT_APP_HOST + 'usuarios/id', id)
@@ -73,6 +71,10 @@ const deleteUsuario = async (usuarioData) => {
       }, data: { Codigo: usuarioData } })
     return response.data
 }
+const giveMaster = async (rolData) => {
+    const response = await axios.post(process.env.REACT_APP_HOST + 'roles/master', rolData)
+    return response.data
+}
 
 
 
@@ -89,6 +91,7 @@ const usuariosService = {
     deleteRol,
     copyRoles,
     replaceRoles,
+    giveMaster,
     createUsuario,
     getUsuarioById,
     updateUsuario,
