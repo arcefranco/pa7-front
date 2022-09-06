@@ -8,6 +8,7 @@ import { ResetPassword } from './components/ForgotPassword/ResetPassword';
 import { RecoveryPass } from './components/ForgotPassword/RecoveryPass';
 import GerentesTable from './components/GerentesTable/GerentesTable';
 import CopyRoles from './components/RolesForm/CopyRoles';
+import ErrorDB from './pages/ErrorDB';
 import UsuariosTable from './components/UsuariosTable/UsuariosTable';
 import SupervisoresTable from './components/SupervisoresTable/SupervisoresTable';
 import { useSelector } from 'react-redux';
@@ -69,6 +70,7 @@ function App() {
           <Route path='/roles' element={<RolesForm/>}/>
           <Route path='/copyRoles' element={<CopyRoles/>}/>
           <Route path='/permission' element={<NotPermission/>}/>
+          <Route path='/480' element={<ErrorDB/>}></Route>
         </Routes> 
         </div>
        
