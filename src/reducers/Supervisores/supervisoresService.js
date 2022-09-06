@@ -1,5 +1,10 @@
 import axios from 'axios'
+
 import { errorsHandling } from '../errorsHandling'
+
+import getHeaderToken from '../../helpers/getHeaderToken';
+
+
 
 const getSupervisores = async () => {
     const response = await axios.get(process.env.REACT_APP_HOST + 'supervisores')
@@ -22,15 +27,19 @@ const getSupervisores = async () => {
   }
 
 const postSupervisores = async (form) => {
-    const response = await axios.post(process.env.REACT_APP_HOST + 'supervisores', form ).catch((error) => errorsHandling(error))
-    return response.data[0]
+
+    const headers = getHeaderToken();
+    const response = await axios.post(process.env.REACT_APP_HOST + 'supervisores', form, headers ).catch((error) => errorsHandling(error))
+    return response.data
   }
 const updateSupervisores = async (form) => {
-  const response = await axios.put(process.env.REACT_APP_HOST + 'supervisores' , form).catch((error) => errorsHandling(error))
-  return response.data[0]
+  const headers = getHeaderToken();
+  const response = await axios.put(process.env.REACT_APP_HOST + 'supervisores' , form, headers).catch((error) => errorsHandling(error))
+  return response.data
 }  
 
 const deleteSupervisores = async (supervisoresData) => {
+  const headers = getHeaderToken();
   const response = await axios.delete(process.env.REACT_APP_HOST + 'supervisores', {data: supervisoresData}).catch((error) => errorsHandling(error))
   return response.data }
 

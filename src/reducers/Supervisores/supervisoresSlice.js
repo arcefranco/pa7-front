@@ -4,15 +4,16 @@ import supervisoresService from './supervisoresService'
 
 
 const initialState = {
+    
+    isError: false,
+    isSuccess: false,
+    isLoading: false,
+    message: '',
     supervisores: [],
     supervisoresById: [],
     gerentes:[],
     zonas:[],
     statusNuevoSupervisor: [],
-    isError: false,
-    isSuccess: false,
-    isLoading: false,
-    message: '',
 }
 
 export const getSupervisores = createAsyncThunk('supervisores', async (thunkAPI) => {
@@ -180,46 +181,47 @@ export const supervisoresSlice = createSlice({
           })
         builder.addCase(postSupervisores.pending, (state) => {
             state.isLoading = true
+            state.statusNuevoSupervisor = []
           })
         builder.addCase(postSupervisores.fulfilled, (state, action) => {
             state.isLoading = false
             state.isSuccess = true
-            state.supervisores = action.payload
+            state.statusNuevoSupervisor = [action.payload]
           }) 
         builder.addCase(postSupervisores.rejected, (state, action) => {
             state.isLoading = false
             state.isError = true
-            state.message = action.payload
-            state.supervisores = null
+            state.statusNuevoSupervisor = [action.payload]
           });
 
         builder.addCase(updateSupervisores.pending, (state) => {
             state.isLoading = true
+            state.statusNuevoSupervisor = []
           })
         builder.addCase(updateSupervisores.fulfilled, (state, action) => {
             state.isLoading = false
             state.isSuccess = true
-            state.supervisores = action.payload
+            state.statusNuevoSupervisor = [action.payload]
           }) 
         builder.addCase(updateSupervisores.rejected, (state, action) => {
             state.isLoading = false
             state.isError = true
-            state.message = action.payload
-            state.supervisores = null
+            state.statusNuevoSupervisor = [action.payload]
           });
           
           builder.addCase(deleteSupervisores.pending, (state) => {
             state.isLoading = true
+            state.statusNuevoSupervisor = []
           })
         builder.addCase(deleteSupervisores.fulfilled, (state, action) => {
             state.isLoading = false
             state.isSuccess = true
-            state.supervisores = action.payload
+            state.statusNuevoSupervisor = [action.payload]
           }) 
         builder.addCase(deleteSupervisores.rejected, (state, action) => {
             state.isLoading = false
             state.isError = true
-            state.message = action.payload
+            state.statusNuevoSupervisor = [action.payload]
             state.supervisores = null
           });  
 
