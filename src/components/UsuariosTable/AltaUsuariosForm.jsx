@@ -78,7 +78,7 @@ useEffect(() => {
             icon: 'success',
             title: statusNuevoUsuario[0]?.data,
             showConfirmButton: false,
-            timer: 5000
+            timer: 5000,
           })
         navigate('/usuarios')
     }else if(statusNuevoUsuario.length && statusNuevoUsuario[0]?.status === false){

@@ -16,11 +16,11 @@ const postGerentes = async (form) => {
   }
 const updateGerentes = async (form) => {
   const response = await axios.put(process.env.REACT_APP_HOST + 'gerentes' , form)
-  return response.data[0] 
+  return response.data 
 }  
 
 const deleteGerentes = async (gerentesData) => {
-  const response = await axios.delete(process.env.REACT_APP_HOST + 'gerentes', {data: {id: gerentesData}})
+  const response = await axios.delete(process.env.REACT_APP_HOST + 'gerentes', {data: gerentesData}, )
   return response.data }
 
 const gerentesService = {
