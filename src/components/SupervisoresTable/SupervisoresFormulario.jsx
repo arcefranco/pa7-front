@@ -68,6 +68,7 @@ const SupervisoresFormulario = () =>{
             timer: 5000
           })
         navigate('/supervisores')
+        dispatch(reset())
     }else if(statusNuevoSupervisor.length && statusNuevoSupervisor[0]?.status === false){
      Swal.fire({
             icon: 'error',
