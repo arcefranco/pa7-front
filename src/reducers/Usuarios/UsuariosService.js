@@ -1,68 +1,69 @@
 import axios from 'axios'
 import getHeaderToken from '../../helpers/getHeaderToken';
+import { errorsHandling } from '../errorsHandling';
 
 const getUsuarioById = async(id) => {
-    const response = await axios.post(process.env.REACT_APP_HOST + 'usuarios/id', id)
+    const response = await axios.post(process.env.REACT_APP_HOST + 'usuarios/id', id).catch((error) => errorsHandling(error))
     return response.data
 }
 
 const getAllUsuarios = async () => {
 
-    const response = await axios.get(process.env.REACT_APP_HOST + 'usuarios/todos')
+    const response = await axios.get(process.env.REACT_APP_HOST + 'usuarios/todos').catch((error) => errorsHandling(error))
     return response.data
   }
 const getAllVendedores = async () => {
-    const response = await axios.get(process.env.REACT_APP_HOST + 'usuarios/vendedores')
+    const response = await axios.get(process.env.REACT_APP_HOST + 'usuarios/vendedores').catch((error) => errorsHandling(error))
     return response.data
 }
 const getAllGerentes = async () => {
-    const response = await axios.get(process.env.REACT_APP_HOST + 'usuarios/gerentes')
+    const response = await axios.get(process.env.REACT_APP_HOST + 'usuarios/gerentes').catch((error) => errorsHandling(error))
     return response.data
 }
 const getAllSupervisores = async () => {
-    const response = await axios.get(process.env.REACT_APP_HOST + 'usuarios/supervisores')
+    const response = await axios.get(process.env.REACT_APP_HOST + 'usuarios/supervisores').catch((error) => errorsHandling(error))
     return response.data
 }
 const getAllTeamLeaders = async () => {
-    const response = await axios.get(process.env.REACT_APP_HOST + 'usuarios/teamLeaders')
+    const response = await axios.get(process.env.REACT_APP_HOST + 'usuarios/teamLeaders').catch((error) => errorsHandling(error))
     return response.data
 }
 
 const getSelectedRoles = async (rol) => {
-    const response = await axios.post(process.env.REACT_APP_HOST + 'roles', rol)
+    const response = await axios.post(process.env.REACT_APP_HOST + 'roles', rol).catch((error) => errorsHandling(error))
     return response.data
 }
 const getUserSelectedRoles = async (user) => {
-    const response = await axios.post(process.env.REACT_APP_HOST + 'roles/user', {user: user})
+    const response = await axios.post(process.env.REACT_APP_HOST + 'roles/user', {user: user}).catch((error) => errorsHandling(error))
     return response.data
 }
 const addRol = async (rolData) => {
     const {Usuario, rol} = rolData
-    const response = await axios.post(process.env.REACT_APP_HOST + 'roles/rol', {Usuario: Usuario, rol: rol})
+    const response = await axios.post(process.env.REACT_APP_HOST + 'roles/rol', {Usuario: Usuario, rol: rol}).catch((error) => errorsHandling(error))
     return response.data
 }
 
 const deleteRol = async (rolData) => {
-    const response = await axios.delete(process.env.REACT_APP_HOST + 'roles',  { data: rolData })
+    const response = await axios.delete(process.env.REACT_APP_HOST + 'roles',  { data: rolData }).catch((error) => errorsHandling(error))
     return response.data
 }
 
 const copyRoles = async (usersData) => {
-    const response = await axios.post(process.env.REACT_APP_HOST + 'roles/copy', usersData)
+    const response = await axios.post(process.env.REACT_APP_HOST + 'roles/copy', usersData).catch((error) => errorsHandling(error))
     return response.data
 }
 const replaceRoles = async (usersData) => {
-    const response = await axios.post(process.env.REACT_APP_HOST + 'roles/replace', usersData)
+    const response = await axios.post(process.env.REACT_APP_HOST + 'roles/replace', usersData).catch((error) => errorsHandling(error))
     return response.data
 }
 const createUsuario = async (usuarioData) => {
     const headers = getHeaderToken();
-    const response = await axios.post(process.env.REACT_APP_HOST + 'usuarios', usuarioData, headers)
+    const response = await axios.post(process.env.REACT_APP_HOST + 'usuarios', usuarioData, headers).catch((error) => errorsHandling(error))
     return response.data
 }
 const updateUsuario = async (usuarioData) => {
     const headers = getHeaderToken();
-    const response = await axios.put(process.env.REACT_APP_HOST + 'usuarios', usuarioData, headers)
+    const response = await axios.put(process.env.REACT_APP_HOST + 'usuarios', usuarioData, headers).catch((error) => errorsHandling(error))
     return response.data
 }
 const deleteUsuario = async (usuarioData) => {
@@ -72,7 +73,7 @@ const deleteUsuario = async (usuarioData) => {
     return response.data
 }
 const giveMaster = async (rolData) => {
-    const response = await axios.post(process.env.REACT_APP_HOST + 'roles/master', rolData)
+    const response = await axios.post(process.env.REACT_APP_HOST + 'roles/master', rolData).catch((error) => errorsHandling(error))
     return response.data
 }
 
