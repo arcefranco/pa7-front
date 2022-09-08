@@ -13,6 +13,7 @@ const initialState = {
     usuarioById: [],
     selectedRoles: [],
     userSelectedRoles: [],
+    commitState: '',
     rolStatus: '',
     isError: false,
     isSuccess: false,
@@ -246,6 +247,20 @@ export const getAllUsuarios = createAsyncThunk('usuarios/All', async (thunkAPI) 
       return thunkAPI.rejectWithValue(error.response.data)
     }
   })
+  export const endCommit = createAsyncThunk('endCommit', async (usuarioData, thunkAPI) => {
+    try {
+      
+      const data = await usuariosService.endCommit()
+
+      return data
+    } catch (error) {
+
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+  })
 
   export const usuariosSlice = createSlice({
     name: 'usuarios',
@@ -259,6 +274,7 @@ export const getAllUsuarios = createAsyncThunk('usuarios/All', async (thunkAPI) 
         state.statusNuevoUsuario = []
         state.usuarioById = []
         state.rolStatus = []
+        state.commitState = ''
        
       },
     },
@@ -496,6 +512,21 @@ export const getAllUsuarios = createAsyncThunk('usuarios/All', async (thunkAPI) 
             state.isLoading = false
             state.isError = true
             state.rolStatus = action.payload
+            state.message = action.payload
+          })
+          .addCase(endCommit.pending, (state) => {
+            state.isLoading = true
+            
+          })
+          .addCase(endCommit.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.isSuccess = true
+            state.commitState = action.payload
+          }) 
+          .addCase(endCommit.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            state.commitState = action.payload
             state.message = action.payload
           })
         }
