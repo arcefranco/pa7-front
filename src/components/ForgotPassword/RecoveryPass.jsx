@@ -30,7 +30,7 @@ export const RecoveryPass = () => {
           <h3 className={styles.title}>Planes de Ahorro 7</h3>
             <form className={styles.form} action="">
             <span>Coloque su nombre de usuario y empresa</span>
-            <select name="empresa" value={input.empresa} onChange={handleChange}>
+            <select style={{padding: '0', height: '2.4rem'}} name="empresa" className={styles.input} value={input.empresa} onChange={handleChange}>
                 <option value="" >-Elegir empresa-</option>
                 <option value="pa7" id="carGroup">Car Group S.A.</option>
                 <option value="pa7_gf_test_2" id="gestionFinanciera">Gestion Financiera S.A.</option>
