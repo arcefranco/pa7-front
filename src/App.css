@@ -55,6 +55,12 @@ input[type=checkbox] {
   mix-blend-mode: multiply;
  }
 
+
+
+/*.form-select{
+  font-size: small;
+}*/
+
 input[type=checkbox]:checked {
   background-color: ghostwhite;
   background-image: url('check.png') ;
