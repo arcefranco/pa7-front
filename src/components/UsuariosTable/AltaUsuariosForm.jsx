@@ -20,7 +20,7 @@ import {FcApproval} from 'react-icons/fc';
 const AltaUsuariosForm = () => {
     const {id} = useParams()
 const dispatch = useDispatch()
-const {vendedores, gerentes, supervisores, teamLeaders, statusNuevoUsuario, usuarioById, commitState} = useSelector(
+const {vendedores, gerentes, supervisores, teamLeaders, statusNuevoUsuario, usuarioById} = useSelector(
     (state) => state.usuarios)
 
 const navigate = useNavigate()
