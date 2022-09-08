@@ -56,6 +56,7 @@ const validateform = function (form) {
             text: usuarioById.message
           }).then((result) => {
             if (result.isConfirmed) {
+                dispatch(endCommit())
               window.location.replace('/usuarios')
               
             } 
@@ -65,7 +66,7 @@ const validateform = function (form) {
 
 
   useEffect(() => {
-
+    dispatch(reset())
     return () => {
         dispatch(endCommit())
     }
