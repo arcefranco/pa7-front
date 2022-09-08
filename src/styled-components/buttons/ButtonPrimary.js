@@ -1,14 +1,15 @@
 import styled from "styled-components";
 
 export default styled.button`
-
-    padding: 0.5rem;
+    padding:.25rem .3rem .25rem .3rem;
     border: none;
     background-color: #3c8dbc;
-    border-radius: 0.4em;
+    border-radius: 1em;
     box-shadow: none;
+    min-width:4em;
     color: white;
-    font-size: 0.7em;
+    font-weight:600;
+    font-size: 1.3em;
    
    
    

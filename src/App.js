@@ -18,7 +18,12 @@ import  GerentesFormulario  from './components/GerentesTable/GerentesFormulario.
 import  SupervisoresFormulario  from './components/SupervisoresTable/SupervisoresFormulario.jsx';
 import NotPermission from './NotPermission';
 import RolesForm from './components/RolesForm/RolesForm';
+
 import SucursalesTable from './components/SucursalesTable/SucursalesTable';
+
+import TeamLeadersTable from './components/TeamLeadersTable/TeamLeadersTable';
+import TeamLeadersFormulario from './components/TeamLeadersTable/TeamLeadersFormulario';
+
 function App() {
   const {user, toggle} = useSelector(
     (state) => state.login)
@@ -57,6 +62,9 @@ function App() {
           <Route path='/modificarGerentes/:id' element={<PrivateMasterRoute rol={'1.7.18.2'}/>}>
             <Route path='/modificarGerentes/:id' element={<GerentesFormulario/>}/>
           </Route>
+          <Route path='/teamleaders' element={<TeamLeadersTable/>}/>
+          <Route path='/altaTeamLeaders' element={<TeamLeadersFormulario/>}/>
+          <Route path='/modificarTeamLeaders/:id' element={<TeamLeadersFormulario/>}/>
           <Route path='/supervisores' element={<SupervisoresTable/>}/>
           <Route path='/altaSupervisores/' element={<SupervisoresFormulario/>}/>
           <Route path='/modificarSupervisores/:id' element={<SupervisoresFormulario/>}/>

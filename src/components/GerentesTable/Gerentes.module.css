@@ -159,7 +159,7 @@ button:hover{
 }
 /* -----------------------------FILTERS------------------------------- */
 .filter{
-max-width:4.27em;
+max-width:4.25em;
 margin-top: 1.6em;
 margin-bottom: .5em;
 border-radius: 2em;
@@ -194,7 +194,7 @@ input[type="text"]:focus {
         border: 2px solid #862d59;
     }
  */
-    @media only screen and (max-width: 600px){
+    @media only screen and (max-width: 700px){
         .containerGlobalFilter{            margin-right: 4em; }
         .globalSearch{  margin-top: -2em;
                         max-width:5.5em;
