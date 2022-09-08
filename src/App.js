@@ -13,12 +13,17 @@ import UsuariosTable from './components/UsuariosTable/UsuariosTable';
 import SupervisoresTable from './components/SupervisoresTable/SupervisoresTable';
 import { useSelector } from 'react-redux';
 import AltaUsuariosForm from './components/UsuariosTable/AltaUsuariosForm';
+import AltaSucursalesForm from './components/SucursalesTable/AltaSucursalesForm';
 import  GerentesFormulario  from './components/GerentesTable/GerentesFormulario.jsx';
 import  SupervisoresFormulario  from './components/SupervisoresTable/SupervisoresFormulario.jsx';
 import NotPermission from './NotPermission';
 import RolesForm from './components/RolesForm/RolesForm';
+
+import SucursalesTable from './components/SucursalesTable/SucursalesTable';
+
 import TeamLeadersTable from './components/TeamLeadersTable/TeamLeadersTable';
 import TeamLeadersFormulario from './components/TeamLeadersTable/TeamLeadersFormulario';
+
 function App() {
   const {user, toggle} = useSelector(
     (state) => state.login)
@@ -72,6 +77,8 @@ function App() {
           <Route path='/modifUsuarios/:id' element={<PrivateMasterRoute rol={'1.7.16.3.2'}/>}>
               <Route path='/modifUsuarios/:id' element={<AltaUsuariosForm/>}/>
           </Route>
+          <Route path="/sucursales" element={<SucursalesTable/>}/>
+          <Route path='/modifSucursales/:id' element={<AltaSucursalesForm/>}/>
           <Route path='/roles' element={<RolesForm/>}/>
           <Route path='/copyRoles' element={<CopyRoles/>}/>
           <Route path='/permission' element={<NotPermission/>}/>
