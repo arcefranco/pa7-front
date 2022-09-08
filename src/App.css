@@ -42,9 +42,19 @@ input[type=checkbox] {
  margin-right: 0.3rem;
 /*  max-width: 1.5em; */
 
-
-
 }
+
+.img{
+  background-color: #090909;
+  margin:auto;
+  margin-top: 0;
+  margin-bottom: 0;
+  width: 5cm;
+  height: 4cm;
+  filter: brightness(1.1);
+  mix-blend-mode: multiply;
+ }
+
 input[type=checkbox]:checked {
   background-color: ghostwhite;
   background-image: url('check.png') ;

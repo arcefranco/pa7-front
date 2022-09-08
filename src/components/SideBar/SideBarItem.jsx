@@ -60,7 +60,7 @@ const SideBarItem = ({item, index}) => {
                 </div>    
             </span>
                 }
-        </div> : <option value="*"  disabled>{item.title}</option>
+        </div> : <p value="*"  disabled>{item.title}</p>
         }
             <div className={styles.sidebarContent} style={{ display: toggle? "block" : "none"}}>
              {
