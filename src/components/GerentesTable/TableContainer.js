@@ -14,8 +14,8 @@ margin-top:5px;
       border: ridge 0.5px;
       margin: auto;
       padding-left: 0.2em;
-      min-width:3em;
-      max-width: 19em;
+      min-width:auto;
+      max-width: auto;
       // max-height: 1em;
       border-bottom: 0px solid black;
       border-right: 0px solid black;
@@ -25,6 +25,7 @@ margin-top:5px;
     
     tr {
       height:2.5rem;
+      padding:.5em
       ;
       :last-child {
         td {
@@ -34,12 +35,13 @@ margin-top:5px;
     }
 
     td {
-      margin: 0;
+      // margin: .5em;
+      padding: .5em;
       border-bottom: 0px solid black;
       border-right: 0px solid black;
       font-size: .88em;
-      min-width:1rem;
-      max-width: 15rem;
+      min-width:auto;
+      max-width: 16.2rem;
       height:auto;
 
 
@@ -54,7 +56,7 @@ margin-top:5px;
           border-top: 0px solid black;
         }
       }
-      font-weight: bolder;
+      font-weight: 600;
     }
   }
 `;

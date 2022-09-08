@@ -23,8 +23,8 @@ const response = await axios.get(process.env.REACT_APP_HOST + 'reset/tokenStatus
 return response.data
 }
 
-const forgotPassowrd = async (login) => { //Para ir a la ruta que genera el mail
-  const response = await axios.post(process.env.REACT_APP_HOST + 'reset/forgot', {login: login})
+const forgotPassowrd = async (userData) => { //Para ir a la ruta que genera el mail
+  const response = await axios.post(process.env.REACT_APP_HOST + 'reset/forgot', userData)
   return response.data
 }
 

@@ -9,7 +9,7 @@ import Row from 'react-bootstrap/Row';
 import Stack from 'react-bootstrap/Stack';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { getAllGerentes, getAllSupervisores, getAllTeamLeaders, 
-    getAllVendedores, createUsuario, reset, getUsuarioById, updateUsuario} from "../../reducers/Usuarios/UsuariosSlice";
+    getAllVendedores, createUsuario, reset, getUsuarioById, updateUsuario, endCommit} from "../../reducers/Usuarios/UsuariosSlice";
 import validateEmail from "../../helpers/validateEmail";
 import styles from './AltaUsuarios.module.css'
 import './AltaUsuarios.module.css'
@@ -20,7 +20,7 @@ import {FcApproval} from 'react-icons/fc';
 const AltaUsuariosForm = () => {
     const {id} = useParams()
 const dispatch = useDispatch()
-const {vendedores, gerentes, supervisores, teamLeaders, statusNuevoUsuario, usuarioById} = useSelector(
+const {vendedores, gerentes, supervisores, teamLeaders, statusNuevoUsuario, usuarioById, commitState} = useSelector(
     (state) => state.usuarios)
 
 const navigate = useNavigate()
@@ -45,6 +45,14 @@ const validateform = function (form) {
   
     return errors;
   };
+
+  useEffect(() => {
+
+    return () => {
+        dispatch(endCommit())
+    }
+
+  }, [])
 
 useEffect(() => {
     Promise.all([dispatch(getAllVendedores()), dispatch(getAllGerentes()), 
@@ -323,7 +331,7 @@ useEffect(() => {
                     <Col>
                     <InputGroup>
                         <InputGroup.Text id="basic-addon1">Team Leader</InputGroup.Text>
-                        <Form.Select size="" name="TeamLeader" value={input.TeamLeader}  onChange={handleChange} id="">
+                        <Form.Select size="" style={{fontSize: 'smaller'}} name="TeamLeader" value={input.TeamLeader}  onChange={handleChange} id="">
                             {   !id ? <option value="">---</option> 
                                 :userTeamLeader && Object.keys(userTeamLeader).length 
                                 ?<option key={userTeamLeader.Codigo}>{`${userTeamLeader.Codigo} ${userTeamLeader.Nombre}`}</option> 

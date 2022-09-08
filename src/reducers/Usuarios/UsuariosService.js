@@ -77,6 +77,11 @@ const giveMaster = async (rolData) => {
     return response.data
 }
 
+const endCommit = async () => {
+    const response = await axios.get(process.env.REACT_APP_HOST + 'usuarios/endCommit')
+    return response.data
+}
+
 
 
 
@@ -93,6 +98,7 @@ const usuariosService = {
     copyRoles,
     replaceRoles,
     giveMaster,
+    endCommit,
     createUsuario,
     getUsuarioById,
     updateUsuario,
