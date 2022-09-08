@@ -47,6 +47,24 @@ const validateform = function (form) {
   };
 
   useEffect(() => {
+    if(usuarioById.status === false){
+        Swal.fire({
+            icon: 'error',
+            title: 'Tiempo excedido',
+            showConfirmButton: true,
+            
+            text: usuarioById.message
+          }).then((result) => {
+            if (result.isConfirmed) {
+              window.location.replace('/usuarios')
+              
+            } 
+        })
+    }
+  }, [usuarioById])
+
+
+  useEffect(() => {
 
     return () => {
         dispatch(endCommit())
