@@ -27,7 +27,7 @@ const SideBarItem = ({item, index}) => {
 
     return (
         
-    <div  key={index}    className={open ? styles.textOpen : styles.text} onMouseOver={showSideBar}>
+    <div  key={index}  className={open ? styles.textOpen : styles.text} onMouseOver={showSideBar}>
         {/**Si el Item no tiene un rol asignado, es un Menú (Nivel 0) */}
         {
             !item.rol || 
@@ -41,11 +41,12 @@ const SideBarItem = ({item, index}) => {
                     {item.icon}
                     {item.title}
                     
-                    </span></Link>
+                    </span>
+                    </Link>
                     
                     : 
                     
-                    <span key={index} >
+                    <span key={index} onClick={() => setOpen(!open)}>
                 {toggle
                 ?<div style={{fontSize : "1.2em",color: open? "#3483fa":"#545e65"}} onMouseOver={showSideBar}>{item.icon}</div>
                 :<div style={{fontSize : "3.2em" , marginLeft: ".45em",
