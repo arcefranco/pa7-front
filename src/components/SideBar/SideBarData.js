@@ -148,7 +148,7 @@ export const SidebarData = [
     [
       {title: 'Vendedores', rol:'1.7.1', cName:'subMenuL2'},
       {title: 'Supervisores', rol:'1.7.2', path:'/supervisores', cName:'subMenuL2'},
-      {title: 'Sucursales', rol:'1.7.3', cName:'subMenuL2'},
+      {title: 'Sucursales', rol:'1.7.3', cName:'subMenuL2', path:'/sucursales'},
       {title: 'Cambio Modelo', rol:'1.7.4', cName:'subMenuL2'},
       {title: 'Cambio De Contraseña Sueldos', rol:'1.7.5', cName:'subMenuL2'},
       {title: 'Modelos', rol:'1.7.6', cName:'subMenuL2'},
