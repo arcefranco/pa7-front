@@ -96,7 +96,7 @@
   /*---------------------------SUBMENU NIVEL 1----------------------------------*/
   .nav-text{
     user-select: none;
-    width:11em;
+    width:15em;
     line-height: normal;
     display: flex;
     margin-bottom: 0.2rem;
@@ -148,7 +148,7 @@
 .subMenuL2{
   user-select: none;
   font-size: 0.8em;
-  width:10em;
+/*   width:10em; */
   height:3em;
   text-align: start;
   margin-left: 0.5em;
@@ -173,7 +173,7 @@
 }
 .subMenuL2 a{
  padding-top: .5rem;
-  width:9em;
+/*   width:9em; */
   height:1.5em;
   font-size: 1.3em;
   text-align: start;
