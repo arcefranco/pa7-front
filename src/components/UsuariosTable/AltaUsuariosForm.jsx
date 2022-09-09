@@ -20,7 +20,7 @@ import {FcApproval} from 'react-icons/fc';
 const AltaUsuariosForm = () => {
     const {id} = useParams()
 const dispatch = useDispatch()
-const {vendedores, gerentes, supervisores, teamLeaders, statusNuevoUsuario, usuarioById, commitState} = useSelector(
+const {vendedores, gerentes, supervisores, teamLeaders, statusNuevoUsuario, usuarioById} = useSelector(
     (state) => state.usuarios)
 
 const navigate = useNavigate()
@@ -56,6 +56,7 @@ const validateform = function (form) {
             text: usuarioById.message
           }).then((result) => {
             if (result.isConfirmed) {
+                dispatch(endCommit())
               window.location.replace('/usuarios')
               
             } 
@@ -65,9 +66,12 @@ const validateform = function (form) {
 
 
   useEffect(() => {
-
+    dispatch(reset())
     return () => {
-        dispatch(endCommit())
+        if(id){
+
+            dispatch(endCommit())
+        }
     }
 
   }, [])

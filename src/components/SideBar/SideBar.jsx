@@ -26,7 +26,7 @@ const SideBar = () => {
   
     return (
     <>
-            <nav style={{width: toggle?  "16em" : "5em" }} className={styles.menu}  onMouseLeave={() => dispatch(setToggleFalse())}  >
+            <nav style={{width: toggle?  "12em" : "5em" }} className={styles.menu}    onMouseLeave={() => dispatch(setToggleFalse())} >
                 <div className={styles.menuItems}>
                     <div className={styles.toggle}>
                     <p style={{display: toggle ? "grid" : "none" }} className={styles.menuBars}><b>Planes de Ahorro 7</b></p>
@@ -48,7 +48,7 @@ const SideBar = () => {
                      }
                      </div>         
                 </div>
-                <div className={styles.navbar} style={{width: toggle ? "16em" : "5em"}}>
+                <div className={styles.navbar} style={{width: toggle ? "12em" : "5em"}}>
                 <div className={styles.username} style={{display: toggle ? "block" : "none" }}>
                             {/* <AiIcons.AiOutlineUser className={styles.username}/> */}
                             <p style={{fontSize:"1.1em"}} >{user.empresa}</p>

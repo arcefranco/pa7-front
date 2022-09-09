@@ -2,7 +2,7 @@
   .menuBars {
     margin: auto;
     padding:auto;
-    font-size: 1.4rem;
+    font-size: 1rem;
     color: #545e65;
     vertical-align: middle;
   }
@@ -47,10 +47,10 @@
     user-select: none;
     text-decoration: none;
     /* margin-top:1em; */
-    padding-top: .5em;
-    padding-bottom: .7em;
+    padding-top: .3em;
+    padding-bottom: .3em;
     cursor: pointer;
-    font-size: 1em;
+    font-size: .9em;
     
     
   }
@@ -96,9 +96,10 @@
   /*---------------------------SUBMENU NIVEL 1----------------------------------*/
   .nav-text{
     user-select: none;
-    width:10em;
+    width:11em;
     line-height: normal;
     display: flex;
+    margin-bottom: 0.2rem;
     color: #545e65;
     cursor: pointer;
     text-align: start;
@@ -111,18 +112,18 @@
 .nav-text span svg{
   display: inline-block;
   width: 1.3rem;
-  height: 2.2rem;
+  height: 1.8rem;
   margin-right: 0.7rem;
    /* margin-top: 2px;  */
    /* margin-bottom: 5px; */
 }
 .nav-text span {
-  font-size: .8em;
+  font-size: .6em;
   font-weight: bold;
   width: 100%;
   height: 100%;
   display: flex;
-  align-items: center;
+/*   align-items: center; */
   padding: 0 1em ;
   cursor: pointer;
 
@@ -131,7 +132,7 @@
 /*-----------------------------SUBMENU NIVEL 2-------------------------------*/
 .sidebarContent{
   margin-left: 1em;
-  margin-top: .6em;
+  margin-top: .3em;
   margin-bottom: .4em;
   border-left: solid 4px #3483facc ;
   transition: linear 300ms; 
@@ -140,18 +141,18 @@
 .textOpen > .sidebarContent{
   width:100%;
   height: auto;
-  padding-bottom: 1em;
   font-weight: 600;
   cursor: pointer;
 }
 
 .subMenuL2{
   user-select: none;
-  font-size: 0.85em;
+  font-size: 0.8em;
   width:10em;
-  height:2em;
+  height:3em;
   text-align: start;
   margin-left: 0.5em;
+  display: flex;
   line-height: 1.2;
 }
 
