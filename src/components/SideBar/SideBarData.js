@@ -198,7 +198,6 @@ export const SidebarData = [
         ]},
       {title: 'Ventas', rol:'1.8.2', cName:'subMenuL2', 
         options:[
-
           {title: 'Importación Facturas B', rol: '1.8.2.1', cName:'subMenuL2'},
           {title: 'Conformación Contable', rol: '1.8.2.2', cName:'subMenuL2'},
           {title: 'Clientes Facturación', rol: '1.8.4.7', cName:'subMenuL2', 

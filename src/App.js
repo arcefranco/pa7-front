@@ -25,6 +25,7 @@ import TeamLeadersTable from './components/TeamLeadersTable/TeamLeadersTable';
 import TeamLeadersFormulario from './components/TeamLeadersTable/TeamLeadersFormulario';
 import VendedoresTable from './components/VendedoresTable/VendedoresTable';
 import VendedoresFormulario from './components/VendedoresTable/VendedoresFormulario';
+
 function App() {
   const {user, toggle} = useSelector(
     (state) => state.login)
