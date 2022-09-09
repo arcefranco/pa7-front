@@ -5,6 +5,7 @@ import usuariosReducer from './reducers/Usuarios/UsuariosSlice'
 import supervisoresReducer from './reducers/Supervisores/supervisoresSlice'
 import { combineReducers } from "@reduxjs/toolkit"
 import teamLeadersReducer from "./reducers/TeamLeaders/teamLeadersSlice"
+import vendedoresReducer from "./reducers/Vendedores/vendedoresSlice"
 
 
 const reducer = combineReducers({
@@ -13,6 +14,7 @@ const reducer = combineReducers({
   usuarios: usuariosReducer,
   supervisores: supervisoresReducer,
   teamLeaders: teamLeadersReducer,
+  vendedores: vendedoresReducer,
 })
 
 

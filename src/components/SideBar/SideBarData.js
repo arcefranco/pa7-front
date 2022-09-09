@@ -141,12 +141,12 @@ export const SidebarData = [
   },
   
   {
-    title: 'Configuracion de Datos Generales',
+    title: 'Configuración de Datos Generales',
     icon: <BiCog />,
     cName: 'nav-text',
     options: 
     [
-      {title: 'Vendedores', rol:'1.7.1', cName:'subMenuL2'},
+      {title: 'Vendedores', rol:'1.7.1',path:'/vendedores' , cName:'subMenuL2'},
       {title: 'Supervisores', rol:'1.7.2', path:'/supervisores', cName:'subMenuL2'},
       {title: 'Sucursales', rol:'1.7.3', cName:'subMenuL2'},
       {title: 'Cambio Modelo', rol:'1.7.4', cName:'subMenuL2'},
@@ -163,13 +163,13 @@ export const SidebarData = [
       {title: 'Parametros', rol:'1.7.15', cName:'subMenuL2'},
       {title: 'Usuarios', rol:'1.7.16', cName:'subMenuL2',
         options: [
-            {title: 'Administracion de Permisos', rol: '1.7.16.1', cName:'subMenuL2', unique:true},
-            {title: 'Alta y Modificacion de Roles', rol: '1.7.16.2', cName:'subMenuL2', 
+            {title: 'Administración de Permisos', rol: '1.7.16.1', cName:'subMenuL2', unique:true},
+            {title: 'Alta y Modificación de Roles', rol: '1.7.16.2', cName:'subMenuL2', 
               options:[
-                {title: 'Alta y Modificacion de Roles', rol: '1.7.16.2', path:'/roles', cName:'subMenuL2'},
+                {title: 'Alta y Modificación de Roles', rol: '1.7.16.2', path:'/roles', cName:'subMenuL2'},
                 {title: 'Copiar Roles', rol: '1.7.16.2', path:'/copyRoles', cName:'subMenuL2'}
             ]},
-            {title: 'Alta y Modificacion de Usuarios', rol: '1.7.16.3', path: '/usuarios', cName:'subMenuL2'},
+            {title: 'Alta y Modificación de Usuarios', rol: '1.7.16.3', path: '/usuarios', cName:'subMenuL2'},
        ]},
       {title: 'ABM Intereses', rol:'1.7.17', cName:'subMenuL2'},
       {title: 'Gerentes', rol:'1.7.18', path:'/gerentes', cName:'subMenuL2'},
@@ -185,47 +185,47 @@ export const SidebarData = [
     cName: 'nav-text',
     options: 
     [
-      {title: 'Tesoreria', rol:'1.8.1', cName:'subMenuL2',
+      {title: 'Tesorería', rol:'1.8.1', cName:'subMenuL2',
         options: [
           {title: 'Pagos', rol:'1.8.1.1', cName:'subMenuL2'},
           {title: 'Cobranzas', rol:'1.8.1.2', cName:'subMenuL2', 
             options:[
-              {title:'Cobranza ed Facturas Giama', rol: '1.8.1.3', cName:'subMenuL2'}
+              {title:'Cobranza de Facturas Giama', rol: '1.8.1.3', cName:'subMenuL2'}
               ]
             }
         ]},
       {title: 'Ventas', rol:'1.8.2', cName:'subMenuL2', 
         options:[
-          {title: 'Importacion Facturas B', rol: '1.8.2.1', cName:'subMenuL2'},
-          {title: 'Conformacion Contable', rol: '1.8.2.2', cName:'subMenuL2'},
-          {title: 'Clientes Facturacion', rol: '1.8.4.7', cName:'subMenuL2', 
+          {title: 'Importación Facturas B', rol: '1.8.2.1', cName:'subMenuL2'},
+          {title: 'Conformación Contable', rol: '1.8.2.2', cName:'subMenuL2'},
+          {title: 'Clientes Facturación', rol: '1.8.4.7', cName:'subMenuL2', 
             options: [
-              {title: 'Administracion de Clientes', rol: '1.8.4.7.1', cName:'subMenuL2'},
+              {title: 'Administración de Clientes', rol: '1.8.4.7.1', cName:'subMenuL2'},
               {title: 'Medios de Pago', rol: '1.8.4.7.2', cName:'subMenuL2'},
-              {title: 'Composicion de Saldos', rol: '1.8.4.7.4', cName:'subMenuL2'},
-              {title: 'Importacion de Clientes', rol: '1.8.4.7.1', cName:'subMenuL2'}, /*ROL A REVISAR */
+              {title: 'Composición de Saldos', rol: '1.8.4.7.4', cName:'subMenuL2'},
+              {title: 'Importación de Clientes', rol: '1.8.4.7.1', cName:'subMenuL2'}, /*ROL A REVISAR */
               {title: 'Cuenta Corriente', rol: '1.8.4.7.3', cName:'subMenuL2'},
               {title: 'Ver Recibos', rol: '1.8.4.7.5', cName:'subMenuL2'},
             ]},
-          {title: 'Facturacion', rol: '1.8.2.3', cName:'subMenuL2', 
+          {title: 'Facturación', rol: '1.8.2.3', cName:'subMenuL2', 
             options: [
               {title: 'Carga Cuotas', rol: '1.8.2.3.1', cName:'subMenuL2'},
-              {title: 'Contabilizacion de facturas', rol: '1.8.2.3.2', cName:'subMenuL2'},
+              {title: 'Contabilización de facturas', rol: '1.8.2.3.2', cName:'subMenuL2'},
               {title: 'Calculo de Margen', rol: '1.8.2.3.3', cName:'subMenuL2'},
-              {title: 'Generacion de Conceptos por Op', rol: '1.8.2.3.7', cName:'subMenuL2'},
-              {title: 'Conciliacion de Conceptos a Facturar', rol: '1.8.2.3.5', cName:'subMenuL2'},
-              {title: 'Conciliacion Individual de Conceptos', rol: '1.8.2.3.6', cName:'subMenuL2'},
+              {title: 'Generación de Conceptos por Op', rol: '1.8.2.3.7', cName:'subMenuL2'},
+              {title: 'Conciliación de Conceptos a Facturar', rol: '1.8.2.3.5', cName:'subMenuL2'},
+              {title: 'Conciliación Individual de Conceptos', rol: '1.8.2.3.6', cName:'subMenuL2'},
               {title: 'Conceptos de Facturas Manuales', rol: '1.8.2.3.4', cName:'subMenuL2'},
               {title: 'Listas Comisiones', rol: '1.8.2.3.8', cName:'subMenuL2'},
-              {title: 'Conceptos Facturacion', rol: '1.8.2.3.9', cName:'subMenuL2'},
-              {title: 'Facturacion Electronica', rol: '1.8.2.3.10', cName:'subMenuL2'},
+              {title: 'Conceptos Facturación', rol: '1.8.2.3.9', cName:'subMenuL2'},
+              {title: 'Facturación Electrónica', rol: '1.8.2.3.10', cName:'subMenuL2'},
             ]},
-          {title: 'Op Pendientes de Conformacion Ctable', rol: '1.8.2.4', cName:'subMenuL2'},
+          {title: 'Op. Pendientes de Conformación Contable', rol: '1.8.2.4', cName:'subMenuL2'},
       ]},
       {title: 'Bancos', rol:'1.8.3', cName:'subMenuL2', 
         options: [
               {title: 'Valores a Depositar', rol: '1.8.3.1', cName:'subMenuL2'},
-              {title: 'Administracion de Chequeras', rol: '1.8.3.2', cName:'subMenuL2'},
+              {title: 'Administración de Chequeras', rol: '1.8.3.2', cName:'subMenuL2'},
           ]},
           
           
@@ -240,22 +240,22 @@ export const SidebarData = [
               {title: 'Percepciones', rol: '1.8.4.2.7', cName:'subMenuL2'},
               {title: 'Libro Diario', rol: '1.8.4.2.3', cName:'subMenuL2'},
               {title: 'Informes de Compras y Ventas', rol: '1.8.4.2.4', cName:'subMenuL2'},
-              {title: 'Tarjetas de Credito', rol: '1.8.4.2.5', cName:'subMenuL2'},
+              {title: 'Tarjetas de Crédito', rol: '1.8.4.2.5', cName:'subMenuL2'},
             ]},
           {title: 'Asientos Modelo', rol: '1.8.4.3', cName:'subMenuL2'},
           {title: 'Asiento Contable', rol: '1.8.4.4', cName:'subMenuL2'},
           {title: 'Modelo OPV', rol: '1.8.4.5', cName:'subMenuL2'},
-          {title: 'Fecha Minima Contabilizacion', rol: '1.8.4.6', cName:'subMenuL2'},
+          {title: 'Fecha Mínima Contabilización', rol: '1.8.4.6', cName:'subMenuL2'},
         ]},
       {title: 'Compras', rol:'1.8.5', cName:'subMenuL2'},
       {title: 'Centro de Costos', rol:'1.8.6', cName:'subMenuL2',
         options: [
-          {title: 'Administracion', rol: '1.8.6.1', cName:'subMenuL2'},
-          {title: 'Presupuesto de Costos por Supervision', rol: '1.8.4.3', cName:'subMenuL2'},
+          {title: 'Administración', rol: '1.8.6.1', cName:'subMenuL2'},
+          {title: 'Presupuesto de Costos por Supervisión', rol: '1.8.4.3', cName:'subMenuL2'},
         ]},
       {title: 'Proveedores', rol:'1.8.7', cName:'subMenuL2',
         options: [
-          {title: 'Administracion', rol: '1.8.7.1', cName:'subMenuL2'},
+          {title: 'Administración', rol: '1.8.7.1', cName:'subMenuL2'},
           {title: 'Ajuste de Cuenta Corriente', rol: '1.8.7.2', cName:'subMenuL2'},
           {title: 'Cuenta Corriente', rol: '1.8.7.3', cName:'subMenuL2'},
         ]},
@@ -271,13 +271,13 @@ export const SidebarData = [
           {title: 'Alta Gastos Entrega', rol: '1.8.9', cName:'subMenuL2'}, /**ROL A REVISAR */
           {title: 'Movimientos', rol: '1.8.9.3', cName:'subMenuL2'},
           {title: 'Cierre de Operaciones', rol: '1.8.9.5', cName:'subMenuL2'},
-          {title: 'Autorizacion de Operaciones', rol: '1.8.9.6', cName:'subMenuL2'},
+          {title: 'Autorización de Operaciones', rol: '1.8.9.6', cName:'subMenuL2'},
           {title: 'Conceptos E.C.', rol: '1.8.9.1', cName:'subMenuL2'},
           {title: 'Medios de Pago', rol: '1.8.9.4', cName:'subMenuL2'},
           {title: 'Reportes', rol: '1.8.9.2', cName:'subMenuL2'},
           {title: 'Registraciones', rol: '1.8.9.8', cName:'subMenuL2', 
             options:[
-              {title: 'Registrcion de Comprobantes', rol: '1.8.9.8.1', cName:'subMenuL2'},
+              {title: 'Registración de Comprobantes', rol: '1.8.9.8.1', cName:'subMenuL2'},
               {title: 'Consulta de Comprobantes', rol: '1.8.9.8.2', cName:'subMenuL2'},
               {title: 'Cierre de Operaciones', rol: '1.8.9.8.5', cName:'subMenuL2',
                 options:[
@@ -286,7 +286,7 @@ export const SidebarData = [
                   {title: 'Anular Cierre', rol: '1.8.9.8.3', cName:'subMenuL2'},
                 ]},
               {title: 'Motivos', rol: '1.8.9.8.3', cName:'subMenuL2'},
-              {title: 'Modificacion Importe Comprobante', rol: '1.8.9.8.6', cName:'subMenuL2'},
+              {title: 'Modificación Importe Comprobante', rol: '1.8.9.8.6', cName:'subMenuL2'},
               {title: 'Reporte Diario', rol: '1.8.9.8.4', cName:'subMenuL2'},
             ]},
         ]},
@@ -299,10 +299,10 @@ export const SidebarData = [
     options: 
     [
       {title: 'Ejecuta InterEmpresa', rol:'1.10.0', cName:'subMenuL2'},
-      {title: 'Administracion de Planes', rol:'1.10.1', cName:'subMenuL2'},
+      {title: 'Administración de Planes', rol:'1.10.1', cName:'subMenuL2'},
       {title: 'Ventas', rol:'1.10.2', cName:'subMenuL2'},
       {title: 'Mora', rol:'1.10.3', cName:'subMenuL2'},
-      {title: 'Facturacion', rol:'1.10.4', cName:'subMenuL2'},
+      {title: 'Facturación', rol:'1.10.4', cName:'subMenuL2'},
       {title: 'Call Center', rol:'1.10.5', cName:'subMenuL2'},
       {title: 'Mesa de Planes', rol:'1.10.6', cName:'subMenuL2'},
       {title: 'Scoring', rol:'1.10.7', cName:'subMenuL2'},
@@ -377,7 +377,7 @@ export const SidebarData = [
     ]
   },
   {
-    title: 'Stock Vehiculos Plan Ahorro',
+    title: 'Stock Vehículos Plan Ahorro',
     icon: <BiBus/>,
     cName: 'nav-text',
     options: 
