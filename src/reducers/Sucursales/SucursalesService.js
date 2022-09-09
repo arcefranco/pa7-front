@@ -26,6 +26,11 @@ const updateSucursal = async (sucursalData) => {
     return response.data
 }
 
+const endCommit = async () => {
+    const response = await axios.get(process.env.REACT_APP_HOST + 'sucursales/endCommit')
+    return response.data
+}
+
 const createSucursal = async (sucursalData) => {
     const headers = getHeaderToken()
     const response = await axios.post(process.env.REACT_APP_HOST + 'sucursales', sucursalData, headers).catch((error) => errorsHandling(error))
@@ -37,7 +42,8 @@ getSucursalById,
 getAllSucursales,
 deleteSucursal,
 createSucursal,
-updateSucursal
+updateSucursal,
+endCommit
 }
 
 export default SucursalesService
