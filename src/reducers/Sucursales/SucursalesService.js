@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { errorsHandling } from '../errorsHandling';
+import getHeaderToken from '../../helpers/getHeaderToken';
 
 const getSucursalById = async(id) => {
     const response = await axios.post(process.env.REACT_APP_HOST + 'sucursales/id', id).catch((error) => errorsHandling(error))
@@ -19,10 +20,24 @@ const getAllSucursales = async () => {
     return response.data
 }
 
+const updateSucursal = async (sucursalData) => {
+    const headers = getHeaderToken()
+    const response = await axios.put(process.env.REACT_APP_HOST + 'sucursales', sucursalData, headers).catch((error) => errorsHandling(error))
+    return response.data
+}
+
+const createSucursal = async (sucursalData) => {
+    const headers = getHeaderToken()
+    const response = await axios.post(process.env.REACT_APP_HOST + 'sucursales', sucursalData, headers).catch((error) => errorsHandling(error))
+    return response.data
+}
+
 const SucursalesService = {
 getSucursalById,
 getAllSucursales,
-deleteSucursal
+deleteSucursal,
+createSucursal,
+updateSucursal
 }
 
 export default SucursalesService

@@ -14,7 +14,7 @@ const reducer = combineReducers({
   usuarios: usuariosReducer,
   supervisores: supervisoresReducer,
 
-  sucursales: sucursalesReducer
+  sucursales: sucursalesReducer,
 
   teamLeaders: teamLeadersReducer,
 

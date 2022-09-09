@@ -55,6 +55,35 @@ export const getAllSucursales = createAsyncThunk('sucursales/All', async (thunkA
       return thunkAPI.rejectWithValue(error.response.data)
     }
   })
+  export const updateSucursal = createAsyncThunk('sucursales/update', async (sucursalData, thunkAPI) => {
+    try {
+      
+      const data = await sucursalesService.updateSucursal(sucursalData)
+
+      return data
+    } catch (error) {
+
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+  })
+
+  export const createSucursal = createAsyncThunk('sucursales/create', async (sucursalData, thunkAPI) => {
+    try {
+      
+      const data = await sucursalesService.createSucursal(sucursalData)
+
+      return data
+    } catch (error) {
+
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+  })
 
 
 export const sucursalesSlice = createSlice({
@@ -108,6 +137,32 @@ export const sucursalesSlice = createSlice({
             state.sucursalStatus = action.payload
         }) 
           .addCase(deleteSucursal.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            state.sucursalStatus = action.payload
+        })
+        .addCase(updateSucursal.pending, (state) => {
+            state.isLoading = true
+        })
+          .addCase(updateSucursal.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.isSuccess = true
+            state.sucursalStatus = action.payload
+        }) 
+          .addCase(updateSucursal.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            state.sucursalStatus = action.payload
+        })
+        .addCase(createSucursal.pending, (state) => {
+            state.isLoading = true
+        })
+          .addCase(createSucursal.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.isSuccess = true
+            state.sucursalStatus = action.payload
+        }) 
+          .addCase(createSucursal.rejected, (state, action) => {
             state.isLoading = false
             state.isError = true
             state.sucursalStatus = action.payload
