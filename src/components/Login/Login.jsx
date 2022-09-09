@@ -15,21 +15,24 @@ export const Login = () => {
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    var d = document.getElementById("select")
     const {user, isError, message, isSuccess} = useSelector(
         (state) => state.login)
     const [input, setInput] = useState({
         empresa:'',
+        empresaReal: '',
         login: '',
         password: ''
     })
+
     /*const sound= new Howl({
       src:['/src/sounds/intro.mp3'],
       html5:true,
     });*/
-
+    
     React.useEffect(() => {
-        dispatch(reset())
-        if (isError) {
+      dispatch(reset())
+      if (isError) {
           Swal.fire({
             icon: 'error',
             title: 'Oops...',
@@ -63,16 +66,22 @@ export const Login = () => {
           dispatch(reset())
         }
         },
+        
+        [user, isError, isSuccess, message, navigate]
+        )
+        
+        
+        const handleChange = (e) => {
+          const { name, value } = e.target;
+          const newForm = { ...input, empresaReal: d?.options[d.selectedIndex].text, [name]: value };
+          
+          setInput(newForm);
+        };
 
-       [user, isError, isSuccess, message, navigate]
-       )
-
-    
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        const newForm = { ...input, [name]: value };
-        setInput(newForm);
-    };
+/*          React.useEffect(() => {
+          setEmpresaReal(d ? d.options[d.selectedIndex].text : null)
+        }, [handleChange]) */
+         
 
 
     const onSubmit = (e) => {
@@ -83,16 +92,16 @@ export const Login = () => {
     
   return (
     <div className={styles.container}>
-   
+
 
          <form className={styles.form} onSubmit={onSubmit}>
          <h3 className={styles.title}>Planes de Ahorro 7</h3>
 
          <span>Iniciar sesión</span>
          <div style={{position:'relative', margin: '1rem'}}>
-          <select className={styles.input} name="empresa" value={input.empresa} onChange={handleChange} required>
+          <select className={styles.input} id="select" name="empresa" value={input.empresa} onChange={handleChange} required>
                 <option value="" >-Elegir empresa-</option>
-                <option value="pa7" id="carGroup">Car Group S.A.</option>
+                <option value="pa7" id="Car Group S.A.">Car Group S.A.</option>
                 <option value="pa7_gf_test_2" id="gestionFinanciera">Gestion Financiera S.A.</option>
                 <option value="Auto Net S.A." id="autoNet">AutoNet S.A</option>
                 <option value="Autos del Plata S.A." id="autosDelPlata">Autos del Plata S.A.</option>

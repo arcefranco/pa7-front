@@ -54,7 +54,7 @@ const SideBarItem = ({item, index}) => {
                 onMouseOver={showSideBar}   >{item.icon}</div>}
                 <div style={{display: toggle? "block" : "none" , fontSize:"1.3em" }} onClick={() => setOpen(!open)}> 
                 <div  className={styles[item.cName]} style={{color: open? "#3483fa":"#545e65",alignItems:'center'/*  marginTop: open? ".7em" : ".5em" */}}>{item.title}
-                <div style={{textAlign:"right", width:"9em", /* marginTop:"-1.5em" */ paddingLeft:'0.2rem'}}>
+                <div style={{textAlign:"right", /* marginTop:"-1.5em" */ }}>
                 {open ? <MdIcons.MdOutlineKeyboardArrowDown className={styles.arrow}  onClick={() => setOpen(!open)} /> 
                 :<MdIcons.MdOutlineKeyboardArrowDown className={styles.arrowDown} onClick={() => setOpen(!open)} />}
                 </div>
