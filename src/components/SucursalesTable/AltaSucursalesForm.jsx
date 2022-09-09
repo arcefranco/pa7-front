@@ -8,7 +8,7 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Stack from 'react-bootstrap/Stack';
 import styles from '../UsuariosTable/AltaUsuarios.module.css'
-import { getSucursalById, reset, updateSucursal, createSucursal } from "../../reducers/Sucursales/SucursalesSlice";
+import { getSucursalById, reset, updateSucursal, createSucursal, endCommit } from "../../reducers/Sucursales/SucursalesSlice";
 import Swal from "sweetalert2";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import {FcApproval} from 'react-icons/fc';
@@ -43,6 +43,7 @@ useEffect(() => {
             text: sucursalStatus.data
           }).then((result) => {
             if (result.isConfirmed) {
+                dispatch(endCommit())
               window.location.reload()
               
             } 
@@ -56,14 +57,19 @@ useEffect(() => {
 
 useEffect(() => {
     dispatch(reset())
+    return () => {
+        if(id){
 
+            dispatch(endCommit())
+        }
+    }
 }, [])
 
 useEffect(() => {
     setInput({
-        Nombre: sucursalById?.Nombre,
+        Nombre: sucursalById[0]?.Nombre,
     })
-}, [sucursalById])
+}, [sucursalById[0]])
 
 useEffect(() => {
     if(id) {  
@@ -82,7 +88,7 @@ const handleUpdate = async (e) => {
     e.preventDefault()
    dispatch(updateSucursal({
     Nombre: input.Nombre,
-    Codigo: sucursalById.Codigo
+    Codigo: sucursalById[0].Codigo
    })) 
    setInput({
        Nombre: '',
@@ -141,7 +147,7 @@ const handleSubmit = async (e) => {
                 </FloatingLabel>
                 </Form.Group>
                 </Row> 
-
+ 
                     }
                 
                     </div>
