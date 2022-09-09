@@ -139,9 +139,9 @@ const {globalFilter} = state
       <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}/>
       <div className={styles.buttonContainer}>
       {rolAltayModif ?
-       <><Link to={'/altaUsuarios'}><button>Nuevo</button></Link>
-        <ExportCSV csvData={sucursales} fileName={'usuarios'} /></> :
-         <Link to={'/altaUsuarios'}><button disabled>Nuevo</button></Link>
+       <><Link to={'/altaSucursal'}><button>Nuevo</button></Link>
+        <ExportCSV csvData={sucursales} fileName={'sucursales'} /></> :
+         <Link to={'/altaSucursal'}><button disabled>Nuevo</button></Link>
       }</div>
       </span>
       <>

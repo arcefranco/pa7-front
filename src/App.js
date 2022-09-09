@@ -79,6 +79,7 @@ function App() {
           </Route>
           <Route path="/sucursales" element={<SucursalesTable/>}/>
           <Route path='/modifSucursales/:id' element={<AltaSucursalesForm/>}/>
+          <Route path='/altaSucursal' element={<AltaSucursalesForm/>}/>
           <Route path='/roles' element={<RolesForm/>}/>
           <Route path='/copyRoles' element={<CopyRoles/>}/>
           <Route path='/permission' element={<NotPermission/>}/>
