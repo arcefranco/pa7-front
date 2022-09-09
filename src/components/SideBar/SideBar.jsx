@@ -26,7 +26,7 @@ const SideBar = () => {
   
     return (
     <>
-            <nav style={{width: toggle?  "12em" : "5em" }} className={styles.menu}   /* onMouseLeave={() => dispatch(setToggleFalse())} */>
+            <nav style={{width: toggle?  "12em" : "5em" }} className={styles.menu}    onMouseLeave={() => dispatch(setToggleFalse())} >
                 <div className={styles.menuItems}>
                     <div className={styles.toggle}>
                     <p style={{display: toggle ? "grid" : "none" }} className={styles.menuBars}><b>Planes de Ahorro 7</b></p>
