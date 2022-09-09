@@ -22,8 +22,8 @@ const dispatch = useDispatch()
               height: '100vh'
              }}>
                 
-                
-                <h1>Bienvenido {user.Nombre}!</h1>
+                <h1>{user.empresaReal}</h1>
+                <h4>Bienvenido {user.Nombre}!</h4>
 
                 
                 </div>  
