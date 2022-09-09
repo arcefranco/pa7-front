@@ -146,6 +146,7 @@ export const SidebarData = [
     cName: 'nav-text',
     options: 
     [
+
       {title: 'Vendedores', rol:'1.7.1',path:'/vendedores' , cName:'subMenuL2'},
       {title: 'Supervisores', rol:'1.7.2', path:'/supervisores', cName:'subMenuL2'},
       {title: 'Sucursales', rol:'1.7.3', cName:'subMenuL2', path:'/sucursales'},
@@ -165,6 +166,7 @@ export const SidebarData = [
         options: [
             {title: 'Administración de Permisos', rol: '1.7.16.1', cName:'subMenuL2', unique:true},
             {title: 'Alta y Modificación de Roles', rol: '1.7.16.2', cName:'subMenuL2', 
+
               options:[
                 {title: 'Alta y Modificación de Roles', rol: '1.7.16.2', path:'/roles', cName:'subMenuL2'},
                 {title: 'Copiar Roles', rol: '1.7.16.2', path:'/copyRoles', cName:'subMenuL2'}

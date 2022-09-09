@@ -19,7 +19,6 @@ const reducer = combineReducers({
 
   teamLeaders: teamLeadersReducer,
   vendedores: vendedoresReducer,
-
 })
 
 
