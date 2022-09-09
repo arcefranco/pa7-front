@@ -68,7 +68,10 @@ const validateform = function (form) {
   useEffect(() => {
     dispatch(reset())
     return () => {
-        dispatch(endCommit())
+        if(id){
+
+            dispatch(endCommit())
+        }
     }
 
   }, [])
