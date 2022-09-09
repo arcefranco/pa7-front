@@ -34,7 +34,7 @@ useEffect(() => {
             timer: 5000,
           })
         navigate('/sucursales')
-    }else if(sucursalStatus && sucursalStatus.status === false){
+    }else if(sucursalStatus && sucursalStatus.status === false ){
      Swal.fire({
             icon: 'error',
             title: 'Oops...',
@@ -54,6 +54,27 @@ useEffect(() => {
 
  
   }, [sucursalStatus])
+
+
+  useEffect(() => {
+
+    if(sucursalById && sucursalById.status === false){
+        Swal.fire({
+            icon: 'error',
+            title: 'Tiempo de espera excedido',
+            showConfirmButton: true,
+            
+            text: sucursalById.message
+          }).then((result) => {
+            if (result.isConfirmed) {
+                dispatch(endCommit())
+              window.location.replace('/sucursales')
+              
+            } 
+        })
+    }
+
+  }, [sucursalById])
 
 useEffect(() => {
     dispatch(reset())
