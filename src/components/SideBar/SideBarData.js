@@ -175,7 +175,7 @@ export const SidebarData = [
        ]},
       {title: 'ABM Intereses', rol:'1.7.17', cName:'subMenuL2', path:'/'},
       {title: 'Gerentes', rol:'1.7.18', path:'/gerentes', cName:'subMenuL2'},
-      {title: 'Team Leader', rol:'1.7.19', path:'/teamleaders', cName:'subMenuL2', path:'/'},
+      {title: 'Team Leader', rol:'1.7.19', path:'/teamleaders', cName:'subMenuL2', },
       {title: 'Estructura Comercial', rol:'1.7.20', cName:'subMenuL2', path:'/'},
       {title: 'Entrega Asegurada', rol:'1.7.21', cName:'subMenuL2', path:'/'},
     
