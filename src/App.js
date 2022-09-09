@@ -23,7 +23,8 @@ import SucursalesTable from './components/SucursalesTable/SucursalesTable';
 
 import TeamLeadersTable from './components/TeamLeadersTable/TeamLeadersTable';
 import TeamLeadersFormulario from './components/TeamLeadersTable/TeamLeadersFormulario';
-
+import VendedoresTable from './components/VendedoresTable/VendedoresTable';
+import VendedoresFormulario from './components/VendedoresTable/VendedoresFormulario';
 function App() {
   const {user, toggle} = useSelector(
     (state) => state.login)
@@ -71,6 +72,9 @@ function App() {
           <Route path='/usuarios' element={<PrivateMasterRoute rol={'1.7.16'}/>}>
             <Route path='/usuarios' element={<UsuariosTable/>}/>
           </Route>
+          <Route path='/vendedores' element={<VendedoresTable/>}/>
+          <Route path='/altaVendedores/' element={<VendedoresFormulario/>}/>
+          <Route path='/modificarVendedores/:id' element={<VendedoresFormulario/>}/>
           <Route path='/altaUsuarios' element={<PrivateMasterRoute rol={'1.7.16.3.1'}/>}>
               <Route path='/altaUsuarios' element={<AltaUsuariosForm/>}/>
           </Route>
