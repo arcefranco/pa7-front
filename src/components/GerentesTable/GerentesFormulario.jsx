@@ -52,12 +52,33 @@ const GerentesFormulario = () =>{
             text: statusNuevoGerente[0]?.data
           }).then((result) => {
             if (result.isConfirmed) {
+              dispatch(endCommit())
               window.location.reload()
               
             } 
         })
           
     }}, [statusNuevoGerente])
+
+    useEffect(() => {
+
+      if(gerentesById && gerentesById.status === false){
+          Swal.fire({
+              icon: 'error',
+              title: 'Tiempo de espera excedido',
+              showConfirmButton: true,
+              
+              text: gerentesById.message
+            }).then((result) => {
+              if (result.isConfirmed) {
+                  dispatch(endCommit())
+                window.location.replace('/gerentes')
+                
+              } 
+          })
+      }
+  
+    }, [gerentesById])
 
     useEffect(() => {
       dispatch(reset())

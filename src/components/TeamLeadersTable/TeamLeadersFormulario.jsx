@@ -78,12 +78,33 @@ const TeamLeadersFormulario = () =>{
             text: statusNuevoTeamLeader[0]?.data
           }).then((result) => {
             if (result.isConfirmed) {
+              dispatch(endCommit())
               window.location.reload()
               
             } 
         })
           
     }}, [statusNuevoTeamLeader])
+
+    useEffect(() => {
+
+      if(teamLeadersById && teamLeadersById.status === false){
+          Swal.fire({
+              icon: 'error',
+              title: 'Tiempo de espera excedido',
+              showConfirmButton: true,
+              
+              text: teamLeadersById.message
+            }).then((result) => {
+              if (result.isConfirmed) {
+                  dispatch(endCommit())
+                window.location.replace('/teamleaders')
+                
+              } 
+          })
+      }
+  
+    }, [teamLeadersById])
 
     useEffect(() => {
       dispatch(reset())
