@@ -11,7 +11,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import {FcApproval} from 'react-icons/fc'
 import Swal from "sweetalert2";
 import {Link, useNavigate} from 'react-router-dom';
-import { getGerentesById, postGerentes, updateGerentes , reset} from '../../reducers/Gerentes/gerentesSlice';
+import { getGerentesById, postGerentes, updateGerentes, endCommit , reset} from '../../reducers/Gerentes/gerentesSlice';
 import TitlePrimary from "../../styled-components/h/TitlePrimary";
 import ButtonPrimary from "../../styled-components/buttons/ButtonPrimary";
 
@@ -58,6 +58,16 @@ const GerentesFormulario = () =>{
         })
           
     }}, [statusNuevoGerente])
+
+    useEffect(() => {
+      dispatch(reset())
+      return () => {
+          if(id){
+  
+              dispatch(endCommit())
+          }
+      }
+  }, [])
 
   const validateform = function (form) {
     const errors = {};
