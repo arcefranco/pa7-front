@@ -15,7 +15,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import validateEmail from "../../helpers/validateEmail";
 import {FcApproval} from 'react-icons/fc'
 import {Link, useNavigate} from 'react-router-dom';
-import { getVendedoresById, postVendedores, updateVendedores,getAllEscalas,getAllOficialesScoring, getAllOficialesMora, reset, getAllTeamLeaders } from '../../reducers/Vendedores/vendedoresSlice';
+import { getVendedoresById, postVendedores, updateVendedores,getAllEscalas,getAllOficialesScoring, getAllOficialesMora, reset, getAllTeamLeaders, endCommit } from '../../reducers/Vendedores/vendedoresSlice';
 import Swal from "sweetalert2";
 
 
@@ -51,6 +51,16 @@ const VendedoresFormulario = () =>{
           return errors;
         };
 
+        useEffect(() => {
+          dispatch(reset())
+          return () => {
+              if(id){
+      
+                  dispatch(endCommit())
+              }
+          }
+      }, [])
+      
 
     useEffect(() => {
     Promise.all([dispatch(getAllTeamLeaders()),dispatch(getAllOficialesMora()),dispatch(getAllOficialesScoring()),dispatch(getAllEscalas()),dispatch(reset())])
@@ -69,6 +79,7 @@ const VendedoresFormulario = () =>{
             timer: 5000
           })
         navigate('/vendedores')
+        
         dispatch(reset())
     }else if(statusNuevoVendedor.length && statusNuevoVendedor[0]?.status === false){
      Swal.fire({
@@ -79,6 +90,7 @@ const VendedoresFormulario = () =>{
             text: statusNuevoVendedor[0]?.data
           }).then((result) => {
             if (result.isConfirmed) {
+              dispatch(endCommit())
               window.location.reload()
               
             } 
@@ -86,6 +98,25 @@ const VendedoresFormulario = () =>{
           
     }}, [statusNuevoVendedor])
 
+    useEffect(() => {
+
+      if(vendedoresById && vendedoresById.status === false){
+          Swal.fire({
+              icon: 'error',
+              title: 'Tiempo de espera excedido',
+              showConfirmButton: true,
+              
+              text: vendedoresById.message
+            }).then((result) => {
+              if (result.isConfirmed) {
+                  dispatch(endCommit())
+                window.location.replace('/vendedores')
+                
+              } 
+          })
+      }
+  
+    }, [vendedoresById])
 
 
   const vendedorTeamLeader = teamleader?.find(e => e.Nombre === vendedoresById?.TeamLeader,);

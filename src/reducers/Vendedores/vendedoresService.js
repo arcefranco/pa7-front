@@ -43,7 +43,11 @@ const updateVendedores = async (form) => {
   const headers = getHeaderToken();
   const response = await axios.put(process.env.REACT_APP_HOST + 'vendedores' , form, headers).catch((error) => errorsHandling(error))
   return response.data
-}  
+} 
+const endCommit = async () => {
+  const response = await axios.get(process.env.REACT_APP_HOST + 'vendedores/endCommit')
+  return response.data
+} 
 
 const deleteVendedores = async (vendedoresData) => {
   const headers = getHeaderToken();
@@ -51,7 +55,7 @@ const deleteVendedores = async (vendedoresData) => {
   return response.data }
 
 const vendedoresService = {
-    getVendedores, postVendedores, updateVendedores, deleteVendedores, getVendedoresById, getAllEscalas, getAllOficialesMora, getAllOficialesScoring, getAllTeamLeaders 
+    getVendedores, postVendedores, updateVendedores, deleteVendedores, getVendedoresById, getAllEscalas, getAllOficialesMora, getAllOficialesScoring, getAllTeamLeaders, endCommit 
   }
 
 

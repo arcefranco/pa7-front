@@ -103,6 +103,21 @@ export const updateSupervisores = createAsyncThunk('updatesupervisores', async (
       return thunkAPI.rejectWithValue(error.response.data)
     }
   })
+  export const endCommit = createAsyncThunk('endCommit', async (usuarioData, thunkAPI) => {
+    try {
+      
+      const data = await supervisoresService.endCommit()
+
+      return data
+    } catch (error) {
+
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+  })
+
 
 
 
@@ -223,7 +238,20 @@ export const supervisoresSlice = createSlice({
             state.isError = true
             state.statusNuevoSupervisor = [action.payload]
             state.supervisores = null
-          });  
+          });
+          builder.addCase(endCommit.pending, (state) => {
+            state.isLoading = true
+        })
+          builder.addCase(endCommit.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.isSuccess = true
+            state.statusNuevoSupervisor = action.payload
+        }) 
+          builder.addCase(endCommit.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            state.statusNuevoSupervisor = action.payload
+        })  
 
 
         }

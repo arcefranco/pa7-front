@@ -23,9 +23,13 @@ const deleteGerentes = async (gerentesData) => {
   const response = await axios.delete(process.env.REACT_APP_HOST + 'gerentes', {data: gerentesData}, )
 
   return response.data }
+  const endCommit = async () => {
+    const response = await axios.get(process.env.REACT_APP_HOST + 'gerentes/endCommit')
+    return response.data
+}
 
 const gerentesService = {
-    getGerentes, postGerentes, updateGerentes, deleteGerentes, getGerentesById
+    getGerentes, postGerentes, updateGerentes, deleteGerentes, getGerentesById, endCommit
   }
 
 
