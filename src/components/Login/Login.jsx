@@ -73,7 +73,7 @@ export const Login = () => {
         
         const handleChange = (e) => {
           const { name, value } = e.target;
-          const newForm = { ...input, empresaReal: d?.options[d.selectedIndex].text, [name]: value };
+          const newForm = { ...input, empresaReal: d?.options[d?.selectedIndex].text, [name]: value };
           
           setInput(newForm);
         };
@@ -102,12 +102,12 @@ export const Login = () => {
           <select className={styles.input} id="select" name="empresa" value={input.empresa} onChange={handleChange} required>
                 <option value="" >-Elegir empresa-</option>
                 <option value="pa7" id="Car Group S.A.">Car Group S.A.</option>
-                <option value="pa7_gf_test_2" id="gestionFinanciera">Gestion Financiera S.A.</option>
-                <option value="Auto Net S.A." id="autoNet">AutoNet S.A</option>
-                <option value="Autos del Plata S.A." id="autosDelPlata">Autos del Plata S.A.</option>
-                <option value="Detroit S.A." id="detroit">Detroit S.A.</option>
-                <option value="Gestion Financiera Luxcar" id="gestionFinancieraLuxcar">Gestión Financiera Luxcar</option>
-                <option value="Alizze S.A." id="alizze">Alizze S.A.</option>
+                <option value="pa7_gf_test_2" id="Gestion Financiera S.A.">Gestion Financiera S.A.</option>
+                <option value="pa7" id="AutoNet S.A.">AutoNet S.A</option>
+                <option value="pa7" id="Autos del Plata S.A.">Autos del Plata S.A.</option>
+                <option value="pa7" id="Detroit S.A.">Detroit S.A.</option>
+                <option value="pa7" id="Gestion Financiera Luxcar">Gestión Financiera Luxcar</option>
+                <option value="pa7" id="Alizze S.A.">Alizze S.A.</option>
           </select>
           </div>
           <div style={{position:'relative', margin: '1rem'}}>

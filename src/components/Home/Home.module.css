@@ -1,6 +1,28 @@
 .home {
-    background: aliceblue;
+    margin-top: 20px;
     width: 100%;
     text-indent: 20px;
     text-align: start;
+}
+.background{
+    background-image: url("../../images/fiatbackground.jpg");
+    display: block;
+    position: fixed;
+    background-blend-mode:color-burn;
+    background-color: aliceblue;
+    left: -10px;
+  top: -40em;
+  width: 110%;
+  height: 210%;
+  opacity: 0.1;
+    /* background-repeat:no-repeat; */
+    background-size:cover;
+}
+.home{
+    
+    display: 'flex';
+    flex-direction: 'column';
+    justify-content:'start';
+    text-align:'center';
+    height: '100vh';
 }
