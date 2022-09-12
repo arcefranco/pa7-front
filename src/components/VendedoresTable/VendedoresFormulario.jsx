@@ -98,6 +98,25 @@ const VendedoresFormulario = () =>{
           
     }}, [statusNuevoVendedor])
 
+    useEffect(() => {
+
+      if(vendedoresById && vendedoresById.status === false){
+          Swal.fire({
+              icon: 'error',
+              title: 'Tiempo de espera excedido',
+              showConfirmButton: true,
+              
+              text: vendedoresById.message
+            }).then((result) => {
+              if (result.isConfirmed) {
+                  dispatch(endCommit())
+                window.location.replace('/vendedores')
+                
+              } 
+          })
+      }
+  
+    }, [vendedoresById])
 
 
   const vendedorTeamLeader = teamleader?.find(e => e.Nombre === vendedoresById?.TeamLeader,);
