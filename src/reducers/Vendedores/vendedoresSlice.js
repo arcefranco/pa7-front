@@ -12,9 +12,12 @@ const initialState = {
     vendedores: [],
     vendedoresById: [],
     teamleader:[],
+    teamleaderActivo:[],
     escalas:[],
     oficialesScoring:[],
     oficialesMora:[],
+    oficialesScoringActivos:[],
+    oficialesMoraActivos:[],
     statusNuevoVendedor: [],
 }
 
@@ -84,6 +87,20 @@ export const getVendedores = createAsyncThunk('vendedores', async (thunkAPI) => 
       return thunkAPI.rejectWithValue(error.response.data)
     }
   })
+  export const getAllTeamLeadersActivos = createAsyncThunk('vendedores/teamleadersActivos', async (thunkAPI) => {
+    try {
+      
+      const data = await vendedoresService.getAllTeamLeadersActivos()
+
+      return data
+    } catch (error) {
+
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+  })
   export const getAllOficialesScoring = createAsyncThunk('vendedores/ofcialesScoring', async (thunkAPI) => {
     try {
       
@@ -112,7 +129,34 @@ export const getVendedores = createAsyncThunk('vendedores', async (thunkAPI) => 
       return thunkAPI.rejectWithValue(error.response.data)
     }
   })
+  export const getAllOficialesScoringActivos = createAsyncThunk('vendedores/ofcialesScoringActivos', async (thunkAPI) => {
+    try {
+      
+      const data = await vendedoresService.getAllOficialesScoringActivos()
 
+      return data
+    } catch (error) {
+
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+  })
+  export const getAllOficialesMoraActivos = createAsyncThunk('vendedores/oficialesMoraActivos', async (thunkAPI) => {
+    try {
+      
+      const data = await vendedoresService.getAllOficialesMoraActivos()
+
+      return data
+    } catch (error) {
+
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+  })
 export const postVendedores = createAsyncThunk('postvendedores', async  (form,thunkAPI) => {
     try {
       const data = await vendedoresService.postVendedores(form)
@@ -210,6 +254,20 @@ export const vendedoresSlice = createSlice({
             state.message = action.payload
             state.teamleader = null
           });
+          builder.addCase(getAllTeamLeadersActivos.pending, (state) => {
+            state.isLoading = true
+          })
+          builder.addCase(getAllTeamLeadersActivos.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.isSuccess = true
+            state.teamleaderActivo = action.payload
+          }) 
+          builder.addCase(getAllTeamLeadersActivos.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            state.message = action.payload
+            state.teamleaderActivo = null
+          });
           builder.addCase(getAllEscalas.pending, (state) => {
             state.isLoading = true
           })
@@ -251,6 +309,34 @@ export const vendedoresSlice = createSlice({
             state.isError = true
             state.message = action.payload
             state.oficialesMora = null
+          })
+          builder.addCase(getAllOficialesScoringActivos.pending, (state) => {
+            state.isLoading = true
+          })
+          builder.addCase(getAllOficialesScoringActivos.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.isSuccess = true
+            state.oficialesScoringActivos = action.payload
+          }) 
+          builder.addCase(getAllOficialesScoringActivos.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            state.message = action.payload
+            state.oficialesScoringActivos = null
+          })
+          builder.addCase(getAllOficialesMoraActivos.pending, (state) => {
+            state.isLoading = true
+          })
+          builder.addCase(getAllOficialesMoraActivos.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.isSuccess = true
+            state.oficialesMoraActivos = action.payload
+          }) 
+          builder.addCase(getAllOficialesMoraActivos.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            state.message = action.payload
+            state.oficialesMoraActivos = null
           })
         builder.addCase(postVendedores.pending, (state) => {
             state.isLoading = true

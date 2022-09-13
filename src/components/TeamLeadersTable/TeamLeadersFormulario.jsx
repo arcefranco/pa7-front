@@ -15,7 +15,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import validateEmail from "../../helpers/validateEmail";
 import {FcApproval} from 'react-icons/fc'
 import {Link, useNavigate} from 'react-router-dom';
-import { getTeamLeadersById, postTeamLeaders, updateTeamLeaders, getAllSupervisores, endCommit,reset } from '../../reducers/TeamLeaders/teamLeadersSlice';
+import { getTeamLeadersById, postTeamLeaders, updateTeamLeaders, getAllSupervisores, getAllSupervisoresActivos, endCommit,reset } from '../../reducers/TeamLeaders/teamLeadersSlice';
 import Swal from "sweetalert2";
 
 
@@ -25,7 +25,7 @@ const TeamLeadersFormulario = () =>{
     const navigate = useNavigate();
     const [error, setError] = useState({})
 
-    const {teamLeadersById,  statusNuevoTeamLeader, supervisores} = useSelector(
+    const {teamLeadersById,  statusNuevoTeamLeader, supervisores, supervisoresActivos} = useSelector(
         (state) => state.teamLeaders)
         const {user, } = useSelector(
           (state) => state.login)
@@ -52,7 +52,7 @@ const TeamLeadersFormulario = () =>{
 
 
     useEffect(() => {
-    Promise.all([dispatch(getAllSupervisores()),dispatch(reset())])
+    Promise.all([dispatch(getAllSupervisores()), dispatch(getAllSupervisoresActivos()),dispatch(reset())])
       if(id) {  
         dispatch(getTeamLeadersById(id))
         }
@@ -117,6 +117,7 @@ const TeamLeadersFormulario = () =>{
   }, [])
 
   const teamLeaderSupervisor = supervisores?.find(e => e.Nombre === teamLeadersById?.Supervisor,);
+  const teamLeaderSupervisorActivo = supervisoresActivos?.find(e => e.Nombre === teamLeadersById?.SupervisorActivo,);
   useEffect(() => {
     // console.log(zonas)
     setInput({
@@ -125,6 +126,7 @@ const TeamLeadersFormulario = () =>{
       Nombre: teamLeadersById?.Nombre,
       Activo: teamLeadersById?.Activo,
       Supervisor: teamLeaderSupervisor?.Codigo,
+      SupervisorActivo: teamLeaderSupervisorActivo?.Codigo,
       HechoPor: user.username,
 
     });
@@ -244,7 +246,7 @@ return(
    <hr className={styles.hr}/>
    <div className={styles.inputSelect} >
    <Row>
-   <Col>
+   {id?.length? <Col>
    <InputGroup>
    <InputGroup.Text id="basic-addon1">Supervisor</InputGroup.Text>
       <Form.Select size="" name="Supervisor" value={input.Supervisor}  onChange={HandleChange} id="" required>
@@ -256,18 +258,19 @@ return(
       </Form.Select>
     </InputGroup>
   </Col>
-  {/* <Col>
-  <InputGroup> */}
-   {/* <InputGroup.Text id="basic-addon1">Zona</InputGroup.Text>  
-        <Form.Select size="" name="Zona" value={input.Zona}  onChange={HandleChange} id="" required>
-            {   !id ? <option value="">---</option> 
-                :supervisorZona && Object.keys(supervisorZona).length 
-                ?<option key={supervisorZona.codigo} value={supervisorZona.codigo}>{`${supervisorZona.Nombre}`}</option> 
-                :<option value="">---</option>  }
-                {zonas && zonas.map(e => <option  key={e.codigo} value={e.codigo}>{`${e.Nombre}`}</option>)}
-        </Form.Select>
-      </InputGroup>
-    </Col>*/}
+  :<Col>
+   <InputGroup>
+   <InputGroup.Text id="basic-addon1">Supervisor</InputGroup.Text>
+      <Form.Select size="" name="Supervisor" value={input.Supervisor}  onChange={HandleChange} id="" required>
+          {   !id ? <option value="">---</option> 
+              :teamLeaderSupervisorActivo && Object.keys(teamLeaderSupervisorActivo).length 
+              ?<option key={teamLeaderSupervisorActivo.Codigo} value={teamLeaderSupervisorActivo.Codigo}>{`${teamLeaderSupervisorActivo.Nombre}`}</option> 
+              :<option value="">---</option>  }
+              {supervisoresActivos && supervisoresActivos.map(e => <option key={e.Codigo} value={e.Codigo}>{`${e.Nombre}`}</option>)}
+      </Form.Select>
+    </InputGroup>
+  </Col>}
+  
    </Row> 
   </div>
   <br/>

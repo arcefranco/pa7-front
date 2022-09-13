@@ -12,6 +12,7 @@ const initialState = {
     teamLeaders: [],
     teamLeadersById: [],
     supervisores:[],
+    supervisoresActivos:[],
     statusNuevoTeamLeader: [],
 }
 
@@ -42,6 +43,20 @@ export const getTeamLeaders = createAsyncThunk('teamleaders', async (thunkAPI) =
     try {
       
       const data = await teamLeadersService.getAllSupervisores()
+
+      return data
+    } catch (error) {
+
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+  })
+  export const getAllSupervisoresActivos = createAsyncThunk('teamleaders/supervisoresActivos', async (thunkAPI) => {
+    try {
+      
+      const data = await teamLeadersService.getAllSupervisoresActivos()
 
       return data
     } catch (error) {
@@ -164,6 +179,20 @@ export const teamLeadersSlice = createSlice({
             state.isError = true
             state.message = action.payload
             state.supervisores = null
+          })
+          builder.addCase(getAllSupervisoresActivos.pending, (state) => {
+            state.isLoading = true
+          })
+          builder.addCase(getAllSupervisoresActivos.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.isSuccess = true
+            state.supervisoresActivos = action.payload
+          }) 
+          builder.addCase(getAllSupervisoresActivos.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            state.message = action.payload
+            state.supervisoresActivos = null
           })
          
         builder.addCase(postTeamLeaders.pending, (state) => {

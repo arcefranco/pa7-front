@@ -15,7 +15,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import validateEmail from "../../helpers/validateEmail";
 import {FcApproval} from 'react-icons/fc'
 import {Link, useNavigate} from 'react-router-dom';
-import { getSupervisoresById, postSupervisores, updateSupervisores,getAllGerentes,getAllZonas, endCommit, reset } from '../../reducers/Supervisores/supervisoresSlice';
+import { getSupervisoresById, postSupervisores, updateSupervisores,getAllGerentes,getAllGerentesActivos,getAllZonas, endCommit, reset } from '../../reducers/Supervisores/supervisoresSlice';
 import Swal from "sweetalert2";
 
 
@@ -25,7 +25,7 @@ const SupervisoresFormulario = () =>{
     const navigate = useNavigate();
     const [error, setError] = useState({})
 
-    const {supervisoresById, gerentes, zonas, statusNuevoSupervisor} = useSelector(
+    const {supervisoresById, gerentes, gerentesActivos, zonas, statusNuevoSupervisor} = useSelector(
         (state) => state.supervisores)
         const {user, } = useSelector(
           (state) => state.login)
@@ -52,7 +52,7 @@ const SupervisoresFormulario = () =>{
 
 
     useEffect(() => {
-    Promise.all([dispatch(getAllGerentes()),dispatch(getAllZonas()),dispatch(reset())])
+    Promise.all([dispatch(getAllGerentes()), dispatch(getAllGerentesActivos()),dispatch(getAllZonas()),dispatch(reset())])
       if(id) {  
         dispatch(getSupervisoresById(id))
         }
@@ -109,6 +109,7 @@ const SupervisoresFormulario = () =>{
 
 
   const supervisorGerente = gerentes?.find(e => e.Nombre === supervisoresById?.Gerente,);
+  const supervisorGerenteActivo = gerentesActivos?.find(e => e.Nombre === supervisoresById?.GerenteActivo,);
   const supervisorZona = zonas?.find(e =>  e.Nombre === supervisoresById?.Zona )
   useEffect(() => {
     console.log(zonas)
@@ -119,6 +120,7 @@ const SupervisoresFormulario = () =>{
       Activo: supervisoresById?.Activo,
       Email: supervisoresById?.Email,
       Gerente: supervisorGerente?.Codigo,
+      GerenteActivo: supervisorGerenteActivo?.Codigo,
       EsMiniEmprendedor: supervisoresById?.EsMiniEmprendedor,
       ValorPromedioMovil: supervisoresById?.ValorPromedioMovil,
       Zona: supervisorZona?.codigo,
@@ -274,9 +276,8 @@ return(
    <hr className={styles.hr}/>
    <div className={styles.inputSelect} >
    <Row>
-   <Col>
-   <InputGroup>
-   <InputGroup.Text id="basic-addon1">Gerente</InputGroup.Text>
+   {id?.length ? <Col>
+   <InputGroup><InputGroup.Text id="basic-addon1">Gerente</InputGroup.Text>
       <Form.Select size="" name="Gerente" value={input.Gerente}  onChange={HandleChange} id="" >
           {   !id ? <option value="">---</option> 
               :supervisorGerente && Object.keys(supervisorGerente).length 
@@ -286,6 +287,19 @@ return(
       </Form.Select>
     </InputGroup>
   </Col>
+  
+  :<Col>
+   <InputGroup>
+    <InputGroup.Text id="basic-addon1">Gerente</InputGroup.Text>
+      <Form.Select size="" name="Gerente" value={input.Gerente}  onChange={HandleChange} id="" >
+          {   !id ? <option value="">---</option> 
+              :supervisorGerenteActivo && Object.keys(supervisorGerenteActivo).length 
+              ?<option key={supervisorGerenteActivo.Codigo} value={supervisorGerenteActivo.Codigo}>{`${supervisorGerente.Nombre}`}</option> 
+              :<option value="">---</option>  }
+              {gerentesActivos && gerentesActivos.map(e => <option key={e.Codigo} value={e.Codigo}>{`${e.Nombre}`}</option>)}
+      </Form.Select>
+    </InputGroup>
+  </Col>}
   <Col>
   <InputGroup>
    <InputGroup.Text id="basic-addon1">Zona</InputGroup.Text>  
