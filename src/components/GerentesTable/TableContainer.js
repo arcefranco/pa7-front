@@ -37,6 +37,8 @@ margin-top:5px;
     td {
       // margin: .5em;
       padding: .5em;
+      padding-top: 0em;
+      padding-bottom: 0em;
       border-bottom: 0px solid black;
       border-right: 0px solid black;
       font-size: .8em;

@@ -37,7 +37,7 @@ const SideBarItem = ({item, index}) => {
                 {
                     item.path ? 
                     
-                    <Link to={item.path} ><span className={styles[item.cName]}>
+                    <Link to={item.path} onClick={()=>window.localStorage.removeItem("pageIndex")} ><span className={styles[item.cName]}>
                     {item.icon}
                     {item.title}
                     

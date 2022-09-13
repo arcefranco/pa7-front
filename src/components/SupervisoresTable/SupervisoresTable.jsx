@@ -32,6 +32,7 @@ const [input, setInput] = useState({
   Activo: '',
 })
 
+const [pageHistory, setPageHistory] = useState('')
 
 /*GET API SUPERVISORES*/
 useEffect(() => {
@@ -46,6 +47,7 @@ useEffect(() => {
     
     /*-------------------------SWAL ALERTS--------------------------*/ 
     useEffect(() => {
+      setPageHistory(pageIndex)
       if(statusNuevoSupervisor.length && statusNuevoSupervisor[0]?.status === true){
           Swal.fire({
               icon: 'success',
@@ -108,8 +110,8 @@ useEffect(() => {
         Filter: SearchFilter
       },
       {
-        Header: <div style={{marginBottom:"-1.6em"}}>Es Micro<br/>Emprendedor</div>,
-        ShortHeader: "Es Micro...",
+        Header: <div >Es Micro</div>,
+        ShortHeader: "Es Micro",
         accessor: "EsMiniEmprendedor",
         Cell: ({ value }) => <div style={{ textIndent: "15px"}}><input   type="checkbox" className={styles.checkbox} checked={value === 0  
                               ?false
@@ -117,11 +119,11 @@ useEffect(() => {
         Filter: ActiveFilter
       },
       {
-        Header: <div >Valor Promedio<br/>Movil Micro Emp.</div>,
-        ShortHeader: "Valor Promedio...",
+        Header: <div >V. Promedio Móvil </div>,
+        ShortHeader: "V. Promedio...",
         accessor: "ValorPromedioMovil",
         Cell: ({ value }) => <div style={{  textAlign:"end", marginRight:"3rem"}}>{value}</div>,
-        Filter: <div className={styles.filter} style={{border:'none'}} ></div>,
+        Filter: <div className={styles.filter} style={{border:'none', paddingTop:"1.56em"}} ></div>,
       },
       
       {
@@ -146,7 +148,7 @@ useEffect(() => {
         id:'Modificar',
         disableSortBy: true,
         Filter: false,
-        Cell: (value) => (rolModificar ? <button  style={{background:"burlywood"}} onClick=  {(()=> navigate(`/modificarSupervisores/${value.value}`))}
+        Cell: (value) => (rolModificar ? <button  style={{background:"burlywood"}} onClick={()=>(console.log(pageIndex), navigate(`/modificarSupervisores/${value.value}`))}
         className={styles.buttonRows} >Modificar</button>:
         <button style={{background:"silver"}} className={styles.buttonRows} disabled>Modificar</button>),
               },
@@ -181,7 +183,7 @@ useEffect(() => {
     ],
     []
   );
-  const tableInstance = useTable({ columns: columns, data: supervisores, initialState:{pageSize:15} },    
+  const tableInstance = useTable({ columns: columns, data: supervisores, initialState:{pageSize:15, pageIndex:JSON.parse(localStorage.getItem('pageIndex')) } },    
     useGlobalFilter,useFilters, useSortBy, usePagination
     );
 
@@ -204,7 +206,11 @@ useEffect(() => {
   } = tableInstance;
   const {pageIndex,pageSize} = state
   const {globalFilter} = state
-
+  const handleModify = async () =>{
+    window.localStorage.setItem("pageIndex",JSON.stringify(pageIndex))
+     
+  }
+  
 /*RENDER PAGINA SUPERVISORES*/
   return (
     <div className={styles.container}>
@@ -215,7 +221,7 @@ useEffect(() => {
 
           <div className={styles.buttonContainer}>
           { rolAlta ? 
-          <> <button onClick={()=>navigate('/altaSupervisores')}   className={styles.buttonLeft} >Nuevo</button>
+          <> <button onClick={()=> (window.localStorage.setItem("pageIndex",JSON.stringify(pageHistory)), navigate('/altaSupervisores'))}   className={styles.buttonLeft} >Nuevo</button>
             <ExportCSV csvData={supervisores} fileName={'supervisores'} /></>
             : <><button onClick={()=>navigate('/altaSupervisores')}   className={styles.buttonLeft} disabled>Nuevo</button>
             <button className={styles.buttonRight}  disabled >Excel</button></>
@@ -266,11 +272,11 @@ useEffect(() => {
       <div className={styles.Pagination}>
         <span className={styles.pageIndex}>Página {' '}
         <strong>
-          {pageIndex + 1} de {pageOptions.length}
+          {pageIndex + 1 } de {pageOptions.length}
         </strong>{' '}
         </span>
-        <button className={styles.pageButton} onClick={()=> previousPage()} disabled={!canPreviousPage}>Anterior</button>
-        <button className={styles.pageButton} onClick={()=> nextPage()} disabled={!canNextPage}>Siguiente</button>
+        <button className={styles.pageButton} onClick={()=> (previousPage(), setPageHistory(prevState=>prevState-1), window.localStorage.setItem("pageIndex",JSON.stringify(pageHistory-1)) ) } disabled={!canPreviousPage} >Anterior</button>
+        <button className={styles.pageButton} onClick={()=> (nextPage(), setPageHistory(prevState=>prevState+1), window.localStorage.setItem("pageIndex",JSON.stringify(pageHistory+1))) } disabled={!canNextPage} >Siguiente</button>
       </div>
         </>
        </TableContainer>
