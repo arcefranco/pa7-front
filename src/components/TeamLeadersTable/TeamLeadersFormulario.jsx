@@ -221,10 +221,10 @@ return(
  <><Form.Group as={Col} style={{marginTop:'1rem', marginBottom: '.5rem'}}>
     <FloatingLabel
     controlId="floatingInputGrid"
-    label="Codigo"
+    label="Código"
     style={floatingLabel}
     >
-   <Form.Control type="text" style={{width:"6rem"}} name="Codigo" onChange={HandleChange} value={input.Codigo} disabled />
+   <Form.Control size="sm" type="text" style={{width:"6rem"}} name="Codigo" onChange={HandleChange} value={input.Codigo} disabled />
    </FloatingLabel>
    </Form.Group></>}
    
@@ -234,7 +234,7 @@ return(
     label="Nombre"
     style={floatingLabel}
     >
-    <Form.Control type="text"  name="Nombre" placeholder="Nombre" className={error.Nombre && styles.inputError} onChange={HandleChange} 
+    <Form.Control size="sm" type="text"  name="Nombre" placeholder="Nombre" className={error.Nombre && styles.inputError} onChange={HandleChange} 
    value={input.Nombre} required />
    {error.Nombre && <div className={styles.error}>{error.Nombre}</div>}
    </FloatingLabel>
@@ -249,7 +249,7 @@ return(
    {id?.length? <Col>
    <InputGroup>
    <InputGroup.Text id="basic-addon1">Supervisor</InputGroup.Text>
-      <Form.Select size="" name="Supervisor" value={input.Supervisor}  onChange={HandleChange} id="" required>
+      <Form.Select size="sm" name="Supervisor" value={input.Supervisor}  onChange={HandleChange} id="" required>
           {   !id ? <option value="">---</option> 
               :teamLeaderSupervisor && Object.keys(teamLeaderSupervisor).length 
               ?<option key={teamLeaderSupervisor.Codigo} value={teamLeaderSupervisor.Codigo}>{`${teamLeaderSupervisor.Nombre}`}</option> 
@@ -261,7 +261,7 @@ return(
   :<Col>
    <InputGroup>
    <InputGroup.Text id="basic-addon1">Supervisor</InputGroup.Text>
-      <Form.Select size="" name="Supervisor" value={input.Supervisor}  onChange={HandleChange} id="" required>
+      <Form.Select size="sm" name="Supervisor" value={input.Supervisor}  onChange={HandleChange} id="" required>
           {   !id ? <option value="">---</option> 
               :teamLeaderSupervisorActivo && Object.keys(teamLeaderSupervisorActivo).length 
               ?<option key={teamLeaderSupervisorActivo.Codigo} value={teamLeaderSupervisorActivo.Codigo}>{`${teamLeaderSupervisorActivo.Nombre}`}</option> 
