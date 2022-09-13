@@ -1,0 +1,96 @@
+import React from 'react';
+import { useSelector, useDispatch} from 'react-redux';
+import { Link, useNavigate } from 'react-router-dom';
+import styles from '../GerentesTable/Gerentes.module.css';
+import { ExportCSV } from '../../helpers/exportCSV';
+import { getOficialSelected, getOficialCategoria } from "../../reducers/Oficiales/OficialesSlice";
+import { useState } from 'react';
+import TableMora from './tables/TableMora';
+import TableSubite from './tables/TableSubite';
+import TableScoring from './tables/TableScoring';
+import TableAdjudicacion from './tables/TableAdjudicacion';
+import TableCanje from './tables/TableCanje';
+import TableLicitaciones from './tables/TableLicitaciones';
+import TableAsignacion from './tables/TableAsignacion';
+import TablePatentamiento from './tables/TablePatentamiento';
+import TableCarga from './tables/TableCarga';
+import TableCompra from './tables/TableCompra';
+import { useEffect } from 'react';
+
+
+
+
+
+const OficialesTable = () => {
+
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
+
+        const {roles} = useSelector((state) => state.login.user)
+        const rolAltayModif = roles.find(e => e.rl_codigo === '1.2.2' || e.rl_codigo === '1')
+        const [columnsName, setColumnsName] = useState([]) 
+        const {oficialesSelected, oficialCategoria} = useSelector(state => state.oficiales)
+
+        const onChange = (e) => {
+            setColumnsName(e.target.value)
+            dispatch(getOficialCategoria(e.target.value))
+            dispatch(getOficialSelected({oficialName: e.target.value}))
+        }
+
+        let categoria;
+        useEffect(() => {
+            dispatch(getOficialCategoria(document.getElementById('select')?.value))
+            .then(e => categoria = e.payload)
+
+            return () => {
+                dispatch(getOficialCategoria(document.getElementById('select')?.value))
+            }
+        }, [columnsName,oficialesSelected])
+
+    
+    return (
+        <div style={{height: '100vh'}}>
+            <h1>Oficiales</h1>
+            <span>Seleccione oficial: </span>
+            <select id='select' onChange={(e) => onChange(e)}>
+                <option value="">---</option>
+                <option value="Adjudicaciones">Adjudicacion</option>
+                <option value="Licitaciones">Licitacion</option>
+                <option value="Plan Canje">Plan Canje</option>
+                <option value="Scoring">Scoring</option>
+                <option value="Mora">Mora</option>
+                <option value="Subite">Subite</option>
+                <option value="Compra">Compra Rescind</option>
+                <option value="Carga">Carga</option>
+                <option value="Patentamiento">Patentamiento</option>
+                <option value="Asignacion">Asignacion</option>
+            </select>
+            <span className={styles.titleContainer}>
+      <div className={styles.buttonContainer}>
+      {rolAltayModif ?
+       <><Link to={'/altaOficiales'}><button>Nuevo</button></Link>
+        <ExportCSV csvData={oficialesSelected} fileName={'sucursales'} /></> :
+         <Link to={'/altaOficiales'}><button disabled>Nuevo</button></Link>
+      }</div>
+      </span>
+          
+            {
+        {
+          'Mora': <TableMora />,
+          'Scoring': <TableScoring/>,
+          'Adjudicaciones': <TableAdjudicacion/>,
+          'Licitaciones': <TableLicitaciones/>,
+          'Plan Canje': <TableCanje />,
+          'Carga': <TableCarga />,
+          'Patentamiento': <TablePatentamiento />,
+          'Asignacion': <TableAsignacion />,
+          'Subite': <TableSubite/>,
+          'Compra': <TableCompra/>
+        }[columnsName]
+      }
+
+        </div>
+    )
+}
+
+export default OficialesTable
