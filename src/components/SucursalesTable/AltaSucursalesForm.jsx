@@ -150,7 +150,7 @@ const handleSubmit = async (e) => {
                         label="Nombre"
                         style={floatingLabel}
                     >
-                    <Form.Control type="text" value={input.Nombre} name="Nombre" placeholder="Nombre" onChange={handleChange} required />
+                    <Form.Control size="sm" type="text" value={input.Nombre} name="Nombre" placeholder="Nombre" onChange={handleChange} required />
                     </FloatingLabel>
                     </Form.Group>
                     </Row>
@@ -164,7 +164,7 @@ const handleSubmit = async (e) => {
                     label="Usuario Alta Registro"
                     style={floatingLabel}
                 >
-                <Form.Control type="text" value={input.UsuarioAltaRegistro} name="UsuarioAltaRegistro" placeholder="Usuario Alta Registro" onChange={handleChange} required />
+                <Form.Control size="sm" type="text" value={input.UsuarioAltaRegistro} name="UsuarioAltaRegistro" placeholder="Usuario Alta Registro" onChange={handleChange} required />
                 </FloatingLabel>
                 </Form.Group>
                 </Row> 

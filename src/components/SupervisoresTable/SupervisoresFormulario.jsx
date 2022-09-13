@@ -229,10 +229,10 @@ return(
  <><Form.Group as={Col} style={{marginTop:'1rem', marginBottom: '.5rem'}}>
     <FloatingLabel
     controlId="floatingInputGrid"
-    label="Codigo"
+    label="Código"
     style={floatingLabel}
     >
-   <Form.Control type="text" style={{width:"6rem"}} name="Codigo" onChange={HandleChange} value={input.Codigo} disabled />
+   <Form.Control size="sm" type="text" style={{width:"6rem"}} name="Codigo" onChange={HandleChange} value={input.Codigo} disabled />
    </FloatingLabel>
    </Form.Group></>}
    
@@ -242,7 +242,7 @@ return(
     label="Nombre"
     style={floatingLabel}
     >
-    <Form.Control type="text"  name="Nombre" placeholder="Nombre" className={error.Nombre && styles.inputError} onChange={HandleChange} 
+    <Form.Control size="sm" type="text"  name="Nombre" placeholder="Nombre" className={error.Nombre && styles.inputError} onChange={HandleChange} 
    value={input.Nombre} required />
    {error.Nombre && <div className={styles.error}>{error.Nombre}</div>}
    </FloatingLabel>
@@ -255,7 +255,7 @@ return(
     label="Email"
     style={floatingLabel}
     >
-   <Form.Control type="email" placeholder="Email"  className={error.email && styles.inputError} name="Email" onChange={HandleChange} 
+   <Form.Control size="sm" type="email" placeholder="Email"  className={error.email && styles.inputError} name="Email" onChange={HandleChange} 
    value={input.Email} required />
    {error.email && <div className={styles.error}>{error.email}</div>}
    </FloatingLabel>
@@ -263,10 +263,10 @@ return(
    <Form.Group as={Col} style={{marginTop:'1rem', marginBottom: '.5rem'}}>
    <FloatingLabel
     controlId="floatingInputGrid"
-    label="Valor Promedio Movil"
+    label="Valor Promedio Móvil"
     style={floatingLabel}
     >
-   <Form.Control type="number" placeholder="Valor Promedio Movil" name="ValorPromedioMovil" onChange={HandleChange} 
+   <Form.Control size="sm" type="number" placeholder="Valor Promedio Móvil" name="ValorPromedioMovil" onChange={HandleChange} 
    value={input.ValorPromedioMovil} />
    </FloatingLabel>
    </Form.Group>
@@ -278,7 +278,7 @@ return(
    <Row>
    {id?.length ? <Col>
    <InputGroup><InputGroup.Text id="basic-addon1">Gerente</InputGroup.Text>
-      <Form.Select size="" name="Gerente" value={input.Gerente}  onChange={HandleChange} id="" >
+      <Form.Select size="sm" name="Gerente" value={input.Gerente}  onChange={HandleChange} id="" >
           {   !id ? <option value="">---</option> 
               :supervisorGerente && Object.keys(supervisorGerente).length 
               ?<option key={supervisorGerente.Codigo} value={supervisorGerente.Codigo}>{`${supervisorGerente.Nombre}`}</option> 
@@ -291,7 +291,7 @@ return(
   :<Col>
    <InputGroup>
     <InputGroup.Text id="basic-addon1">Gerente</InputGroup.Text>
-      <Form.Select size="" name="Gerente" value={input.Gerente}  onChange={HandleChange} id="" >
+      <Form.Select size="sm" name="Gerente" value={input.Gerente}  onChange={HandleChange} id="" >
           {   !id ? <option value="">---</option> 
               :supervisorGerenteActivo && Object.keys(supervisorGerenteActivo).length 
               ?<option key={supervisorGerenteActivo.Codigo} value={supervisorGerenteActivo.Codigo}>{`${supervisorGerente.Nombre}`}</option> 
@@ -303,7 +303,7 @@ return(
   <Col>
   <InputGroup>
    <InputGroup.Text id="basic-addon1">Zona</InputGroup.Text>  
-        <Form.Select size="" name="Zona" value={input.Zona}  onChange={HandleChange} id="" >
+        <Form.Select size="sm" name="Zona" value={input.Zona}  onChange={HandleChange} id="" >
             {   !id ? <option value="">---</option> 
                 :supervisorZona && Object.keys(supervisorZona).length 
                 ?<option key={supervisorZona.codigo} value={supervisorZona.codigo}>{`${supervisorZona.Nombre}`}</option> 

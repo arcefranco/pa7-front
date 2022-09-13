@@ -39,7 +39,7 @@ margin-top:5px;
       padding: .5em;
       border-bottom: 0px solid black;
       border-right: 0px solid black;
-      font-size: .88em;
+      font-size: .8em;
       min-width:auto;
       max-width: 16.2rem;
       height:auto;
