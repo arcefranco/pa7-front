@@ -21,6 +21,9 @@ const getSupervisores = async () => {
     const response = await axios.get(process.env.REACT_APP_HOST + 'gerentes', ).catch((error) => errorsHandling(error))
     return response.data[0]
   }
+  const getAllGerentesActivos = async () => {
+    const response = await axios.get(process.env.REACT_APP_HOST + 'gerentes/activos', ).catch((error) => errorsHandling(error))
+    return response.data[0]}
   const getAllZonas = async () => {
     const response = await axios.get(process.env.REACT_APP_HOST + 'supervisores/zonas', ).catch((error) => errorsHandling(error))
     return response.data[0]
@@ -48,7 +51,7 @@ const deleteSupervisores = async (supervisoresData) => {
   return response.data }
 
 const supervisoresService = {
-    getSupervisores, postSupervisores, updateSupervisores, deleteSupervisores, getSupervisoresById, getAllGerentes, getAllZonas, endCommit
+    getSupervisores, postSupervisores, updateSupervisores, deleteSupervisores, getSupervisoresById, getAllGerentes, getAllGerentesActivos, getAllZonas, endCommit
   }
 
 

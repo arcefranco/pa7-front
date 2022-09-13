@@ -96,12 +96,6 @@ useEffect(() => {
         Filter: SearchFilter
       },
       {
-        Header: "Supervisor",
-        ShortHeader:"Supervisor",
-        accessor: "Sucursal",
-        Filter: SearchFilter
-      },
-      {
         Header: "Team Leader",
         ShortHeader:"Team Leader",
         accessor: "TeamLeader",

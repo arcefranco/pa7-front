@@ -12,6 +12,7 @@ const initialState = {
     supervisores: [],
     supervisoresById: [],
     gerentes:[],
+    gerentesActivos:[],
     zonas:[],
     statusNuevoSupervisor: [],
 }
@@ -43,6 +44,20 @@ export const getSupervisores = createAsyncThunk('supervisores', async (thunkAPI)
     try {
       
       const data = await supervisoresService.getAllGerentes()
+
+      return data
+    } catch (error) {
+
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+  })
+  export const getAllGerentesActivos = createAsyncThunk('supervisores/gerentesActivos', async (thunkAPI) => {
+    try {
+      
+      const data = await supervisoresService.getAllGerentesActivos()
 
       return data
     } catch (error) {
@@ -179,6 +194,20 @@ export const supervisoresSlice = createSlice({
             state.isError = true
             state.message = action.payload
             state.gerentes = null
+          })
+          builder.addCase(getAllGerentesActivos.pending, (state) => {
+            state.isLoading = true
+          })
+          builder.addCase(getAllGerentesActivos.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.isSuccess = true
+            state.gerentesActivos = action.payload
+          }) 
+          builder.addCase(getAllGerentesActivos.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            state.message = action.payload
+            state.gerentesActivos = null
           })
           builder.addCase(getAllZonas.pending, (state) => {
             state.isLoading = true

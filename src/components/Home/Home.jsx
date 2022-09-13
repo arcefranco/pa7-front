@@ -6,8 +6,8 @@ import '../../App.css';
 import fiatLogo from '../../images/fiat_logo.jpg'
 import peugeotLogo from '../../images/peugeot.jpg'
 import VWLogo from '../../images/volkswagen.png'
-import cheryLogo from '../../images/logo_chery.png'
-import jeepLogo from '../../images/logo_jeep.png'
+import cheryLogo from '../../images/logo_chery.jpg'
+import jeepLogo from '../../images/logo_jeep.jpg'
 import citroenLogo from '../../images/logo_citroen.png'
 
 const Home = () => {
