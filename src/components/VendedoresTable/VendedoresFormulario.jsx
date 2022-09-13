@@ -255,10 +255,10 @@ return(
     <Form.Group  style={{marginTop:'1rem', marginBottom: '.5rem'}}>
     <FloatingLabel
     controlId="floatingInputGrid"
-    label="Codigo"
+    label="Código"
     style={floatingLabel}
     >
-   <Form.Control type="text" style={{width:"6rem"}} name="Codigo" onChange={HandleChange} value={input.Codigo} disabled />
+   <Form.Control size="sm" type="text" style={{width:"6rem"}} name="Codigo" onChange={HandleChange} value={input.Codigo} disabled />
    </FloatingLabel>
    </Form.Group></Col></>}
    <Col >
@@ -268,7 +268,7 @@ return(
     label="Nombre"
     style={floatingLabel}
     >
-    <Form.Control type="text"  name="Nombre" placeholder="Nombre" className={error.Nombre && styles.inputError} onChange={HandleChange} 
+    <Form.Control size="sm" type="text"  name="Nombre" placeholder="Nombre" className={error.Nombre && styles.inputError} onChange={HandleChange} 
    value={input.Nombre} required />
    {error.Nombre && <div className={styles.error}>{error.Nombre}</div>}
    </FloatingLabel>
@@ -285,7 +285,7 @@ return(
     <Col>
    <InputGroup>
    <InputGroup.Text id="basic-addon1">Team Leader</InputGroup.Text>
-      <Form.Select size="" name="TeamLeader" value={input.TeamLeader}  onChange={HandleChange} id="" >
+      <Form.Select size="sm" name="TeamLeader" value={input.TeamLeader}  onChange={HandleChange} id="" >
           {   !id ? <option value="">---</option> 
               :vendedorTeamLeader && Object.keys(vendedorTeamLeader).length 
               ?<option key={vendedorTeamLeader.Codigo} value={vendedorTeamLeader.Codigo}>{`${vendedorTeamLeader.Nombre}`}</option> 
@@ -297,7 +297,7 @@ return(
   :<Col>
   <InputGroup>
   <InputGroup.Text id="basic-addon1">Team Leader</InputGroup.Text>
-     <Form.Select size="" name="TeamLeader" value={input.TeamLeader}  onChange={HandleChange} id="" >
+     <Form.Select size="sm" name="TeamLeader" value={input.TeamLeader}  onChange={HandleChange} id="" >
          {   !id ? <option value="">---</option> 
              :vendedorTeamLeaderActivo && Object.keys(vendedorTeamLeaderActivo).length 
              ?<option key={vendedorTeamLeaderActivo.Codigo} value={vendedorTeamLeaderActivo.Codigo}>{`${vendedorTeamLeaderActivo.Nombre}`}</option> 
@@ -309,7 +309,7 @@ return(
   <Col>
   <InputGroup>
    <InputGroup.Text id="basic-addon1">Categoria</InputGroup.Text>  
-        <Form.Select size="" name="Categoria" value={input.Categoria}  onChange={HandleChange} id="" >
+        <Form.Select size="sm" name="Categoria" value={input.Categoria}  onChange={HandleChange} id="" >
             <option value="">---</option>
             <option value="N">N</option>
             <option value="I">I</option>
@@ -322,7 +322,7 @@ return(
     <Col>
     <InputGroup>
     <InputGroup.Text id="basic-addon1">Fecha Baja</InputGroup.Text>  
-      <Form.Control type="date" name='FechaBaja'  value={input.FechaBaja}  onChange={HandleChange} />
+      <Form.Control size="sm" type="date" name='FechaBaja'  value={input.FechaBaja}  onChange={HandleChange} />
     </InputGroup>
     </Col>
     </Row>
@@ -332,7 +332,7 @@ return(
     <Col>
   <InputGroup>
    <InputGroup.Text id="basic-addon1">Oficial Scoring</InputGroup.Text>  
-        <Form.Select size="" name="OficialScoring" value={input.OficialScoring}  onChange={HandleChange} id="" >
+        <Form.Select size="sm" name="OficialScoring" value={input.OficialScoring}  onChange={HandleChange} id="" >
             {   !id ? <option value="">---</option> 
                 :vendedorOficialScoring && Object.keys(vendedorOficialScoring).length 
                 ?<option key={vendedorOficialScoring.Codigo} value={vendedorOficialScoring.Codigo}>{`${vendedorOficialScoring.Nombre}`}</option> 
@@ -344,7 +344,7 @@ return(
     <Col>
   <InputGroup>
    <InputGroup.Text id="basic-addon1">Oficial Mora</InputGroup.Text>  
-        <Form.Select size="" name="OficialMora" value={input.OficialMora}  onChange={HandleChange} id="" >
+        <Form.Select size="sm" name="OficialMora" value={input.OficialMora}  onChange={HandleChange} id="" >
             {   !id ? <option value="">---</option> 
                 :vendedorOficialMora && Object.keys(vendedorOficialMora).length 
                 ?<option key={vendedorOficialMora.Codigo} value={vendedorOficialMora.Codigo}>{`${vendedorOficialMora.Nombre}`}</option> 
@@ -357,7 +357,7 @@ return(
     :<><Col>
   <InputGroup>
    <InputGroup.Text id="basic-addon1">Oficial Scoring</InputGroup.Text>  
-        <Form.Select size="" name="OficialScoring" value={input.OficialScoring}  onChange={HandleChange} id="" >
+        <Form.Select size="sm" name="OficialScoring" value={input.OficialScoring}  onChange={HandleChange} id="" >
             {   !id ? <option value="">---</option> 
                 :vendedorOficialScoringActivo && Object.keys(vendedorOficialScoringActivo).length 
                 ?<option key={vendedorOficialScoringActivo.Codigo} value={vendedorOficialScoringActivo.Codigo}>{`${vendedorOficialScoringActivo.Nombre}`}</option> 
@@ -369,7 +369,7 @@ return(
     <Col>
   <InputGroup>
    <InputGroup.Text id="basic-addon1">Oficial Mora</InputGroup.Text>  
-        <Form.Select size="" name="OficialMora" value={input.OficialMora}  onChange={HandleChange} id="" >
+        <Form.Select size="sm" name="OficialMora" value={input.OficialMora}  onChange={HandleChange} id="" >
             {   !id ? <option value="">---</option> 
                 :vendedorOficialMoraActivo && Object.keys(vendedorOficialMoraActivo).length 
                 ?<option key={vendedorOficialMoraActivo.Codigo} value={vendedorOficialMoraActivo.Codigo}>{`${vendedorOficialMoraActivo.Nombre}`}</option> 
@@ -381,7 +381,7 @@ return(
     <Col>
   <InputGroup>
    <InputGroup.Text id="basic-addon1">Escala Comisión</InputGroup.Text>  
-        <Form.Select size="" name="Escala" value={input.Escala}  onChange={HandleChange} id="" >
+        <Form.Select size="sm" name="Escala" value={input.Escala}  onChange={HandleChange} id="" >
             {   !id ? <option value="">---</option> 
                 :vendedorEscala && Object.keys(vendedorEscala).length 
                 ?<option key={vendedorEscala.Codigo} value={vendedorEscala.Codigo}>{`${vendedorEscala.Nombre}`}</option> 

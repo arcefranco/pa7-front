@@ -4,7 +4,7 @@ export default styled.button`
     padding:.25rem .3rem .25rem .3rem;
     border: none;
     background-color: #3c8dbc;
-    border-radius: 1em;
+    border-radius: .3em;
     box-shadow: none;
     min-width:4em;
     color: white;

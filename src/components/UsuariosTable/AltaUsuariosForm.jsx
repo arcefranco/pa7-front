@@ -244,7 +244,7 @@ useEffect(() => {
                                 label="Nombre"
                                 style={floatingLabel}
                             >
-                            <Form.Control type="text" value={input.Nombre} name="Nombre" placeholder="Nombre" onChange={handleChange} required />
+                            <Form.Control size="sm" type="text" value={input.Nombre} name="Nombre" placeholder="Nombre" onChange={handleChange} required />
                             </FloatingLabel>
                             </Form.Group>
                             
@@ -254,7 +254,7 @@ useEffect(() => {
                                 label="Usuario"
                                 style={floatingLabel}
                             > 
-                            <Form.Control type="text" name="Usuario" value={input.Usuario} className={error.usuario && styles.inputError} onChange={handleChange} placeholder="Usuario" required/>
+                            <Form.Control size="sm" type="text" name="Usuario" value={input.Usuario} className={error.usuario && styles.inputError} onChange={handleChange} placeholder="Usuario" required/>
                             {error.usuario && <div className={styles.error}>{error.usuario}</div>}
                             </FloatingLabel>
                             </Form.Group>
@@ -264,7 +264,7 @@ useEffect(() => {
                                 label="Contraseña"
                                 style={floatingLabel}
                                 > 
-                                <Form.Control type="password" name="password" value={input.password}  onChange={handleChange} placeholder="Contraseña" required/>
+                                <Form.Control size="sm" type="password" name="password" value={input.password}  onChange={handleChange} placeholder="Contraseña" required/>
                                 </FloatingLabel>
                             </Form.Group> }
                         </Row>
@@ -277,7 +277,7 @@ useEffect(() => {
                                 label="Confirmar Contraseña"
                                 style={floatingLabel}
                             > 
-                            <Form.Control type="password" name="confirmPassword" value={input.confirmPassword} onChange={handleChange} placeholder="Repetir Contraseña" required/>
+                            <Form.Control size="sm" type="password" name="confirmPassword" value={input.confirmPassword} onChange={handleChange} placeholder="Repetir Contraseña" required/>
                             {!id?.length && error.contrasenaConfirm ? <div className={styles.error}>{error.contrasenaConfirm}</div>: null}
                             </FloatingLabel>
      
@@ -291,7 +291,7 @@ useEffect(() => {
                                 label="Usuario Anura"
                                 style={floatingLabel}
                             > 
-                            <Form.Control  type="text" name="UsuarioAnura"  value={input.UsuarioAnura} onChange={handleChange} placeholder="Usuario Anura" />
+                            <Form.Control  size="sm" type="text" name="UsuarioAnura"  value={input.UsuarioAnura} onChange={handleChange} placeholder="Usuario Anura" />
                             </FloatingLabel>
                             </Form.Group>
 
@@ -301,7 +301,7 @@ useEffect(() => {
                                 label="Email"
                                 style={floatingLabel}
                             > 
-                            <Form.Control  type="text" name="email" value={input.email}  onChange={handleChange} className={error.email && styles.inputError} placeholder="Email" required/>
+                            <Form.Control size="sm" type="text" name="email" value={input.email}  onChange={handleChange} className={error.email && styles.inputError} placeholder="Email" required/>
                             {error.email && <div className={styles.error}>{error.email}</div>}
                             </FloatingLabel>
                             </Form.Group>
@@ -317,7 +317,7 @@ useEffect(() => {
                         <Col>
                         <InputGroup>
                         <InputGroup.Text id="basic-addon1">Vendedor</InputGroup.Text>
-                            <Form.Select size="" name="Vendedor" value={input.Vendedor} onChange={handleChange} id="">
+                            <Form.Select size="sm" name="Vendedor" value={input.Vendedor} onChange={handleChange} id="">
                         {
                                     !id ? <option value="">---</option> 
                                     : userVendedor && Object.keys(userVendedor).length 
@@ -334,7 +334,7 @@ useEffect(() => {
                         <Col>
                         <InputGroup>
                         <InputGroup.Text id="basic-addon1">Supervisor</InputGroup.Text>
-                            <Form.Select size="" name="Supervisor" value={input.Supervisor}  onChange={handleChange} id="">
+                            <Form.Select size="sm" name="Supervisor" value={input.Supervisor}  onChange={handleChange} id="">
                                     {!id ? <option value="">---</option> 
                                     :userSupervisor && Object.keys(userSupervisor).length 
                                     ?<option key={userSupervisor.Codigo}>{`${userSupervisor.Codigo} ${userSupervisor.Nombre}`}</option> 
@@ -353,7 +353,7 @@ useEffect(() => {
                     <Col>
                     <InputGroup>
                         <InputGroup.Text id="basic-addon1">Team Leader</InputGroup.Text>
-                        <Form.Select size="" style={{fontSize: 'smaller'}} name="TeamLeader" value={input.TeamLeader}  onChange={handleChange} id="">
+                        <Form.Select size="sm"  name="TeamLeader" value={input.TeamLeader}  onChange={handleChange} id="">
                             {   !id ? <option value="">---</option> 
                                 :userTeamLeader && Object.keys(userTeamLeader).length 
                                 ?<option key={userTeamLeader.Codigo}>{`${userTeamLeader.Codigo} ${userTeamLeader.Nombre}`}</option> 
@@ -367,7 +367,7 @@ useEffect(() => {
                     <Col>
                     <InputGroup>
                         <InputGroup.Text id="basic-addon1">Gerente</InputGroup.Text>
-                        <Form.Select size="" name="Gerente" value={input.Gerente}  onChange={handleChange} id="">
+                        <Form.Select size="sm" name="Gerente" value={input.Gerente}  onChange={handleChange} id="">
                             {   !id ? <option value="">---</option> 
                                 :userGerente && Object.keys(userGerente).length 
                                 ?<option key={userGerente.Codigo}>{`${userGerente.Codigo} ${userGerente.Nombre}`}</option> 
@@ -409,11 +409,11 @@ useEffect(() => {
                 <hr className={styles.hr}/>
                 
                 {   id?.length? 
-                    <ButtonPrimary type="submit" style={{ marginBottom:'.4rem'}}  onClick={(e) => handleUpdate(e)}><FcApproval/>Actualizar</ButtonPrimary> 
+                    <ButtonPrimary type="submit" style={{ marginBottom:'.4rem'}}  onClick={(e) => handleUpdate(e)}>Actualizar</ButtonPrimary> 
                     :(
                         !Object.keys(error).length 
-                        ? <ButtonPrimary onClick={handleSubmit}  style={{ marginBottom:'.4rem'}} type="submit" ><FcApproval/>Enviar</ButtonPrimary> 
-                        :<ButtonPrimary  style={{ marginBottom:'.4rem'}} disabled><FcApproval/>Enviar</ButtonPrimary>
+                        ? <ButtonPrimary onClick={handleSubmit}  style={{ marginBottom:'.4rem'}} type="submit" >Enviar</ButtonPrimary> 
+                        :<ButtonPrimary  style={{ marginBottom:'.4rem'}} disabled>Enviar</ButtonPrimary>
                     )
                 }
             </Form>
