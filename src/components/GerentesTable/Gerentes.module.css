@@ -101,7 +101,7 @@ margin: auto;
     width:80px;
     padding: 0.2em ;
     height: 1.8em;
-    font-size: 1em;
+    font-size: .85em;
     letter-spacing: 1px;
     font-weight: 600;
     line-height: normal;
@@ -128,7 +128,7 @@ margin: auto;
     width:6em;
     height: 1.8em;
     margin: 1em;
-    font-size: .9em;
+    font-size: .8em;
     letter-spacing: 1px;
     border:groove 0.5px;
     font-weight: bold;
@@ -182,7 +182,7 @@ border:groove;
 
 .globalSearch{height:1.8em;
     max-width: 15em;
-     border-radius: 1em;
+     border-radius: .3em;
       border: groove;
       margin-top: -2.4em;
       /* margin-bottom: 10px; */
