@@ -21,6 +21,10 @@ const getVendedores = async () => {
     const response = await axios.get(process.env.REACT_APP_HOST + 'teamleaders', ).catch((error) => errorsHandling(error))
     return response.data[0]
   }
+  const getAllTeamLeadersActivos = async () => {
+    const response = await axios.get(process.env.REACT_APP_HOST + 'teamleaders/activos', ).catch((error) => errorsHandling(error))
+    return response.data[0]
+  }
   const getAllEscalas = async () => {
     const response = await axios.get(process.env.REACT_APP_HOST + 'vendedores/escalas', ).catch((error) => errorsHandling(error))
     return response.data[0]
@@ -31,6 +35,14 @@ const getVendedores = async () => {
   }
   const getAllOficialesMora = async () => {
     const response = await axios.get(process.env.REACT_APP_HOST + 'vendedores/oficialesMora', ).catch((error) => errorsHandling(error))
+    return response.data[0]
+  }
+  const getAllOficialesScoringActivos = async () => {
+    const response = await axios.get(process.env.REACT_APP_HOST + 'vendedores/oficialesScoringActivos', ).catch((error) => errorsHandling(error))
+    return response.data[0]
+  }
+  const getAllOficialesMoraActivos = async () => {
+    const response = await axios.get(process.env.REACT_APP_HOST + 'vendedores/oficialesMoraActivos', ).catch((error) => errorsHandling(error))
     return response.data[0]
   }
 const postVendedores = async (form) => {
@@ -55,7 +67,7 @@ const deleteVendedores = async (vendedoresData) => {
   return response.data }
 
 const vendedoresService = {
-    getVendedores, postVendedores, updateVendedores, deleteVendedores, getVendedoresById, getAllEscalas, getAllOficialesMora, getAllOficialesScoring, getAllTeamLeaders, endCommit 
+    getVendedores, postVendedores, updateVendedores, deleteVendedores, getVendedoresById, getAllEscalas, getAllOficialesMora, getAllOficialesScoring, getAllOficialesMoraActivos, getAllOficialesScoringActivos, getAllTeamLeaders, getAllTeamLeadersActivos, endCommit 
   }
 
 

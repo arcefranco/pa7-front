@@ -15,7 +15,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import validateEmail from "../../helpers/validateEmail";
 import {FcApproval} from 'react-icons/fc'
 import {Link, useNavigate} from 'react-router-dom';
-import { getVendedoresById, postVendedores, updateVendedores,getAllEscalas,getAllOficialesScoring, getAllOficialesMora, reset, getAllTeamLeaders, endCommit } from '../../reducers/Vendedores/vendedoresSlice';
+import { getVendedoresById, postVendedores, updateVendedores,getAllEscalas,getAllOficialesScoring, getAllOficialesMora, reset, getAllTeamLeaders, getAllTeamLeadersActivos, endCommit, getAllOficialesMoraActivos, getAllOficialesScoringActivos } from '../../reducers/Vendedores/vendedoresSlice';
 import Swal from "sweetalert2";
 
 
@@ -26,7 +26,7 @@ const VendedoresFormulario = () =>{
     const navigate = useNavigate();
     const [error, setError] = useState({})
 
-    const {vendedoresById, teamleader, escalas, oficialesScoring, oficialesMora, statusNuevoVendedor} = useSelector(
+    const {vendedoresById, teamleader, teamleaderActivo, escalas, oficialesScoring, oficialesMora, oficialesScoringActivos, oficialesMoraActivos, statusNuevoVendedor} = useSelector(
         (state) => state.vendedores)
         const {user, } = useSelector(
           (state) => state.login)
@@ -63,7 +63,7 @@ const VendedoresFormulario = () =>{
       
 
     useEffect(() => {
-    Promise.all([dispatch(getAllTeamLeaders()),dispatch(getAllOficialesMora()),dispatch(getAllOficialesScoring()),dispatch(getAllEscalas()),dispatch(reset())])
+    Promise.all([dispatch(getAllTeamLeadersActivos()),dispatch(getAllTeamLeaders()),dispatch(getAllOficialesMora()),dispatch(getAllOficialesScoring()), dispatch(getAllOficialesMoraActivos()),dispatch(getAllOficialesScoringActivos()),dispatch(getAllEscalas()),dispatch(reset())])
       if(id) {  
         dispatch(getVendedoresById(id))
         }
@@ -120,8 +120,11 @@ const VendedoresFormulario = () =>{
 
 
   const vendedorTeamLeader = teamleader?.find(e => e.Nombre === vendedoresById?.TeamLeader,);
+  const vendedorTeamLeaderActivo = teamleaderActivo?.find(e => e.Nombre === vendedoresById?.teamleaderActivo,);
   const vendedorOficialScoring = oficialesScoring?.find(e =>  e.Nombre === vendedoresById?.OficialScoring );
   const vendedorOficialMora = oficialesMora?.find(e =>  e.Nombre === vendedoresById?.OficialMora );
+  const vendedorOficialScoringActivo = oficialesScoringActivos?.find(e =>  e.Nombre === vendedoresById?.OficialScoringActivo );
+  const vendedorOficialMoraActivo = oficialesMoraActivos?.find(e =>  e.Nombre === vendedoresById?.OficialMoraActivo );
   const vendedorEscala = escalas?.find(e =>  e.Nombre === vendedoresById?.Escala );
 
     let fecha = vendedoresById?.FechaBaja
@@ -133,9 +136,12 @@ const VendedoresFormulario = () =>{
       Codigo: id? id : null,
       Nombre: vendedoresById?.Nombre,
       TeamLeader: vendedorTeamLeader?.Codigo,
+      TeamLeaderActivo: vendedorTeamLeaderActivo?.Codigo,
       Categoria: vendedoresById?.Categoria,
       OficialScoring: vendedorOficialScoring?.Codigo,
       OficialMora: vendedorOficialMora?.Codigo,
+      OficialScoringActivo: vendedorOficialScoringActivo?.Codigo,
+      OficialMoraActivo: vendedorOficialMoraActivo?.Codigo,
       FechaBaja: FechaBaja,
       Escala: vendedorEscala?.Codigo,
       Activo: vendedoresById?.Activo,
@@ -275,7 +281,8 @@ return(
    <hr className={styles.hr}/>
    <div className={styles.inputSelect} >
    <Row className="g-1">
-   <Col>
+   {id?.length? 
+    <Col>
    <InputGroup>
    <InputGroup.Text id="basic-addon1">Team Leader</InputGroup.Text>
       <Form.Select size="" name="TeamLeader" value={input.TeamLeader}  onChange={HandleChange} id="" >
@@ -287,6 +294,18 @@ return(
       </Form.Select>
     </InputGroup>
   </Col>
+  :<Col>
+  <InputGroup>
+  <InputGroup.Text id="basic-addon1">Team Leader</InputGroup.Text>
+     <Form.Select size="" name="TeamLeader" value={input.TeamLeader}  onChange={HandleChange} id="" >
+         {   !id ? <option value="">---</option> 
+             :vendedorTeamLeaderActivo && Object.keys(vendedorTeamLeaderActivo).length 
+             ?<option key={vendedorTeamLeaderActivo.Codigo} value={vendedorTeamLeaderActivo.Codigo}>{`${vendedorTeamLeaderActivo.Nombre}`}</option> 
+             :<option value="">---</option>  }
+             {teamleaderActivo && teamleaderActivo.map(e => <option key={e.Codigo} value={e.Codigo}>{`${e.Nombre}`}</option>)}
+     </Form.Select>
+   </InputGroup>
+ </Col>}
   <Col>
   <InputGroup>
    <InputGroup.Text id="basic-addon1">Categoria</InputGroup.Text>  
@@ -309,6 +328,7 @@ return(
     </Row>
     <br/>
     <Row className="g-1">
+    {id?.length?<>
     <Col>
   <InputGroup>
    <InputGroup.Text id="basic-addon1">Oficial Scoring</InputGroup.Text>  
@@ -332,7 +352,32 @@ return(
                 {oficialesMora && oficialesMora.map(e => <option  key={e.Codigo} value={e.Codigo}>{`${e.Nombre}`}</option>)}
         </Form.Select>
       </InputGroup>
+    </Col></>
+    
+    :<><Col>
+  <InputGroup>
+   <InputGroup.Text id="basic-addon1">Oficial Scoring</InputGroup.Text>  
+        <Form.Select size="" name="OficialScoring" value={input.OficialScoring}  onChange={HandleChange} id="" >
+            {   !id ? <option value="">---</option> 
+                :vendedorOficialScoringActivo && Object.keys(vendedorOficialScoringActivo).length 
+                ?<option key={vendedorOficialScoringActivo.Codigo} value={vendedorOficialScoringActivo.Codigo}>{`${vendedorOficialScoringActivo.Nombre}`}</option> 
+                :<option value="">---</option>  }
+                {oficialesScoringActivos && oficialesScoringActivos.map(e => <option  key={e.Codigo} value={e.Codigo}>{`${e.Nombre}`}</option>)}
+        </Form.Select>
+      </InputGroup>
     </Col>
+    <Col>
+  <InputGroup>
+   <InputGroup.Text id="basic-addon1">Oficial Mora</InputGroup.Text>  
+        <Form.Select size="" name="OficialMora" value={input.OficialMora}  onChange={HandleChange} id="" >
+            {   !id ? <option value="">---</option> 
+                :vendedorOficialMoraActivo && Object.keys(vendedorOficialMoraActivo).length 
+                ?<option key={vendedorOficialMoraActivo.Codigo} value={vendedorOficialMoraActivo.Codigo}>{`${vendedorOficialMoraActivo.Nombre}`}</option> 
+                :<option value="">---</option>  }
+                {oficialesMoraActivos && oficialesMoraActivos.map(e => <option  key={e.Codigo} value={e.Codigo}>{`${e.Nombre}`}</option>)}
+        </Form.Select>
+      </InputGroup>
+    </Col></>}
     <Col>
   <InputGroup>
    <InputGroup.Text id="basic-addon1">Escala Comisión</InputGroup.Text>  
