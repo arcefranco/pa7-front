@@ -8,7 +8,7 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Stack from 'react-bootstrap/Stack';
 import styles from '../UsuariosTable/AltaUsuarios.module.css'
-import { getOficialById, updateOficiales, reset, createOficiales } from "../../reducers/Oficiales/OficialesSlice";
+import { getOficialById, updateOficiales, reset, createOficiales, endCommit } from "../../reducers/Oficiales/OficialesSlice";
 import Swal from "sweetalert2";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import {FcApproval} from 'react-icons/fc';
@@ -57,27 +57,27 @@ useEffect(() => {
   }, [oficialStatus]) 
 
 
- /*  useEffect(() => {
+   useEffect(() => {
 
-    if(sucursalById && sucursalById.status === false){
+    if(oficialById && oficialById.status === false){
         Swal.fire({
             icon: 'error',
             title: 'Tiempo de espera excedido',
             showConfirmButton: true,
             
-            text: sucursalById.message
+            text: oficialById.message
           }).then((result) => {
             if (result.isConfirmed) {
                 dispatch(endCommit())
-              window.location.replace('/sucursales')
+              window.location.replace('/oficiales')
               
             } 
         })
     }
 
-  }, [sucursalById]) */
+  }, [oficialById]) 
 
-/* useEffect(() => {
+ useEffect(() => {
     dispatch(reset())
     return () => {
         if(id){
@@ -85,7 +85,7 @@ useEffect(() => {
             dispatch(endCommit())
         }
     }
-}, []) */
+}, []) 
 
  useEffect(() => {
     setInput({
