@@ -59,13 +59,13 @@ useEffect(() => {
 
    useEffect(() => {
 
-    if(oficialById[0] && oficialById[0].status === false){
+    if(oficialById && oficialById.status === false){
         Swal.fire({
             icon: 'error',
             title: 'Tiempo de espera excedido',
             showConfirmButton: true,
             
-            text: oficialById[0].message
+            text: oficialById.message
           }).then((result) => {
             if (result.isConfirmed) {
                 dispatch(endCommit())
@@ -74,6 +74,7 @@ useEffect(() => {
             } 
         })
     }
+
 
   }, [oficialById]) 
 
