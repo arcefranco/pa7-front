@@ -271,6 +271,7 @@ export const getAllUsuarios = createAsyncThunk('usuarios/All', async (thunkAPI) 
         state.isSuccess = false
         state.isError = false
         state.message = ''
+        state.supervisores = []
         state.statusNuevoUsuario = []
         state.usuarioById = []
         state.rolStatus = []

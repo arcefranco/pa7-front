@@ -26,7 +26,7 @@ const SideBar = () => {
   
     return (
     <>
-            <nav style={{width: toggle?  "15em" : "5em" }} className={styles.menu} onMouseLeave={() => dispatch(setToggleFalse())}>
+            <nav style={{width: toggle?  "15em" : "5em" }} className={styles.menu} onMouseLeave={() => dispatch(setToggleFalse())} >
                 <div className={styles.menuItems}>
                     <div className={styles.toggle}>
                     <p style={{display: toggle ? "grid" : "none" }} className={styles.menuBars}><b>Planes de Ahorro 7</b></p>
@@ -50,8 +50,8 @@ const SideBar = () => {
                 </div>
                 <div className={styles.navbar} style={{width: toggle ? "12em" : "5em"}}>
                 <div className={styles.username} style={{display: toggle ? "block" : "none" }}>
-                            {/* <AiIcons.AiOutlineUser className={styles.username}/> */}
-                            <p style={{fontSize:"1.1em"}} >{user.empresa}</p>
+                            {/*  <AiIcons.AiOutlineUser className={styles.username}/>  */}
+                           {/*  <p style={{fontSize:"1.1em"}} >{user.empresa}</p> */}
                             <p style={{fontSize:"1.2em", fontStyle:"italic"}} >{user.Nombre}</p>
                         </div>
             <Link to="/"><button data-tip="Salir del Sistema" data-effect="solid" data-place="right" style={{marginRight: toggle ? "0.4em" : "-5em"}} className={styles.logOut} onClick={() => dispatch(logout())}><ReactTooltip/><BiLogOut style={{height:"1.2em", width:"1.2em"}}/></button></Link>

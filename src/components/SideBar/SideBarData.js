@@ -154,7 +154,7 @@ export const SidebarData = [
       {title: 'Cambio De Contraseña Sueldos', rol:'1.7.5', cName:'subMenuL2', path:'/'},
       {title: 'Modelos', rol:'1.7.6', cName:'subMenuL2', path:'/'},
       {title: 'Lista de Precios', rol:'1.7.7', cName:'subMenuL2', path:'/'},
-      {title: 'Datos Oficiales', rol:'1.7.8', cName:'subMenuL2', path:'/'},
+      {title: 'Datos Oficiales', rol:'1.7.8', cName:'subMenuL2', path:'/oficiales'},
       {title: 'Puntos de Venta', rol:'1.7.9', cName:'subMenuL2', path:'/'},
       {title: 'Cambio de Contraseña', rol:'1.7.10', cName:'subMenuL2', path:'/'},
       {title: 'Objetivos X Marca', rol:'1.7.11', cName:'subMenuL2', path:'/'},
