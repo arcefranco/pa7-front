@@ -106,7 +106,15 @@ const SupervisoresFormulario = () =>{
   
     }, [supervisoresById])
 
-
+    useEffect(() => {
+      dispatch(reset())
+      return () => {
+          if(id){
+  
+              dispatch(endCommit())
+          }
+      }
+  }, [])
 
   const supervisorGerente = gerentes?.find(e => e.Nombre === supervisoresById?.Gerente,);
   const supervisorGerenteActivo = gerentesActivos?.find(e => e.Nombre === supervisoresById?.GerenteActivo,);
@@ -218,7 +226,9 @@ return(
   <Form action=""  className={styles.form} onSubmit={HandleSubmitInsert}>
  <Stack className={styles.titleContainer} direction="horizontal" gap={3} >
                 <TitlePrimary className={styles.title}>{id?.length ? 'Modificar Supervisores' : 'Alta de Supervisores'}</TitlePrimary>
-                <Link to={'/supervisores'} className="ms-auto" style={{marginRight:"1rem", marginTop:"-1rem"}}><ButtonPrimary  className={styles.btn} >Volver</ButtonPrimary></Link>
+                 <Link to={'/supervisores'} className="ms-auto" style={{marginRight:"1rem", marginTop:"-1rem"}}> 
+                  <ButtonPrimary  className={styles.btn} >Volver</ButtonPrimary>
+                   </Link> 
             </Stack>
             
 

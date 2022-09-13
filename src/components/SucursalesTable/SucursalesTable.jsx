@@ -1,4 +1,4 @@
-import React, {useEffect, useMemo} from 'react';
+import React, {useEffect, useMemo, useState} from 'react';
 import { useSelector, useDispatch} from 'react-redux';
 import { getAllSucursales, getSucursalById , reset, deleteSucursal } from '../../reducers/Sucursales/SucursalesSlice';
 import TableContainer from '../GerentesTable/TableContainer';
@@ -17,8 +17,7 @@ const dispatch = useDispatch()
 const navigate = useNavigate()
 const {roles} = useSelector((state) => state.login.user)
 const rolAltayModif = roles.find(e => e.rl_codigo === '1.2.2' || e.rl_codigo === '1')
-
-
+const [pageHistory, setPageHistory] = useState('')
 
   useEffect(() => {
 
@@ -36,6 +35,7 @@ const rolAltayModif = roles.find(e => e.rl_codigo === '1.2.2' || e.rl_codigo ===
 
 
     useEffect(() => {
+      setPageHistory(pageIndex)
         if(sucursalStatus && sucursalStatus.status === false){
           Swal.fire({
             icon:'error',
@@ -120,7 +120,7 @@ const rolAltayModif = roles.find(e => e.rl_codigo === '1.2.2' || e.rl_codigo ===
     setGlobalFilter,
     prepareRow,
   } =
-    useTable({ columns: columns, data: sucursales, initialState:{pageSize:15} }, useGlobalFilter, 
+    useTable({ columns: columns, data: sucursales, initialState:{pageSize:15, pageIndex:JSON.parse(localStorage.getItem('pageIndex'))} }, useGlobalFilter, 
         useSortBy, usePagination,
         );
         const {pageIndex, pageSize} = state
@@ -188,8 +188,8 @@ const {globalFilter} = state
           {pageIndex + 1} de {pageOptions.length}
         </strong>{' '}
         </span>
-        <button className={styles.pageButton} onClick={()=> previousPage()} disabled={!canPreviousPage}>Anterior</button>
-        <button className={styles.pageButton} onClick={()=> nextPage()} disabled={!canNextPage}>Siguiente</button>
+        <button className={styles.pageButton} onClick={()=> (previousPage(), setPageHistory(prevState=>prevState-1), window.localStorage.setItem("pageIndex",JSON.stringify(pageHistory-1)) ) } disabled={!canPreviousPage} >Anterior</button>
+        <button className={styles.pageButton} onClick={()=> (nextPage(), setPageHistory(prevState=>prevState+1), window.localStorage.setItem("pageIndex",JSON.stringify(pageHistory+1))) } disabled={!canNextPage} >Siguiente</button>
       </div>
       
        </TableContainer>

@@ -6,6 +6,7 @@ import loginService from './loginService'
 const user = JSON.parse(localStorage.getItem('user'))
 const initialState = {
     user: user ? user : null,
+    // pageIndex: '',
     tokenForgot: {status: false}, 
     recoveryMessage: null, //Estado del token 
     updateStatus: null, //Info sobre si encontramos o no el usuario y le enviamos el mail

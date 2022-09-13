@@ -31,6 +31,8 @@ const [input, setInput] = useState({
   Nombre:'',
   Activo: '',
 })
+const [pageHistory, setPageHistory] = useState('')
+
 
 
 /*GET API SUPERVISORES*/
@@ -46,6 +48,7 @@ useEffect(() => {
     
     /*-------------------------SWAL ALERTS--------------------------*/ 
     useEffect(() => {
+      setPageHistory(pageIndex)
       if(statusNuevoVendedor.length && statusNuevoVendedor[0]?.status === true){
           Swal.fire({
               icon: 'success',
@@ -183,7 +186,7 @@ useEffect(() => {
     ],
     []
   );
-  const tableInstance = useTable({ columns: columns, data: vendedores, initialState:{pageSize:15} },    
+  const tableInstance = useTable({ columns: columns, data: vendedores, initialState:{pageSize:15, pageIndex:JSON.parse(localStorage.getItem('pageIndex'))} },    
     useGlobalFilter,useFilters, useSortBy, usePagination
     );
 
@@ -271,8 +274,8 @@ useEffect(() => {
           {pageIndex + 1} de {pageOptions.length}
         </strong>{' '}
         </span>
-        <button className={styles.pageButton} onClick={()=> previousPage()} disabled={!canPreviousPage}>Anterior</button>
-        <button className={styles.pageButton} onClick={()=> nextPage()} disabled={!canNextPage}>Siguiente</button>
+        <button className={styles.pageButton} onClick={()=> (previousPage(), setPageHistory(prevState=>prevState-1), window.localStorage.setItem("pageIndex",JSON.stringify(pageHistory-1)) ) } disabled={!canPreviousPage} >Anterior</button>
+        <button className={styles.pageButton} onClick={()=> (nextPage(), setPageHistory(prevState=>prevState+1), window.localStorage.setItem("pageIndex",JSON.stringify(pageHistory+1))) } disabled={!canNextPage} >Siguiente</button>
       </div>
         </>
        </TableContainer>

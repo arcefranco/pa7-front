@@ -41,7 +41,7 @@ const updateSupervisores = async (form) => {
   return response.data
 }  
 const endCommit = async () => {
-  const response = await axios.get(process.env.REACT_APP_HOST + 'sucursales/endCommit')
+  const response = await axios.get(process.env.REACT_APP_HOST + 'supervisores/endCommit')
   return response.data
 }
 
