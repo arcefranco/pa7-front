@@ -8,7 +8,7 @@ import { useTable, useSortBy, usePagination, useGlobalFilter} from 'react-table'
 import styles from '../../GerentesTable/Gerentes.module.css';
 import Swal from 'sweetalert2';
 import { deleteOficiales } from "../../../reducers/Oficiales/OficialesSlice";
-
+import { useNavigate } from "react-router-dom";
 const TableCompra = () => {
 
   const {oficialesSelected} = useSelector(state => state.oficiales)
@@ -16,6 +16,8 @@ const TableCompra = () => {
   const {roles} = useSelector((state) => state.login.user)
 const rolAltayModif = roles.find(e => e.rl_codigo === '1.2.2' || e.rl_codigo === '1')
     const dispatch = useDispatch()
+    
+  const navigate = useNavigate()
 
 useEffect(() => {
     dispatch(getAllSupervisores())
@@ -60,7 +62,7 @@ useEffect(() => {
                     accessor: "Codigo",
                     id: 'modify',
                     Cell: (value) => ( rolAltayModif ? 
-                    <button style={{background:"burlywood"}} className={styles.buttonRows} /* onClick={(()=> navigate(`/modifSucursales/${value.value}`))} */>Modificar</button> :
+                    <button style={{background:"burlywood"}} className={styles.buttonRows}  onClick={(()=> navigate(`/modifOficiales/Compra/${value.value}`))}>Modificar</button> :
                     <button style={{background:"silver"}} className={styles.buttonRows} disabled>Modificar</button>
                     ),
                     Filter: false

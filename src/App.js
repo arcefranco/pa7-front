@@ -26,6 +26,7 @@ import TeamLeadersFormulario from './components/TeamLeadersTable/TeamLeadersForm
 import VendedoresTable from './components/VendedoresTable/VendedoresTable';
 import VendedoresFormulario from './components/VendedoresTable/VendedoresFormulario';
 import OficialesTable from './components/Oficiales/OficialesTable';
+import OficialesForm from './components/Oficiales/OficialesForm';
 
 function App() {
   const {user, toggle} = useSelector(
@@ -91,6 +92,8 @@ function App() {
           <Route path='/roles' element={<RolesForm/>}/>
           <Route path='/copyRoles' element={<CopyRoles/>}/>
           <Route path='/oficiales' element={<OficialesTable/>}/>
+          <Route path='/modifOficiales/:categoria/:id' element={<OficialesForm/>} />
+          <Route path='/modifOficiales/:categoria' element={<OficialesForm/>} />
           <Route path='/permission' element={<NotPermission/>}/>
           <Route path='/480' element={<ErrorDB/>}></Route>
         </Routes> 
