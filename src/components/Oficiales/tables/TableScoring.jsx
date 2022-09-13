@@ -7,7 +7,7 @@ import { useTable, useSortBy, usePagination, useGlobalFilter} from 'react-table'
 import styles from '../../GerentesTable/Gerentes.module.css';
 import Swal from 'sweetalert2';
 import { deleteOficiales } from "../../../reducers/Oficiales/OficialesSlice";
-
+import { useNavigate } from "react-router-dom";
 
 const TableScoring = () => {
 
@@ -15,6 +15,8 @@ const TableScoring = () => {
     const {roles} = useSelector((state) => state.login.user)
     const rolAltayModif = roles.find(e => e.rl_codigo === '1.2.2' || e.rl_codigo === '1')
     const dispatch = useDispatch()
+    
+    const navigate = useNavigate()
     const defaultColumns = useMemo(() => [
         {
             Header: "Código ",
@@ -49,7 +51,7 @@ const TableScoring = () => {
             accessor: "Codigo",
             id: 'modify',
             Cell: (value) => ( rolAltayModif ? 
-            <button style={{background:"burlywood"}} className={styles.buttonRows} /* onClick={(()=> navigate(`/modifSucursales/${value.value}`))} */>Modificar</button> :
+            <button style={{background:"burlywood"}} className={styles.buttonRows}  onClick={(()=> navigate(`/modifOficiales/Scoring/${value.value}`))}>Modificar</button> :
             <button style={{background:"silver"}} className={styles.buttonRows} disabled>Modificar</button>
             ),
             Filter: false

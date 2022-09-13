@@ -17,10 +17,28 @@ const oficialCategoria =  (oficialData) => {
     
     return oficialData
 }
+
+const getOficialById = async (oficialData) => {
+    const response = await axios.post(process.env.REACT_APP_HOST + 'oficiales/id', oficialData).catch((error) => errorsHandling(error))
+    return response.data
+}
+
+const updateOficiales = async (oficialData) => {
+    const response = await axios.put(process.env.REACT_APP_HOST + 'oficiales/id', oficialData).catch((error) => errorsHandling(error))
+    return response.data
+}
+
+const createOficiales = async (oficialData) => {
+    const response = await axios.post(process.env.REACT_APP_HOST + 'oficiales/create', oficialData).catch((error) => errorsHandling(error))
+    return response.data
+}
 const OficialesService = {
     getOficialSelected,
     deleteOficiales,
-    oficialCategoria
+    oficialCategoria,
+    getOficialById,
+    updateOficiales,
+    createOficiales
     }
     
 export default OficialesService
