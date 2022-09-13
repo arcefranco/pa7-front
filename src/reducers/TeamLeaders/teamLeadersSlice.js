@@ -89,6 +89,20 @@ export const updateTeamLeaders = createAsyncThunk('updateteamleaders', async (fo
       return thunkAPI.rejectWithValue(error.response.data)
     }
   })
+  export const endCommit = createAsyncThunk('endCommit', async (teamLeadersData, thunkAPI) => {
+    try {
+      
+      const data = await teamLeadersService.endCommit()
+
+      return data
+    } catch (error) {
+
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+  })
 
 
 
@@ -197,6 +211,19 @@ export const teamLeadersSlice = createSlice({
             state.statusNuevoTeamLeader = [action.payload]
             state.teamLeaders = null
           });  
+          builder.addCase(endCommit.pending, (state) => {
+            state.isLoading = true
+        })
+          builder.addCase(endCommit.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.isSuccess = true
+            state.statusNuevoTeamLeader = action.payload
+        }) 
+          builder.addCase(endCommit.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            state.statusNuevoTeamLeader = action.payload
+        })  
 
 
         }

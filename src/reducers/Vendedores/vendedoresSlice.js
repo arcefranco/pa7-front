@@ -41,6 +41,21 @@ export const getVendedores = createAsyncThunk('vendedores', async (thunkAPI) => 
       return thunkAPI.rejectWithValue(error.response.data)
     }
   })
+
+  export const endCommit = createAsyncThunk('endCommit', async (usuarioData, thunkAPI) => {
+    try {
+      
+      const data = await vendedoresService.endCommit()
+
+      return data
+    } catch (error) {
+
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+  })
   export const getAllEscalas = createAsyncThunk('vendedores/escalas', async (thunkAPI) => {
     try {
       
@@ -281,7 +296,20 @@ export const vendedoresSlice = createSlice({
             state.isError = true
             state.statusNuevoVendedor = [action.payload]
             state.vendedores = null
-          });  
+          });
+          builder.addCase(endCommit.pending, (state) => {
+            state.isLoading = true
+        })
+        builder.addCase(endCommit.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.isSuccess = true
+            state.statusNuevoVendedor = action.payload
+        }) 
+        builder.addCase(endCommit.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            state.statusNuevoVendedor = action.payload
+        })  
 
 
         }

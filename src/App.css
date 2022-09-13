@@ -1,6 +1,7 @@
 .App {
   text-align: center;
   display: flex;
+  overflow: hidden;
   /* height: 80vh; */
 /*   background-color: aliceblue; */
 }
@@ -43,6 +44,28 @@ input[type=checkbox] {
 /*  max-width: 1.5em; */
 
 }
+
+.logo{
+  background-color: #090909;
+  margin:auto;
+  margin-top: 0;
+  margin-bottom: 0;
+  width: 4cm;
+  height: 3cm;
+  filter: brightness(1.1);
+  mix-blend-mode: multiply;
+ }
+
+ .logoShort{
+  background-color: #090909;
+  margin:auto;
+  margin-top: 0;
+  margin-bottom: 0;
+  width: 4cm;
+  height: 2.5cm;
+  filter: brightness(1.1);
+  mix-blend-mode: multiply;
+ }
 
 .img{
   background-color: #090909;

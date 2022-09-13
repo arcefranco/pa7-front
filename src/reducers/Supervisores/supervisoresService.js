@@ -37,6 +37,10 @@ const updateSupervisores = async (form) => {
   const response = await axios.put(process.env.REACT_APP_HOST + 'supervisores' , form, headers).catch((error) => errorsHandling(error))
   return response.data
 }  
+const endCommit = async () => {
+  const response = await axios.get(process.env.REACT_APP_HOST + 'sucursales/endCommit')
+  return response.data
+}
 
 const deleteSupervisores = async (supervisoresData) => {
   const headers = getHeaderToken();
@@ -44,7 +48,7 @@ const deleteSupervisores = async (supervisoresData) => {
   return response.data }
 
 const supervisoresService = {
-    getSupervisores, postSupervisores, updateSupervisores, deleteSupervisores, getSupervisoresById, getAllGerentes, getAllZonas
+    getSupervisores, postSupervisores, updateSupervisores, deleteSupervisores, getSupervisoresById, getAllGerentes, getAllZonas, endCommit
   }
 
 

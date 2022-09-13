@@ -11,7 +11,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import {FcApproval} from 'react-icons/fc'
 import Swal from "sweetalert2";
 import {Link, useNavigate} from 'react-router-dom';
-import { getGerentesById, postGerentes, updateGerentes , reset} from '../../reducers/Gerentes/gerentesSlice';
+import { getGerentesById, postGerentes, updateGerentes, endCommit , reset} from '../../reducers/Gerentes/gerentesSlice';
 import TitlePrimary from "../../styled-components/h/TitlePrimary";
 import ButtonPrimary from "../../styled-components/buttons/ButtonPrimary";
 
@@ -52,12 +52,43 @@ const GerentesFormulario = () =>{
             text: statusNuevoGerente[0]?.data
           }).then((result) => {
             if (result.isConfirmed) {
+              dispatch(endCommit())
               window.location.reload()
               
             } 
         })
           
     }}, [statusNuevoGerente])
+
+    useEffect(() => {
+
+      if(gerentesById && gerentesById.status === false){
+          Swal.fire({
+              icon: 'error',
+              title: 'Tiempo de espera excedido',
+              showConfirmButton: true,
+              
+              text: gerentesById.message
+            }).then((result) => {
+              if (result.isConfirmed) {
+                  dispatch(endCommit())
+                window.location.replace('/gerentes')
+                
+              } 
+          })
+      }
+  
+    }, [gerentesById])
+
+    useEffect(() => {
+      dispatch(reset())
+      return () => {
+          if(id){
+  
+              dispatch(endCommit())
+          }
+      }
+  }, [])
 
   const validateform = function (form) {
     const errors = {};

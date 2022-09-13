@@ -34,6 +34,10 @@ const updateTeamLeaders = async (form) => {
   const response = await axios.put(process.env.REACT_APP_HOST + 'teamleaders' , form, headers).catch((error) => errorsHandling(error))
   return response.data
 }  
+const endCommit = async () => {
+  const response = await axios.get(process.env.REACT_APP_HOST + 'teamleaders/endCommit')
+  return response.data
+}
 
 const deleteTeamLeaders = async (teamLeadersData) => {
   const headers = getHeaderToken();
@@ -41,7 +45,7 @@ const deleteTeamLeaders = async (teamLeadersData) => {
   return response.data }
 
 const teamLeadersService = {
-    getTeamLeaders, postTeamLeaders, updateTeamLeaders, deleteTeamLeaders, getTeamLeadersById, getAllSupervisores 
+    getTeamLeaders, postTeamLeaders, updateTeamLeaders, deleteTeamLeaders, getTeamLeadersById, getAllSupervisores, endCommit 
   }
 
 

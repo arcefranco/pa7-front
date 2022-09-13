@@ -15,7 +15,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import validateEmail from "../../helpers/validateEmail";
 import {FcApproval} from 'react-icons/fc'
 import {Link, useNavigate} from 'react-router-dom';
-import { getSupervisoresById, postSupervisores, updateSupervisores,getAllGerentes,getAllZonas, reset } from '../../reducers/Supervisores/supervisoresSlice';
+import { getSupervisoresById, postSupervisores, updateSupervisores,getAllGerentes,getAllZonas, endCommit, reset } from '../../reducers/Supervisores/supervisoresSlice';
 import Swal from "sweetalert2";
 
 
@@ -78,12 +78,33 @@ const SupervisoresFormulario = () =>{
             text: statusNuevoSupervisor[0]?.data
           }).then((result) => {
             if (result.isConfirmed) {
+              dispatch(endCommit())
               window.location.reload()
               
             } 
         })
           
     }}, [statusNuevoSupervisor])
+
+    useEffect(() => {
+
+      if(supervisoresById && supervisoresById.status === false){
+          Swal.fire({
+              icon: 'error',
+              title: 'Tiempo de espera excedido',
+              showConfirmButton: true,
+              
+              text: supervisoresById.message
+            }).then((result) => {
+              if (result.isConfirmed) {
+                  dispatch(endCommit())
+                window.location.replace('/supervisores')
+                
+              } 
+          })
+      }
+  
+    }, [supervisoresById])
 
 
 

@@ -40,6 +40,7 @@ function App() {
           position: 'absolute',
           paddingLeft: '5em',
           overflow:'hidden',
+          
        
           
           
@@ -52,6 +53,7 @@ function App() {
          zIndex: toggle ? 1 : -1,
          backgroundColor: 'black',
          display: !toggle && 'none',
+         overflow:'hidden',
           
         }}></div>
         <Routes>
