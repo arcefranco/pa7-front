@@ -87,7 +87,7 @@ useEffect(() => {
     dispatch(reset())
     dispatch(getAllUsuarios())
     return () => {
-      if(id){
+      if(id && oficialById.status ==! false){
         
         dispatch(endCommit())
       }
