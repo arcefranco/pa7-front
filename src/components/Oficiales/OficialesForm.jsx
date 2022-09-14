@@ -73,7 +73,6 @@ useEffect(() => {
             showConfirmButton: true
           }).then((result) => {
             if (result.isConfirmed) {
-                dispatch(endCommit())
               window.location.replace('/oficiales')
               
             } 
@@ -87,9 +86,11 @@ useEffect(() => {
     dispatch(reset())
     dispatch(getAllUsuarios())
     return () => {
-      if(id && oficialById.status ==! false){
-        
-        dispatch(endCommit())
+      if(id){
+          if(oficialById.status ==! false){
+            
+            dispatch(endCommit())
+          }
       }
     }
   }, []) 
