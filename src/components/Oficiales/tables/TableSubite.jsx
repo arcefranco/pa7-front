@@ -64,10 +64,8 @@ useEffect(() => {
             
             Header: "Supervisor",
             accessor: "Supervisor",
-            Cell: (value) =>{
-                    let supervisor = supervisores?.find(e => e.Codigo === value.value)
-                    return supervisor?.Nombre 
-                },
+            Cell: (value) => supervisores?.find(e => e.Codigo === value.value)?.Nombre,
+ 
             Filter: false
                   
             },
