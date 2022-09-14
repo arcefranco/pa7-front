@@ -42,14 +42,15 @@ const TableMora = () => {
             Cell: (value) => {
               if(value.value === 1) return 'Temprana'
               else if(value.value === 2) return 'Especializada'
+              else if(value.value === 3) return 'Encuadre'
               else return 'none'
             },
             Filter: false
           },      
           {
             Header: "Activo",
-            accessor: "Inactivo",
-            Cell: (value) => value.value === 0 ? 'Si' : 'No',
+            accessor: "Activo",
+            Cell: (value) => value.value === 0 ? 'No' : 'Si',
             Filter: false
           }, 
 
