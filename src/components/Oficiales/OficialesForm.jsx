@@ -86,13 +86,10 @@ useEffect(() => {
     dispatch(reset())
     dispatch(getAllUsuarios())
     return () => {
-      if(id){
-          if(oficialById.status ==! false){
-            
-            dispatch(endCommit())
-          }
+        dispatch(endCommit())
+          
       }
-    }
+    
   }, []) 
   const oficialUsuario = usuarios?.find(e => e.Usuario === oficialById[0]?.IdUsuarioLogin) || usuarios?.find(e => e.Usuario === oficialById[0]?.login)
   const oficialSupervisor = supervisores?.find(e => e.Codigo === oficialById[0]?.Supervisor) 
