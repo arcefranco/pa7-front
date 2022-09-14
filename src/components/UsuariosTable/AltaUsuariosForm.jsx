@@ -383,24 +383,26 @@ useEffect(() => {
                
                     <div className={styles.inputCheck}>
 
+                        
+                    <span >Ver sólo <br/> scoring asingado </span>
                         <div style={{marginTop: '.5rem'}}> 
                             <input name="scoringAsignado"  checked={input.scoringAsignado === 1 ? true : false} value={input.scoringAsignado} onChange={handleCheckChange} type="checkbox" />
-                            <span>Ver solo scoring asingado </span>
+                            
                         </div>
 
-
+                        <span style={{marginTop: '.5rem'}}>Activo </span>
                         <div style={{marginTop: '.5rem'}}>
                             {
                                 <input type="checkbox"   name="us_activo" value={input.us_activo} checked={input.us_activo === 1 ? true : false} onChange={handleCheckChange}/>               
                             }
-                            <span>Activo </span>
+                            
 
                             
                         </div>
-               
+                            <span style={{marginTop: '.5rem'}}>Bloqueado </span>
                             <div style={{marginTop: '.5rem'}}>
                                 <input name="us_bloqueado"  value={input.us_bloqueado} checked={input.us_bloqueado === 1 ? true : false} onChange={handleCheckChange} type="checkbox" />
-                                <span>Bloqueado </span>
+                                
 
                        
                         </div>

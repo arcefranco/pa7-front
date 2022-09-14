@@ -325,18 +325,21 @@ return(
   </Row>
   </div>
   <br/>
-  {/* <hr className={styles.hr}/> */}
   <div className={styles.inputCheck}>
-  <div style={{marginTop: '.5rem'}}>
+  <span style={{marginTop: '.6rem'}}>Activo</span>
+  <div style={{marginTop: '0rem'}}>
+  
    <input className={styles.inputCheck} type="checkbox" name="Activo" onChange={handleCheckChange} value={input.Activo} checked={input.Activo } />
-   <span>Activo</span>
+   
    </div>
 
-   <div style={{marginTop: '.5rem'}}>
+   <span style={{marginTop: '.6rem'}}>Es Micro Emprendedor</span>
+   <div style={{marginTop: '0rem'}}>
    <input className={styles.inputCheck} type="checkbox" name="EsMiniEmprendedor" onChange={handleCheckChange} value={input.EsMiniEmprendedor} checked={input.EsMiniEmprendedor } />  
-   <span>Es Micro Emprendedor</span>
+   
    </div>
    </div>
+  <hr className={styles.hr}/>
    
 
    {
