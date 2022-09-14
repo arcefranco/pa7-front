@@ -43,7 +43,13 @@ useEffect(() => {
     if(oficialStatus && oficialStatus.status === false){
         Swal.fire({
           icon:'error',
-          text: oficialStatus.message
+          text: oficialStatus.message,
+          showConfirmButton: true,
+        }).then((result) => {
+          if(result.isConfirmed){
+            dispatch(endCommit())
+            window.location.replace('/oficiales')
+          }
         })
       }
       if(oficialStatus && oficialStatus.status === true){
@@ -73,6 +79,7 @@ useEffect(() => {
             showConfirmButton: true
           }).then((result) => {
             if (result.isConfirmed) {
+              dispatch(endCommit())
               window.location.replace('/oficiales')
               
             } 
