@@ -393,13 +393,17 @@ return(
   </Row>
   </div>
   <br/>
-  {/* <hr className={styles.hr}/> */}
+  
   <div className={styles.inputCheck}>
-  <div style={{marginTop: '.5rem'}}>
+  <span  style={{marginTop: '-1.2rem'}}>Activo</span>
+  <div style={{marginTop: '-2rem'}}>
+  
    <input className={styles.inputCheck} type="checkbox" name="Activo" onChange={handleCheckChange} value={input.Activo} checked={input.Activo } />
-   <span>Activo</span>
+   
    </div>
    </div>
+  <hr className={styles.hr}/>
+
    {
                     id?.length? <ButtonPrimary className={styles.btn}   onClick={HandleSubmitUpdate}>Actualizar</ButtonPrimary>
                     : <ButtonPrimary className={styles.btn} type="submit" >Enviar</ButtonPrimary>

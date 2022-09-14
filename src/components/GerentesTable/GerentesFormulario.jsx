@@ -186,7 +186,7 @@ return(
  <Form action=""  className={styles.form} onSubmit={HandleSubmitInsert}>
  <Stack className={styles.titleContainer} direction="horizontal" gap={3}>
                 <TitlePrimary className={styles.title}>{id?.length ? 'Modificar Gerente' : 'Alta de Gerente'}</TitlePrimary>
-                <Link className="ms-auto" style={{marginRight:"1rem", marginTop:"-1rem"}} to={'/gerentes'}><ButtonPrimary style={{marginRight: '4rem', width:'9rem'}} className={styles.btn} >Volver</ButtonPrimary></Link>
+                <Link className="ms-auto" style={{marginRight:"1rem", marginTop:"-1rem"}} to={'/gerentes'}><ButtonPrimary  className={styles.btn} >Volver</ButtonPrimary></Link>
             </Stack >
             <div className={styles.containerInputText}>
             <Row>
@@ -214,8 +214,9 @@ return(
    </Form.Group>
    <Form.Group as={Col} style={{marginTop:'1rem', marginBottom: '.5rem'}}>
    <div className={styles.inputCheck}>
-   <div style={{marginTop: '.5rem'}}>
-   <span>Activo</span>
+   <span style={{marginTop: '-.2rem'}}>Activo</span>
+   <div style={{marginTop: '0rem'}}>
+   
    <input type="checkbox" name="Activo" onChange={handleCheckChange} value={input.Activo} checked={input.Activo}/>
    </div>
    </div>
@@ -223,6 +224,9 @@ return(
     
    </Row>
    </div>
+
+   <hr className={styles.hr}/>
+
    {
                     id?.length? <ButtonPrimary className={styles.btn}  onClick={HandleSubmitUpdate}>Actualizar</ButtonPrimary>
                     : <ButtonPrimary className={styles.btn} type="submit" >Enviar</ButtonPrimary>
