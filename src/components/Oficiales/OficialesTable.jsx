@@ -1,10 +1,10 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { useSelector, useDispatch} from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from '../GerentesTable/Gerentes.module.css';
 import { ExportCSV } from '../../helpers/exportCSV';
 import { getOficialSelected, getOficialCategoria } from "../../reducers/Oficiales/OficialesSlice";
-import { useState } from 'react';
+import Swal from 'sweetalert2';
 import TableMora from './tables/TableMora';
 import TableSubite from './tables/TableSubite';
 import TableScoring from './tables/TableScoring';
@@ -29,7 +29,7 @@ const OficialesTable = () => {
         const {roles} = useSelector((state) => state.login.user)
         const rolAltayModif = roles.find(e => e.rl_codigo === '1.2.2' || e.rl_codigo === '1')
         const [columnsName, setColumnsName] = useState([]) 
-        const {oficialesSelected, oficialCategoria} = useSelector(state => state.oficiales)
+        const {oficialesSelected, oficialStatus, oficialCategoria} = useSelector(state => state.oficiales)
 
         const onChange = (e) => {
             setColumnsName(e.target.value)
@@ -37,15 +37,26 @@ const OficialesTable = () => {
             dispatch(getOficialSelected({oficialName: e.target.value}))
         }
 
-        let categoria;
         useEffect(() => {
-            dispatch(getOficialCategoria(document.getElementById('select')?.value))
-            .then(e => categoria = e.payload)
-
-            return () => {
-                dispatch(getOficialCategoria(document.getElementById('select')?.value))
+            if(oficialStatus && oficialStatus.status === false){
+                Swal.fire({
+                  icon:'error',
+                  text: oficialStatus.message
+                })
+              }
+              if(oficialStatus && oficialStatus.status === true){
+                Swal.fire({
+                  icon:'success',
+                  showConfirmButton: true,
+                  text: oficialStatus.message
+                }).then((result) => {
+                  if(result.isConfirmed){
+                    window.location.reload()
+                  }
+                })
+              }
             }
-        }, [columnsName,oficialesSelected])
+        ,[oficialStatus])
 
     
     return (
@@ -68,7 +79,7 @@ const OficialesTable = () => {
             <span className={styles.titleContainer}>
       <div className={styles.buttonContainer}>
       {rolAltayModif ?
-       <><Link to={'/altaOficiales'}><button>Nuevo</button></Link>
+       <><Link to={`/modifOficiales/${oficialCategoria}`}><button>Nuevo</button></Link>
         <ExportCSV csvData={oficialesSelected} fileName={'sucursales'} /></> :
          <Link to={'/altaOficiales'}><button disabled>Nuevo</button></Link>
       }</div>

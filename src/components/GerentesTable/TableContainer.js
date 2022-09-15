@@ -19,7 +19,7 @@ margin-top:5px;
       // max-height: 1em;
       border-bottom: 0px solid black;
       border-right: 0px solid black;
-      font-size: .8em;
+      font-size: 1.1vw;
     }
     tr:nth-child(even){background-color: whitesmoke;}
     

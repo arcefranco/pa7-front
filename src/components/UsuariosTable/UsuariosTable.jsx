@@ -108,7 +108,7 @@ const { toggle } = useSelector(
         Filter: false
       },
       {
-        Header: "Scoring Asignado",
+        Header: "Scoring",
         accessor: "VerSoloScoringAsignado",
         Cell: ({ value }) => <strong>{value === 0 ? 'No' : 'Si'}</strong>,
         Filter: false
