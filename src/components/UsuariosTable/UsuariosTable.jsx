@@ -103,7 +103,7 @@ const { toggle } = useSelector(
         Filter: false
       },
       {
-        Header: "Usuario Anura",
+        Header: "User Anura",
         accessor: "UsuarioAnura",
         Filter: false
       },
