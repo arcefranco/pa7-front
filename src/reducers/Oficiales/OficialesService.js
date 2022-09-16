@@ -1,15 +1,19 @@
 import axios from 'axios'
 import { errorsHandling } from '../errorsHandling';
-
+import getHeaderDB from '../../helpers/getHeaderDB';
+import getHeader from '../../helpers/getHeaderTokenAndDB'
 
 const getOficialSelected = async (oficialName) => {
-    const response = await axios.post(process.env.REACT_APP_HOST + 'oficiales', oficialName).catch((error) => errorsHandling(error))
+    const headers = getHeaderDB()
+    const response = await axios.post(process.env.REACT_APP_HOST + 'oficiales', oficialName, headers).catch((error) => errorsHandling(error))
     return response.data
 }
 
 const deleteOficiales = async (oficialData) => {
+
     const response = await axios.delete(process.env.REACT_APP_HOST + 'oficiales',  {  headers: {
-        'x-auth-token': window.localStorage.getItem('userToken').split(" ")[1]
+        'x-auth-token': window.localStorage.getItem('userToken').split(" ")[1],
+        "db-connection": window.localStorage.getItem('db')
       }, data: oficialData }).catch((error) => errorsHandling(error))
     return response.data
 }
@@ -19,24 +23,29 @@ const oficialCategoria =  (oficialData) => {
 }
 
 const getOficialById = async (oficialData) => {
-    const response = await axios.post(process.env.REACT_APP_HOST + 'oficiales/id', oficialData).catch((error) => errorsHandling(error))
+    const headers = getHeader()
+    const response = await axios.post(process.env.REACT_APP_HOST + 'oficiales/id', oficialData, headers).catch((error) => errorsHandling(error))
     return response.data
 }
 
 const updateOficiales = async (oficialData) => {
-    const response = await axios.put(process.env.REACT_APP_HOST + 'oficiales/id', oficialData).catch((error) => errorsHandling(error))
+    const headers = getHeaderDB()
+    const response = await axios.put(process.env.REACT_APP_HOST + 'oficiales/id', oficialData, headers).catch((error) => errorsHandling(error))
     return response.data
 }
 
 const createOficiales = async (oficialData) => {
-    const response = await axios.post(process.env.REACT_APP_HOST + 'oficiales/create', oficialData).catch((error) => errorsHandling(error))
+    const headers = getHeaderDB()
+    const response = await axios.post(process.env.REACT_APP_HOST + 'oficiales/create', oficialData, headers).catch((error) => errorsHandling(error))
     return response.data
 }
 
-const endCommit = async () => {
-    const response = await axios.get(process.env.REACT_APP_HOST + 'oficiales/endCommit')
+const endUpdate = async (oficialData) => {
+    const headers = getHeader()
+    const response = await axios.post(process.env.REACT_APP_HOST + 'oficiales/endUpdate', oficialData, headers).catch(err => errorsHandling(err))
     return response.data
-  }
+}
+
 const OficialesService = {
     getOficialSelected,
     deleteOficiales,
@@ -44,7 +53,7 @@ const OficialesService = {
     getOficialById,
     updateOficiales,
     createOficiales,
-    endCommit
+    endUpdate
     }
     
 export default OficialesService

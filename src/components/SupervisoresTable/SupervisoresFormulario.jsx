@@ -15,7 +15,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import validateEmail from "../../helpers/validateEmail";
 import {FcApproval} from 'react-icons/fc'
 import {Link, useNavigate} from 'react-router-dom';
-import { getSupervisoresById, postSupervisores, updateSupervisores,getAllGerentes,getAllGerentesActivos,getAllZonas, endCommit, reset } from '../../reducers/Supervisores/supervisoresSlice';
+import { getSupervisoresById, postSupervisores, updateSupervisores,getAllGerentes,getAllGerentesActivos,getAllZonas, reset } from '../../reducers/Supervisores/supervisoresSlice';
 import Swal from "sweetalert2";
 
 
@@ -78,7 +78,7 @@ const SupervisoresFormulario = () =>{
             text: statusNuevoSupervisor[0]?.data
           }).then((result) => {
             if (result.isConfirmed) {
-              dispatch(endCommit())
+              
               window.location.reload()
               
             } 
@@ -97,7 +97,7 @@ const SupervisoresFormulario = () =>{
               text: supervisoresById.message
             }).then((result) => {
               if (result.isConfirmed) {
-                  dispatch(endCommit())
+                  
                 window.location.replace('/supervisores')
                 
               } 
@@ -108,12 +108,8 @@ const SupervisoresFormulario = () =>{
 
     useEffect(() => {
       dispatch(reset())
-      return () => {
-          if(id){
-  
-              dispatch(endCommit())
-          }
-      }
+
+      
   }, [])
 
   const supervisorGerente = gerentes?.find(e => e.Nombre === supervisoresById?.Gerente,);

@@ -99,10 +99,10 @@ export const getOficialSelected = createAsyncThunk('getOficialSelected', async (
     }
   })
 
-  export const endCommit = createAsyncThunk('endCommit', async (usuarioData, thunkAPI) => {
+  export const endUpdate = createAsyncThunk('endUpdate', async (oficialData, thunkAPI) => {
     try {
       
-      const data = await OficialesService.endCommit()
+      const data = await OficialesService.endUpdate(oficialData)
 
       return data
     } catch (error) {
@@ -113,6 +113,8 @@ export const getOficialSelected = createAsyncThunk('getOficialSelected', async (
       return thunkAPI.rejectWithValue(error.response.data)
     }
   })
+
+ 
 
 export const oficialesSlice = createSlice({
     name: 'oficiales',
