@@ -35,8 +35,8 @@ export const Login = () => {
       if (isError) {
           Swal.fire({
             icon: 'error',
-            title: 'Oops...',
-            text: message.message
+            title: message,
+           
           })
         }
         if (user?.newUser === true) {

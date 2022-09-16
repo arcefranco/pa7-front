@@ -4,7 +4,7 @@ import getHeaderDB from '../../helpers/getHeaderDB';
 import { errorsHandling } from '../errorsHandling';
 
 const getUsuarioById = async(id) => {
-    const headers = getHeaderDB()
+    const headers = getHeaderToken()
     const response = await axios.post(process.env.REACT_APP_HOST + 'usuarios/id', id, headers).catch((error) => errorsHandling(error))
     return response.data
 }
@@ -92,6 +92,12 @@ const giveMaster = async (rolData) => {
 }
 
 
+const endUpdate = async (usuarioData) => {
+    const headers = getHeaderToken()
+    const response = await axios.post(process.env.REACT_APP_HOST + 'usuarios/endUpdate', usuarioData, headers).catch((error) => errorsHandling(error))
+    return response.data
+}
+
 
 
 
@@ -111,7 +117,8 @@ const usuariosService = {
     createUsuario,
     getUsuarioById,
     updateUsuario,
-    deleteUsuario
+    deleteUsuario,
+    endUpdate
   }
 
 
