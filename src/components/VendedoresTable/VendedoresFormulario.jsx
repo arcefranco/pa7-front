@@ -15,7 +15,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import validateEmail from "../../helpers/validateEmail";
 import {FcApproval} from 'react-icons/fc'
 import {Link, useNavigate} from 'react-router-dom';
-import { getVendedoresById, postVendedores, updateVendedores,getAllEscalas,getAllOficialesScoring, getAllOficialesMora, reset, getAllTeamLeaders, getAllTeamLeadersActivos, endCommit, getAllOficialesMoraActivos, getAllOficialesScoringActivos } from '../../reducers/Vendedores/vendedoresSlice';
+import { getVendedoresById, postVendedores, updateVendedores,getAllEscalas,getAllOficialesScoring, getAllOficialesMora, reset, getAllTeamLeaders, getAllTeamLeadersActivos, getAllOficialesMoraActivos, getAllOficialesScoringActivos } from '../../reducers/Vendedores/vendedoresSlice';
 import Swal from "sweetalert2";
 
 
@@ -53,12 +53,7 @@ const VendedoresFormulario = () =>{
 
         useEffect(() => {
           dispatch(reset())
-          return () => {
-              if(id){
-      
-                  dispatch(endCommit())
-              }
-          }
+ 
       }, [])
       
 
@@ -90,7 +85,7 @@ const VendedoresFormulario = () =>{
             text: statusNuevoVendedor[0]?.data
           }).then((result) => {
             if (result.isConfirmed) {
-              dispatch(endCommit())
+              
               window.location.reload()
               
             } 
@@ -109,7 +104,7 @@ const VendedoresFormulario = () =>{
               text: vendedoresById.message
             }).then((result) => {
               if (result.isConfirmed) {
-                  dispatch(endCommit())
+                  
                 window.location.replace('/vendedores')
                 
               } 

@@ -9,7 +9,7 @@ import Row from 'react-bootstrap/Row';
 import Stack from 'react-bootstrap/Stack';
 import InputGroup from 'react-bootstrap/InputGroup';
 import styles from '../UsuariosTable/AltaUsuarios.module.css'
-import { getOficialById, updateOficiales, reset, createOficiales, endCommit } from "../../reducers/Oficiales/OficialesSlice";
+import { getOficialById, updateOficiales, reset, createOficiales, endUpdate} from "../../reducers/Oficiales/OficialesSlice";
 import { getAllUsuarios } from "../../reducers/Usuarios/UsuariosSlice";
 import Swal from "sweetalert2";
 import { useParams, useNavigate, Link } from "react-router-dom";
@@ -33,8 +33,8 @@ const [input, setInput] = useState({
 
 useEffect(() => {
     if(id) {  
-        dispatch(getOficialById({categoria: categoria, Codigo: id}))
-       /*  dispatch(getAllUsuarios()) */
+        dispatch(getOficialById({categoria: oficialCategoria, Codigo: id}))
+       
         }
   }, [id])
 
@@ -43,7 +43,12 @@ useEffect(() => {
     if(oficialStatus && oficialStatus.status === false){
         Swal.fire({
           icon:'error',
-          text: oficialStatus.message
+          text: oficialStatus.message,
+          showConfirmButton: true,
+        }).then((result) => {
+          if(result.isConfirmed){
+            window.location.replace('/oficiales')
+          }
         })
       }
       if(oficialStatus && oficialStatus.status === true){
@@ -73,7 +78,6 @@ useEffect(() => {
             showConfirmButton: true
           }).then((result) => {
             if (result.isConfirmed) {
-                dispatch(endCommit())
               window.location.replace('/oficiales')
               
             } 
@@ -87,11 +91,14 @@ useEffect(() => {
     dispatch(reset())
     dispatch(getAllUsuarios())
     return () => {
-      if(id && oficialById.status ==! false){
-        
-        dispatch(endCommit())
+      if(id){
+        dispatch(endUpdate({
+          categoria: oficialCategoria,
+          Codigo: id
+        }))
       }
     }
+    
   }, []) 
   const oficialUsuario = usuarios?.find(e => e.Usuario === oficialById[0]?.IdUsuarioLogin) || usuarios?.find(e => e.Usuario === oficialById[0]?.login)
   const oficialSupervisor = supervisores?.find(e => e.Codigo === oficialById[0]?.Supervisor) 

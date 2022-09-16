@@ -8,7 +8,7 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Stack from 'react-bootstrap/Stack';
 import styles from '../UsuariosTable/AltaUsuarios.module.css'
-import { getSucursalById, reset, updateSucursal, createSucursal, endCommit } from "../../reducers/Sucursales/SucursalesSlice";
+import { getSucursalById, reset, updateSucursal, createSucursal } from "../../reducers/Sucursales/SucursalesSlice";
 import Swal from "sweetalert2";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import {FcApproval} from 'react-icons/fc';
@@ -43,7 +43,7 @@ useEffect(() => {
             text: sucursalStatus.data
           }).then((result) => {
             if (result.isConfirmed) {
-                dispatch(endCommit())
+                
               window.location.reload()
               
             } 
@@ -67,7 +67,7 @@ useEffect(() => {
             text: sucursalById.message
           }).then((result) => {
             if (result.isConfirmed) {
-                dispatch(endCommit())
+                
               window.location.replace('/sucursales')
               
             } 
@@ -78,12 +78,7 @@ useEffect(() => {
 
 useEffect(() => {
     dispatch(reset())
-    return () => {
-        if(id){
 
-            dispatch(endCommit())
-        }
-    }
 }, [])
 
 useEffect(() => {
