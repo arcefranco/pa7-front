@@ -9,7 +9,7 @@ import Row from 'react-bootstrap/Row';
 import Stack from 'react-bootstrap/Stack';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { getAllGerentes, getAllSupervisores, getAllTeamLeaders, 
-    getAllVendedores, createUsuario, reset, getUsuarioById, updateUsuario, endCommit} from "../../reducers/Usuarios/UsuariosSlice";
+    getAllVendedores, createUsuario, reset, getUsuarioById, updateUsuario, endUpdate} from "../../reducers/Usuarios/UsuariosSlice";
 import validateEmail from "../../helpers/validateEmail";
 import styles from './AltaUsuarios.module.css'
 import './AltaUsuarios.module.css'
@@ -50,13 +50,12 @@ const validateform = function (form) {
     if(usuarioById.status === false){
         Swal.fire({
             icon: 'error',
-            title: 'Tiempo excedido',
+            title: usuarioById.message,
             showConfirmButton: true,
             
-            text: usuarioById.message
           }).then((result) => {
             if (result.isConfirmed) {
-                dispatch(endCommit())
+
               window.location.replace('/usuarios')
               
             } 
@@ -70,7 +69,7 @@ const validateform = function (form) {
     return () => {
         if(id){
 
-            dispatch(endCommit())
+            dispatch(endUpdate({Codigo: id}))
         }
     }
 
