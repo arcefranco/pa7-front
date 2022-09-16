@@ -15,7 +15,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import validateEmail from "../../helpers/validateEmail";
 import {FcApproval} from 'react-icons/fc'
 import {Link, useNavigate} from 'react-router-dom';
-import { getTeamLeadersById, postTeamLeaders, updateTeamLeaders, getAllSupervisores, getAllSupervisoresActivos, endCommit,reset } from '../../reducers/TeamLeaders/teamLeadersSlice';
+import { getTeamLeadersById, postTeamLeaders, updateTeamLeaders, getAllSupervisores, getAllSupervisoresActivos,reset } from '../../reducers/TeamLeaders/teamLeadersSlice';
 import Swal from "sweetalert2";
 
 
@@ -78,7 +78,7 @@ const TeamLeadersFormulario = () =>{
             text: statusNuevoTeamLeader[0]?.data
           }).then((result) => {
             if (result.isConfirmed) {
-              dispatch(endCommit())
+              
               window.location.reload()
               
             } 
@@ -97,7 +97,7 @@ const TeamLeadersFormulario = () =>{
               text: teamLeadersById.message
             }).then((result) => {
               if (result.isConfirmed) {
-                  dispatch(endCommit())
+                  
                 window.location.replace('/teamleaders')
                 
               } 
@@ -108,12 +108,7 @@ const TeamLeadersFormulario = () =>{
 
     useEffect(() => {
       dispatch(reset())
-      return () => {
-          if(id){
-  
-              dispatch(endCommit())
-          }
-      }
+
   }, [])
 
   const teamLeaderSupervisor = supervisores?.find(e => e.Nombre === teamLeadersById?.Supervisor,);
