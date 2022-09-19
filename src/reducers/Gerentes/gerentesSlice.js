@@ -72,6 +72,17 @@ export const updateGerentes = createAsyncThunk('updategerentes', async (form, th
       return thunkAPI.rejectWithValue(error.response.data)
     }
   })
+  export const endUpdate = createAsyncThunk('endUpdate', async (gerentesData ,thunkAPI) => {
+    try {
+      const data = await gerentesService.endUpdate(gerentesData)
+      return data
+    } catch (error) {
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+  })
 
 
 

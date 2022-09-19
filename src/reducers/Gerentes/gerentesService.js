@@ -1,16 +1,25 @@
 import axios from 'axios'
 import { errorsHandling } from '../errorsHandling' 
 import getHeaderDB from '../../helpers/getHeaderDB'
+import getHeaderToken from '../../helpers/getHeaderTokenAndDB';
+
 const getGerentes = async () => {
     const headers = getHeaderDB()
     const response = await axios.get(process.env.REACT_APP_HOST + 'gerentes', headers).catch((error) => errorsHandling(error))
     return response.data[0] 
   }
   const getGerentesById = async (gerentesData) => {
-    const headers = getHeaderDB()
+    const headers = getHeaderToken()
     const response = await axios.post(process.env.REACT_APP_HOST + 'gerentes/id',  {Codigo:gerentesData}, headers).catch((error) => errorsHandling(error))
-    return response.data[0]
+    console.log(response)
+    return response.data
   }
+
+  const endUpdate = async (gerenteData) => {
+    const headers = getHeaderToken()
+    const response = await axios.post(process.env.REACT_APP_HOST + 'gerentes/endUpdate', gerenteData, headers).catch((error) => errorsHandling(error))
+    return response.data
+}
 
 const postGerentes = async (form) => {
     const headers = getHeaderDB()
@@ -31,7 +40,12 @@ const deleteGerentes = async (gerentesData) => {
   return response.data }
 
 const gerentesService = {
-    getGerentes, postGerentes, updateGerentes, deleteGerentes, getGerentesById
+    getGerentes, 
+    postGerentes, 
+    updateGerentes, 
+    deleteGerentes, 
+    getGerentesById,
+    endUpdate
   }
 
 
