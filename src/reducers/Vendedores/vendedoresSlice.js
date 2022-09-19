@@ -45,10 +45,10 @@ export const getVendedores = createAsyncThunk('vendedores', async (thunkAPI) => 
     }
   })
 
-  export const endCommit = createAsyncThunk('endCommit', async (usuarioData, thunkAPI) => {
+  export const endUpdate = createAsyncThunk('endUpdate', async (usuarioData, thunkAPI) => {
     try {
       
-      const data = await vendedoresService.endCommit()
+      const data = await vendedoresService.endUpdate(usuarioData)
 
       return data
     } catch (error) {
@@ -383,19 +383,6 @@ export const vendedoresSlice = createSlice({
             state.statusNuevoVendedor = [action.payload]
             state.vendedores = null
           });
-          builder.addCase(endCommit.pending, (state) => {
-            state.isLoading = true
-        })
-        builder.addCase(endCommit.fulfilled, (state, action) => {
-            state.isLoading = false
-            state.isSuccess = true
-            state.statusNuevoVendedor = action.payload
-        }) 
-        builder.addCase(endCommit.rejected, (state, action) => {
-            state.isLoading = false
-            state.isError = true
-            state.statusNuevoVendedor = action.payload
-        })  
 
 
         }

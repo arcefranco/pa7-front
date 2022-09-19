@@ -15,7 +15,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import validateEmail from "../../helpers/validateEmail";
 import {FcApproval} from 'react-icons/fc'
 import {Link, useNavigate} from 'react-router-dom';
-import { getTeamLeadersById, postTeamLeaders, updateTeamLeaders, getAllSupervisores, getAllSupervisoresActivos,reset } from '../../reducers/TeamLeaders/teamLeadersSlice';
+import { getTeamLeadersById, postTeamLeaders, updateTeamLeaders, getAllSupervisores, getAllSupervisoresActivos,reset, endUpdate } from '../../reducers/TeamLeaders/teamLeadersSlice';
 import Swal from "sweetalert2";
 
 
@@ -91,10 +91,8 @@ const TeamLeadersFormulario = () =>{
       if(teamLeadersById && teamLeadersById.status === false){
           Swal.fire({
               icon: 'error',
-              title: 'Tiempo de espera excedido',
-              showConfirmButton: true,
-              
-              text: teamLeadersById.message
+              title: teamLeadersById.message,
+              showConfirmButton: true
             }).then((result) => {
               if (result.isConfirmed) {
                   
@@ -108,7 +106,12 @@ const TeamLeadersFormulario = () =>{
 
     useEffect(() => {
       dispatch(reset())
-
+      return () => {
+        if(id) {
+          
+          dispatch(endUpdate({Codigo: id}))
+        }
+      }
   }, [])
 
   const teamLeaderSupervisor = supervisores?.find(e => e.Nombre === teamLeadersById?.Supervisor,);

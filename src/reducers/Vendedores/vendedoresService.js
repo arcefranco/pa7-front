@@ -15,10 +15,16 @@ const getVendedores = async () => {
     return response.data[0] 
   }
   const getVendedoresById = async (vendedoresData) => {
-    const headers = getHeaderDB()
+    const headers = getHeaderToken()
     const response = await axios.post(process.env.REACT_APP_HOST + 'vendedores/id',  {Codigo:vendedoresData}, headers).catch((error) => errorsHandling(error))
-    return response.data[0]
+    return response.data
   }
+
+  const endUpdate = async (gerenteData) => {
+    const headers = getHeaderToken()
+    const response = await axios.post(process.env.REACT_APP_HOST + 'vendedores/endUpdate', gerenteData, headers).catch((error) => errorsHandling(error))
+    return response.data
+}
   const getAllTeamLeaders = async () => {
     const headers = getHeaderDB()
     const response = await axios.get(process.env.REACT_APP_HOST + 'teamleaders', headers ).catch((error) => errorsHandling(error))
@@ -65,10 +71,7 @@ const updateVendedores = async (form) => {
   const response = await axios.put(process.env.REACT_APP_HOST + 'vendedores' , form, headers).catch((error) => errorsHandling(error))
   return response.data
 } 
-const endCommit = async () => {
-  const response = await axios.get(process.env.REACT_APP_HOST + 'vendedores/endCommit')
-  return response.data
-} 
+
 
 const deleteVendedores = async (vendedoresData) => {
   const response = await axios.delete(process.env.REACT_APP_HOST + 'vendedores' ,{  headers: {
@@ -78,7 +81,19 @@ const deleteVendedores = async (vendedoresData) => {
   return response.data }
 
 const vendedoresService = {
-    getVendedores, postVendedores, updateVendedores, deleteVendedores, getVendedoresById, getAllEscalas, getAllOficialesMora, getAllOficialesScoring, getAllOficialesMoraActivos, getAllOficialesScoringActivos, getAllTeamLeaders, getAllTeamLeadersActivos, endCommit 
+    getVendedores, 
+    postVendedores, 
+    updateVendedores, 
+    deleteVendedores, 
+    getVendedoresById, 
+    getAllEscalas, 
+    getAllOficialesMora, 
+    getAllOficialesScoring, 
+    getAllOficialesMoraActivos, 
+    getAllOficialesScoringActivos, 
+    getAllTeamLeaders, 
+    getAllTeamLeadersActivos, 
+    endUpdate
   }
 
 

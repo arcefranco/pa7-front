@@ -15,10 +15,18 @@ const getSupervisores = async () => {
     return response.data[0] 
   } 
   const getSupervisoresById = async (supervisoresData) => {
-    const headers = getHeaderDB()
+    const headers = getHeaderToken()
     const response = await axios.post(process.env.REACT_APP_HOST + 'supervisores/id',  {Codigo:supervisoresData}, headers).catch((error) => errorsHandling(error))
-    return response.data[0]
+    return response.data
   }
+
+
+  const endUpdate = async (gerenteData) => {
+    const headers = getHeaderToken()
+    const response = await axios.post(process.env.REACT_APP_HOST + 'supervisores/endUpdate', gerenteData, headers).catch((error) => errorsHandling(error))
+    return response.data
+}
+
   const getAllGerentes = async () => {
     const headers = getHeaderDB()
     const response = await axios.get(process.env.REACT_APP_HOST + 'gerentes', headers ).catch((error) => errorsHandling(error))
@@ -62,7 +70,8 @@ const supervisoresService = {
     getSupervisoresById, 
     getAllGerentes, 
     getAllGerentesActivos, 
-    getAllZonas
+    getAllZonas,
+    endUpdate
   }
 
 

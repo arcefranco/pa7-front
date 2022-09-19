@@ -4,8 +4,6 @@ import { useParams } from "react-router-dom";
 import styles from '../UsuariosTable/AltaUsuarios.module.css';
 import TitlePrimary from "../../styled-components/h/TitlePrimary";
 import ButtonPrimary from "../../styled-components/buttons/ButtonPrimary";
-import InputText from "../../styled-components/inputs/InputText";
-import Select from "../../styled-components/inputs/Select";
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
@@ -13,9 +11,8 @@ import Row from 'react-bootstrap/Row';
 import Stack from 'react-bootstrap/Stack';
 import InputGroup from 'react-bootstrap/InputGroup';
 import validateEmail from "../../helpers/validateEmail";
-import {FcApproval} from 'react-icons/fc'
 import {Link, useNavigate} from 'react-router-dom';
-import { getSupervisoresById, postSupervisores, updateSupervisores,getAllGerentes,getAllGerentesActivos,getAllZonas, reset } from '../../reducers/Supervisores/supervisoresSlice';
+import { getSupervisoresById, postSupervisores, updateSupervisores,getAllGerentes,getAllGerentesActivos,getAllZonas, reset, endUpdate } from '../../reducers/Supervisores/supervisoresSlice';
 import Swal from "sweetalert2";
 
 
@@ -91,10 +88,10 @@ const SupervisoresFormulario = () =>{
       if(supervisoresById && supervisoresById.status === false){
           Swal.fire({
               icon: 'error',
-              title: 'Tiempo de espera excedido',
+              title: supervisoresById.message,
               showConfirmButton: true,
               
-              text: supervisoresById.message
+ 
             }).then((result) => {
               if (result.isConfirmed) {
                   
@@ -108,7 +105,11 @@ const SupervisoresFormulario = () =>{
 
     useEffect(() => {
       dispatch(reset())
-
+      return () => {
+        if(id){
+          dispatch(endUpdate({Codigo: id}))
+        }
+      }
       
   }, [])
 

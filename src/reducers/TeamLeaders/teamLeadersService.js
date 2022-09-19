@@ -15,10 +15,16 @@ const getTeamLeaders = async () => {
     return response.data[0] 
   }
   const getTeamLeadersById = async (teamLeadersData) => {
-    const headers = getHeaderDB()
+    const headers = getHeaderToken()
     const response = await axios.post(process.env.REACT_APP_HOST + 'teamleaders/id',  {Codigo:teamLeadersData}, headers).catch((error) => errorsHandling(error))
-    return response.data[0]
+    return response.data
   }
+
+  const endUpdate = async (gerenteData) => {
+    const headers = getHeaderToken()
+    const response = await axios.post(process.env.REACT_APP_HOST + 'teamleaders/endUpdate', gerenteData, headers).catch((error) => errorsHandling(error))
+    return response.data
+}
   const getAllSupervisores = async () => {
     const headers = getHeaderDB()
     const response = await axios.get(process.env.REACT_APP_HOST + 'supervisores', headers ).catch((error) => errorsHandling(error))
@@ -58,7 +64,8 @@ const teamLeadersService = {
     deleteTeamLeaders, 
     getTeamLeadersById, 
     getAllSupervisores, 
-    getAllSupervisoresActivos
+    getAllSupervisoresActivos,
+    endUpdate
   }
 
 
