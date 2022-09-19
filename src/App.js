@@ -81,7 +81,7 @@ function App() {
           </Route>
           <Route path='/modelos' element={<ModelosTable/>}/>
           <Route path='/altaModelos/' element={<ModelosFormulario/>}/>
-          <Route path='/modificarModelos/:id' element={<ModelosFormulario/>}/>
+          <Route path='/modifModelos/:id' element={<ModelosFormulario/>}/>
           <Route path='/altaUsuarios' element={<PrivateMasterRoute rol={'1.7.16.3.1'}/>}>
               <Route path='/altaUsuarios' element={<AltaUsuariosForm/>}/>
           </Route>
