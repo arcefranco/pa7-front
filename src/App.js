@@ -18,6 +18,8 @@ import  GerentesFormulario  from './components/GerentesTable/GerentesFormulario.
 import  SupervisoresFormulario  from './components/SupervisoresTable/SupervisoresFormulario.jsx';
 import NotPermission from './NotPermission';
 import RolesForm from './components/RolesForm/RolesForm';
+import ModelosTable from './components/ModelosTable/ModelosTable';
+import ModelosFormulario from './components/ModelosTable/ModelosFormulario';
 
 import SucursalesTable from './components/SucursalesTable/SucursalesTable';
 
@@ -77,15 +79,18 @@ function App() {
           <Route path='/usuarios' element={<PrivateMasterRoute rol={'1.7.16'}/>}>
             <Route path='/usuarios' element={<UsuariosTable/>}/>
           </Route>
-          <Route path='/vendedores' element={<VendedoresTable/>}/>
-          <Route path='/altaVendedores/' element={<VendedoresFormulario/>}/>
-          <Route path='/modificarVendedores/:id' element={<VendedoresFormulario/>}/>
+          <Route path='/modelos' element={<ModelosTable/>}/>
+          <Route path='/altaModelos/' element={<ModelosFormulario/>}/>
+          <Route path='/modifModelos/:id' element={<ModelosFormulario/>}/>
           <Route path='/altaUsuarios' element={<PrivateMasterRoute rol={'1.7.16.3.1'}/>}>
               <Route path='/altaUsuarios' element={<AltaUsuariosForm/>}/>
           </Route>
           <Route path='/modifUsuarios/:id' element={<PrivateMasterRoute rol={'1.7.16.3.2'}/>}>
               <Route path='/modifUsuarios/:id' element={<AltaUsuariosForm/>}/>
           </Route>
+          <Route path='/vendedores' element={<VendedoresTable/>}/>
+          <Route path='/altaVendedores/' element={<VendedoresFormulario/>}/>
+          <Route path='/modificarVendedores/:id' element={<VendedoresFormulario/>}/>
           <Route path="/sucursales" element={<SucursalesTable/>}/>
           <Route path='/modifSucursales/:id' element={<AltaSucursalesForm/>}/>
           <Route path='/altaSucursal' element={<AltaSucursalesForm/>}/>
