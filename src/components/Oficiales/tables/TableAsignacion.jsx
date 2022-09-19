@@ -4,9 +4,10 @@ import { useSelector, useDispatch} from 'react-redux';
 import TableContainer from '../../GerentesTable/TableContainer';
 import { deleteOficiales } from "../../../reducers/Oficiales/OficialesSlice";
 import * as BiIcons from 'react-icons/bi';
-import { useTable, useSortBy, usePagination, useGlobalFilter} from 'react-table';
+import { useTable, useSortBy, usePagination, useGlobalFilter, useFilters} from 'react-table';
 import styles from '../../GerentesTable/Gerentes.module.css';
 import Swal from 'sweetalert2';
+import { ActiveFilter, SearchFilter } from "../../GerentesTable/ActiveFilter";
 import { useNavigate } from "react-router-dom";
 
 
@@ -33,14 +34,17 @@ const TableAsignacion = () => {
         {
             Header: "Nombre",
             accessor: "Nombre",
-            Filter: false
+            ShortHeader: "Nombre",
+
+            Filter: SearchFilter
         },
           
         {
               Header: "Activo",
               accessor: "Activo",
               Cell: (value) => value.value === 0 ? 'No' : 'Si',
-              Filter: false
+              ShortHeader:"Activo",
+              Filter: ActiveFilter
         },
 
               {
@@ -90,7 +94,7 @@ const TableAsignacion = () => {
         setGlobalFilter,
         prepareRow,
       } =
-        useTable({ columns: defaultColumns , data: oficialesSelected, initialState:{pageSize:15} }, useGlobalFilter, 
+        useTable({ columns: defaultColumns , data: oficialesSelected, initialState:{pageSize:15} }, useGlobalFilter, useFilters,
             useSortBy, usePagination,
             );
             const {pageIndex, pageSize} = state
@@ -107,11 +111,14 @@ const TableAsignacion = () => {
           <tr {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map((column) => (
               
-              <th {...column.getHeaderProps(column.getSortByToggleProps())}>{column.render("Header")}
-              <span>
-                {column.isSorted ? (column.isSortedDesc ? <BiIcons.BiDownArrow/> : <BiIcons.BiUpArrow/>) : ''}
-              </span>
-              <div>{column.canFilter ? column.render('Filter') : null}</div>
+              <th>
+                <div {...column.getHeaderProps(column.getSortByToggleProps())}>
+                 
+                 <span>
+                  {column.isSorted? (column.isSortedDesc? column.render("ShortHeader") +' ▼' : column.render("ShortHeader")+ '▲'  ): column.render("Header")}</span>
+                 
+                 </div>
+              <div>{column.canFilter ?  column.render('Filter')  : null}</div>
               </th>
              
             ))}

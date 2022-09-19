@@ -207,19 +207,11 @@ if(e.target.checked){
                     </FloatingLabel>
                     </Form.Group>
         </Row>
-        <Row className="g-2">
-                
-                <Form.Group as={Col} style={{marginTop:'.5rem', marginBottom: '.2rem'}}>
-                  <span>Activo</span>
-                  {' '}
-                  {
-                    input.Activo === 1 ? <input onChange={(e) => handleCheck(e)} type="checkbox" checked /> : <input onChange={(e) => handleCheck(e)} type="checkbox" />
-                  }
-                  
-                </Form.Group>
-    </Row>
+
         { categoria === 'Subite' || categoria === 'Compra' ?
-                  <Row className="g-2">
+        <div className={styles.inputSelect}>
+        
+                  <Row className="g-2"  style={{margin: '.7rem'}}>
                     <InputGroup>
                         <InputGroup.Text id="basic-addon1">HN</InputGroup.Text>
                         <Form.Select size="sm" name="HN" value={input.HN} onChange={handleChange} id="">
@@ -228,11 +220,13 @@ if(e.target.checked){
                         </Form.Select>
                     </InputGroup>
  
-      </Row> : null
+      </Row> </div>: null
         }
 
         { categoria === 'Subite' || categoria === 'Compra' || categoria === 'Mora' || categoria === 'Scoring' || categoria === 'Licitaciones' ?
-                  <Row className="g-2">
+                  <div className={styles.inputSelect}>
+                  <Row className="g-2"  style={{margin: '.7rem'}}>
+                 
                         <InputGroup>
                         <InputGroup.Text id="basic-addon1">Usuario</InputGroup.Text>
                         <Form.Select size="sm" name="Usuario" value={input.Usuario} onChange={handleChange} id="">
@@ -246,7 +240,8 @@ if(e.target.checked){
                           }
                         </Form.Select>
                     </InputGroup>
-      </Row> : null
+                    
+      </Row> </div> : null
         }
 
         {  categoria === 'Scoring' ?
@@ -264,7 +259,10 @@ if(e.target.checked){
       </Row> : null
         }
                 {  categoria === 'Mora' ?
-                  <Row className="g-2">
+                <div className={styles.inputSelect}>
+                
+                  <Row className="g-2"  style={{margin: '.7rem'}}>
+                    
                     <InputGroup>
                         <InputGroup.Text id="basic-addon1">Tipo Oficial Mora</InputGroup.Text>
                         <Form.Select size="sm" name="TipoOficialMora" value={input.TipoOficialMora} onChange={handleChange} id="">
@@ -280,10 +278,11 @@ if(e.target.checked){
                         </Form.Select>
                     </InputGroup>
 
-      </Row> : null
+      </Row> </div>: null
         }
           {  categoria === 'Subite' ?
-                  <Row className="g-2">
+          <div className={styles.inputSelect}>
+                  <Row className="g-2" style={{margin: '.7rem'}}>
 
                     <InputGroup>
                         <InputGroup.Text id="basic-addon1">Supervisor</InputGroup.Text>
@@ -300,15 +299,25 @@ if(e.target.checked){
                     </InputGroup>
                 
 
-      </Row> : null
+      </Row> </div>: null
         }
+                <Row className="g-2">
+                
+                <Form.Group as={Col} style={{display: 'flex', placeContent: 'center' ,marginTop:'.5rem', marginBottom: '.7rem'}}> 
+                {
+                    input.Activo === 1 ? <input onChange={(e) => handleCheck(e)} type="checkbox" checked /> : <input onChange={(e) => handleCheck(e)} type="checkbox" />
+                  }
+                  <span>Activo</span>
+                  
+                </Form.Group>
+    </Row>
                 
                     </div>
                     {   id?.length? 
-                    <ButtonPrimary type="submit" style={{ marginBottom:'.4rem'}}   onClick={(e) => handleUpdate(e)}><FcApproval/>Actualizar</ButtonPrimary> 
+                    <ButtonPrimary type="submit" style={{ marginBottom:'.4rem'}}   onClick={(e) => handleUpdate(e)}>Actualizar</ButtonPrimary> 
                     :(
                       
-                         <ButtonPrimary  onClick={handleSubmit} style={{ marginBottom:'.4rem'}} type="submit" ><FcApproval/>Enviar</ButtonPrimary> 
+                         <ButtonPrimary  onClick={handleSubmit} style={{ marginBottom:'.4rem'}} type="submit" >Enviar</ButtonPrimary> 
                        
                     )
                 }

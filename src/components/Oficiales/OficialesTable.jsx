@@ -16,6 +16,7 @@ import TablePatentamiento from './tables/TablePatentamiento';
 import TableCarga from './tables/TableCarga';
 import TableCompra from './tables/TableCompra';
 import { useEffect } from 'react';
+import { getAllSupervisores } from '../../reducers/Usuarios/UsuariosSlice';
 
 
 
@@ -36,7 +37,9 @@ const OficialesTable = () => {
             dispatch(getOficialCategoria(e.target.value))
             dispatch(getOficialSelected({oficialName: e.target.value}))
         }
-
+        useEffect(() => {
+          dispatch(getAllSupervisores())
+        }, [])
         useEffect(() => {
             if(oficialStatus && oficialStatus.status === false){
                 Swal.fire({
@@ -61,7 +64,7 @@ const OficialesTable = () => {
     
     return (
         <div style={{height: '100vh'}}>
-            <h1>Oficiales</h1>
+            <h1 style={{textAlign: 'start'}}>Oficiales</h1>
             <span>Seleccione oficial: </span>
             <select id='select' onChange={(e) => onChange(e)}>
                 <option value="">---</option>
