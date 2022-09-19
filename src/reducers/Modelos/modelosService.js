@@ -1,6 +1,6 @@
 import axios from 'axios'
 import { errorsHandling } from '../errorsHandling';
-import getHeaderToken from '../../helpers/getHeaderToken';
+import getHeaderTokenAndDB from '../../helpers/getHeaderTokenAndDB';
 
 const getModeloById = async(id) => {
     const response = await axios.post(process.env.REACT_APP_HOST + 'modelos/id', {Codigo:id}).catch((error) => errorsHandling(error))
@@ -80,7 +80,7 @@ const getAllModelos = async () => {
 }
 
 const updateModelos = async (ModelosData) => {
-    const headers = getHeaderToken()
+    const headers = getHeaderTokenAndDB()
     const response = await axios.put(process.env.REACT_APP_HOST + 'modelos', ModelosData, headers).catch((error) => errorsHandling(error))
     return response.data
 }
@@ -91,7 +91,7 @@ const endCommit = async () => {
 }
 
 const createModelos = async (ModelosData) => {
-    const headers = getHeaderToken()
+    const headers = getHeaderTokenAndDB()
     const response = await axios.post(process.env.REACT_APP_HOST + 'modelos', ModelosData, headers).catch((error) => errorsHandling(error))
     return response.data
 }
