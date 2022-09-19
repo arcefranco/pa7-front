@@ -5,11 +5,12 @@ import TableContainer from '../../GerentesTable/TableContainer';
 import { useNavigate } from 'react-router-dom';
 import { getAllSupervisores} from "../../../reducers/Usuarios/UsuariosSlice";
 import * as BiIcons from 'react-icons/bi';
-import { useTable, useSortBy, usePagination, useGlobalFilter} from 'react-table';
+import { useTable, useSortBy, usePagination, useGlobalFilter, useFilters} from 'react-table';
 import styles from '../../GerentesTable/Gerentes.module.css';
 import Swal from 'sweetalert2';
 import { deleteOficiales} from "../../../reducers/Oficiales/OficialesSlice"; 
-
+import { SearchFilter, ActiveFilter } from "../../GerentesTable/ActiveFilter";
+import { THNFilter } from "../InactiveFilter";
 const TableSubite = () => {
 
 const {oficialesSelected} = useSelector(state => state.oficiales)
@@ -22,9 +23,7 @@ const rolAltayModif = roles.find(e => e.rl_codigo === '1.2.2' || e.rl_codigo ===
 
 const dispatch = useDispatch()
 
-useEffect(() => {
-    dispatch(getAllSupervisores())
-  }, [])
+
     const defaultColumns = useMemo(() => [
         {
             Header: "Código",
@@ -36,12 +35,14 @@ useEffect(() => {
           {
             Header: "Nombre",
             accessor: "Nombre",
-            Filter: false
+            ShortHeader: "Nombre",
+            Filter: SearchFilter
           },
           {
             Header: "Usuario",
             accessor: "login",
-            Filter: false
+            ShortHeader: "Usuario",
+            Filter: SearchFilter
           },
           
           {
@@ -49,14 +50,16 @@ useEffect(() => {
             Header: "Activo",
             accessor: "Activo",
             Cell: (value) => value.value === 0 ? 'No' : 'Si',
-            Filter: false
+            ShortHeader: "Activo",
+            Filter: ActiveFilter
             },
 
             {
             Header: "Tipo Haber Neto",
             accessor: "HNMayor40",
             Cell: (value) => value.value === 0 ? 'Menor a 50.000' : 'Mayor a 50.000',
-            Filter: false
+            ShortHeader: "Tipo Haber Neto",
+            Filter: THNFilter
               
             },
    
@@ -64,9 +67,9 @@ useEffect(() => {
             
             Header: "Supervisor",
             accessor: "Supervisor",
-            Cell: (value) => supervisores?.find(e => e.Codigo === value.value)?.Nombre,
- 
-            Filter: false
+            Cell: (value) => supervisores && supervisores.find(e => e.Codigo === value.value)?.Nombre,
+            ShortHeader: "Supervisor",
+            Filter: SearchFilter
                   
             },
             {
@@ -115,7 +118,7 @@ useEffect(() => {
         setGlobalFilter,
         prepareRow,
       } =
-        useTable({ columns: defaultColumns , data: oficialesSelected, initialState:{pageSize:15} }, useGlobalFilter, 
+        useTable({ columns: defaultColumns , data: oficialesSelected, initialState:{pageSize:15} }, useGlobalFilter, useFilters,
             useSortBy, usePagination,
             );
             const {pageIndex, pageSize} = state
@@ -132,11 +135,15 @@ useEffect(() => {
           <tr {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map((column) => (
               
-              <th {...column.getHeaderProps(column.getSortByToggleProps())}>{column.render("Header")}
-              <span>
-                {column.isSorted ? (column.isSortedDesc ? <BiIcons.BiDownArrow/> : <BiIcons.BiUpArrow/>) : ''}
-              </span>
-              <div>{column.canFilter ? column.render('Filter') : null}</div>
+              <th>
+                <div {...column.getHeaderProps(column.getSortByToggleProps())}>
+                 
+                 <span>
+                  {column.isSorted? (column.isSortedDesc? column.render("ShortHeader") +' ▼' : column.render("ShortHeader")+ '▲'  ): 
+                  column.render("Header")}</span>
+                 
+                 </div>
+              <div>{column.canFilter ?  column.render('Filter')  : null}</div>
               </th>
              
             ))}

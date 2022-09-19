@@ -160,7 +160,7 @@ button:hover{
 /* -----------------------------FILTERS------------------------------- */
 .filter{
 max-width:4.25em;
-margin-top: 1.6em;
+margin-top: 0.5em;
 margin-bottom: .5em;
 border-radius: .3em;
 border:groove;
@@ -170,7 +170,7 @@ border:groove;
     max-width: 7em;
      border-radius: .3em;
       border: groove;
-      margin-top: 1.5em;
+      margin-top: 0.5em;
       margin-bottom: .5em;}
 
 .containerGlobalFilter{

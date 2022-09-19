@@ -138,7 +138,7 @@ useEffect(() => {
           })
           
       })} 
-        className={styles.buttonRows} >  Eliminar</button>
+        className={styles.buttonRows}>Eliminar</button>
         :<button style={{background:"silver"}} className={styles.buttonRows} disabled>Eliminar</button> ),
       },
       
@@ -213,7 +213,7 @@ useEffect(() => {
                 <th >
                 
                 <div {...column.getHeaderProps(column.getSortByToggleProps())}>
-                  <span > {column.render("Header")}{column.isSorted? (column.isSortedDesc? ' ▼' : '▲'  ): ''}</span>
+                  <span> {column.render("Header")}{column.isSorted? (column.isSortedDesc? ' ▼' : '▲'  ): ''}</span>
                   
                 {/* {column.canFilter? <div>O</div> : null} */}</div>
                 <div >{column.canFilter ? column.render('Filter') : null}</div>
