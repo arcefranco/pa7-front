@@ -247,10 +247,10 @@ export const getAllUsuarios = createAsyncThunk('usuarios/All', async (thunkAPI) 
       return thunkAPI.rejectWithValue(error.response.data)
     }
   })
-  export const endCommit = createAsyncThunk('endCommit', async (usuarioData, thunkAPI) => {
+  export const endUpdate = createAsyncThunk('endUpdate', async (usuarioData, thunkAPI) => {
     try {
       
-      const data = await usuariosService.endCommit()
+      const data = await usuariosService.endUpdate(usuarioData)
 
       return data
     } catch (error) {
@@ -515,21 +515,7 @@ export const getAllUsuarios = createAsyncThunk('usuarios/All', async (thunkAPI) 
             state.rolStatus = action.payload
             state.message = action.payload
           })
-          .addCase(endCommit.pending, (state) => {
-            state.isLoading = true
-            
-          })
-          .addCase(endCommit.fulfilled, (state, action) => {
-            state.isLoading = false
-            state.isSuccess = true
-            state.commitState = action.payload
-          }) 
-          .addCase(endCommit.rejected, (state, action) => {
-            state.isLoading = false
-            state.isError = true
-            state.commitState = action.payload
-            state.message = action.payload
-          })
+
         }
         
 

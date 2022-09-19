@@ -72,14 +72,11 @@ export const updateGerentes = createAsyncThunk('updategerentes', async (form, th
       return thunkAPI.rejectWithValue(error.response.data)
     }
   })
-  export const endCommit = createAsyncThunk('endCommit', async (gerentesData, thunkAPI) => {
+  export const endUpdate = createAsyncThunk('endUpdate', async (gerentesData ,thunkAPI) => {
     try {
-      
-      const data = await gerentesService.endCommit()
-
+      const data = await gerentesService.endUpdate(gerentesData)
       return data
     } catch (error) {
-
         (error.response && error.response.data && error.response.data.message) ||
         error.message ||
         error.toString()
@@ -186,19 +183,6 @@ export const gerentesSlice = createSlice({
             state.isError = true
             state.statusNuevoGerente = [action.payload]
           });
-          builder.addCase(endCommit.pending, (state) => {
-            state.isLoading = true
-        })
-          builder.addCase(endCommit.fulfilled, (state, action) => {
-            state.isLoading = false
-            state.isSuccess = true
-            state.statusNuevoGerente = action.payload
-        }) 
-          builder.addCase(endCommit.rejected, (state, action) => {
-            state.isLoading = false
-            state.isError = true
-            state.statusNuevoGerente = action.payload
-        })    
 
 
         }

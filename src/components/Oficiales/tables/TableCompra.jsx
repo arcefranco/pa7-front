@@ -4,11 +4,12 @@ import { useSelector, useDispatch} from 'react-redux';
 import TableContainer from '../../GerentesTable/TableContainer';
 import { getAllSupervisores, reset } from "../../../reducers/Usuarios/UsuariosSlice";
 import * as BiIcons from 'react-icons/bi';
-import { useTable, useSortBy, usePagination, useGlobalFilter} from 'react-table';
+import { useTable, useSortBy, usePagination, useGlobalFilter, useFilters} from 'react-table';
 import styles from '../../GerentesTable/Gerentes.module.css';
 import Swal from 'sweetalert2';
 import { deleteOficiales } from "../../../reducers/Oficiales/OficialesSlice";
 import { useNavigate } from "react-router-dom";
+import { ActiveFilter, SearchFilter } from "../../GerentesTable/ActiveFilter";
 const TableCompra = () => {
 
   const {oficialesSelected} = useSelector(state => state.oficiales)
@@ -33,12 +34,14 @@ useEffect(() => {
           {
             Header: "Nombre",
             accessor: "Nombre",
-            Filter: false
+            ShortHeader: "Nombre",
+            Filter: SearchFilter
           },
           {
             Header: "Usuario",
             accessor: "login",
-            Filter: false
+            ShortHeader: "Usuario",
+            Filter: SearchFilter
           },
           
           {
@@ -46,14 +49,16 @@ useEffect(() => {
             Header: "Activo",
             accessor: "Activo",
             Cell: (value) => value.value === 0 ? 'No' : 'Si',
-            Filter: false
+            ShortHeader: "Activo",
+            Filter: ActiveFilter
             },
 
             {
             Header: "Tipo Haber Neto",
             accessor: "HNMayor40",
             Cell: (value) => value.value === 0 ? 'Menor a 50.000' : 'Mayor a 50.000',
-            Filter: false
+            ShortHeader: "Tipo Haber Neto",
+            Filter: ActiveFilter
               
             },
 
@@ -105,7 +110,7 @@ useEffect(() => {
         setGlobalFilter,
         prepareRow,
       } =
-        useTable({ columns: defaultColumns , data: oficialesSelected, initialState:{pageSize:15} }, useGlobalFilter, 
+        useTable({ columns: defaultColumns , data: oficialesSelected, initialState:{pageSize:15} }, useGlobalFilter, useFilters, 
             useSortBy, usePagination,
             );
             const {pageIndex, pageSize} = state
@@ -122,11 +127,15 @@ useEffect(() => {
           <tr {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map((column) => (
               
-              <th {...column.getHeaderProps(column.getSortByToggleProps())}>{column.render("Header")}
-              <span>
-                {column.isSorted ? (column.isSortedDesc ? <BiIcons.BiDownArrow/> : <BiIcons.BiUpArrow/>) : ''}
-              </span>
-              <div>{column.canFilter ? column.render('Filter') : null}</div>
+              <th>
+                <div {...column.getHeaderProps(column.getSortByToggleProps())}>
+                 
+                 <span>
+                  {column.isSorted? (column.isSortedDesc? column.render("ShortHeader") +' ▼' : column.render("ShortHeader")+ '▲'  ): 
+                  column.render("Header")}</span>
+                 
+                 </div>
+              <div>{column.canFilter ?  column.render('Filter')  : null}</div>
               </th>
              
             ))}

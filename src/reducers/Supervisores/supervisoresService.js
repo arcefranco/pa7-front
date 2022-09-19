@@ -2,30 +2,43 @@ import axios from 'axios'
 
 import { errorsHandling } from '../errorsHandling'
 
-import getHeaderToken from '../../helpers/getHeaderToken';
-
+import getHeaderToken from '../../helpers/getHeaderTokenAndDB';
+import getHeaderDB from '../../helpers/getHeaderDB';
 
 
 const getSupervisores = async () => {
-    const response = await axios.get(process.env.REACT_APP_HOST + 'supervisores')
+    const headers = getHeaderDB()
+    const response = await axios.get(process.env.REACT_APP_HOST + 'supervisores', headers)
     .catch(function (error) {
       errorsHandling(error)
     })
     return response.data[0] 
-  }
+  } 
   const getSupervisoresById = async (supervisoresData) => {
-    const response = await axios.post(process.env.REACT_APP_HOST + 'supervisores/id',  {Codigo:supervisoresData}).catch((error) => errorsHandling(error))
-    return response.data[0]
+    const headers = getHeaderToken()
+    const response = await axios.post(process.env.REACT_APP_HOST + 'supervisores/id',  {Codigo:supervisoresData}, headers).catch((error) => errorsHandling(error))
+    return response.data
   }
+
+
+  const endUpdate = async (gerenteData) => {
+    const headers = getHeaderToken()
+    const response = await axios.post(process.env.REACT_APP_HOST + 'supervisores/endUpdate', gerenteData, headers).catch((error) => errorsHandling(error))
+    return response.data
+}
+
   const getAllGerentes = async () => {
-    const response = await axios.get(process.env.REACT_APP_HOST + 'gerentes', ).catch((error) => errorsHandling(error))
+    const headers = getHeaderDB()
+    const response = await axios.get(process.env.REACT_APP_HOST + 'gerentes', headers ).catch((error) => errorsHandling(error))
     return response.data[0]
   }
   const getAllGerentesActivos = async () => {
-    const response = await axios.get(process.env.REACT_APP_HOST + 'gerentes/activos', ).catch((error) => errorsHandling(error))
+    const headers = getHeaderDB()
+    const response = await axios.get(process.env.REACT_APP_HOST + 'gerentes/activos', headers).catch((error) => errorsHandling(error))
     return response.data[0]}
   const getAllZonas = async () => {
-    const response = await axios.get(process.env.REACT_APP_HOST + 'supervisores/zonas', ).catch((error) => errorsHandling(error))
+    const headers = getHeaderDB()
+    const response = await axios.get(process.env.REACT_APP_HOST + 'supervisores/zonas',  headers).catch((error) => errorsHandling(error))
     return response.data[0]
   }
 
@@ -40,18 +53,25 @@ const updateSupervisores = async (form) => {
   const response = await axios.put(process.env.REACT_APP_HOST + 'supervisores' , form, headers).catch((error) => errorsHandling(error))
   return response.data
 }  
-const endCommit = async () => {
-  const response = await axios.get(process.env.REACT_APP_HOST + 'supervisores/endCommit')
-  return response.data
-}
+
 
 const deleteSupervisores = async (supervisoresData) => {
-  const headers = getHeaderToken();
-  const response = await axios.delete(process.env.REACT_APP_HOST + 'supervisores', {data: supervisoresData}).catch((error) => errorsHandling(error))
+  const response = await axios.delete(process.env.REACT_APP_HOST + 'supervisores',{  headers: {
+    'x-auth-token': window.localStorage.getItem('userToken').split(" ")[1],
+    "db-connection": window.localStorage.getItem('db')
+  }, data: supervisoresData }).catch((error) => errorsHandling(error))
   return response.data }
 
 const supervisoresService = {
-    getSupervisores, postSupervisores, updateSupervisores, deleteSupervisores, getSupervisoresById, getAllGerentes, getAllGerentesActivos, getAllZonas, endCommit
+    getSupervisores, 
+    postSupervisores, 
+    updateSupervisores, 
+    deleteSupervisores, 
+    getSupervisoresById, 
+    getAllGerentes, 
+    getAllGerentesActivos, 
+    getAllZonas,
+    endUpdate
   }
 
 

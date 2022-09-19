@@ -1,21 +1,30 @@
 import axios from 'axios'
 import { errorsHandling } from '../errorsHandling';
-import getHeaderToken from '../../helpers/getHeaderToken';
+import getHeaderToken from '../../helpers/getHeaderTokenAndDB';
+import getHeaderDB from '../../helpers/getHeaderDB';
 
 const getSucursalById = async(id) => {
-    const response = await axios.post(process.env.REACT_APP_HOST + 'sucursales/id', id).catch((error) => errorsHandling(error))
+    const headers = getHeaderToken()
+    const response = await axios.post(process.env.REACT_APP_HOST + 'sucursales/id', id, headers).catch((error) => errorsHandling(error))
+    return response.data
+}
+
+const endUpdate = async (sucursalData) => {
+    const headers = getHeaderToken()
+    const response = await axios.post(process.env.REACT_APP_HOST + 'sucursales/endUpdate', sucursalData, headers).catch((error) => errorsHandling(error))
     return response.data
 }
 
 const getAllSucursales = async () => {
-
-    const response = await axios.get(process.env.REACT_APP_HOST + 'sucursales').catch((error) => errorsHandling(error))
+    const headers = getHeaderDB()
+    const response = await axios.get(process.env.REACT_APP_HOST + 'sucursales', headers).catch((error) => errorsHandling(error))
     return response.data
   }
 
   const deleteSucursal = async (id) => {
     const response = await axios.delete(process.env.REACT_APP_HOST + 'sucursales',  {  headers: {
-        'x-auth-token': window.localStorage.getItem('userToken').split(" ")[1]
+        'x-auth-token': window.localStorage.getItem('userToken').split(" ")[1],
+        "db-connection": window.localStorage.getItem('db')
       }, data: { id: id } })
     return response.data
 }
@@ -26,10 +35,7 @@ const updateSucursal = async (sucursalData) => {
     return response.data
 }
 
-const endCommit = async () => {
-    const response = await axios.get(process.env.REACT_APP_HOST + 'sucursales/endCommit')
-    return response.data
-}
+
 
 const createSucursal = async (sucursalData) => {
     const headers = getHeaderToken()
@@ -43,7 +49,7 @@ getAllSucursales,
 deleteSucursal,
 createSucursal,
 updateSucursal,
-endCommit
+endUpdate
 }
 
 export default SucursalesService

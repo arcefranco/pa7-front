@@ -84,11 +84,10 @@ export const getAllSucursales = createAsyncThunk('sucursales/All', async (thunkA
       return thunkAPI.rejectWithValue(error.response.data)
     }
   })
-
-  export const endCommit = createAsyncThunk('endCommit', async (usuarioData, thunkAPI) => {
+  export const endUpdate = createAsyncThunk('endUpdate', async (sucursalData, thunkAPI) => {
     try {
       
-      const data = await sucursalesService.endCommit()
+      const data = await sucursalesService.endUpdate(sucursalData)
 
       return data
     } catch (error) {
@@ -99,6 +98,8 @@ export const getAllSucursales = createAsyncThunk('sucursales/All', async (thunkA
       return thunkAPI.rejectWithValue(error.response.data)
     }
   })
+
+
 
 
 export const sucursalesSlice = createSlice({
@@ -182,19 +183,7 @@ export const sucursalesSlice = createSlice({
             state.isError = true
             state.sucursalStatus = action.payload
         })
-        .addCase(endCommit.pending, (state) => {
-          state.isLoading = true
-      })
-        .addCase(endCommit.fulfilled, (state, action) => {
-          state.isLoading = false
-          state.isSuccess = true
-          state.sucursalStatus = action.payload
-      }) 
-        .addCase(endCommit.rejected, (state, action) => {
-          state.isLoading = false
-          state.isError = true
-          state.sucursalStatus = action.payload
-      })
+
 }})
 
 

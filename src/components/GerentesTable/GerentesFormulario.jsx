@@ -11,9 +11,10 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import {FcApproval} from 'react-icons/fc'
 import Swal from "sweetalert2";
 import {Link, useNavigate} from 'react-router-dom';
-import { getGerentesById, postGerentes, updateGerentes, endCommit , reset} from '../../reducers/Gerentes/gerentesSlice';
+import { getGerentesById, postGerentes, updateGerentes, reset, endUpdate} from '../../reducers/Gerentes/gerentesSlice';
 import TitlePrimary from "../../styled-components/h/TitlePrimary";
 import ButtonPrimary from "../../styled-components/buttons/ButtonPrimary";
+
 
 
 const GerentesFormulario = () =>{
@@ -52,7 +53,7 @@ const GerentesFormulario = () =>{
             text: statusNuevoGerente[0]?.data
           }).then((result) => {
             if (result.isConfirmed) {
-              dispatch(endCommit())
+              
               window.location.reload()
               
             } 
@@ -65,13 +66,12 @@ const GerentesFormulario = () =>{
       if(gerentesById && gerentesById.status === false){
           Swal.fire({
               icon: 'error',
-              title: 'Tiempo de espera excedido',
+              title: gerentesById.message,
               showConfirmButton: true,
-              
-              text: gerentesById.message
+
             }).then((result) => {
               if (result.isConfirmed) {
-                  dispatch(endCommit())
+                  
                 window.location.replace('/gerentes')
                 
               } 
@@ -82,11 +82,15 @@ const GerentesFormulario = () =>{
 
     useEffect(() => {
       dispatch(reset())
-      return () => {
-          if(id){
-  
-              dispatch(endCommit())
-          }
+
+      if(id){
+        
+        return () => {
+          dispatch(endUpdate({
+            Codigo: id
+          }))
+        }
+        
       }
   }, [])
 
@@ -132,7 +136,6 @@ const HandleChange =  (e) =>{
   
     
     const {name , value} = e.target
-    console.log(value, name)
     const newForm = {...input,
       [name]:value,
       }
@@ -151,7 +154,7 @@ const HandleChange =  (e) =>{
 const HandleSubmitInsert = async (event) =>{
 event.preventDefault()
 
-console.log(input)
+
 dispatch(postGerentes(input, user))
 setInput({
   Codigo:'',
@@ -166,7 +169,7 @@ Activo: 0,
 const HandleSubmitUpdate =async (event) =>{
   event.preventDefault()
 
-  console.log(input)
+
   dispatch(updateGerentes(input, user))
   dispatch(reset())
   setInput({
