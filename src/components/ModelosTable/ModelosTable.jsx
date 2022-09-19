@@ -20,6 +20,9 @@ const {roles} = useSelector((state) => state.login.user)
 const rolAltayModif = roles.find(e => e.rl_codigo === '1.2.2' || e.rl_codigo === '1')
 const [pageHistory, setPageHistory] = useState('')
 
+const {modelos, tipoPlan, modeloStatus} = useSelector(
+  (state) => state.modelos)
+
   useEffect(() => {
 
     Promise.all([
@@ -33,9 +36,6 @@ const [pageHistory, setPageHistory] = useState('')
 
 
 
-
- const {modelos, tipoPlan, modeloStatus} = useSelector(
-    (state) => state.modelos)
 
 
 
@@ -61,8 +61,7 @@ const [pageHistory, setPageHistory] = useState('')
       }, [modeloStatus])
 
 
-  const columns = useMemo(
-    () => [
+  const columns = useMemo(()=>[
       {
         Header: "Código",
         accessor: "Codigo",
@@ -90,10 +89,10 @@ const [pageHistory, setPageHistory] = useState('')
             :true}/></div> ,
         Filter: false
       },
-    ],
-    []
-  );
-    tipoPlan.map(plan =>{
+    ],[])
+    
+  ;
+    tipoPlan?.map(plan =>{
     columns.push({
       Header: plan.Descripcion,
       accessor: plan.Descripcion,
@@ -154,7 +153,9 @@ const [pageHistory, setPageHistory] = useState('')
         })} className={styles.buttonRows} >Eliminar</button> : <button style={{background:"silver"}} className={styles.buttonRows} disabled>Eliminar</button> ),
         Filter: false
       },
+    
     )
+
 
   const { getTableProps, getTableBodyProps, 
     headerGroups, page,  nextPage,
