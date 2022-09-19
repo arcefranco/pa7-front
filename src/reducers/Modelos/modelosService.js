@@ -1,10 +1,14 @@
 import axios from 'axios'
 import { errorsHandling } from '../errorsHandling';
-import getHeaderTokenAndDB from '../../helpers/getHeaderTokenAndDB';
+import getHeaderToken from '../../helpers/getHeaderTokenAndDB';
+import getHeaderDB from '../../helpers/getHeaderDB';
+
 
 
 const getModeloById = async(id) => {
-    const response = await axios.post(process.env.REACT_APP_HOST + 'modelos/id', {Codigo:id}).catch((error) => errorsHandling(error))
+  const headers = getHeaderDB()
+
+    const response = await axios.post(process.env.REACT_APP_HOST + 'modelos/id',  {Codigo:id}, headers).catch((error) => errorsHandling(error))
     const modelos = response.data[0]
     // const array = [];
  
@@ -36,8 +40,10 @@ const getModeloById = async(id) => {
 }
 
 const getAllModelos = async () => {
+  const headers = getHeaderDB()
 
-    const response = await axios.get(process.env.REACT_APP_HOST + 'modelos').catch((error) => errorsHandling(error))
+    const response = await axios.get(process.env.REACT_APP_HOST + 'modelos', headers)
+    // .catch((error) => errorsHandling(error))
     const modelos = response.data[0]
     const array = [];
  
@@ -68,8 +74,8 @@ const getAllModelos = async () => {
   }
 
   const getAllTipoPlan = async () => {
-
-    const response = await axios.get(process.env.REACT_APP_HOST + 'modelos/tipoplan').catch((error) => errorsHandling(error))
+    const headers = getHeaderToken()
+    const response = await axios.get(process.env.REACT_APP_HOST + 'modelos/tipoplan', headers).catch((error) => errorsHandling(error))
     return response.data[0]
   } 
 
@@ -81,7 +87,7 @@ const getAllModelos = async () => {
 }
 
 const updateModelos = async (ModelosData) => {
-    const headers = getHeaderTokenAndDB()
+    const headers = getHeaderToken()
     const response = await axios.put(process.env.REACT_APP_HOST + 'modelos', ModelosData, headers).catch((error) => errorsHandling(error))
     return response.data
 }
@@ -92,7 +98,7 @@ const endCommit = async () => {
 }
 
 const createModelos = async (ModelosData) => {
-    const headers = getHeaderTokenAndDB()
+    const headers = getHeaderToken()
     const response = await axios.post(process.env.REACT_APP_HOST + 'modelos', ModelosData, headers).catch((error) => errorsHandling(error))
     return response.data
 }
