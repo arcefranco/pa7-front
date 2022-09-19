@@ -34,8 +34,8 @@
 }
 
 .containerInputText{
-    margin-left: calc(8rem);
-    margin-right: calc(8rem);
+/*     margin-left: calc(8rem);
+    margin-right: calc(8rem); */
     display: grid;
     /* grid-template-columns: 4fr 0fr; */
 }
@@ -79,7 +79,7 @@ select, input[type="date"]{
 .containerInputText select{
     width: 15rem;
     height:2.4em;
-    margin: .5rem;
+
 }
 .containerInputText input[type="text"],
     input[type="number"],
