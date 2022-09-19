@@ -8,7 +8,7 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Stack from 'react-bootstrap/Stack';
 import styles from '../UsuariosTable/AltaUsuarios.module.css'
-import { getSucursalById, reset, updateSucursal, createSucursal } from "../../reducers/Sucursales/SucursalesSlice";
+import { getSucursalById, reset, updateSucursal, createSucursal, endUpdate } from "../../reducers/Sucursales/SucursalesSlice";
 import Swal from "sweetalert2";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import {FcApproval} from 'react-icons/fc';
@@ -61,10 +61,8 @@ useEffect(() => {
     if(sucursalById && sucursalById.status === false){
         Swal.fire({
             icon: 'error',
-            title: 'Tiempo de espera excedido',
+            title: sucursalById.message,
             showConfirmButton: true,
-            
-            text: sucursalById.message
           }).then((result) => {
             if (result.isConfirmed) {
                 
@@ -78,7 +76,13 @@ useEffect(() => {
 
 useEffect(() => {
     dispatch(reset())
-
+    return () => {
+        if(id) {
+            dispatch(endUpdate({
+                Codigo: id
+            }))
+        }
+    }
 }, [])
 
 useEffect(() => {

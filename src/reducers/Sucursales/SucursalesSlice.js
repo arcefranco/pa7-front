@@ -84,6 +84,20 @@ export const getAllSucursales = createAsyncThunk('sucursales/All', async (thunkA
       return thunkAPI.rejectWithValue(error.response.data)
     }
   })
+  export const endUpdate = createAsyncThunk('endUpdate', async (sucursalData, thunkAPI) => {
+    try {
+      
+      const data = await sucursalesService.endUpdate(sucursalData)
+
+      return data
+    } catch (error) {
+
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+  })
 
 
 

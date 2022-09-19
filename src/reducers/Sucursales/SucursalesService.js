@@ -4,8 +4,14 @@ import getHeaderToken from '../../helpers/getHeaderTokenAndDB';
 import getHeaderDB from '../../helpers/getHeaderDB';
 
 const getSucursalById = async(id) => {
-    const headers = getHeaderDB()
+    const headers = getHeaderToken()
     const response = await axios.post(process.env.REACT_APP_HOST + 'sucursales/id', id, headers).catch((error) => errorsHandling(error))
+    return response.data
+}
+
+const endUpdate = async (sucursalData) => {
+    const headers = getHeaderToken()
+    const response = await axios.post(process.env.REACT_APP_HOST + 'sucursales/endUpdate', sucursalData, headers).catch((error) => errorsHandling(error))
     return response.data
 }
 
@@ -42,7 +48,8 @@ getSucursalById,
 getAllSucursales,
 deleteSucursal,
 createSucursal,
-updateSucursal
+updateSucursal,
+endUpdate
 }
 
 export default SucursalesService
