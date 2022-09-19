@@ -9,6 +9,7 @@ import styles from '../GerentesTable/Gerentes.module.css';
 import Swal from 'sweetalert2';
 import { ExportCSV } from '../../helpers/exportCSV';
 import { GlobalFilter } from '../UsuariosTable/GlobalFilter';
+import './modelos.module.css';
 
 
 const ModelosTable = () => {
@@ -32,10 +33,10 @@ const [pageHistory, setPageHistory] = useState('')
 
 
 
+
  const {modelos, tipoPlan, modeloStatus} = useSelector(
     (state) => state.modelos)
 
-// let data = [modelos, tipoPlan]
 
 
     useEffect(() => {
@@ -59,15 +60,6 @@ const [pageHistory, setPageHistory] = useState('')
         }
       }, [modeloStatus])
 
-
-// buildColumnsFromPlanes(tipoPlan){
-//   let headers = [];
-//   tipoPlan.forEach(tipoPlan =>{
-//     headers.push(tipoPlan.Descripcion)
-//   }
-
-//   )
-// }
 
   const columns = useMemo(
     () => [
@@ -98,52 +90,39 @@ const [pageHistory, setPageHistory] = useState('')
             :true}/></div> ,
         Filter: false
       },
-      {id:'tipoPlan1',
-      
-      Accessor: "TipoPlan",
-      filter:false,
-      
-        columns: [{
-          id:'tipoPlan1 ct',
-        Header: "Cta. Terminal",
-        accessor: "CuotaTerminal",
-        Filter: false,
-        Cell:({value})=><div style={{background:"lightblue"}}>{value}</div>,
-
+    ],
+    []
+  );
+    tipoPlan.map(plan =>{
+    columns.push({
+      Header: plan.Descripcion,
+      accessor: plan.Descripcion,
+      columns:[
+      {Header:"Cuota Terminal",
+      accessor:"CuotaTerminal_" + plan.ID,
+      Cell:({value})=><div className={"Plan_" + plan.ID} style={{textAlign:"right"}}>{value}</div>
       },
-      {
-        id:'tipoPlan1 ca',
-        Header: "Cuota A",
-        accessor: "CuotaACobrar",
-        Filter: false,
-        Cell:({value})=><div style={{background:"lightblue"}}>{value}</div>,
-
+      {Header:"Cuota A",
+      accessor:"CuotaACobrar_" + plan.ID,
+      Cell:({value})=><div className={"Plan_" + plan.ID} style={{textAlign:"right"}}>{value}</div>
       },
-      {
-        id:'tipoPlan1 cb',
-        Header: "Cuota B",
-        accessor: "CuotaACobrarA",
-        Filter: false,
-        Cell:({value})=><div style={{background:"lightblue"}}>{value}</div>,
-
+      {Header:"Cuota B",
+      accessor:"CuotaACobrarA_" + plan.ID,
+      Cell:({value})=><div className={"Plan_" + plan.ID} style={{textAlign:"right"}}>{value}</div>
       },
-      {
-        id:'tipoPlan1 c1',
-        Header: "Cuota 1",
-        accessor: "Cuota1",
-        Filter: false,
-        Cell:({value})=><div style={{background:"lightblue"}}>{value}</div>,
-
+      {Header:"Cuota 1",
+      accessor:"Cuota1_" + plan.ID,
+      Cell:({value})=><div className={"Plan_" + plan.ID} style={{textAlign:"right"}}>{value}</div>
       },
-      {
+      {Header:"Cuota 2",
+      accessor:"Cuota2_" + plan.ID,
+      Cell:({value})=><div className={"Plan_" + plan.ID} style={{textAlign:"right"}}>{value}</div>
+      },
+    ],
+    })
+    }) 
 
-        id:'tipoPlan1 c2',
-        Header: "Cuota 2",
-        accessor: "Cuota2",
-        Filter: false,
-        Cell:({value})=><div style={{background:"lightblue"}}>{value}</div>,
-      },]},
-     
+    columns.push(
       {
         Header: "",
         accessor: "Codigo",
@@ -175,11 +154,7 @@ const [pageHistory, setPageHistory] = useState('')
         })} className={styles.buttonRows} >Eliminar</button> : <button style={{background:"silver"}} className={styles.buttonRows} disabled>Eliminar</button> ),
         Filter: false
       },
-
-         
-    ],
-    []
-  );
+    )
 
   const { getTableProps, getTableBodyProps, 
     headerGroups, page,  nextPage,
@@ -192,7 +167,7 @@ const [pageHistory, setPageHistory] = useState('')
     setGlobalFilter,
     prepareRow,
   } =
-    useTable({ columns: columns, data: modelos, initialState:{pageSize:15, pageIndex:JSON.parse(localStorage.getItem('pageIndex'))} }, useGlobalFilter, 
+    useTable({ columns: columns, data: modelos , initialState:{pageSize:15, pageIndex:JSON.parse(localStorage.getItem('pageIndex'))} }, useGlobalFilter, 
         useSortBy, usePagination,
         );
         const {pageIndex, pageSize} = state

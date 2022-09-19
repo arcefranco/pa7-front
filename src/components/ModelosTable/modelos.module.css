@@ -1,0 +1,64 @@
+td.Plan_1{
+    background:aqua
+}
+#Plan_2{
+    background: yellow 
+}
+#Plan_3{
+    background:orange
+}
+#Plan_4{
+    background:greenyellow
+}
+#Plan_5{
+    background:green
+}
+#Plan_6{
+    background:pink
+}
+#Plan_7{
+    background:lightcoral
+}
+
+.cuotasFormContainer{
+    height:auto;
+    width:100%;
+    display: grid;
+    grid-template-columns: 42em 42em ;
+    justify-content: center;
+}
+
+.cuotasFormHeader{
+
+    background: rgba(142, 175, 204, 0.494);
+    font-size: 1em;
+    color: black;
+    text-align: left;
+    text-indent: 1.5em;
+    font-weight: 600;
+}
+
+.cuotasForm{
+    background: aliceblue;
+    height:8em;
+    margin:.3em;
+    /* display: grid; */
+    /* grid-template-columns: 10em 10em 10em ; */
+}
+
+.cuotasForm div{
+    justify-content: center;
+    margin:.1em;
+    /* margin-right:-.1em; */
+    /* margin-left:-.3em; */
+}
+
+.inputGroupText{
+    font-size: .7em;
+    height:32px;
+    max-width:70px;
+}
+.cuotasForm input{
+min-width: 50em;
+min-height:30px;
+}
