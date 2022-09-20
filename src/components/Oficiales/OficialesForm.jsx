@@ -183,7 +183,7 @@ if(e.target.checked){
 
 
 
-  const floatingLabel = {textAlign:"start", paddingTop:"0.5em", fontSize:"1.3em"}
+  const floatingLabel = {textAlign:"start", padding:"0.5em", fontSize:"1.3em", width: '17rem', marginTop: '1rem' }
   return (
     <div className={styles.container}>
             <TitleLogo style={{marginTop: '1.1rem', alignSelf: 'flex-start'}}>
@@ -263,7 +263,7 @@ if(e.target.checked){
                       label="Objetivo"
                       style={floatingLabel}
                   >
-                  <Form.Control type="text" value={input.Objetivo} name="Objetivo" placeholder="Objetivo" onChange={handleChange} required />
+                  <Form.Control type="text"  value={input.Objetivo} name="Objetivo" placeholder="Objetivo" onChange={handleChange} required />
                   </FloatingLabel>
                   </Form.Group> 
       </Row> : null
@@ -313,7 +313,7 @@ if(e.target.checked){
         }
                 <Row className="g-2">
                 
-                <Form.Group as={Col} style={{display: 'flex', placeContent: 'center' ,marginTop:'.5rem', marginBottom: '.7rem'}}> 
+                <Form.Group as={Col} style={{placeContent: 'center', marginBottom: '.7rem', alignItems: 'center'}}> 
                 {
                     input.Activo === 1 ? <input onChange={(e) => handleCheck(e)} type="checkbox" checked /> : <input onChange={(e) => handleCheck(e)} type="checkbox" />
                   }

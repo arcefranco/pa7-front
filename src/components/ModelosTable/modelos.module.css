@@ -54,9 +54,10 @@ td.Plan_1{
 }
 
 .inputGroupText{
-    font-size: .7em;
+    font-size: .9em;
     height:32px;
     max-width:70px;
+    font-weight: 600;
 }
 .cuotasForm input{
 min-width: 50em;
