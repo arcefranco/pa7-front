@@ -4,21 +4,20 @@ import { deleteUsuario, getAllUsuarios, reset } from '../../reducers/Usuarios/Us
 import TableContainer from '../GerentesTable/TableContainer';
 import { Link, useNavigate } from 'react-router-dom';
 import * as BiIcons from 'react-icons/bi';
-
 import { useTable, useSortBy, usePagination, useGlobalFilter} from 'react-table';
 import styles from '../GerentesTable/Gerentes.module.css';
-
 import Swal from 'sweetalert2';
-import {FcApproval, FcCancel, FcSurvey, FcDataSheet} from 'react-icons/fc'
 import { ExportCSV } from '../../helpers/exportCSV';
 import { GlobalFilter } from './GlobalFilter';
-
+import TitlePrimary from '../../styled-components/h/TitlePrimary';
+import TitleLogo from '../../styled-components/containers/TitleLogo';
+import { ReturnLogo } from '../../helpers/ReturnLogo';
 
 const UsuariosTable = () => {
 
 const dispatch = useDispatch()
 const navigate = useNavigate()
-const {roles} = useSelector((state) => state.login.user)
+const {roles, empresaReal} = useSelector((state) => state.login.user)
 const {statusNuevoUsuario} = useSelector((state) => state.usuarios)
 const rolAltayModif = roles.find(e => e.rl_codigo === '1.2.2' || e.rl_codigo === '1')
 const [pageHistory, setPageHistory] = useState('')
@@ -191,7 +190,13 @@ const {globalFilter} = state
       
   <div className={styles.title}>
       <span className={styles.titleContainer}>
-        <h3>Usuarios</h3>
+      <TitleLogo>
+        <div>
+          <span>{empresaReal}</span>
+          <ReturnLogo empresa={empresaReal}/>
+        </div>
+        <TitlePrimary>Usuarios</TitlePrimary>
+        </TitleLogo>
       <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}/>
       <div className={styles.buttonContainer}>
       {rolAltayModif ?

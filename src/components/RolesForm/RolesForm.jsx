@@ -1,6 +1,5 @@
 import React, {useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
-import TitlePrimary from "../../styled-components/h/TitlePrimary";
 import ButtonPrimary from '../../styled-components/buttons/ButtonPrimary'
 import Swal from "sweetalert2";
 import Select from "../../styled-components/inputs/Select";
@@ -8,7 +7,9 @@ import { getAllUsuarios, getSelectedRoles, getUserSelectedRoles, addRol, deleteR
 from "../../reducers/Usuarios/UsuariosSlice";
 import styles from './Roles.module.css'
 import { useState } from "react";
-
+import TitleLogo from '../../styled-components/containers/TitleLogo';
+import TitlePrimary from '../../styled-components/h/TitlePrimary';
+import { ReturnLogo } from '../../helpers/ReturnLogo';
 
 
 const RolesForm = () => {
@@ -21,7 +22,7 @@ const RolesForm = () => {
         
     }, [])
     
-    
+    const {empresaReal} = useSelector((state) => state.login.user)
     
     
     
@@ -139,7 +140,14 @@ const RolesForm = () => {
 
     return (
         <div style={{textAlign: '-webkit-center', height: '100vh'}}>
-            <TitlePrimary style={{textAlign:'start'}}>Asignación de roles</TitlePrimary>
+            <TitleLogo style={{marginInlineEnd: 'auto', width: '25rem', marginBottom: '.8rem'}}>
+                <div>
+                <span>{empresaReal}</span>
+                <ReturnLogo empresa={empresaReal}/>
+
+                </div>
+            <TitlePrimary>Asignación de roles</TitlePrimary>
+            </TitleLogo>
             <div className={styles.container}>
                 {
                     Array.isArray(userSelectedRoles) && !userSelectedRoles.find(e => e.rl_codigo === "1") ? 

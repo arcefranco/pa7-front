@@ -14,6 +14,8 @@ import validateEmail from "../../helpers/validateEmail";
 import {Link, useNavigate} from 'react-router-dom';
 import { getSupervisoresById, postSupervisores, updateSupervisores,getAllGerentes,getAllGerentesActivos,getAllZonas, reset, endUpdate } from '../../reducers/Supervisores/supervisoresSlice';
 import Swal from "sweetalert2";
+import TitleLogo from "../../styled-components/containers/TitleLogo";
+import { ReturnLogo } from "../../helpers/ReturnLogo";
 
 
 const SupervisoresFormulario = () =>{
@@ -219,6 +221,12 @@ const HandleSubmitUpdate =async (event) =>{
 
 return(   
     <div className={styles.container}>
+            <TitleLogo style={{marginTop: '1.1rem', alignSelf: 'flex-start'}}>
+            <div>
+              <span>{user.empresaReal}</span>
+              <ReturnLogo empresa={user.empresaReal}/>
+            </div>
+            </TitleLogo>
   {/*--------------------------------------SUPERVISORES FORMS--------------------------------------------------  */}
   <Form action=""  className={styles.form} onSubmit={HandleSubmitInsert}>
  <Stack className={styles.titleContainer} direction="horizontal" gap={3} >

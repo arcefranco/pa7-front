@@ -1,18 +1,20 @@
 import React, {useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import ButtonPrimary from "../../styled-components/buttons/ButtonPrimary";
-import TitlePrimary from "../../styled-components/h/TitlePrimary";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import styles from './Roles.module.css'
 import { copyRoles, getAllUsuarios, reset, replaceRoles } from "../../reducers/Usuarios/UsuariosSlice";
 import Select from "../../styled-components/inputs/Select";
-
+import TitleLogo from '../../styled-components/containers/TitleLogo';
+import TitlePrimary from '../../styled-components/h/TitlePrimary';
+import { ReturnLogo } from '../../helpers/ReturnLogo';
 
 const CopyRoles = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const {usuarios, rolStatus, isSuccess} = useSelector(state => state.usuarios)
+    const {empresaReal} = useSelector((state) => state.login.user)
     useEffect(() => {
         Promise.all([dispatch(getAllUsuarios()), dispatch(reset())])
 
@@ -81,7 +83,13 @@ const CopyRoles = () => {
     }
     return (
         <div style={{textAlign: '-webkit-center', height: '100vh'}}>
-            <TitlePrimary style={{textAlign:'start'}}>Copiar Roles</TitlePrimary>
+            <TitleLogo style={{marginInlineEnd: 'auto',  marginBottom: '.8rem'}}>
+                <div>
+                    <span>{empresaReal}</span>
+                    <ReturnLogo empresa={empresaReal}/>
+                </div>
+            <TitlePrimary>Copiar Roles</TitlePrimary>
+            </TitleLogo>
             <div className={styles.container}>
 
             <form action="">

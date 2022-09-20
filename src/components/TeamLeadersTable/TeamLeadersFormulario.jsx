@@ -4,8 +4,8 @@ import { useParams } from "react-router-dom";
 import styles from '../UsuariosTable/AltaUsuarios.module.css';
 import TitlePrimary from "../../styled-components/h/TitlePrimary";
 import ButtonPrimary from "../../styled-components/buttons/ButtonPrimary";
-import InputText from "../../styled-components/inputs/InputText";
-import Select from "../../styled-components/inputs/Select";
+import TitleLogo from "../../styled-components/containers/TitleLogo";
+import { ReturnLogo } from "../../helpers/ReturnLogo";
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
@@ -13,7 +13,6 @@ import Row from 'react-bootstrap/Row';
 import Stack from 'react-bootstrap/Stack';
 import InputGroup from 'react-bootstrap/InputGroup';
 import validateEmail from "../../helpers/validateEmail";
-import {FcApproval} from 'react-icons/fc'
 import {Link, useNavigate} from 'react-router-dom';
 import { getTeamLeadersById, postTeamLeaders, updateTeamLeaders, getAllSupervisores, getAllSupervisoresActivos,reset, endUpdate } from '../../reducers/TeamLeaders/teamLeadersSlice';
 import Swal from "sweetalert2";
@@ -204,6 +203,12 @@ const HandleSubmitUpdate =async (event) =>{
 
 return(   
     <div className={styles.container}>
+            <TitleLogo style={{marginTop: '1.1rem', alignSelf: 'flex-start'}}>
+            <div>
+              <span>{user.empresaReal}</span>
+              <ReturnLogo empresa={user.empresaReal}/>
+            </div>
+            </TitleLogo>
   {/*--------------------------------------TEAM LEADER FORMS--------------------------------------------------  */}
   <Form action=""  className={styles.form} onSubmit={HandleSubmitInsert}>
  <Stack className={styles.titleContainer} direction="horizontal" gap={3} >

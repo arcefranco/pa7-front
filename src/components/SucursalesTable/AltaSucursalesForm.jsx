@@ -12,6 +12,8 @@ import { getSucursalById, reset, updateSucursal, createSucursal, endUpdate } fro
 import Swal from "sweetalert2";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import {FcApproval} from 'react-icons/fc';
+import TitleLogo from "../../styled-components/containers/TitleLogo";
+import { ReturnLogo } from "../../helpers/ReturnLogo";
 
 
 const AltaSucursalesForm = () => {
@@ -19,7 +21,7 @@ const AltaSucursalesForm = () => {
 const dispatch = useDispatch()
 const {sucursalById, sucursalStatus} = useSelector(
     (state) => state.sucursales)
-
+const {empresaReal} = useSelector((state) => state.login.user)
 const navigate = useNavigate()
 const [input, setInput] = useState({
     Nombre: '',
@@ -131,6 +133,12 @@ const handleSubmit = async (e) => {
   const floatingLabel = {textAlign:"start", paddingTop:"0.5em", fontSize:"1.3em"}
   return (
     <div className={styles.container}>
+            <TitleLogo style={{marginTop: '1.1rem', alignSelf: 'flex-start'}}>
+            <div>
+              <span>{empresaReal}</span>
+              <ReturnLogo empresa={empresaReal}/>
+            </div>
+            </TitleLogo>
     <Form action="" className={styles.form}>
     <Stack className={styles.titleContainer} direction="horizontal" gap={3}>
         <TitlePrimary>{id?.length ? 'Modificar Sucursal' : 'Alta de Sucursal'}</TitlePrimary>

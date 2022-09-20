@@ -10,13 +10,13 @@
 {   
     border-radius: 2.5px;
     text-align: start;
-    text-indent: 1em;
+/*     text-indent: 1em; */
     color:black;
 /*     background-color: ghostwhite; */
     /* width:55em; */
     height: 95%;
     border-top: solid 3px navy;
-    padding-top:1rem;
+/*     padding-top:1rem; */
     
     align-items: right;
     
