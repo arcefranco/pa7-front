@@ -13,7 +13,8 @@ import { getOficialById, updateOficiales, reset, createOficiales, endUpdate} fro
 import { getAllUsuarios } from "../../reducers/Usuarios/UsuariosSlice";
 import Swal from "sweetalert2";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import {FcApproval} from 'react-icons/fc';
+import TitleLogo from "../../styled-components/containers/TitleLogo";
+import { ReturnLogo } from "../../helpers/ReturnLogo";
 
 
 const OficialesForm = () => {
@@ -21,7 +22,7 @@ const OficialesForm = () => {
 const dispatch = useDispatch()
 const {oficialById, oficialStatus, oficialCategoria} = useSelector(
     (state) => state.oficiales)
-
+const {empresaReal} = useSelector((state) => state.login.user)
 const {usuarios, supervisores} = useSelector((state) => state.usuarios)
 
 const navigate = useNavigate()
@@ -185,15 +186,24 @@ if(e.target.checked){
   const floatingLabel = {textAlign:"start", paddingTop:"0.5em", fontSize:"1.3em"}
   return (
     <div className={styles.container}>
+            <TitleLogo style={{marginTop: '1.1rem', alignSelf: 'flex-start'}}>
+            <div>
+              <span>{empresaReal}</span>
+              <ReturnLogo empresa={empresaReal}/>
+            </div>
+            </TitleLogo>
     <Form action="" className={styles.form}>
     <Stack className={styles.titleContainer} direction="horizontal" gap={3}>
         <TitlePrimary>{id?.length ? 'Modificar Oficial' : `Alta Oficiales (${categoria})`}</TitlePrimary>
+        
+        
         <Link className="ms-auto" style={{marginRight:"1rem", marginTop:"-1rem"}} to={'/oficiales'}><ButtonPrimary>Volver</ButtonPrimary></Link>
     </Stack>
     
 
         <div className={styles.containerInputText}>
             
+        
 
         <Row className="g-2">
                 

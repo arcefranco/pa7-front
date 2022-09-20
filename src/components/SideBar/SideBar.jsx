@@ -33,7 +33,7 @@ const SideBar = () => {
                 <div style={{marginLeft: toggle ? "0em" : "auto"}} className={styles.menuBars}>
 
                  {
-                   !toggle && <FaIcons.FaBars onMouseOver={showSideBar}/> 
+                   !toggle && <FaIcons.FaBars onMouseOver={showSideBar}/>
                    
                  }
             </div>
