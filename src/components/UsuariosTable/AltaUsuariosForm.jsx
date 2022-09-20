@@ -15,14 +15,15 @@ import styles from './AltaUsuarios.module.css'
 import './AltaUsuarios.module.css'
 import Swal from "sweetalert2";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import {FcApproval} from 'react-icons/fc';
+import TitleLogo from "../../styled-components/containers/TitleLogo";
+import { ReturnLogo } from "../../helpers/ReturnLogo";
 
 const AltaUsuariosForm = () => {
     const {id} = useParams()
 const dispatch = useDispatch()
 const {vendedores, gerentes, supervisores, teamLeaders, statusNuevoUsuario, usuarioById} = useSelector(
     (state) => state.usuarios)
-
+const {empresaReal} = useSelector((state) => state.login.user)
 const navigate = useNavigate()
 
 
@@ -225,6 +226,12 @@ useEffect(() => {
 
     return (
         <div className={styles.container}>
+            <TitleLogo style={{marginTop: '1.1rem', alignSelf: 'flex-start'}}>
+            <div>
+              <span>{empresaReal}</span>
+              <ReturnLogo empresa={empresaReal}/>
+            </div>
+            </TitleLogo>
             <Form action="" className={styles.form} /* onSubmit={handleSubmit} */>
             <Stack className={styles.titleContainer} direction="horizontal" gap={3}>
                 <TitlePrimary>{id?.length ? 'Modificar Usuario' : 'Alta de Usuario'}</TitlePrimary>

@@ -7,7 +7,9 @@ import {ActiveFilter, SearchFilter} from '../GerentesTable/ActiveFilter'
 import { GlobalFilter } from '../UsuariosTable/GlobalFilter';
 import { useTable } from 'react-table'
 import styles from '../GerentesTable/Gerentes.module.css'
-import {FcSurvey, FcDataSheet} from 'react-icons/fc'
+import TitleLogo from '../../styled-components/containers/TitleLogo.js'
+import TitlePrimary from '../../styled-components/h/TitlePrimary.js'
+import { ReturnLogo } from '../../helpers/ReturnLogo.jsx'
 import {Link, useNavigate} from 'react-router-dom'
 import Swal from 'sweetalert2';
 import { ExportCSV } from '../../helpers/exportCSV';
@@ -22,7 +24,7 @@ const toggleModificar = () => setModificar(!modificar);
 const dispatch = useDispatch();
 const [lastCode, setLastCode ] = useState({});
 const navigate = useNavigate();
-const {roles} = useSelector((state) => state.login.user)
+const {roles, empresaReal} = useSelector((state) => state.login.user)
 const rolAlta = roles.find(e => e.rl_codigo === '1.7.18.1' || e.rl_codigo === '1')
 const rolModificar = roles.find(e => e.rl_codigo === '1.7.18.2'||e.rl_codigo === '1')
 const rolEliminar = roles.find(e => e.rl_codigo === '1.7.18.3' || e.rl_codigo === '1')
@@ -216,7 +218,13 @@ useEffect(() => {
     <div className={styles.container}>
       <div className={styles.title}>
       <span className={styles.titleContainer}>
-          <h3>Supervisores</h3>
+      <TitleLogo>
+        <div>
+          <span>{empresaReal}</span>
+          <ReturnLogo empresa={empresaReal}/>
+        </div>
+        <TitlePrimary>Supervisores</TitlePrimary>
+        </TitleLogo>
           <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}/>
 
           <div className={styles.buttonContainer}>

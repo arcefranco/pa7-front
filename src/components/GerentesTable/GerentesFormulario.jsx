@@ -7,8 +7,8 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Stack from 'react-bootstrap/Stack';
 import FloatingLabel from 'react-bootstrap/FloatingLabel';
-import InputGroup from 'react-bootstrap/InputGroup';
-import {FcApproval} from 'react-icons/fc'
+import TitleLogo from "../../styled-components/containers/TitleLogo";
+import { ReturnLogo } from "../../helpers/ReturnLogo";
 import Swal from "sweetalert2";
 import {Link, useNavigate} from 'react-router-dom';
 import { getGerentesById, postGerentes, updateGerentes, reset, endUpdate} from '../../reducers/Gerentes/gerentesSlice';
@@ -185,6 +185,12 @@ const HandleSubmitUpdate =async (event) =>{
 
 return(   
     <div className={styles.container}>
+            <TitleLogo style={{marginTop: '1.1rem', alignSelf: 'flex-start'}}>
+            <div>
+              <span>{user.empresaReal}</span>
+              <ReturnLogo empresa={user.empresaReal}/>
+            </div>
+            </TitleLogo>
   {/*--------------------------------------GERENTES FORMS--------------------------------------------------  */}
  <Form action=""  className={styles.form} onSubmit={HandleSubmitInsert}>
  <Stack className={styles.titleContainer} direction="horizontal" gap={3}>

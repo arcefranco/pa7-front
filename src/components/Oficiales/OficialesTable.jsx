@@ -17,7 +17,9 @@ import TableCarga from './tables/TableCarga';
 import TableCompra from './tables/TableCompra';
 import { useEffect } from 'react';
 import { getAllSupervisores } from '../../reducers/Usuarios/UsuariosSlice';
-
+import TitlePrimary from '../../styled-components/h/TitlePrimary';
+import { ReturnLogo } from "../../helpers/ReturnLogo";
+import TitleLogo from '../../styled-components/containers/TitleLogo';
 
 
 
@@ -27,7 +29,7 @@ const OficialesTable = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
-        const {roles} = useSelector((state) => state.login.user)
+        const {roles, empresaReal} = useSelector((state) => state.login.user)
         const rolAltayModif = roles.find(e => e.rl_codigo === '1.2.2' || e.rl_codigo === '1')
         const [columnsName, setColumnsName] = useState([]) 
         const {oficialesSelected, oficialStatus, oficialCategoria} = useSelector(state => state.oficiales)
@@ -64,7 +66,14 @@ const OficialesTable = () => {
     
     return (
         <div style={{height: '100vh'}}>
-            <h1 style={{textAlign: 'start'}}>Oficiales</h1>
+          <TitleLogo>
+            <div>
+              <span>{empresaReal}</span>
+              <ReturnLogo empresa={empresaReal}/>
+            </div>
+            <TitlePrimary style={{textAlign: 'start'}}>Oficiales</TitlePrimary>
+
+          </TitleLogo>
             <span>Seleccione oficial: </span>
             <select id='select' onChange={(e) => onChange(e)}>
                 <option value="">---</option>

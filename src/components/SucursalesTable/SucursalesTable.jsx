@@ -9,13 +9,14 @@ import styles from '../GerentesTable/Gerentes.module.css';
 import Swal from 'sweetalert2';
 import { ExportCSV } from '../../helpers/exportCSV';
 import { GlobalFilter } from '../UsuariosTable/GlobalFilter';
-
-
+import TitleLogo from '../../styled-components/containers/TitleLogo';
+import TitlePrimary from '../../styled-components/h/TitlePrimary';
+import { ReturnLogo } from '../../helpers/ReturnLogo';
 const SucursalesTable = () => {
 
 const dispatch = useDispatch()
 const navigate = useNavigate()
-const {roles} = useSelector((state) => state.login.user)
+const {roles, empresaReal} = useSelector((state) => state.login.user)
 const rolAltayModif = roles.find(e => e.rl_codigo === '1.2.2' || e.rl_codigo === '1')
 const [pageHistory, setPageHistory] = useState('')
 
@@ -135,7 +136,13 @@ const {globalFilter} = state
       
   <div className={styles.title}>
       <span className={styles.titleContainer}>
-        <h3>Sucursales</h3>
+        <TitleLogo>
+          <div>
+            <span>{empresaReal}</span>
+            <ReturnLogo empresa={empresaReal}/>
+          </div>
+        <TitlePrimary>Sucursales</TitlePrimary>
+        </TitleLogo>
       <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}/>
       <div className={styles.buttonContainer}>
       {rolAltayModif ?

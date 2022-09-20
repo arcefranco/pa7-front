@@ -7,7 +7,9 @@ import {ActiveFilter, SearchFilter} from './ActiveFilter'
 import { GlobalFilter } from '../UsuariosTable/GlobalFilter';
 import { useTable } from 'react-table'
 import styles from './Gerentes.module.css'
-import {FcSurvey, FcDataSheet} from 'react-icons/fc'
+import TitlePrimary from '../../styled-components/h/TitlePrimary'
+import TitleLogo from '../../styled-components/containers/TitleLogo'
+import { ReturnLogo } from '../../helpers/ReturnLogo'
 import {Link, useNavigate} from 'react-router-dom'
 import Swal from 'sweetalert2';
 import { ExportCSV } from '../../helpers/exportCSV';
@@ -37,7 +39,7 @@ const [pageHistory, setPageHistory] = useState('')
 useEffect(() => {
   Promise.all(dispatch(getGerentes()), dispatch(reset()))
   }, [dispatch])
-  const {user, } = useSelector(
+  const {user} = useSelector(
     (state) => state.login)
  const {gerentes, gerentesById,statusNuevoGerente} = useSelector(
     (state) => state.gerentes)
@@ -186,7 +188,13 @@ useEffect(() => {
     <div className={styles.container}>
       <div className={styles.title}>
       <span className={styles.titleContainer}>
-      <h3>Gerentes</h3>
+        <TitleLogo>
+          <div>
+            <span>{user.empresaReal}</span>
+            <ReturnLogo empresa={user.empresaReal}/>
+          </div>
+        <TitlePrimary>Gerentes</TitlePrimary>
+        </TitleLogo>
       <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}/>
 
       
