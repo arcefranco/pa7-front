@@ -52,7 +52,7 @@ const SideBarItem = ({item, index}) => {
                 :<div style={{fontSize : "3.2em" , marginLeft: open? "-.15em" : "0em",
                 color: open? "#3483fa":"#545e65", marginBottom: open? ".2em" : "auto"}}
                 onMouseOver={showSideBar}   >{item.icon}</div>}
-                <div style={{display: toggle? "block" : "none" , fontSize:"1.3em" }} onClick={() => setOpen(!open)}> 
+                <div style={{display: toggle? "block" : "none" , fontSize:"1.2em" }} onClick={() => setOpen(!open)}> 
                 <div  className={styles[item.cName]} style={{color: open? "#3483fa":"#545e65",alignItems:'center', /*marginRight: open? ".5em" : ".2em"*/ }}>{item.title}
                 <div style={{textAlign:"right", /* marginTop:"-1.5em" */ }}>
                 {open ? <MdIcons.MdOutlineKeyboardArrowDown className={styles.arrow}  onClick={() => setOpen(!open)} /> 
