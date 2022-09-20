@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useMemo} from "react";
 import { useDispatch,  useSelector} from "react-redux";
 import { useParams } from "react-router-dom";
 import styles from '../UsuariosTable/AltaUsuarios.module.css';
@@ -26,12 +26,13 @@ const ModelosFormulario = () =>{
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [error, setError] = useState({})
+    const [input, setInput] = useState({})
 
     const {modeloById, tipoPlan,  modeloStatus} = useSelector(
         (state) => state.modelos)
         const {user} = useSelector(
           (state) => state.login)
-        
+          
         const validateform = function (form) {
           const errors = {};
       
@@ -120,43 +121,59 @@ const ModelosFormulario = () =>{
   
     }, [modeloById])
 
-
+ 
   
-  useEffect(() => {
-    setInput(
-      tipoPlan?.map(plan=>{
-   return{
-      Codigo: id? id : null,
+    const inputArray =  [{ Codigo: id? id : null,
       Nombre: modeloById[0]?.Nombre, 
-      ["CuotaTerminal_" + plan.ID]: parseInt(modeloById[0]?.["CuotaTerminal_" + plan.ID]).toFixed(2),
-      ["CuotaACobrar_" + plan.ID]: parseInt(modeloById[0]?.["CuotaACobrar_" + plan.ID]).toFixed(2),
-      ["CuotaACobrarA_" + plan.ID]: parseInt(modeloById[0]?.["CuotaACobrarA_" + plan.ID]).toFixed(2),
-      ["Cuota1_" + plan.ID]: parseInt(modeloById[0]?.["Cuota1_" + plan.ID]).toFixed(2),
-      ["Cuota2_" + plan.ID]: parseInt(modeloById[0]?.["Cuota2_" + plan.ID]).toFixed(2),
       Activo: modeloById[0]?.Activo,
-      HechoPor: user.username,
-    }} )) 
+      NacionalImportado: modeloById[0]?.NacionalImportado,
+      HechoPor: user.username
+    }]
+
+    
+      
+     tipoPlan?.map(plan=>{
+        inputArray.push({
+            ["CuotaTerminal_" + plan.ID]: parseInt(modeloById[0]?.["CuotaTerminal_" + plan.ID]).toFixed(2),
+            ["CuotaACobrar_" + plan.ID]: parseInt(modeloById[0]?.["CuotaACobrar_" + plan.ID]).toFixed(2),
+            ["CuotaACobrarA_" + plan.ID]: parseInt(modeloById[0]?.["CuotaACobrarA_" + plan.ID]).toFixed(2),
+            ["Cuota1_" + plan.ID]: parseInt(modeloById[0]?.["Cuota1_" + plan.ID]).toFixed(2),
+            ["Cuota2_" + plan.ID]: parseInt(modeloById[0]?.["Cuota2_" + plan.ID]).toFixed(2),
+            })
+        })
+        console.log(inputArray)
+
+        const inputFinal = useMemo(()=>inputArray)
+        
+      
+  useEffect(() => {
+    setInput(inputFinal )
+       
   }, [modeloById]);
 
 
 
-    const [input, setInput] = useState(
-      tipoPlan?.map(plan=>{
-        return{
-      Codigo: id? id: '',
-      Nombre:'',
-      ["CuotaTerminal_" + plan.ID]:0.00,
-      ["CuotaACobrar_" + plan.ID]:0.00,
-      ["CuotaACobrarA_" + plan.ID]:0.00,
-      ["Cuota1_" + plan.ID]:0.00,
-      ["Cuota2_" + plan.ID]:0.00,
-      Activo: 0,
-    }}))
-
-
+  //   inputFinal.push([{
+  //     Codigo: id? id: '',
+  //   Nombre:'',
+  //   Activo: 0,
+  //   NacionalImportado:""
+  //   }])
+       
+  //   tipoPlan?.map(plan=>{
+  //     inputFinal.push({
+  //   ["CuotaTerminal_" + plan.ID]:0,
+  //   ["CuotaACobrar_" + plan.ID]:0,
+  //   ["CuotaACobrarA_" + plan.ID]:0,
+  //   ["Cuota1_" + plan.ID]:0,
+  //   ["Cuota2_" + plan.ID]:0,
+    
+  // })})
+  // // setInput(inputFinal)
+    
+  
   console.log(input)
-
-
+ 
 
 /*----------------------HANDLE CHANGE DEL FORM------------------------------------ */
 const HandleChange =  (e) =>{
@@ -187,17 +204,18 @@ event.preventDefault()
 
 console.log(input)
 dispatch(createModelos(input, user))
-setInput({
-  Codigo:'',
+setInput(
+  tipoPlan?.map(plan=>{
+    return{
+  Codigo: id? id: '',
   Nombre:'',
-  TeamLeader:'',
-  Categoria:'',
-  OficialScoring:'',
-  OficialMora:'',
-  FechaBaja:'',
-  Escala:'',
+  ["CuotaTerminal_" + plan.ID]:0.00,
+  ["CuotaACobrar_" + plan.ID]:0.00,
+  ["CuotaACobrarA_" + plan.ID]:0.00,
+  ["Cuota1_" + plan.ID]:0.00,
+  ["Cuota2_" + plan.ID]:0.00,
   Activo: 0,
- })
+}}))    
 
 }
 
@@ -209,19 +227,20 @@ const HandleSubmitUpdate =async (event) =>{
  
   dispatch(updateModelos(input, user))
   dispatch(reset())
-  setInput({
-    Codigo:'',
+  setInput(
+    {Codigo: id? id: '',
     Nombre:'',
-    TeamLeader:'',
-    Categoria:'',
-    OficialScoring:'',
-    OficialMora:'',
-    FechaBaja:'',
-    Escala:'',
-    Activo: 0,
- 
-   }
-   )
+    Activo: 0,},
+    tipoPlan?.map(plan=>{
+      input.push({
+    
+    ["CuotaTerminal_" + plan.ID]:0.00,
+    ["CuotaACobrar_" + plan.ID]:0.00,
+    ["CuotaACobrarA_" + plan.ID]:0.00,
+    ["Cuota1_" + plan.ID]:0.00,
+    ["Cuota2_" + plan.ID]:0.00,
+    
+  })}))    
 
   }
 
@@ -267,11 +286,11 @@ return(
    <Col>
    <InputGroup style={{marginTop:'1rem', marginBottom: '.5rem'}}>
    <InputGroup.Text className={mStyles.inputGroupText} >Origen</InputGroup.Text>
-   <Form.Select size="sm"  name="CuotaACobrar" placeholder="CuotaA" onChange={HandleChange} 
-   value={input.CuotaACobrar} required>
+   <Form.Select size="sm"  name="NacionalImportado" placeholder="CuotaA" onChange={HandleChange} 
+   value={input.NacionalImportado} required>
     <option>---</option>
-    <option>Nacional</option>
-    <option>Importado</option>
+    <option value={1}>Nacional</option>
+    <option value={2}>Importado</option>
     </Form.Select>
    </InputGroup>
    </Col>
@@ -287,8 +306,8 @@ return(
     <Col>
    <InputGroup>
    <InputGroup.Text className={mStyles.inputGroupText} >Cuota <br/> Terminal</InputGroup.Text>
-   <Form.Control size="sm" type='number' name={"CuotaTerminal_"+plan.ID} placeholder="CuotaTerminal" className={error.Nombre && styles.inputError} onChange={HandleChange} 
-   value={input?.["CuotaTerminal_" + plan.ID]} />
+   <Form.Control size="sm" type='text' name={"CuotaTerminal_"+plan.ID} placeholder="CuotaTerminal" className={error.Nombre && styles.inputError} onChange={HandleChange} 
+   value={input.CuotaTerminal_1} />
    </InputGroup>
    </Col>
    <Col>

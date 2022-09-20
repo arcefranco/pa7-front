@@ -112,7 +112,7 @@ const rolAltayModif = roles.find(e => e.rl_codigo === '1.2.2' || e.rl_codigo ===
         Filter: false
       },
       {
-        Header: "Nacional / Importado",
+        Header: "Origen",
         accessor: "NacionalImportado",
         Cell: ({ value }) => <strong>{value === 2 ? 'Importado' : (value === 1 ? 'Nacional' : '')}</strong>,
         Filter: false
