@@ -7,6 +7,7 @@ const initialState = {
     sucursales: [],
     sucursalById: [],
     sucursalStatus: '',
+    tipoPlan:[],
     isError: false,
     isSuccess: false,
     isLoading: false,
@@ -17,6 +18,20 @@ export const getAllSucursales = createAsyncThunk('sucursales/All', async (thunkA
     try {
       
       const data = await sucursalesService.getAllSucursales()
+
+      return data
+    } catch (error) {
+
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+  })
+  export const getAllTipoPlan = createAsyncThunk('sucursales/AllTipoPlan', async (thunkAPI) => {
+    try {
+      
+      const data = await sucursalesService.getAllTipoPlan()
 
       return data
     } catch (error) {
@@ -131,6 +146,19 @@ export const sucursalesSlice = createSlice({
             state.isError = true
             state.message = action.payload
         })
+        .addCase(getAllTipoPlan.pending, (state) => {
+          state.isLoading = true
+      })
+        .addCase(getAllTipoPlan.fulfilled, (state, action) => {
+          state.isLoading = false
+          state.isSuccess = true
+          state.tipoPlan = action.payload
+      }) 
+        .addCase(getAllTipoPlan.rejected, (state, action) => {
+          state.isLoading = false
+          state.isError = true
+          state.message = action.payload
+      })
         .addCase(getSucursalById.pending, (state) => {
             state.isLoading = true
         })

@@ -100,10 +100,10 @@ export const getAllModelos = createAsyncThunk('modelos/All', async (thunkAPI) =>
     }
   })
 
-  export const endCommit = createAsyncThunk('endCommit', async (usuarioData, thunkAPI) => {
+  export const endUpdate = createAsyncThunk('endUpdate', async (ModelosData, thunkAPI) => {
     try {
       
-      const data = await modelosService.endCommit()
+      const data = await modelosService.endUpdate()
 
       return data
     } catch (error) {
@@ -126,7 +126,8 @@ export const ModelosSlice = createSlice({
         state.isError = false
         state.message = ''
         state.modeloById = []
-        state.modeloStatus = ''       
+        state.modeloStatus = ''
+        state.tipoPlan= []       
       },
     },
 
@@ -210,15 +211,15 @@ export const ModelosSlice = createSlice({
             state.isError = true
             state.modeloStatus = action.payload
         })
-        .addCase(endCommit.pending, (state) => {
+        .addCase(endUpdate.pending, (state) => {
           state.isLoading = true
       })
-        .addCase(endCommit.fulfilled, (state, action) => {
+        .addCase(endUpdate.fulfilled, (state, action) => {
           state.isLoading = false
           state.isSuccess = true
           state.modeloStatus = action.payload
       }) 
-        .addCase(endCommit.rejected, (state, action) => {
+        .addCase(endUpdate.rejected, (state, action) => {
           state.isLoading = false
           state.isError = true
           state.modeloStatus = action.payload
