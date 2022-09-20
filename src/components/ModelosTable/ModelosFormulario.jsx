@@ -15,7 +15,7 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import validateEmail from "../../helpers/validateEmail";
 import {FcApproval} from 'react-icons/fc'
 import {Link, useNavigate} from 'react-router-dom';
-import { getModeloById, createModelos, updateModelos, reset, endCommit, getAllTipoPlan } from '../../reducers/Modelos/modelosSlice';
+import { getModeloById, createModelos, updateModelos, reset, endUpdate, getAllTipoPlan } from '../../reducers/Modelos/modelosSlice';
 import Swal from "sweetalert2";
 import mStyles from './modelos.module.css'
 
@@ -57,7 +57,7 @@ const ModelosFormulario = () =>{
           return () => {
               if(id){
       
-                  dispatch(endCommit())
+                  dispatch(endUpdate())
               }
           }
       }, [])
@@ -92,7 +92,7 @@ const ModelosFormulario = () =>{
             text: modeloStatus[0]?.data
           }).then((result) => {
             if (result.isConfirmed) {
-              dispatch(endCommit())
+              dispatch(endUpdate())
               window.location.reload()
               
             } 
@@ -111,7 +111,7 @@ const ModelosFormulario = () =>{
               text: modeloById.message
             }).then((result) => {
               if (result.isConfirmed) {
-                  dispatch(endCommit())
+                  dispatch(endUpdate())
                 window.location.replace('/Modelos')
                 
               } 
@@ -123,30 +123,38 @@ const ModelosFormulario = () =>{
 
   
   useEffect(() => {
-    tipoPlan.map(plan=>
-    setInput({
+    setInput(
+      tipoPlan?.map(plan=>{
+   return{
       Codigo: id? id : null,
-      Nombre: modeloById?.Nombre,
-      CuotaTerminal: modeloById?.CuotaTerminal_ + plan.ID ,
-      ["CuotaACobrar_" + plan.ID]: modeloById?.["CuotaACobrar_" + plan.ID],
-      ["CuotaACobrarA_" + plan.ID]: modeloById?.["CuotaACobrarA_" + plan.ID],
-      ["Cuota1_" + plan.ID]: modeloById?.["Cuota1_" + plan.ID],
-      ["Cuota2_" + plan.ID]: modeloById?.["Cuota2_" + plan.ID],
-      Activo: modeloById?.Activo,
+      Nombre: modeloById[0]?.Nombre, 
+      ["CuotaTerminal_" + plan.ID]: parseInt(modeloById[0]?.["CuotaTerminal_" + plan.ID]).toFixed(2),
+      ["CuotaACobrar_" + plan.ID]: parseInt(modeloById[0]?.["CuotaACobrar_" + plan.ID]).toFixed(2),
+      ["CuotaACobrarA_" + plan.ID]: parseInt(modeloById[0]?.["CuotaACobrarA_" + plan.ID]).toFixed(2),
+      ["Cuota1_" + plan.ID]: parseInt(modeloById[0]?.["Cuota1_" + plan.ID]).toFixed(2),
+      ["Cuota2_" + plan.ID]: parseInt(modeloById[0]?.["Cuota2_" + plan.ID]).toFixed(2),
+      Activo: modeloById[0]?.Activo,
       HechoPor: user.username,
-    }) );
+    }} )) 
   }, [modeloById]);
 
 
-    const [input, setInput] = useState({
+
+    const [input, setInput] = useState(
+      tipoPlan?.map(plan=>{
+        return{
       Codigo: id? id: '',
       Nombre:'',
-      CuotaTerminal:0,
+      ["CuotaTerminal_" + plan.ID]:0.00,
+      ["CuotaACobrar_" + plan.ID]:0.00,
+      ["CuotaACobrarA_" + plan.ID]:0.00,
+      ["Cuota1_" + plan.ID]:0.00,
+      ["Cuota2_" + plan.ID]:0.00,
       Activo: 0,
-    })
+    }}))
 
 
-
+  console.log(input)
 
 
 
@@ -242,7 +250,7 @@ return(
    <Col >
    <Form.Group style={{marginTop:'1rem', marginBottom: '.5rem'}}>
     <Form.Control size="sm" type="text"  name="Nombre" placeholder="Nombre" className={error.Nombre && styles.inputError} onChange={HandleChange} 
-   value={input.Nombre} required />
+   value={input?.Nombre} required />
    {error.Nombre && <div className={styles.error}>{error.Nombre}</div>}
    </Form.Group>
    </Col>
@@ -256,6 +264,17 @@ return(
    </div>
    </div>
    </Col>
+   <Col>
+   <InputGroup style={{marginTop:'1rem', marginBottom: '.5rem'}}>
+   <InputGroup.Text className={mStyles.inputGroupText} >Origen</InputGroup.Text>
+   <Form.Select size="sm"  name="CuotaACobrar" placeholder="CuotaA" onChange={HandleChange} 
+   value={input.CuotaACobrar} required>
+    <option>---</option>
+    <option>Nacional</option>
+    <option>Importado</option>
+    </Form.Select>
+   </InputGroup>
+   </Col>
    </Row>
    
    </div>
@@ -268,22 +287,22 @@ return(
     <Col>
    <InputGroup>
    <InputGroup.Text className={mStyles.inputGroupText} >Cuota <br/> Terminal</InputGroup.Text>
-   <Form.Control size="sm" type='number' name="CuotaTerminal" placeholder="CuotaTerminal" className={error.Nombre && styles.inputError} onChange={HandleChange} 
-   value={input.CuotaTerminal} required/>
+   <Form.Control size="sm" type='number' name={"CuotaTerminal_"+plan.ID} placeholder="CuotaTerminal" className={error.Nombre && styles.inputError} onChange={HandleChange} 
+   value={input?.["CuotaTerminal_" + plan.ID]} />
    </InputGroup>
    </Col>
    <Col>
    <InputGroup >
    <InputGroup.Text className={mStyles.inputGroupText} >Cuota A</InputGroup.Text>
-   <Form.Control size="sm" type='number' name="CuotaACobrar" placeholder="CuotaA" className={error.Nombre && styles.inputError} onChange={HandleChange} 
-   value={input.CuotaACobrar} required/>
+   <Form.Control size="sm" type='number' name={"CuotaACobrar_"+plan.ID} placeholder="CuotaA" className={error.Nombre && styles.inputError} onChange={HandleChange} 
+   value={input?.["CuotaACobrar_" + plan.ID]} />
    </InputGroup>
    </Col>
    <Col>
    <InputGroup>
    <InputGroup.Text className={mStyles.inputGroupText} >Cuota B</InputGroup.Text>
-   <Form.Control size="sm" type='number' name="CuotaACobrarA" placeholder="CuotaB" className={error.Nombre && styles.inputError} onChange={HandleChange} 
-   value={input.CuotaACobrarA} required/>
+   <Form.Control size="sm" type='number' name={"CuotaACobrarA_"+plan.ID} placeholder="CuotaB" className={error.Nombre && styles.inputError} onChange={HandleChange} 
+   value={input?.["CuotaACobrarA_" + plan.ID]} />
    </InputGroup>
    </Col>
    </Row>
@@ -291,15 +310,15 @@ return(
     <Col>
    <InputGroup>
    <InputGroup.Text className={mStyles.inputGroupText} >Cuota 1</InputGroup.Text>
-   <Form.Control size="sm" type='number' name="Cuota1" placeholder="Cuota1" className={error.Nombre && styles.inputError} onChange={HandleChange} 
-   value={input.Cuota1} required/>
+   <Form.Control size="sm" type='number' name={"Cuota1_"+plan.ID} placeholder="Cuota1" className={error.Nombre && styles.inputError} onChange={HandleChange} 
+   value={input?.["Cuota1_" + plan.ID]} />
    </InputGroup >
    </Col>
    <Col>
    <InputGroup >
    <InputGroup.Text className={mStyles.inputGroupText} >Cuota 2</InputGroup.Text>
-   <Form.Control size="sm" type='number' name="Cuota2" placeholder="Cuota2" className={error.Nombre && styles.inputError} onChange={HandleChange} 
-   value={input.Cuota2} required/>
+   <Form.Control size="sm" type='number' name={"Cuota2_"+plan.ID} placeholder="Cuota2" className={error.Nombre && styles.inputError} onChange={HandleChange} 
+   value={input?.["Cuota2_" + plan.ID]} />
    </InputGroup>
    </Col>
    </Row>

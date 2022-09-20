@@ -42,14 +42,21 @@ const createSucursal = async (sucursalData) => {
     const response = await axios.post(process.env.REACT_APP_HOST + 'sucursales', sucursalData, headers).catch((error) => errorsHandling(error))
     return response.data
 }
-
+const getAllTipoPlan = async () => {
+    const headers = getHeaderToken()
+    const response = await axios.get(process.env.REACT_APP_HOST + 'modelos/tipoplan', headers).catch((error) => errorsHandling(error))
+    const planes = response.data[0]
+    // window.localStorage.setItem("tipoPlan", JSON.stringify(planes))
+    return planes
+  } 
 const SucursalesService = {
 getSucursalById,
 getAllSucursales,
 deleteSucursal,
 createSucursal,
 updateSucursal,
-endUpdate
+endUpdate,
+getAllTipoPlan,
 }
 
 export default SucursalesService
