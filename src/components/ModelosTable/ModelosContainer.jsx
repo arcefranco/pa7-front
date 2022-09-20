@@ -1,6 +1,9 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import { useSelector, useDispatch} from 'react-redux';
+
+
 import { getAllModelos, reset, deleteModelos,  getAllTipoPlan } from '../../reducers/Modelos/modelosSlice';
+
 import TableContainer from '../GerentesTable/TableContainer';
 import { Link, useNavigate } from 'react-router-dom';
 import * as BiIcons from 'react-icons/bi';
@@ -10,6 +13,7 @@ import Swal from 'sweetalert2';
 import { ExportCSV } from '../../helpers/exportCSV';
 import { GlobalFilter } from '../UsuariosTable/GlobalFilter';
 import './modelos.module.css';
+
 
 const ModelosContainer = ({columns, modelos}) => {
 
@@ -117,3 +121,4 @@ const {globalFilter} = state
   )
 }
   export default ModelosContainer
+
