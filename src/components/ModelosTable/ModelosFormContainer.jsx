@@ -63,7 +63,7 @@ const ModelosFormContainer = ({cuotas, input, error, HandleSubmitInsert, HandleC
    <InputGroup style={{marginTop:'1rem', marginBottom: '.5rem'}}>
    <InputGroup.Text className={mStyles.inputGroupText} >Origen</InputGroup.Text>
    <Form.Select size="sm"  name="NacionalImportado" placeholder="CuotaA" onChange={HandleChange} 
-   value={input.NacionalImportado} required>
+   value={input.NacionalImportado ? input.NacionalImportado : ' '} required>
     <option>---</option>
     <option value={1}>Nacional</option>
     <option value={2}>Importado</option>
@@ -75,7 +75,7 @@ const ModelosFormContainer = ({cuotas, input, error, HandleSubmitInsert, HandleC
    </div>
    <div className={mStyles.cuotasFormContainer}>
     
- {cuotas?.map(plan=>
+ {Array.isArray(cuotas) && cuotas?.map(plan=>
    <div className={mStyles.cuotasForm}>
     <div className={mStyles.cuotasFormHeader}>{plan.Descripcion}</div>
    <Row className="g-1">

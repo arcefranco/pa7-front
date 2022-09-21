@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useMemo} from "react";
+import React, {useEffect, useState, useLayoutEffect} from "react";
 import { useDispatch,  useSelector} from "react-redux";
 import { useParams } from "react-router-dom";
 import styles from '../UsuariosTable/AltaUsuarios.module.css';
@@ -61,10 +61,10 @@ const ModelosFormulario = () =>{
               }
           }
       }, [])
-      
+/*       
       useEffect(() => {
         dispatch(reset())
-      },[])
+      },[]) */
       useEffect(() => {
         dispatch(getAllTipoPlan())
       },[])
@@ -137,6 +137,7 @@ const ModelosFormulario = () =>{
       
     useEffect(() => {
     setInput(...inputArray)
+
     setCuotas(
       tipoPlan.map(plan => {
         return {
@@ -176,10 +177,12 @@ const HandleChange =  (e) =>{
     let nuevasCuotas = [...cuotas]
     let changedCuota = nuevasCuotas[parseInt(e.target.name.slice(-1)) - 1]
     changedCuota = {...changedCuota, [name]: value}
+
     // console.log(changedCuota)
     nuevasCuotas[parseInt(e.target.name.slice(-1)) - 1] = changedCuota
     setCuotas(nuevasCuotas)
     // console.log(name, value)
+
   }
   const handleCheckChange = (e) => {
     const { name} = e.target;
@@ -238,6 +241,7 @@ const HandleSubmitUpdate =async (event) =>{
  
   dispatch(updateModelos(updateInput, user))
   dispatch(reset())
+
   // setInput(
   //   {Codigo: id? id: '',
   //   Nombre:'',
@@ -252,6 +256,7 @@ const HandleSubmitUpdate =async (event) =>{
   //   ["Cuota2_" + plan.ID]:0.00,
     
   // })}))    
+
 
   }
 

@@ -40,7 +40,7 @@ const getModeloById = async(id) => {
         this[e.Codigo]['Cuota2_' + e.Codtipoplan]= parseFloat(e.Cuota2).toFixed(2)
       }
      }, {})
-     console.log(array)
+     console.log('byId', array)
     return array
 }
 
