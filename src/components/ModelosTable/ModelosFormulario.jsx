@@ -136,15 +136,17 @@ const ModelosFormulario = () =>{
       
     useEffect(() => {
     setInput(...inputArray)
-    setCuotas( 
-      tipoPlan?.map((plan, index) => {
+
+    setCuotas(
+      tipoPlan.map(plan => {
         return {
-          ["CuotaTerminal_" + plan.ID]: typeof modeloById[0]?.["CuotaTerminal_" + plan.ID] === 'string' ? parseInt(modeloById[0]?.["CuotaTerminal_" + plan.ID]).toFixed(2) : null,
-          ["CuotaACobrar_" + plan.ID]: typeof modeloById[0]?.["CuotaACobrar_" + plan.ID] === 'string' ? parseInt(modeloById[0]?.["CuotaACobrar_" + plan.ID]).toFixed(2) : null,
-          ["CuotaACobrarA_" + plan.ID]: typeof modeloById[0]?.["CuotaACobrarA_" + plan.ID] === 'string' ? parseInt(modeloById[0]?.["CuotaACobrarA_" + plan.ID]).toFixed(2) : null,
-          ["Cuota1_" + plan.ID]: typeof modeloById[0]?.["Cuota1_" + plan.ID] === 'string' ? parseInt(modeloById[0]?.["Cuota1_" + plan.ID]).toFixed(2) : null,
-          ["Cuota2_" + plan.ID]: typeof modeloById[0]?.["Cuota2_" + plan.ID] === 'string' ? parseInt(modeloById[0]?.["Cuota2_" + plan.ID]).toFixed(2) : null,
-          id: index
+          ["CuotaTerminal_" + plan.ID]: typeof modeloById[0]?.["CuotaTerminal_" + plan.ID] === 'string' ? parseInt(modeloById[0]?.["CuotaTerminal_" + plan.ID]).toFixed(2) : parseFloat(0.00).toFixed(2),
+          ["CuotaACobrar_" + plan.ID]: typeof modeloById[0]?.["CuotaACobrar_" + plan.ID] === 'string' ? parseInt(modeloById[0]?.["CuotaACobrar_" + plan.ID]).toFixed(2) : parseFloat(0.00).toFixed(2),
+          ["CuotaACobrarA_" + plan.ID]: typeof modeloById[0]?.["CuotaACobrarA_" + plan.ID] === 'string' ? parseInt(modeloById[0]?.["CuotaACobrarA_" + plan.ID]).toFixed(2) : parseFloat(0.00).toFixed(2),
+          ["Cuota1_" + plan.ID]: typeof modeloById[0]?.["Cuota1_" + plan.ID] === 'string' ? parseInt(modeloById[0]?.["Cuota1_" + plan.ID]).toFixed(2) : parseFloat(0.00).toFixed(2),
+          ["Cuota2_" + plan.ID]: typeof modeloById[0]?.["Cuota2_" + plan.ID] === 'string' ? parseInt(modeloById[0]?.["Cuota2_" + plan.ID]).toFixed(2) : parseFloat(0.00).toFixed(2),
+          TipoPlan: plan.ID - 1,
+          Descripcion: plan.Descripcion
           }
       }))
    
@@ -174,8 +176,12 @@ const HandleChange =  (e) =>{
     let nuevasCuotas = [...cuotas]
     let changedCuota = nuevasCuotas[parseInt(e.target.name.slice(-1)) - 1]
     changedCuota = {...changedCuota, [name]: value}
+
+    // console.log(changedCuota)
     nuevasCuotas[parseInt(e.target.name.slice(-1)) - 1] = changedCuota
     setCuotas(nuevasCuotas)
+    // console.log(name, value)
+
   }
   const handleCheckChange = (e) => {
     const { name} = e.target;
@@ -188,38 +194,51 @@ const HandleChange =  (e) =>{
 /*---------------------------------HANDLE SUBMIT FUNCION INSERT---------------------------------*/
 const HandleSubmitInsert = async (event) =>{
 event.preventDefault()
-
-console.log(input)
-dispatch(createModelos(input, user))
-setInput(
-  tipoPlan?.map(plan=>{
-    return{
-  Codigo: id? id: '',
-  Nombre:'',
-  ["CuotaTerminal_" + plan.ID]:0.00,
-  ["CuotaACobrar_" + plan.ID]:0.00,
-  ["CuotaACobrarA_" + plan.ID]:0.00,
-  ["Cuota1_" + plan.ID]:0.00,
-  ["Cuota2_" + plan.ID]:0.00,
-  Activo: 0,
-}}))    
+const updateInput = [input, ...cuotas] 
+console.log(updateInput)
+// dispatch(createModelos(updateInput, user))
+// setInput(
+//   tipoPlan?.map(plan=>{
+//     return{
+//   Codigo: id? id: '',
+//   Nombre:'',
+//   ["CuotaTerminal_" + plan.ID]:0.00,
+//   ["CuotaACobrar_" + plan.ID]:0.00,
+//   ["CuotaACobrarA_" + plan.ID]:0.00,
+//   ["Cuota1_" + plan.ID]:0.00,
+//   ["Cuota2_" + plan.ID]:0.00,
+//   Activo: 0,
+// }}))    
 
 }
 
 /*---------------------------------HANDLE SUBMIT FUNCION UPDATE---------------------------------*/
 const HandleSubmitUpdate =async (event) =>{
   event.preventDefault()
-  console.log(input)
+ 
+  // setInput(cuotas)
+  const updateInput = [...input, ...cuotas] 
+  console.log(updateInput)
   
  
-  dispatch(updateModelos(input, user))
+  dispatch(updateModelos(updateInput, user))
   dispatch(reset())
-  setInput(
-    {Codigo: id? id: '',
-    Nombre:'',
-    Activo: 0
-  })
-  
+
+  // setInput(
+  //   {Codigo: id? id: '',
+  //   Nombre:'',
+  //   Activo: 0,},
+  //   tipoPlan?.map(plan=>{
+  //     input.push({
+    
+  //   ["CuotaTerminal_" + plan.ID]:0.00,
+  //   ["CuotaACobrar_" + plan.ID]:0.00,
+  //   ["CuotaACobrarA_" + plan.ID]:0.00,
+  //   ["Cuota1_" + plan.ID]:0.00,
+  //   ["Cuota2_" + plan.ID]:0.00,
+    
+  // })}))    
+
 
   }
 
