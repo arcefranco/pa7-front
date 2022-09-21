@@ -25,6 +25,7 @@ const ModelosFormulario = () =>{
     const [error, setError] = useState({})
     const [input, setInput] = useState({})
     const [cuotas, setCuotas] = useState([])
+    const [updateArray, setUpdateArray] = useState([])
 
     const {modeloById, tipoPlan,  modeloStatus} = useSelector(
         (state) => state.modelos)
@@ -191,9 +192,26 @@ const HandleChange =  (e) =>{
 /*---------------------------------HANDLE SUBMIT FUNCION INSERT---------------------------------*/
 const HandleSubmitInsert = async (event) =>{
 event.preventDefault()
-const updateInput = [input, ...cuotas] 
-console.log(updateInput)
-// dispatch(createModelos(updateInput, user))
+const formInput = [input, ...cuotas] 
+const inputNombre = input[0]
+setUpdateArray(
+  
+tipoPlan.map(plan=>{
+  return {
+    CuotaTerminal: typeof formInput[plan.ID ]?.["CuotaTerminal_" + plan.ID] === 'string' ? parseInt(formInput[plan.ID ]?.["CuotaTerminal_" + plan.ID]).toFixed(2) : parseFloat(0.00).toFixed(2),
+    CuotaACobrar: typeof formInput[plan.ID ]?.["CuotaACobrar_" + plan.ID] === 'string' ? parseInt(formInput[plan.ID ]?.["CuotaACobrar_" + plan.ID]).toFixed(2) : parseFloat(0.00).toFixed(2),
+    CuotaACobrarA: typeof formInput[plan.ID ]?.["CuotaACobrarA_" + plan.ID] === 'string' ? parseInt(formInput[plan.ID ]?.["CuotaACobrarA_" + plan.ID]).toFixed(2) : parseFloat(0.00).toFixed(2),
+    Cuota1: typeof formInput[plan.ID ]?.["Cuota1_" + plan.ID] === 'string' ? parseInt(formInput[plan.ID ]?.["Cuota1_" + plan.ID]).toFixed(2) : parseFloat(0.00).toFixed(2),
+    Cuota2: typeof formInput[plan.ID ]?.["Cuota2_" + plan.ID] === 'string' ? parseInt(formInput[plan.ID ]?.["Cuota2_" + plan.ID]).toFixed(2) : parseFloat(0.00).toFixed(2),
+    TipoPlan: plan.ID - 1,
+    Descripcion: plan.Descripcion
+    }
+}
+))
+const dataInput = [input, ...updateArray]
+
+console.log(dataInput)
+dispatch(createModelos(dataInput, user))
 // setInput(
 //   tipoPlan?.map(plan=>{
 //     return{
