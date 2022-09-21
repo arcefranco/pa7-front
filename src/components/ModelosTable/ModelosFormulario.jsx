@@ -1,23 +1,20 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useMemo} from "react";
 import { useDispatch,  useSelector} from "react-redux";
 import { useParams } from "react-router-dom";
 import styles from '../UsuariosTable/AltaUsuarios.module.css';
 import TitlePrimary from "../../styled-components/h/TitlePrimary";
 import ButtonPrimary from "../../styled-components/buttons/ButtonPrimary";
-import InputText from "../../styled-components/inputs/InputText";
-import Select from "../../styled-components/inputs/Select";
-import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Stack from 'react-bootstrap/Stack';
 import InputGroup from 'react-bootstrap/InputGroup';
 import validateEmail from "../../helpers/validateEmail";
-import {FcApproval} from 'react-icons/fc'
 import {Link, useNavigate} from 'react-router-dom';
 import { getModeloById, createModelos, updateModelos, reset, endUpdate, getAllTipoPlan } from '../../reducers/Modelos/modelosSlice';
 import Swal from "sweetalert2";
 import mStyles from './modelos.module.css'
+import ModelosFormContainer from "./ModelosFormContainer";
 
 
 
@@ -26,12 +23,14 @@ const ModelosFormulario = () =>{
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [error, setError] = useState({})
+    const [input, setInput] = useState({})
+    const [cuotas, setCuotas] = useState([])
 
     const {modeloById, tipoPlan,  modeloStatus} = useSelector(
         (state) => state.modelos)
         const {user} = useSelector(
           (state) => state.login)
-        
+          
         const validateform = function (form) {
           const errors = {};
       
@@ -62,15 +61,20 @@ const ModelosFormulario = () =>{
           }
       }, [])
       
+      useEffect(() => {
+        dispatch(reset())
+      },[])
+      useEffect(() => {
+        dispatch(getAllTipoPlan())
+      },[])
 
     useEffect(() => {
-    Promise.all([dispatch(getAllTipoPlan()),dispatch(reset())])
       if(id) {  
         dispatch(getModeloById(id))
         }
   }, [id])
 
-  console.log(modeloById)
+
   useEffect(() => {
     
     if(modeloStatus.length && modeloStatus[0]?.status === true){
@@ -120,43 +124,70 @@ const ModelosFormulario = () =>{
   
     }, [modeloById])
 
-
+    
   
-  useEffect(() => {
-    setInput(
-      tipoPlan?.map(plan=>{
-   return{
-      Codigo: id? id : null,
+    const inputArray =  [{ Codigo: id? id : null,
       Nombre: modeloById[0]?.Nombre, 
-      ["CuotaTerminal_" + plan.ID]: parseInt(modeloById[0]?.["CuotaTerminal_" + plan.ID]).toFixed(2),
-      ["CuotaACobrar_" + plan.ID]: parseInt(modeloById[0]?.["CuotaACobrar_" + plan.ID]).toFixed(2),
-      ["CuotaACobrarA_" + plan.ID]: parseInt(modeloById[0]?.["CuotaACobrarA_" + plan.ID]).toFixed(2),
-      ["Cuota1_" + plan.ID]: parseInt(modeloById[0]?.["Cuota1_" + plan.ID]).toFixed(2),
-      ["Cuota2_" + plan.ID]: parseInt(modeloById[0]?.["Cuota2_" + plan.ID]).toFixed(2),
       Activo: modeloById[0]?.Activo,
-      HechoPor: user.username,
-    }} )) 
-  }, [modeloById]);
+      NacionalImportado: modeloById[0]?.NacionalImportado,
+      HechoPor: user.username
+    }]
+
+    
+      
+/*      tipoPlan?.map(plan=>{
+        inputArray.push({
+            ["CuotaTerminal_" + plan.ID]: parseInt(modeloById[0]?.["CuotaTerminal_" + plan.ID]).toFixed(2),
+            ["CuotaACobrar_" + plan.ID]: parseInt(modeloById[0]?.["CuotaACobrar_" + plan.ID]).toFixed(2),
+            ["CuotaACobrarA_" + plan.ID]: parseInt(modeloById[0]?.["CuotaACobrarA_" + plan.ID]).toFixed(2),
+            ["Cuota1_" + plan.ID]: parseInt(modeloById[0]?.["Cuota1_" + plan.ID]).toFixed(2),
+            ["Cuota2_" + plan.ID]: parseInt(modeloById[0]?.["Cuota2_" + plan.ID]).toFixed(2),
+            })
+        })
+        console.log(inputArray)
+
+        const inputFinal = useMemo(()=>inputArray) */
+        
+      
+    useEffect(() => {
+    setInput(...inputArray)
+    setCuotas(...cuotas,
+      tipoPlan.map(plan => {
+        return {
+          ["CuotaTerminal_" + plan.ID]: parseInt(modeloById[0]?.["CuotaTerminal_" + plan.ID]).toFixed(2),
+          ["CuotaACobrar_" + plan.ID]: parseInt(modeloById[0]?.["CuotaACobrar_" + plan.ID]).toFixed(2),
+          ["CuotaACobrarA_" + plan.ID]: parseInt(modeloById[0]?.["CuotaACobrarA_" + plan.ID]).toFixed(2),
+          ["Cuota1_" + plan.ID]: parseInt(modeloById[0]?.["Cuota1_" + plan.ID]).toFixed(2),
+          ["Cuota2_" + plan.ID]: parseInt(modeloById[0]?.["Cuota2_" + plan.ID]).toFixed(2),
+          id: plan.ID - 1
+          }
+      }))
+   
+  }, [modeloById, tipoPlan]);
 
 
 
-    const [input, setInput] = useState(
-      tipoPlan?.map(plan=>{
-        return{
-      Codigo: id? id: '',
-      Nombre:'',
-      ["CuotaTerminal_" + plan.ID]:0.00,
-      ["CuotaACobrar_" + plan.ID]:0.00,
-      ["CuotaACobrarA_" + plan.ID]:0.00,
-      ["Cuota1_" + plan.ID]:0.00,
-      ["Cuota2_" + plan.ID]:0.00,
-      Activo: 0,
-    }}))
+  //   inputFinal.push([{
+  //     Codigo: id? id: '',
+  //   Nombre:'',
+  //   Activo: 0,
+  //   NacionalImportado:""
+  //   }])
+       
+  //   tipoPlan?.map(plan=>{
+  //     inputFinal.push({
+  //   ["CuotaTerminal_" + plan.ID]:0,
+  //   ["CuotaACobrar_" + plan.ID]:0,
+  //   ["CuotaACobrarA_" + plan.ID]:0,
+  //   ["Cuota1_" + plan.ID]:0,
+  //   ["Cuota2_" + plan.ID]:0,
+    
+  // })})
+  // // setInput(inputFinal)
+    
+  
 
-
-  console.log(input)
-
-
+ 
 
 /*----------------------HANDLE CHANGE DEL FORM------------------------------------ */
 const HandleChange =  (e) =>{
@@ -164,7 +195,7 @@ const HandleChange =  (e) =>{
     
     const {name , value} = e.target
     console.log(value, name)
-    const newForm = {...input,
+    const newForm = {input,
       [name]:value,
       }
     
@@ -187,17 +218,18 @@ event.preventDefault()
 
 console.log(input)
 dispatch(createModelos(input, user))
-setInput({
-  Codigo:'',
+setInput(
+  tipoPlan?.map(plan=>{
+    return{
+  Codigo: id? id: '',
   Nombre:'',
-  TeamLeader:'',
-  Categoria:'',
-  OficialScoring:'',
-  OficialMora:'',
-  FechaBaja:'',
-  Escala:'',
+  ["CuotaTerminal_" + plan.ID]:0.00,
+  ["CuotaACobrar_" + plan.ID]:0.00,
+  ["CuotaACobrarA_" + plan.ID]:0.00,
+  ["Cuota1_" + plan.ID]:0.00,
+  ["Cuota2_" + plan.ID]:0.00,
   Activo: 0,
- })
+}}))    
 
 }
 
@@ -209,136 +241,34 @@ const HandleSubmitUpdate =async (event) =>{
  
   dispatch(updateModelos(input, user))
   dispatch(reset())
-  setInput({
-    Codigo:'',
+  setInput(
+    {Codigo: id? id: '',
     Nombre:'',
-    TeamLeader:'',
-    Categoria:'',
-    OficialScoring:'',
-    OficialMora:'',
-    FechaBaja:'',
-    Escala:'',
-    Activo: 0,
- 
-   }
-   )
+    Activo: 0,},
+    tipoPlan?.map(plan=>{
+      input.push({
+    
+    ["CuotaTerminal_" + plan.ID]:0.00,
+    ["CuotaACobrar_" + plan.ID]:0.00,
+    ["CuotaACobrarA_" + plan.ID]:0.00,
+    ["Cuota1_" + plan.ID]:0.00,
+    ["Cuota2_" + plan.ID]:0.00,
+    
+  })}))    
 
   }
 
  const floatingLabel = {textAlign:"start", paddingTop:"0.5em", fontSize:"1.3em"}
 
 return(   
-    <div className={styles.container}>
-  {/*--------------------------------------MODELOS FORMS--------------------------------------------------  */}
-  <Form action=""  className={styles.form} onSubmit={HandleSubmitInsert}>
- <Stack className={styles.titleContainer} direction="horizontal" gap={3} >
-                <TitlePrimary className={styles.title}>{id?.length ? 'Modificar Modelos' : 'Alta de Modelos'}</TitlePrimary>
-                <Link to={'/Modelos'} className="ms-auto" style={{marginRight:"1rem", marginTop:"-1rem"}}><ButtonPrimary  className={styles.btn} >Volver</ButtonPrimary></Link>
-            </Stack>
-            
-
-            <div className={styles.containerInputText}>
-
-            <Row className="g-1">
- {id?.length  &&
- <> <Col>
-    <Form.Group  style={{marginTop:'1rem', marginBottom: '.5rem'}}>
-    
-   <Form.Control size="sm" type="text" style={{width:"6rem"}} name="Codigo" onChange={HandleChange} value={input.Codigo} disabled />
-   
-   </Form.Group></Col></>}
-   <Col >
-   <Form.Group style={{marginTop:'1rem', marginBottom: '.5rem'}}>
-    <Form.Control size="sm" type="text"  name="Nombre" placeholder="Nombre" className={error.Nombre && styles.inputError} onChange={HandleChange} 
-   value={input?.Nombre} required />
-   {error.Nombre && <div className={styles.error}>{error.Nombre}</div>}
-   </Form.Group>
-   </Col>
-   <Col>
-   <div className={styles.inputCheck}>
-  <span  style={{marginTop: '0rem'}}>Activo</span>
-  <div style={{marginTop: '-.5rem'}}>
-  
-   <input className={styles.inputCheck} type="checkbox" name="Activo" onChange={handleCheckChange} value={input.Activo} checked={input.Activo } />
-   
-   </div>
-   </div>
-   </Col>
-   <Col>
-   <InputGroup style={{marginTop:'1rem', marginBottom: '.5rem'}}>
-   <InputGroup.Text className={mStyles.inputGroupText} >Origen</InputGroup.Text>
-   <Form.Select size="sm"  name="CuotaACobrar" placeholder="CuotaA" onChange={HandleChange} 
-   value={input.CuotaACobrar} required>
-    <option>---</option>
-    <option>Nacional</option>
-    <option>Importado</option>
-    </Form.Select>
-   </InputGroup>
-   </Col>
-   </Row>
-   
-   </div>
-   <div className={mStyles.cuotasFormContainer}>
-    
-{tipoPlan.map(plan=>
-   <div className={mStyles.cuotasForm}>
-    <div className={mStyles.cuotasFormHeader}>{plan.Descripcion}</div>
-   <Row className="g-1">
-    <Col>
-   <InputGroup>
-   <InputGroup.Text className={mStyles.inputGroupText} >Cuota <br/> Terminal</InputGroup.Text>
-   <Form.Control size="sm" type='number' name={"CuotaTerminal_"+plan.ID} placeholder="CuotaTerminal" className={error.Nombre && styles.inputError} onChange={HandleChange} 
-   value={input?.["CuotaTerminal_" + plan.ID]} />
-   </InputGroup>
-   </Col>
-   <Col>
-   <InputGroup >
-   <InputGroup.Text className={mStyles.inputGroupText} >Cuota A</InputGroup.Text>
-   <Form.Control size="sm" type='number' name={"CuotaACobrar_"+plan.ID} placeholder="CuotaA" className={error.Nombre && styles.inputError} onChange={HandleChange} 
-   value={input?.["CuotaACobrar_" + plan.ID]} />
-   </InputGroup>
-   </Col>
-   <Col>
-   <InputGroup>
-   <InputGroup.Text className={mStyles.inputGroupText} >Cuota B</InputGroup.Text>
-   <Form.Control size="sm" type='number' name={"CuotaACobrarA_"+plan.ID} placeholder="CuotaB" className={error.Nombre && styles.inputError} onChange={HandleChange} 
-   value={input?.["CuotaACobrarA_" + plan.ID]} />
-   </InputGroup>
-   </Col>
-   </Row>
-   <Row className="g-1">
-    <Col>
-   <InputGroup>
-   <InputGroup.Text className={mStyles.inputGroupText} >Cuota 1</InputGroup.Text>
-   <Form.Control size="sm" type='number' name={"Cuota1_"+plan.ID} placeholder="Cuota1" className={error.Nombre && styles.inputError} onChange={HandleChange} 
-   value={input?.["Cuota1_" + plan.ID]} />
-   </InputGroup >
-   </Col>
-   <Col>
-   <InputGroup >
-   <InputGroup.Text className={mStyles.inputGroupText} >Cuota 2</InputGroup.Text>
-   <Form.Control size="sm" type='number' name={"Cuota2_"+plan.ID} placeholder="Cuota2" className={error.Nombre && styles.inputError} onChange={HandleChange} 
-   value={input?.["Cuota2_" + plan.ID]} />
-   </InputGroup>
-   </Col>
-   </Row>
-   </div>
-   )}
-     
-   </div>
-   
-  
-  <br/>
- 
-  {/* <hr className={styles.hr}/> */}
-
-   {
-                    id?.length? <ButtonPrimary className={styles.btn}   onClick={HandleSubmitUpdate}>Actualizar</ButtonPrimary>
-                    : <ButtonPrimary className={styles.btn} type="submit" >Enviar</ButtonPrimary>
-                }
-                   
- </Form>
-                </div>
+  <ModelosFormContainer 
+  input={input}
+  error={error}
+  cuotas={cuotas}
+  handleChange={HandleChange}
+  handleCheckChange={handleCheckChange}
+  HandleSubmitInsert={HandleSubmitInsert}
+  HandleSubmitUpdate={HandleSubmitUpdate}/>
 )
 }
 
