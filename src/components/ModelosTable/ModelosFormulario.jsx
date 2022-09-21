@@ -4,16 +4,12 @@ import { useParams } from "react-router-dom";
 import styles from '../UsuariosTable/AltaUsuarios.module.css';
 import TitlePrimary from "../../styled-components/h/TitlePrimary";
 import ButtonPrimary from "../../styled-components/buttons/ButtonPrimary";
-import InputText from "../../styled-components/inputs/InputText";
-import Select from "../../styled-components/inputs/Select";
-import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Stack from 'react-bootstrap/Stack';
 import InputGroup from 'react-bootstrap/InputGroup';
 import validateEmail from "../../helpers/validateEmail";
-import {FcApproval} from 'react-icons/fc'
 import {Link, useNavigate} from 'react-router-dom';
 import { getModeloById, createModelos, updateModelos, reset, endUpdate, getAllTipoPlan } from '../../reducers/Modelos/modelosSlice';
 import Swal from "sweetalert2";
@@ -27,6 +23,7 @@ const ModelosFormulario = () =>{
     const navigate = useNavigate();
     const [error, setError] = useState({})
     const [input, setInput] = useState({})
+    const [cuotas, setCuotas] = useState([])
 
     const {modeloById, tipoPlan,  modeloStatus} = useSelector(
         (state) => state.modelos)
@@ -71,7 +68,7 @@ const ModelosFormulario = () =>{
         }
   }, [id])
 
-  console.log(modeloById)
+
   useEffect(() => {
     
     if(modeloStatus.length && modeloStatus[0]?.status === true){
@@ -121,7 +118,7 @@ const ModelosFormulario = () =>{
   
     }, [modeloById])
 
- 
+    
   
     const inputArray =  [{ Codigo: id? id : null,
       Nombre: modeloById[0]?.Nombre, 
@@ -132,7 +129,7 @@ const ModelosFormulario = () =>{
 
     
       
-     tipoPlan?.map(plan=>{
+/*      tipoPlan?.map(plan=>{
         inputArray.push({
             ["CuotaTerminal_" + plan.ID]: parseInt(modeloById[0]?.["CuotaTerminal_" + plan.ID]).toFixed(2),
             ["CuotaACobrar_" + plan.ID]: parseInt(modeloById[0]?.["CuotaACobrar_" + plan.ID]).toFixed(2),
@@ -143,13 +140,24 @@ const ModelosFormulario = () =>{
         })
         console.log(inputArray)
 
-        const inputFinal = useMemo(()=>inputArray)
+        const inputFinal = useMemo(()=>inputArray) */
         
       
-  useEffect(() => {
-    setInput(inputFinal )
-       
-  }, [modeloById]);
+    useEffect(() => {
+    setInput(...inputArray)
+    setCuotas(...cuotas,
+      tipoPlan.map(plan => {
+        return {
+          ["CuotaTerminal_" + plan.ID]: parseInt(modeloById[0]?.["CuotaTerminal_" + plan.ID]).toFixed(2),
+          ["CuotaACobrar_" + plan.ID]: parseInt(modeloById[0]?.["CuotaACobrar_" + plan.ID]).toFixed(2),
+          ["CuotaACobrarA_" + plan.ID]: parseInt(modeloById[0]?.["CuotaACobrarA_" + plan.ID]).toFixed(2),
+          ["Cuota1_" + plan.ID]: parseInt(modeloById[0]?.["Cuota1_" + plan.ID]).toFixed(2),
+          ["Cuota2_" + plan.ID]: parseInt(modeloById[0]?.["Cuota2_" + plan.ID]).toFixed(2),
+          id: plan.ID - 1
+          }
+      }))
+   
+  }, [modeloById, tipoPlan]);
 
 
 
@@ -172,7 +180,7 @@ const ModelosFormulario = () =>{
   // // setInput(inputFinal)
     
   
-  console.log(input)
+
  
 
 /*----------------------HANDLE CHANGE DEL FORM------------------------------------ */
@@ -299,7 +307,7 @@ return(
    </div>
    <div className={mStyles.cuotasFormContainer}>
     
-{tipoPlan.map(plan=>
+ {cuotas?.map(plan=>
    <div className={mStyles.cuotasForm}>
     <div className={mStyles.cuotasFormHeader}>{plan.Descripcion}</div>
    <Row className="g-1">
@@ -307,21 +315,21 @@ return(
    <InputGroup>
    <InputGroup.Text className={mStyles.inputGroupText} >Cuota <br/> Terminal</InputGroup.Text>
    <Form.Control size="sm" type='text' name={"CuotaTerminal_"+plan.ID} placeholder="CuotaTerminal" className={error.Nombre && styles.inputError} onChange={HandleChange} 
-   value={input.CuotaTerminal_1} />
+   value={cuotas[plan.id][`CuotaTerminal_${plan.id + 1}`]} />
    </InputGroup>
    </Col>
    <Col>
    <InputGroup >
    <InputGroup.Text className={mStyles.inputGroupText} >Cuota A</InputGroup.Text>
    <Form.Control size="sm" type='number' name={"CuotaACobrar_"+plan.ID} placeholder="CuotaA" className={error.Nombre && styles.inputError} onChange={HandleChange} 
-   value={input?.["CuotaACobrar_" + plan.ID]} />
+   value={cuotas[plan.id]?.["CuotaACobrar_" + plan.id]} />
    </InputGroup>
    </Col>
    <Col>
    <InputGroup>
    <InputGroup.Text className={mStyles.inputGroupText} >Cuota B</InputGroup.Text>
-   <Form.Control size="sm" type='number' name={"CuotaACobrarA_"+plan.ID} placeholder="CuotaB" className={error.Nombre && styles.inputError} onChange={HandleChange} 
-   value={input?.["CuotaACobrarA_" + plan.ID]} />
+   <Form.Control size="sm" type='number' name={"CuotaACobrarA_"+plan.id} placeholder="CuotaB" className={error.Nombre && styles.inputError} onChange={HandleChange} 
+   value={cuotas[plan.id]?.["CuotaACobrarA_" + plan.id]} />
    </InputGroup>
    </Col>
    </Row>
@@ -329,20 +337,20 @@ return(
     <Col>
    <InputGroup>
    <InputGroup.Text className={mStyles.inputGroupText} >Cuota 1</InputGroup.Text>
-   <Form.Control size="sm" type='number' name={"Cuota1_"+plan.ID} placeholder="Cuota1" className={error.Nombre && styles.inputError} onChange={HandleChange} 
-   value={input?.["Cuota1_" + plan.ID]} />
+   <Form.Control size="sm" type='number' name={"Cuota1_"+plan.id} placeholder="Cuota1" className={error.Nombre && styles.inputError} onChange={HandleChange} 
+   value={cuotas[plan.id]?.["Cuota1_" + plan.id]} />
    </InputGroup >
    </Col>
    <Col>
    <InputGroup >
    <InputGroup.Text className={mStyles.inputGroupText} >Cuota 2</InputGroup.Text>
-   <Form.Control size="sm" type='number' name={"Cuota2_"+plan.ID} placeholder="Cuota2" className={error.Nombre && styles.inputError} onChange={HandleChange} 
-   value={input?.["Cuota2_" + plan.ID]} />
+   <Form.Control size="sm" type='number' name={"Cuota2_"+plan.id} placeholder="Cuota2" className={error.Nombre && styles.inputError} onChange={HandleChange} 
+   value={cuotas[plan.id]?.["Cuota2_" + plan.id]} />
    </InputGroup>
    </Col>
    </Row>
    </div>
-   )}
+   )} 
      
    </div>
    
