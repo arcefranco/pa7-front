@@ -132,21 +132,6 @@ const ModelosFormulario = () =>{
       NacionalImportado: modeloById[0]?.NacionalImportado,
       HechoPor: user.username
     }]
-
-    
-      
-/*      tipoPlan?.map(plan=>{
-        inputArray.push({
-            ["CuotaTerminal_" + plan.ID]: parseInt(modeloById[0]?.["CuotaTerminal_" + plan.ID]).toFixed(2),
-            ["CuotaACobrar_" + plan.ID]: parseInt(modeloById[0]?.["CuotaACobrar_" + plan.ID]).toFixed(2),
-            ["CuotaACobrarA_" + plan.ID]: parseInt(modeloById[0]?.["CuotaACobrarA_" + plan.ID]).toFixed(2),
-            ["Cuota1_" + plan.ID]: parseInt(modeloById[0]?.["Cuota1_" + plan.ID]).toFixed(2),
-            ["Cuota2_" + plan.ID]: parseInt(modeloById[0]?.["Cuota2_" + plan.ID]).toFixed(2),
-            })
-        })
-        console.log(inputArray)
-
-        const inputFinal = useMemo(()=>inputArray) */
         
       
     useEffect(() => {
@@ -154,38 +139,17 @@ const ModelosFormulario = () =>{
     setCuotas(...cuotas,
       tipoPlan.map(plan => {
         return {
-          ["CuotaTerminal_" + plan.ID]: parseInt(modeloById[0]?.["CuotaTerminal_" + plan.ID]).toFixed(2),
-          ["CuotaACobrar_" + plan.ID]: parseInt(modeloById[0]?.["CuotaACobrar_" + plan.ID]).toFixed(2),
-          ["CuotaACobrarA_" + plan.ID]: parseInt(modeloById[0]?.["CuotaACobrarA_" + plan.ID]).toFixed(2),
-          ["Cuota1_" + plan.ID]: parseInt(modeloById[0]?.["Cuota1_" + plan.ID]).toFixed(2),
-          ["Cuota2_" + plan.ID]: parseInt(modeloById[0]?.["Cuota2_" + plan.ID]).toFixed(2),
+          ["CuotaTerminal_" + plan.ID]: typeof modeloById[0]?.["CuotaTerminal_" + plan.ID] === 'string' ? parseInt(modeloById[0]?.["CuotaTerminal_" + plan.ID]).toFixed(2) : null,
+          ["CuotaACobrar_" + plan.ID]: typeof modeloById[0]?.["CuotaACobrar_" + plan.ID] === 'string' ? parseInt(modeloById[0]?.["CuotaACobrar_" + plan.ID]).toFixed(2) : null,
+          ["CuotaACobrarA_" + plan.ID]: typeof modeloById[0]?.["CuotaACobrarA_" + plan.ID] === 'string' ? parseInt(modeloById[0]?.["CuotaACobrarA_" + plan.ID]).toFixed(2) : null,
+          ["Cuota1_" + plan.ID]: typeof modeloById[0]?.["Cuota1_" + plan.ID] === 'string' ? parseInt(modeloById[0]?.["Cuota1_" + plan.ID]).toFixed(2) : null,
+          ["Cuota2_" + plan.ID]: typeof modeloById[0]?.["Cuota2_" + plan.ID] === 'string' ? parseInt(modeloById[0]?.["Cuota2_" + plan.ID]).toFixed(2) : null,
           id: plan.ID - 1
           }
       }))
    
   }, [modeloById, tipoPlan]);
 
-
-
-  //   inputFinal.push([{
-  //     Codigo: id? id: '',
-  //   Nombre:'',
-  //   Activo: 0,
-  //   NacionalImportado:""
-  //   }])
-       
-  //   tipoPlan?.map(plan=>{
-  //     inputFinal.push({
-  //   ["CuotaTerminal_" + plan.ID]:0,
-  //   ["CuotaACobrar_" + plan.ID]:0,
-  //   ["CuotaACobrarA_" + plan.ID]:0,
-  //   ["Cuota1_" + plan.ID]:0,
-  //   ["Cuota2_" + plan.ID]:0,
-    
-  // })})
-  // // setInput(inputFinal)
-    
-  
 
  
 
@@ -195,7 +159,7 @@ const HandleChange =  (e) =>{
     
     const {name , value} = e.target
     console.log(value, name)
-    const newForm = {input,
+    const newForm = {...input,
       [name]:value,
       }
     
@@ -203,6 +167,17 @@ const HandleChange =  (e) =>{
     console.log(newForm)
     const errors = validateform(newForm);
     setError(errors);
+  }
+  const HandleCuotasChange =  (e) =>{
+
+    const {name , value} = e.target
+    let nuevasCuotas = [...cuotas]
+    let changedCuota = nuevasCuotas[parseInt(e.target.name.slice(-1)) - 1]
+    changedCuota = {...changedCuota, [name]: value}
+    console.log(changedCuota)
+    nuevasCuotas[parseInt(e.target.name.slice(-1)) - 1] = changedCuota
+    setCuotas(nuevasCuotas)
+    console.log(name, value)
   }
   const handleCheckChange = (e) => {
     const { name} = e.target;
@@ -258,17 +233,16 @@ const HandleSubmitUpdate =async (event) =>{
 
   }
 
- const floatingLabel = {textAlign:"start", paddingTop:"0.5em", fontSize:"1.3em"}
-
 return(   
   <ModelosFormContainer 
   input={input}
   error={error}
   cuotas={cuotas}
-  handleChange={HandleChange}
-  handleCheckChange={handleCheckChange}
+  HandleChange={HandleChange}
+  HandleCheckChange={handleCheckChange}
   HandleSubmitInsert={HandleSubmitInsert}
-  HandleSubmitUpdate={HandleSubmitUpdate}/>
+  HandleSubmitUpdate={HandleSubmitUpdate}
+  HandleCuotasChange={HandleCuotasChange}/>
 )
 }
 
