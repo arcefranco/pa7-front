@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useMemo} from "react";
+import React, {useEffect, useState, useLayoutEffect} from "react";
 import { useDispatch,  useSelector} from "react-redux";
 import { useParams } from "react-router-dom";
 import styles from '../UsuariosTable/AltaUsuarios.module.css';
@@ -60,10 +60,10 @@ const ModelosFormulario = () =>{
               }
           }
       }, [])
-      
+/*       
       useEffect(() => {
         dispatch(reset())
-      },[])
+      },[]) */
       useEffect(() => {
         dispatch(getAllTipoPlan())
       },[])
@@ -136,15 +136,15 @@ const ModelosFormulario = () =>{
       
     useEffect(() => {
     setInput(...inputArray)
-    setCuotas(...cuotas,
-      tipoPlan.map(plan => {
+    setCuotas( 
+      tipoPlan?.map((plan, index) => {
         return {
           ["CuotaTerminal_" + plan.ID]: typeof modeloById[0]?.["CuotaTerminal_" + plan.ID] === 'string' ? parseInt(modeloById[0]?.["CuotaTerminal_" + plan.ID]).toFixed(2) : null,
           ["CuotaACobrar_" + plan.ID]: typeof modeloById[0]?.["CuotaACobrar_" + plan.ID] === 'string' ? parseInt(modeloById[0]?.["CuotaACobrar_" + plan.ID]).toFixed(2) : null,
           ["CuotaACobrarA_" + plan.ID]: typeof modeloById[0]?.["CuotaACobrarA_" + plan.ID] === 'string' ? parseInt(modeloById[0]?.["CuotaACobrarA_" + plan.ID]).toFixed(2) : null,
           ["Cuota1_" + plan.ID]: typeof modeloById[0]?.["Cuota1_" + plan.ID] === 'string' ? parseInt(modeloById[0]?.["Cuota1_" + plan.ID]).toFixed(2) : null,
           ["Cuota2_" + plan.ID]: typeof modeloById[0]?.["Cuota2_" + plan.ID] === 'string' ? parseInt(modeloById[0]?.["Cuota2_" + plan.ID]).toFixed(2) : null,
-          id: plan.ID - 1
+          id: index
           }
       }))
    
@@ -174,10 +174,8 @@ const HandleChange =  (e) =>{
     let nuevasCuotas = [...cuotas]
     let changedCuota = nuevasCuotas[parseInt(e.target.name.slice(-1)) - 1]
     changedCuota = {...changedCuota, [name]: value}
-    console.log(changedCuota)
     nuevasCuotas[parseInt(e.target.name.slice(-1)) - 1] = changedCuota
     setCuotas(nuevasCuotas)
-    console.log(name, value)
   }
   const handleCheckChange = (e) => {
     const { name} = e.target;
@@ -219,17 +217,9 @@ const HandleSubmitUpdate =async (event) =>{
   setInput(
     {Codigo: id? id: '',
     Nombre:'',
-    Activo: 0,},
-    tipoPlan?.map(plan=>{
-      input.push({
-    
-    ["CuotaTerminal_" + plan.ID]:0.00,
-    ["CuotaACobrar_" + plan.ID]:0.00,
-    ["CuotaACobrarA_" + plan.ID]:0.00,
-    ["Cuota1_" + plan.ID]:0.00,
-    ["Cuota2_" + plan.ID]:0.00,
-    
-  })}))    
+    Activo: 0
+  })
+  
 
   }
 
