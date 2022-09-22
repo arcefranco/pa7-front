@@ -46,7 +46,7 @@
     height:auto;
     width:100%;
     display: grid;
-    grid-template-columns: 42em 42em ;
+    grid-template-columns: auto auto ;
     justify-content: center;
 }
 
@@ -63,7 +63,7 @@
 .cuotasForm{
     background: aliceblue;
     height:8em;
-    margin:.3em;
+    margin:.1em;
     /* display: grid; */
     /* grid-template-columns: 10em 10em 10em ; */
 }
