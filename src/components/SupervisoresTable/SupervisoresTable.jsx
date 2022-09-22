@@ -103,7 +103,10 @@ useEffect(() => {
         Header: "Email",
         ShortHeader:"Email",
         accessor: "Email",
-        Filter: SearchFilter
+        Filter: SearchFilter,
+        Cell: ({ value }) => <div style={{width:"15rem"}}>{value}</div>,
+
+
       },
       {
         Header: "Gerente",

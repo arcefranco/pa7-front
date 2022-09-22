@@ -7,7 +7,7 @@ import { getAllModelos, reset, deleteModelos,  getAllTipoPlan } from '../../redu
 import TableContainer from '../GerentesTable/TableContainer';
 import { Link, useNavigate } from 'react-router-dom';
 import * as BiIcons from 'react-icons/bi';
-import { useTable, useSortBy, usePagination, useGlobalFilter} from 'react-table';
+import { useTable, useSortBy, usePagination, useGlobalFilter, useFilters} from 'react-table';
 import styles from '../GerentesTable/Gerentes.module.css';
 import Swal from 'sweetalert2';
 import { ExportCSV } from '../../helpers/exportCSV';
@@ -36,7 +36,7 @@ useEffect(() => {
     prepareRow,
   } =
     useTable({ columns:columns , data: modelos , initialState:{pageSize:15, pageIndex:JSON.parse(localStorage.getItem('pageIndex'))} }, useGlobalFilter, 
-        useSortBy, usePagination,
+        useFilters,useSortBy, usePagination,
         );
         const {pageIndex, pageSize} = state
 const {globalFilter} = state
@@ -70,7 +70,10 @@ const {globalFilter} = state
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
                 
-                <th {...column.getHeaderProps()}>{column.render("Header")}
+                <th {...column.getHeaderProps(/*column.getSortByToggleProps()*/)}>
+                <span >{column.isSorted? (column.isSortedDesc? column.render("ShortHeader") +' ▼' : column.render("ShortHeader")+ '▲'  ): column.render("Header")}</span>
+                                <div style={{display:"flex"}}>{column.canFilter ? column.render('Filter') : null}</div>
+
                 </th>
                 
                

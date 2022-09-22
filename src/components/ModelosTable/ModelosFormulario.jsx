@@ -85,7 +85,7 @@ const ModelosFormulario = () =>{
             showConfirmButton: false,
             timer: 5000
           })
-        navigate('/modelos')
+          window.location.replace('/modelos')
         
         dispatch(reset())
     }else if(modeloStatus.length && modeloStatus[0]?.status === false){

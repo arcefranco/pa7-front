@@ -7,9 +7,10 @@ import * as BiIcons from 'react-icons/bi';
 import { useTable, useSortBy, usePagination, useGlobalFilter} from 'react-table';
 import styles from '../GerentesTable/Gerentes.module.css';
 import Swal from 'sweetalert2';
+import {ActiveFilter, SearchFilter} from '../GerentesTable/ActiveFilter';
 import { ExportCSV } from '../../helpers/exportCSV';
 import { GlobalFilter } from '../UsuariosTable/GlobalFilter';
-import './modelos.module.css';
+import mStyles from './modelos.module.css';
 import ModelosContainer from './ModelosContainer';
 
 const ModelosTable = () => {
@@ -104,19 +105,21 @@ const {user} = useSelector(
         accessor: "Codigo",
         
         Cell: ({ value }) => <strong>{value}</strong>,
-        Filter: false
+        Filter: ActiveFilter,
+        filter:"unique",
         
       },      
       {
         Header: "Nombre",
         accessor: "Nombre",
-        Filter: false
+        Filter: SearchFilter,
+        Cell: ({ value }) => <div style={{width:"22rem"}}><strong >{value}</strong></div>,
       },
       {
         Header: "Origen",
         accessor: "NacionalImportado",
         Cell: ({ value }) => <strong>{value === 2 ? 'Importado' : (value === 1 ? 'Nacional' : '')}</strong>,
-        Filter: false
+        Filter: ActiveFilter
       },
       {
         Header: "Activo",
@@ -124,7 +127,7 @@ const {user} = useSelector(
         Cell: ({ value }) => <div style={{ textIndent: "15px" }}><input   type="checkbox" className={styles.checkbox} checked={value === 0  
             ?false
             :true}/></div> ,
-        Filter: false
+        Filter: ActiveFilter
       },
     ]
     // ,[]
@@ -139,27 +142,27 @@ const {user} = useSelector(
       {Header:"Cuota Terminal",
       accessor:"CuotaTerminal_" + key.ID,
       Filter: false,
-      Cell:({value})=><div className={"Plan_" + key.ID} style={{textAlign:"right"}}>{value}</div>
+      Cell:({value})=><div id={mStyles[key.ID]} style={{textAlign:"right"}}>{value}</div>
       },
       {Header:"Cuota A",
       accessor:"CuotaACobrar_" + key.ID,
       Filter: false,
-      Cell:({value})=><div className={"Plan_" + key.ID} style={{textAlign:"right"}}>{value}</div>
+      Cell:({value})=><div id={mStyles[key.ID]} style={{textAlign:"right"}}>{value}</div>
       },
       {Header:"Cuota B",
       accessor:"CuotaACobrarA_" + key.ID,
       Filter: false,
-      Cell:({value})=><div className={"Plan_" + key.ID} style={{textAlign:"right"}}>{value}</div>
+      Cell:({value})=><div id={mStyles[key.ID]} style={{textAlign:"right"}}>{value}</div>
       },
       {Header:"Cuota 1",
       accessor:"Cuota1_" + key.ID,
       Filter: false,
-      Cell:({value})=><div className={"Plan_" + key.ID} style={{textAlign:"right"}}>{value}</div>
+      Cell:({value})=><div id={mStyles[key.ID]} style={{textAlign:"right"}}>{value}</div>
       },
       {Header:"Cuota 2",
       accessor:"Cuota2_" + key.ID,
       Filter: false,
-      Cell:({value})=><div className={"Plan_" + key.ID} style={{textAlign:"right"}}>{value}</div>
+      Cell:({value})=><div id={mStyles[key.ID]} style={{textAlign:"right"}}>{value}</div>
       },
     ],
     })
