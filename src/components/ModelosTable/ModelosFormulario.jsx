@@ -117,7 +117,7 @@ const ModelosFormulario = () =>{
             }).then((result) => {
               if (result.isConfirmed) {
                   dispatch(endUpdate())
-                window.location.replace('/Modelos')
+                window.location.replace('/modelos')
                 
               } 
           })
@@ -131,7 +131,8 @@ const ModelosFormulario = () =>{
       Nombre: modeloById[0]?.Nombre, 
       Activo: modeloById[0]?.Activo,
       NacionalImportado: modeloById[0]?.NacionalImportado,
-      HechoPor: user.username
+      HechoPor: user.username,
+      CodigoMarca: user.codigoMarca,
     }]
         
       
@@ -148,6 +149,7 @@ const ModelosFormulario = () =>{
           ["Cuota2_" + plan.ID]: typeof modeloById[0]?.["Cuota2_" + plan.ID] === 'string' ? parseInt(modeloById[0]?.["Cuota2_" + plan.ID]).toFixed(2) : parseFloat(0.00).toFixed(2),
           TipoPlan: plan.ID - 1,
           Descripcion: plan.Descripcion
+          
           }
       }))
    
@@ -196,21 +198,20 @@ const HandleChange =  (e) =>{
 const HandleSubmitInsert = async (event) =>{
 event.preventDefault()
 const formInput = [input, ...cuotas] 
-const inputNombre = input[0]
-setUpdateArray(
-  
+
 tipoPlan.map(plan=>{
-  return {
+  updateArray.push( {
     CuotaTerminal: typeof formInput[plan.ID ]?.["CuotaTerminal_" + plan.ID] === 'string' ? parseInt(formInput[plan.ID ]?.["CuotaTerminal_" + plan.ID]).toFixed(2) : parseFloat(0.00).toFixed(2),
     CuotaACobrar: typeof formInput[plan.ID ]?.["CuotaACobrar_" + plan.ID] === 'string' ? parseInt(formInput[plan.ID ]?.["CuotaACobrar_" + plan.ID]).toFixed(2) : parseFloat(0.00).toFixed(2),
     CuotaACobrarA: typeof formInput[plan.ID ]?.["CuotaACobrarA_" + plan.ID] === 'string' ? parseInt(formInput[plan.ID ]?.["CuotaACobrarA_" + plan.ID]).toFixed(2) : parseFloat(0.00).toFixed(2),
     Cuota1: typeof formInput[plan.ID ]?.["Cuota1_" + plan.ID] === 'string' ? parseInt(formInput[plan.ID ]?.["Cuota1_" + plan.ID]).toFixed(2) : parseFloat(0.00).toFixed(2),
     Cuota2: typeof formInput[plan.ID ]?.["Cuota2_" + plan.ID] === 'string' ? parseInt(formInput[plan.ID ]?.["Cuota2_" + plan.ID]).toFixed(2) : parseFloat(0.00).toFixed(2),
     TipoPlan: plan.ID - 1,
-    Descripcion: plan.Descripcion
-    }
+    Descripcion: plan.Descripcion,
+    CodigoMarca: user.codigoMarca,
+    })
 }
-))
+)
 const dataInput = [input, ...updateArray]
 
 console.log(dataInput)
@@ -234,12 +235,28 @@ dispatch(createModelos(dataInput, user))
 const HandleSubmitUpdate =async (event) =>{
   event.preventDefault()
  
-  // setInput(cuotas)
-  const updateInput = [...input, ...cuotas] 
-  console.log(updateInput)
+  const formInput = [input, ...cuotas] 
+
+tipoPlan.map(plan=>{
+  updateArray.push( {
+    CuotaTerminal: typeof formInput[plan.ID ]?.["CuotaTerminal_" + plan.ID] === 'string' ? parseInt(formInput[plan.ID ]?.["CuotaTerminal_" + plan.ID]).toFixed(2) : parseFloat(0.00).toFixed(2),
+    CuotaACobrar: typeof formInput[plan.ID ]?.["CuotaACobrar_" + plan.ID] === 'string' ? parseInt(formInput[plan.ID ]?.["CuotaACobrar_" + plan.ID]).toFixed(2) : parseFloat(0.00).toFixed(2),
+    CuotaACobrarA: typeof formInput[plan.ID ]?.["CuotaACobrarA_" + plan.ID] === 'string' ? parseInt(formInput[plan.ID ]?.["CuotaACobrarA_" + plan.ID]).toFixed(2) : parseFloat(0.00).toFixed(2),
+    Cuota1: typeof formInput[plan.ID ]?.["Cuota1_" + plan.ID] === 'string' ? parseInt(formInput[plan.ID ]?.["Cuota1_" + plan.ID]).toFixed(2) : parseFloat(0.00).toFixed(2),
+    Cuota2: typeof formInput[plan.ID ]?.["Cuota2_" + plan.ID] === 'string' ? parseInt(formInput[plan.ID ]?.["Cuota2_" + plan.ID]).toFixed(2) : parseFloat(0.00).toFixed(2),
+    TipoPlan: plan.ID - 1,
+    Descripcion: plan.Descripcion,
+    CodigoMarca: user.codigoMarca,
+    })
+}
+)
+const dataInput = [input, ...updateArray]
+
+  
+  console.log(dataInput)
   
  
-  dispatch(updateModelos(updateInput, user))
+  dispatch(updateModelos(dataInput, user))
   dispatch(reset())
 
   // setInput(
