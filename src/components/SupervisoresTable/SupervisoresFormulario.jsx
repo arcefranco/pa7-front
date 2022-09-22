@@ -49,29 +49,14 @@ const SupervisoresFormulario = () =>{
         };
 
         useEffect(() => {
-          window.addEventListener("beforeunload", alertUser);
+
           return () => {
             if(id){
               dispatch(endUpdate({Codigo: id}))
             }
           };
         }, [id]); 
-        const alertUser = (e) => {
-          e.preventDefault()
-          Swal.fire({
-            icon: 'info',
-            title: '¿Está seguro que desea recargar?',
-            showConfirmButton: true,
-            timer: 20000
-          }).then(result => {
-            if(result.isConfirmed){
-              dispatch(endUpdate({
-                Codigo: id
-              }))
-            }
-          })
-      
-        };
+        
     useEffect(() => {
     Promise.all([dispatch(reset()),dispatch(getAllGerentes()), dispatch(getAllGerentesActivos()),dispatch(getAllZonas()),dispatch(reset())])
       if(id) {  

@@ -28,18 +28,7 @@ const [input, setInput] = useState({
     UsuarioAltaRegistro: ''
 })
 
-useEffect(() => {
-    window.addEventListener("beforeunload", alertUser);
-    return () => {
-      window.removeEventListener("beforeunload", alertUser);
-    };
-  }, []);
-  const alertUser = (e) => {
-      e.preventDefault();
-      dispatch(endUpdate({
-        Codigo: id
-      }))
-  };
+
 
 
 useEffect(() => {

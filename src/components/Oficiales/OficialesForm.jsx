@@ -9,8 +9,8 @@ import Row from 'react-bootstrap/Row';
 import Stack from 'react-bootstrap/Stack';
 import InputGroup from 'react-bootstrap/InputGroup';
 import styles from '../UsuariosTable/AltaUsuarios.module.css'
-import { getOficialById, updateOficiales, reset, createOficiales, endUpdate} from "../../reducers/Oficiales/OficialesSlice";
-import { getAllUsuarios } from "../../reducers/Usuarios/UsuariosSlice";
+import { getOficialById, updateOficiales, reset, createOficiales, endUpdate } from "../../reducers/Oficiales/OficialesSlice";
+import { getAllUsuarios, getAllSupervisores } from "../../reducers/Usuarios/UsuariosSlice";
 import Swal from "sweetalert2";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import TitleLogo from "../../styled-components/containers/TitleLogo";
@@ -31,22 +31,15 @@ const [input, setInput] = useState({
     Activo: 0,
     HN: 0
 })
+
+
+
 useEffect(() => {
-  window.addEventListener("beforeunload", alertUser);
-  return () => {
-    window.removeEventListener("beforeunload", alertUser);
-  };
-}, []);
-const alertUser = (e) => {
-    e.preventDefault();
-    dispatch(endUpdate({
-      categoria: oficialCategoria,
-      Codigo: id
-    }))
-};
-useEffect(() => {
-    if(id) {  
-        dispatch(getOficialById({categoria: oficialCategoria, Codigo: id}))
+    if(id) { 
+      
+      
+      dispatch(getOficialById({categoria: categoria, Codigo: id}))
+        
        
         }
   }, [id])
@@ -103,6 +96,7 @@ useEffect(() => {
   useEffect(() => {
     dispatch(reset())
     dispatch(getAllUsuarios())
+    if(categoria === 'Subite') dispatch(getAllSupervisores())
     return () => {
       if(id){
         dispatch(endUpdate({
@@ -176,7 +170,7 @@ if(e.target.checked){
  const handleSubmit = async (e) => {
     e.preventDefault()
   dispatch(createOficiales({
-    categoria: oficialCategoria,
+    categoria: categoria,
     Nombre: input.Nombre,
     Usuario: input.Usuario,
     Activo: input.Activo,
