@@ -21,7 +21,8 @@ const rolAltayModif = roles.find(e => e.rl_codigo === '1.2.2' || e.rl_codigo ===
 
 
 
-
+const {user} = useSelector(
+  (state) => state.login)
   const {modelos, tipoPlan ,modeloStatus} = useSelector(
     (state) => state.modelos)
   
@@ -191,7 +192,7 @@ const rolAltayModif = roles.find(e => e.rl_codigo === '1.2.2' || e.rl_codigo ===
               text: 'Esta seguro que desea eliminar?'
             }).then((result) => {
               if(result.isConfirmed){
-                dispatch(deleteModelos({id: value.value}))
+                dispatch(deleteModelos({Codigo: value.value, HechoPor:user.username}))
               }
             })
 

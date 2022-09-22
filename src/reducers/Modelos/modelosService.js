@@ -95,9 +95,11 @@ const getAllModelos = async () => {
   } 
 
   const deleteModelos = async (id) => {
-    const response = await axios.delete(process.env.REACT_APP_HOST + 'modelos',  {  headers: {
-        'x-auth-token': window.localStorage.getItem('userToken').split(" ")[1]
-      }, data: { id: id } })
+    const response = await axios.delete(process.env.REACT_APP_HOST + 'modelos',
+    {  headers: {
+      'x-auth-token': window.localStorage.getItem('userToken').split(" ")[1],
+      "db-connection": window.localStorage.getItem('db')
+    }, data: id }).catch((error) => errorsHandling(error))
     return response.data
 }
 

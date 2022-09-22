@@ -21,8 +21,8 @@
     box-shadow: 2px 2px 2px 1px #80808029;
     box-shadow: 1px;
     background-color: #ffff;
-    width: 60%;
-    max-width:70%;
+    /* width: auto; */
+    max-width:auto;
     padding:.7em;
 
 }

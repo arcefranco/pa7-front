@@ -22,7 +22,9 @@ export const Login = () => {
         empresa:'',
         empresaReal: '',
         login: '',
-        password: ''
+        password: '',
+        codigoMarca:'',
+        marca:'',
     })
 
     /*const sound= new Howl({
@@ -87,6 +89,35 @@ export const Login = () => {
     const onSubmit = (e) => {
         e.preventDefault()
         // sound.play()
+        switch(input.empresaReal){
+          case "Car Group S.A.":
+          case "Gestión Financiera S.A.":
+          case "AutoNet S.A":
+          setInput(input.codigoMarca = 2,
+            input.marca = "FIAT")
+          break;
+          case "Alyzze S.A.":
+          setInput(input.codigoMarca = 11,
+            input.marca = "PEUGEOT")
+          break;
+          case "Gestión Financiera Luxcar":
+          setInput(input.codigoMarca = 10,
+            input.marca = "VOLKSWAGEN")
+          break;
+          case "Autos del Plata S.A.":
+          setInput(input.codigoMarca = 6,
+            input.marca = "CHERY")
+          break;
+          case "Detroit S.A.":
+          setInput(input.codigoMarca = 7,
+            input.marca = "JEEP")
+          break;
+          case "Elysees S.A.":
+          setInput(input.codigoMarca = 12,
+            input.marca = "CITROEN")
+          break;  
+        }
+        console.log(input)
         dispatch(login(input))
       }
     
