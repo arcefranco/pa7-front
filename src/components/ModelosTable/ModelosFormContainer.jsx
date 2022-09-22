@@ -16,7 +16,7 @@ import Swal from "sweetalert2";
 import mStyles from './modelos.module.css'
 
 
-const ModelosFormContainer = ({cuotas, input, error, HandleSubmitInsert, HandleChange, HandleSubmitUpdate, handleCheckChange}) =>{
+const ModelosFormContainer = ({cuotas, input, error, HandleSubmitInsert, HandleChange, HandleSubmitUpdate, handleCheckChange, HandleCuotasChange}) =>{
     const {id} = useParams()
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -28,7 +28,7 @@ const ModelosFormContainer = ({cuotas, input, error, HandleSubmitInsert, HandleC
   <Form action=""  className={styles.form} onSubmit={HandleSubmitInsert}>
  <Stack className={styles.titleContainer} direction="horizontal" gap={3} >
                 <TitlePrimary className={styles.title}>{id?.length ? 'Modificar Modelos' : 'Alta de Modelos'}</TitlePrimary>
-                <Link to={'/Modelos'} className="ms-auto" style={{marginRight:"1rem", marginTop:"-1rem"}}><ButtonPrimary  className={styles.btn} >Volver</ButtonPrimary></Link>
+                <Link to={'/modelos'} className="ms-auto" style={{marginRight:"1rem", marginTop:"-1rem"}}><ButtonPrimary  className={styles.btn} >Volver</ButtonPrimary></Link>
             </Stack>
             
 
@@ -63,7 +63,7 @@ const ModelosFormContainer = ({cuotas, input, error, HandleSubmitInsert, HandleC
    <InputGroup style={{marginTop:'1rem', marginBottom: '.5rem'}}>
    <InputGroup.Text className={mStyles.inputGroupText} >Origen</InputGroup.Text>
    <Form.Select size="sm"  name="NacionalImportado" placeholder="CuotaA" onChange={HandleChange} 
-   value={input.NacionalImportado} required>
+   value={input.NacionalImportado ? input.NacionalImportado : ' '} required>
     <option>---</option>
     <option value={1}>Nacional</option>
     <option value={2}>Importado</option>
@@ -75,29 +75,29 @@ const ModelosFormContainer = ({cuotas, input, error, HandleSubmitInsert, HandleC
    </div>
    <div className={mStyles.cuotasFormContainer}>
     
- {cuotas?.map(plan=>
+ {Array.isArray(cuotas) && cuotas?.map(plan=>
    <div className={mStyles.cuotasForm}>
     <div className={mStyles.cuotasFormHeader}>{plan.Descripcion}</div>
    <Row className="g-1">
     <Col>
    <InputGroup>
    <InputGroup.Text className={mStyles.inputGroupText} >Cuota <br/> Terminal</InputGroup.Text>
-   <Form.Control size="sm" type='number' name={`CuotaTerminal_${plan.id + 1}`} placeholder="CuotaTerminal" className={error.Nombre && styles.inputError} onChange={HandleChange} 
-   value={cuotas[plan.id][`CuotaTerminal_${plan.id + 1}`]} />
+   <Form.Control size="sm" type='text' name={`CuotaTerminal_${plan.TipoPlan + 1}`} placeholder="CuotaTerminal" className={error.Nombre && styles.inputError} onChange={HandleCuotasChange} 
+   value={cuotas[plan.TipoPlan][`CuotaTerminal_${plan.TipoPlan + 1}`]} />
    </InputGroup>
    </Col>
    <Col>
    <InputGroup >
    <InputGroup.Text className={mStyles.inputGroupText} >Cuota A</InputGroup.Text>
-   <Form.Control size="sm" type='number' name={`CuotaACobrar_${plan.id + 1}`} placeholder="CuotaA" className={error.Nombre && styles.inputError} onChange={HandleChange} 
-   value={cuotas[plan.id][`CuotaACobrar_${plan.id + 1}`]} />
+   <Form.Control size="sm" type='text' name={`CuotaACobrar_${plan.TipoPlan + 1}`} placeholder="CuotaA" className={error.Nombre && styles.inputError} onChange={HandleCuotasChange} 
+   value={cuotas[plan.TipoPlan][`CuotaACobrar_${plan.TipoPlan + 1}`]} />
    </InputGroup>
    </Col>
    <Col>
    <InputGroup>
    <InputGroup.Text className={mStyles.inputGroupText} >Cuota B</InputGroup.Text>
-   <Form.Control size="sm" type='number' name={`CuotaACobrarA_${plan.id + 1}`} placeholder="CuotaB" className={error.Nombre && styles.inputError} onChange={HandleChange} 
-   value={cuotas[plan.id][`CuotaACobrarA_${plan.id + 1}`]} />
+   <Form.Control size="sm" type='text' name={`CuotaACobrarA_${plan.TipoPlan + 1}`} placeholder="CuotaB" className={error.Nombre && styles.inputError} onChange={HandleCuotasChange} 
+   value={cuotas[plan.TipoPlan][`CuotaACobrarA_${plan.TipoPlan + 1}`]} />
    </InputGroup>
    </Col>
    </Row>
@@ -105,15 +105,15 @@ const ModelosFormContainer = ({cuotas, input, error, HandleSubmitInsert, HandleC
     <Col>
    <InputGroup>
    <InputGroup.Text className={mStyles.inputGroupText} >Cuota 1</InputGroup.Text>
-   <Form.Control size="sm" type='number' name={`Cuota1_${plan.id + 1}`} placeholder="Cuota1" className={error.Nombre && styles.inputError} onChange={HandleChange} 
-   value={cuotas[plan.id][`Cuota1_${plan.id + 1}`]} />
+   <Form.Control size="sm" type='text' name={`Cuota1_${plan.TipoPlan + 1}`} placeholder="Cuota1" className={error.Nombre && styles.inputError} onChange={HandleCuotasChange} 
+   value={cuotas[plan.TipoPlan][`Cuota1_${plan.TipoPlan + 1}`]} />
    </InputGroup >
    </Col>
    <Col>
    <InputGroup >
    <InputGroup.Text className={mStyles.inputGroupText} >Cuota 2</InputGroup.Text>
-   <Form.Control size="sm" type='number' name={`Cuota2_${plan.id + 1}`} placeholder="Cuota2" className={error.Nombre && styles.inputError} onChange={HandleChange} 
-   value={cuotas[plan.id][`Cuota2_${plan.id + 1}`]} />
+   <Form.Control size="sm" type='text' name={`Cuota2_${plan.TipoPlan + 1}`} placeholder="Cuota2" className={error.Nombre && styles.inputError} onChange={HandleCuotasChange} 
+   value={cuotas[plan.TipoPlan][`Cuota2_${plan.TipoPlan + 1}`]} />
    </InputGroup>
    </Col>
    </Row>

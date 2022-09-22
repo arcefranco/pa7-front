@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useMemo} from "react";
+import React, {useEffect, useState, useLayoutEffect} from "react";
 import { useDispatch,  useSelector} from "react-redux";
 import { useParams } from "react-router-dom";
 import styles from '../UsuariosTable/AltaUsuarios.module.css';
@@ -25,6 +25,7 @@ const ModelosFormulario = () =>{
     const [error, setError] = useState({})
     const [input, setInput] = useState({})
     const [cuotas, setCuotas] = useState([])
+    const [updateArray, setUpdateArray] = useState([])
 
     const {modeloById, tipoPlan,  modeloStatus} = useSelector(
         (state) => state.modelos)
@@ -56,14 +57,16 @@ const ModelosFormulario = () =>{
           return () => {
               if(id){
       
-                  dispatch(endUpdate())
+                  dispatch(endUpdate({
+                    Codigo: id
+                  }))
               }
           }
       }, [])
-      
+/*       
       useEffect(() => {
         dispatch(reset())
-      },[])
+      },[]) */
       useEffect(() => {
         dispatch(getAllTipoPlan())
       },[])
@@ -77,26 +80,32 @@ const ModelosFormulario = () =>{
 
   useEffect(() => {
     
-    if(modeloStatus.length && modeloStatus[0]?.status === true){
+
+    if(modeloStatus && modeloStatus?.status === true){
         Swal.fire({
             icon: 'success',
-            title: modeloStatus[0]?.data,
+            title: modeloStatus?.data,
             showConfirmButton: false,
-            timer: 5000
+            timer: 2000
+          }).then(() => {
+            window.location.replace('/modelos')
+            
           })
-        navigate('/modelos')
         
         dispatch(reset())
-    }else if(modeloStatus.length && modeloStatus[0]?.status === false){
+
+    }else if(modeloStatus && modeloStatus?.status === false){
      Swal.fire({
             icon: 'error',
             title: 'Oops...',
             showConfirmButton: true,
             
-            text: modeloStatus[0]?.data
+            text: modeloStatus?.data
           }).then((result) => {
             if (result.isConfirmed) {
-              dispatch(endUpdate())
+              dispatch(endUpdate({
+                Codigo: id
+              }))
               window.location.reload()
               
             } 
@@ -115,8 +124,10 @@ const ModelosFormulario = () =>{
               text: modeloById.message
             }).then((result) => {
               if (result.isConfirmed) {
-                  dispatch(endUpdate())
-                window.location.replace('/Modelos')
+                  dispatch(endUpdate({
+                    Codigo: id
+                  }))
+                window.location.replace('/modelos')
                 
               } 
           })
@@ -130,62 +141,30 @@ const ModelosFormulario = () =>{
       Nombre: modeloById[0]?.Nombre, 
       Activo: modeloById[0]?.Activo,
       NacionalImportado: modeloById[0]?.NacionalImportado,
-      HechoPor: user.username
+      HechoPor: user.username,
+      CodigoMarca: user.codigoMarca,
     }]
-
-    
-      
-/*      tipoPlan?.map(plan=>{
-        inputArray.push({
-            ["CuotaTerminal_" + plan.ID]: parseInt(modeloById[0]?.["CuotaTerminal_" + plan.ID]).toFixed(2),
-            ["CuotaACobrar_" + plan.ID]: parseInt(modeloById[0]?.["CuotaACobrar_" + plan.ID]).toFixed(2),
-            ["CuotaACobrarA_" + plan.ID]: parseInt(modeloById[0]?.["CuotaACobrarA_" + plan.ID]).toFixed(2),
-            ["Cuota1_" + plan.ID]: parseInt(modeloById[0]?.["Cuota1_" + plan.ID]).toFixed(2),
-            ["Cuota2_" + plan.ID]: parseInt(modeloById[0]?.["Cuota2_" + plan.ID]).toFixed(2),
-            })
-        })
-        console.log(inputArray)
-
-        const inputFinal = useMemo(()=>inputArray) */
         
       
     useEffect(() => {
     setInput(...inputArray)
-    setCuotas(...cuotas,
+
+    setCuotas(
       tipoPlan.map(plan => {
         return {
-          ["CuotaTerminal_" + plan.ID]: parseInt(modeloById[0]?.["CuotaTerminal_" + plan.ID]).toFixed(2),
-          ["CuotaACobrar_" + plan.ID]: parseInt(modeloById[0]?.["CuotaACobrar_" + plan.ID]).toFixed(2),
-          ["CuotaACobrarA_" + plan.ID]: parseInt(modeloById[0]?.["CuotaACobrarA_" + plan.ID]).toFixed(2),
-          ["Cuota1_" + plan.ID]: parseInt(modeloById[0]?.["Cuota1_" + plan.ID]).toFixed(2),
-          ["Cuota2_" + plan.ID]: parseInt(modeloById[0]?.["Cuota2_" + plan.ID]).toFixed(2),
-          id: plan.ID - 1
+          ["CuotaTerminal_" + plan.ID]: typeof modeloById[0]?.["CuotaTerminal_" + plan.ID] === 'string' ? parseInt(modeloById[0]?.["CuotaTerminal_" + plan.ID]).toFixed(2) : parseFloat(0.00).toFixed(2),
+          ["CuotaACobrar_" + plan.ID]: typeof modeloById[0]?.["CuotaACobrar_" + plan.ID] === 'string' ? parseInt(modeloById[0]?.["CuotaACobrar_" + plan.ID]).toFixed(2) : parseFloat(0.00).toFixed(2),
+          ["CuotaACobrarA_" + plan.ID]: typeof modeloById[0]?.["CuotaACobrarA_" + plan.ID] === 'string' ? parseInt(modeloById[0]?.["CuotaACobrarA_" + plan.ID]).toFixed(2) : parseFloat(0.00).toFixed(2),
+          ["Cuota1_" + plan.ID]: typeof modeloById[0]?.["Cuota1_" + plan.ID] === 'string' ? parseInt(modeloById[0]?.["Cuota1_" + plan.ID]).toFixed(2) : parseFloat(0.00).toFixed(2),
+          ["Cuota2_" + plan.ID]: typeof modeloById[0]?.["Cuota2_" + plan.ID] === 'string' ? parseInt(modeloById[0]?.["Cuota2_" + plan.ID]).toFixed(2) : parseFloat(0.00).toFixed(2),
+          TipoPlan: plan.ID - 1,
+          Descripcion: plan.Descripcion
+          
           }
       }))
    
   }, [modeloById, tipoPlan]);
 
-
-
-  //   inputFinal.push([{
-  //     Codigo: id? id: '',
-  //   Nombre:'',
-  //   Activo: 0,
-  //   NacionalImportado:""
-  //   }])
-       
-  //   tipoPlan?.map(plan=>{
-  //     inputFinal.push({
-  //   ["CuotaTerminal_" + plan.ID]:0,
-  //   ["CuotaACobrar_" + plan.ID]:0,
-  //   ["CuotaACobrarA_" + plan.ID]:0,
-  //   ["Cuota1_" + plan.ID]:0,
-  //   ["Cuota2_" + plan.ID]:0,
-    
-  // })})
-  // // setInput(inputFinal)
-    
-  
 
  
 
@@ -195,7 +174,7 @@ const HandleChange =  (e) =>{
     
     const {name , value} = e.target
     console.log(value, name)
-    const newForm = {input,
+    const newForm = {...input,
       [name]:value,
       }
     
@@ -203,6 +182,19 @@ const HandleChange =  (e) =>{
     console.log(newForm)
     const errors = validateform(newForm);
     setError(errors);
+  }
+  const HandleCuotasChange =  (e) =>{
+
+    const {name , value} = e.target
+    let nuevasCuotas = [...cuotas]
+    let changedCuota = nuevasCuotas[parseInt(e.target.name.slice(-1)) - 1]
+    changedCuota = {...changedCuota, [name]: value}
+
+    // console.log(changedCuota)
+    nuevasCuotas[parseInt(e.target.name.slice(-1)) - 1] = changedCuota
+    setCuotas(nuevasCuotas)
+    // console.log(name, value)
+
   }
   const handleCheckChange = (e) => {
     const { name} = e.target;
@@ -215,60 +207,96 @@ const HandleChange =  (e) =>{
 /*---------------------------------HANDLE SUBMIT FUNCION INSERT---------------------------------*/
 const HandleSubmitInsert = async (event) =>{
 event.preventDefault()
+const formInput = [input, ...cuotas] 
 
-console.log(input)
-dispatch(createModelos(input, user))
-setInput(
-  tipoPlan?.map(plan=>{
-    return{
-  Codigo: id? id: '',
-  Nombre:'',
-  ["CuotaTerminal_" + plan.ID]:0.00,
-  ["CuotaACobrar_" + plan.ID]:0.00,
-  ["CuotaACobrarA_" + plan.ID]:0.00,
-  ["Cuota1_" + plan.ID]:0.00,
-  ["Cuota2_" + plan.ID]:0.00,
-  Activo: 0,
-}}))    
+tipoPlan.map(plan=>{
+  updateArray.push( {
+    CuotaTerminal: typeof formInput[plan.ID ]?.["CuotaTerminal_" + plan.ID] === 'string' ? parseInt(formInput[plan.ID ]?.["CuotaTerminal_" + plan.ID]).toFixed(2) : parseFloat(0.00).toFixed(2),
+    CuotaACobrar: typeof formInput[plan.ID ]?.["CuotaACobrar_" + plan.ID] === 'string' ? parseInt(formInput[plan.ID ]?.["CuotaACobrar_" + plan.ID]).toFixed(2) : parseFloat(0.00).toFixed(2),
+    CuotaACobrarA: typeof formInput[plan.ID ]?.["CuotaACobrarA_" + plan.ID] === 'string' ? parseInt(formInput[plan.ID ]?.["CuotaACobrarA_" + plan.ID]).toFixed(2) : parseFloat(0.00).toFixed(2),
+    Cuota1: typeof formInput[plan.ID ]?.["Cuota1_" + plan.ID] === 'string' ? parseInt(formInput[plan.ID ]?.["Cuota1_" + plan.ID]).toFixed(2) : parseFloat(0.00).toFixed(2),
+    Cuota2: typeof formInput[plan.ID ]?.["Cuota2_" + plan.ID] === 'string' ? parseInt(formInput[plan.ID ]?.["Cuota2_" + plan.ID]).toFixed(2) : parseFloat(0.00).toFixed(2),
+    TipoPlan: plan.ID - 1,
+    Descripcion: plan.Descripcion,
+    CodigoMarca: user.codigoMarca,
+    })
+}
+)
+const dataInput = [input, ...updateArray]
+
+console.log(dataInput)
+dispatch(createModelos(dataInput, user))
+// setInput(
+//   tipoPlan?.map(plan=>{
+//     return{
+//   Codigo: id? id: '',
+//   Nombre:'',
+//   ["CuotaTerminal_" + plan.ID]:0.00,
+//   ["CuotaACobrar_" + plan.ID]:0.00,
+//   ["CuotaACobrarA_" + plan.ID]:0.00,
+//   ["Cuota1_" + plan.ID]:0.00,
+//   ["Cuota2_" + plan.ID]:0.00,
+//   Activo: 0,
+// }}))    
 
 }
 
 /*---------------------------------HANDLE SUBMIT FUNCION UPDATE---------------------------------*/
 const HandleSubmitUpdate =async (event) =>{
   event.preventDefault()
-  console.log(input)
+ 
+  const formInput = [input, ...cuotas] 
+
+tipoPlan.map(plan=>{
+  updateArray.push( {
+    CuotaTerminal: typeof formInput[plan.ID ]?.["CuotaTerminal_" + plan.ID] === 'string' ? parseInt(formInput[plan.ID ]?.["CuotaTerminal_" + plan.ID]).toFixed(2) : parseFloat(0.00).toFixed(2),
+    CuotaACobrar: typeof formInput[plan.ID ]?.["CuotaACobrar_" + plan.ID] === 'string' ? parseInt(formInput[plan.ID ]?.["CuotaACobrar_" + plan.ID]).toFixed(2) : parseFloat(0.00).toFixed(2),
+    CuotaACobrarA: typeof formInput[plan.ID ]?.["CuotaACobrarA_" + plan.ID] === 'string' ? parseInt(formInput[plan.ID ]?.["CuotaACobrarA_" + plan.ID]).toFixed(2) : parseFloat(0.00).toFixed(2),
+    Cuota1: typeof formInput[plan.ID ]?.["Cuota1_" + plan.ID] === 'string' ? parseInt(formInput[plan.ID ]?.["Cuota1_" + plan.ID]).toFixed(2) : parseFloat(0.00).toFixed(2),
+    Cuota2: typeof formInput[plan.ID ]?.["Cuota2_" + plan.ID] === 'string' ? parseInt(formInput[plan.ID ]?.["Cuota2_" + plan.ID]).toFixed(2) : parseFloat(0.00).toFixed(2),
+    TipoPlan: plan.ID - 1,
+    Descripcion: plan.Descripcion,
+    CodigoMarca: user.codigoMarca,
+    })
+}
+)
+const dataInput = [input, ...updateArray]
+
+  
+  console.log(dataInput)
   
  
-  dispatch(updateModelos(input, user))
+  dispatch(updateModelos(dataInput, user))
   dispatch(reset())
-  setInput(
-    {Codigo: id? id: '',
-    Nombre:'',
-    Activo: 0,},
-    tipoPlan?.map(plan=>{
-      input.push({
+
+  // setInput(
+  //   {Codigo: id? id: '',
+  //   Nombre:'',
+  //   Activo: 0,},
+  //   tipoPlan?.map(plan=>{
+  //     input.push({
     
-    ["CuotaTerminal_" + plan.ID]:0.00,
-    ["CuotaACobrar_" + plan.ID]:0.00,
-    ["CuotaACobrarA_" + plan.ID]:0.00,
-    ["Cuota1_" + plan.ID]:0.00,
-    ["Cuota2_" + plan.ID]:0.00,
+  //   ["CuotaTerminal_" + plan.ID]:0.00,
+  //   ["CuotaACobrar_" + plan.ID]:0.00,
+  //   ["CuotaACobrarA_" + plan.ID]:0.00,
+  //   ["Cuota1_" + plan.ID]:0.00,
+  //   ["Cuota2_" + plan.ID]:0.00,
     
-  })}))    
+  // })}))    
+
 
   }
-
- const floatingLabel = {textAlign:"start", paddingTop:"0.5em", fontSize:"1.3em"}
 
 return(   
   <ModelosFormContainer 
   input={input}
   error={error}
   cuotas={cuotas}
-  handleChange={HandleChange}
-  handleCheckChange={handleCheckChange}
+  HandleChange={HandleChange}
+  HandleCheckChange={handleCheckChange}
   HandleSubmitInsert={HandleSubmitInsert}
-  HandleSubmitUpdate={HandleSubmitUpdate}/>
+  HandleSubmitUpdate={HandleSubmitUpdate}
+  HandleCuotasChange={HandleCuotasChange}/>
 )
 }
 

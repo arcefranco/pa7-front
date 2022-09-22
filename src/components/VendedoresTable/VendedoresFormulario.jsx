@@ -26,7 +26,7 @@ const VendedoresFormulario = () =>{
     const navigate = useNavigate();
     const [error, setError] = useState({})
 
-    const {vendedoresById, teamleader, teamleaderActivo, escalas, oficialesScoring, oficialesMora, oficialesScoringActivos, oficialesMoraActivos, statusNuevoVendedor} = useSelector(
+const {vendedoresById, teamleader, teamleaderActivo, escalas, oficialesScoring, oficialesMora, oficialesScoringActivos, oficialesMoraActivos, statusNuevoVendedor} = useSelector(
         (state) => state.vendedores)
         const {user } = useSelector(
           (state) => state.login)
@@ -51,14 +51,26 @@ const VendedoresFormulario = () =>{
           return errors;
         };
 
-        useEffect(() => {
-          dispatch(reset())
-          return () => {
-            if(id) {
-              dispatch(endUpdate({Codigo: id}))
-            }
-          }
-      }, [])
+
+useEffect(() => {
+  window.addEventListener("beforeunload", alertUser);
+  return () => {
+    window.removeEventListener("beforeunload", alertUser);
+  };
+}, []);
+const alertUser = (e) => {
+    e.preventDefault();
+    dispatch(endUpdate({
+      Codigo: id
+    }))
+};
+useEffect(() => {
+  dispatch(reset())
+  return () => {
+    if(id) {
+      dispatch(endUpdate({Codigo: id}))
+    }
+  }}, [])
       
 
     useEffect(() => {
@@ -236,8 +248,8 @@ const HandleSubmitUpdate =async (event) =>{
 
 return(   
     <div className={styles.container}>
-      <TitleLogo>
-            <div style={{marginTop: '1.1rem', alignSelf: 'flex-start'}}>
+      <TitleLogo style={{marginTop: '1.1rem', alignSelf: 'flex-start'}}>
+            <div>
               <span>{user.empresaReal}</span>
               <ReturnLogo empresa={user.empresaReal}/>
             </div>

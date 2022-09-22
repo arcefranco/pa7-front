@@ -40,7 +40,7 @@ const getModeloById = async(id) => {
         this[e.Codigo]['Cuota2_' + e.Codtipoplan]= parseFloat(e.Cuota2).toFixed(2)
       }
      }, {})
-     console.log(array)
+     console.log('byId', array)
     return array
 }
 
@@ -95,9 +95,11 @@ const getAllModelos = async () => {
   } 
 
   const deleteModelos = async (id) => {
-    const response = await axios.delete(process.env.REACT_APP_HOST + 'modelos',  {  headers: {
-        'x-auth-token': window.localStorage.getItem('userToken').split(" ")[1]
-      }, data: { id: id } })
+    const response = await axios.delete(process.env.REACT_APP_HOST + 'modelos',
+    {  headers: {
+      'x-auth-token': window.localStorage.getItem('userToken').split(" ")[1],
+      "db-connection": window.localStorage.getItem('db')
+    }, data: id }).catch((error) => errorsHandling(error))
     return response.data
 }
 
@@ -109,7 +111,7 @@ const updateModelos = async (ModelosData) => {
 
 const endUpdate = async (ModelosData) => {
   const headers = getHeaderToken()
-    const response = await axios.get(process.env.REACT_APP_HOST + 'modelos/endUpdate', ModelosData, headers)
+    const response = await axios.post(process.env.REACT_APP_HOST + 'modelos/endUpdate', ModelosData, headers).catch(err => console.log(err))
     return response.data
 }
 

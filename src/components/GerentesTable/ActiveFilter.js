@@ -22,6 +22,7 @@ export function ActiveFilter({column }) {
         className={styles.filter}
         onChange={e => {
           setFilter(e.target.value || null);
+          window.localStorage.removeItem("pageIndex")
         }}
       >
         <option value="">Todos</option>
@@ -58,6 +59,7 @@ export function ActiveFilter({column }) {
         onChange={e => {
           setValue(e.target.value)
           onChange(e.target.value)
+          window.localStorage.removeItem("pageIndex")
         }}
         placeholder="Buscar..."
       

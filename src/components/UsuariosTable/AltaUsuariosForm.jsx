@@ -46,7 +46,19 @@ const validateform = function (form) {
   
     return errors;
   };
-
+  
+  useEffect(() => {
+    window.addEventListener("beforeunload", alertUser);
+    return () => {
+      window.removeEventListener("beforeunload", alertUser);
+    };
+  }, []);
+  const alertUser = (e) => {
+      e.preventDefault();
+      dispatch(endUpdate({
+        Codigo: id
+      }))
+  };
   useEffect(() => {
     if(usuarioById.status === false){
         Swal.fire({
@@ -222,7 +234,7 @@ useEffect(() => {
 
     }
 
-    const floatingLabel = {textAlign:"start", paddingTop:"0.5em", fontSize:"1.3em"}
+    const floatingLabel = {textAlign:"start"}
 
     return (
         <div className={styles.container}>
@@ -232,10 +244,10 @@ useEffect(() => {
               <ReturnLogo empresa={empresaReal}/>
             </div>
             </TitleLogo>
-            <Form action="" className={styles.form} /* onSubmit={handleSubmit} */>
+            <Form action="" className={styles.form}  style={{marginTop:'2rem'}} /* onSubmit={handleSubmit} */>
             <Stack className={styles.titleContainer} direction="horizontal" gap={3}>
                 <TitlePrimary>{id?.length ? 'Modificar Usuario' : 'Alta de Usuario'}</TitlePrimary>
-                <Link className="ms-auto" style={{marginRight:"1rem", marginTop:"-1rem"}} to={'/usuarios'}><ButtonPrimary  >Volver</ButtonPrimary></Link>
+                <Link className="ms-auto" style={{marginLeft: '1rem'}} to={'/usuarios'}><ButtonPrimary  >Volver</ButtonPrimary></Link>
             </Stack>
             
 
@@ -391,13 +403,13 @@ useEffect(() => {
 
                         
                     <span >Ver sólo <br/> scoring asingado </span>
-                        <div style={{marginTop: '.5rem'}}> 
+                        <div style={{alignSelf: 'center'}}> 
                             <input name="scoringAsignado"  checked={input.scoringAsignado === 1 ? true : false} value={input.scoringAsignado} onChange={handleCheckChange} type="checkbox" />
                             
                         </div>
 
-                        <span style={{marginTop: '.5rem'}}>Activo </span>
-                        <div style={{marginTop: '.5rem'}}>
+                        <span style={{alignSelf: 'center'}}>Activo </span>
+                        <div style={{alignSelf: 'center'}}>
                             {
                                 <input type="checkbox"   name="us_activo" value={input.us_activo} checked={input.us_activo === 1 ? true : false} onChange={handleCheckChange}/>               
                             }
@@ -405,8 +417,8 @@ useEffect(() => {
 
                             
                         </div>
-                            <span style={{marginTop: '.5rem'}}>Bloqueado </span>
-                            <div style={{marginTop: '.5rem'}}>
+                            <span style={{alignSelf: 'center'}}>Bloqueado </span>
+                            <div style={{alignSelf: 'center'}}>
                                 <input name="us_bloqueado"  value={input.us_bloqueado} checked={input.us_bloqueado === 1 ? true : false} onChange={handleCheckChange} type="checkbox" />
                                 
 

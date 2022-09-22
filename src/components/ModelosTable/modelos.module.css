@@ -1,23 +1,45 @@
-td.Plan_1{
-    background:aqua
+#1{
+    background:rgba(0, 255, 255, 0.15);
+    height: 25px;
+    width: 55px;
+    line-height: 1.5rem;
+    
 }
-#Plan_2{
-    background: yellow 
+#2{
+    background: rgba(255, 255, 0, 0.15);
+    height: 25px;
+    width: 55px;
+    line-height: 1.5rem;
 }
-#Plan_3{
-    background:orange
+#3{
+    background:rgba(255, 166, 0, 0.15);
+    height: 25px;
+    width: 55px;
+    line-height: 1.5rem;
 }
-#Plan_4{
-    background:greenyellow
+#4{
+    background:rgba(172, 255, 47, 0.15);
+    height: 25px;
+    width: 55px;
+    line-height: 1.5rem;
 }
-#Plan_5{
-    background:green
+#5{
+    background:rgba(0, 128, 0, 0.15);
+    height: 25px;
+    width: 55px;
+    line-height: 1.5rem;
 }
-#Plan_6{
-    background:pink
+#6{
+    background:rgba(255, 192, 203, 0.15);
+    height: 25px;
+    width: 55px;
+    line-height: 1.5rem;
 }
-#Plan_7{
-    background:lightcoral
+#7{
+    background:rgba(240, 128, 128, 0.15);
+    height: 25px;
+    width: 55px;
+    line-height: 1.5rem;
 }
 
 .cuotasFormContainer{
@@ -63,3 +85,4 @@ td.Plan_1{
 min-width: 50em;
 min-height:30px;
 }
+
