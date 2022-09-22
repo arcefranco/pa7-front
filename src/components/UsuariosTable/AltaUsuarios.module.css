@@ -21,7 +21,11 @@
     box-shadow: 2px 2px 2px 1px #80808029;
     box-shadow: 1px;
     background-color: #ffff;
+
     width: 85%;
+
+    max-width:auto;
+
     padding:.7em;
 
 }

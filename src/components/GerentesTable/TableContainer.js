@@ -43,7 +43,7 @@ margin-top:5px;
       border-right: 0px solid black;
       font-size: .7em;
       min-width:auto;
-      max-width: 16.2rem;
+      // max-width: 16.2rem;
       height:auto;
 
 

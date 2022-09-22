@@ -14,6 +14,7 @@ export const GlobalFilter = ({filter, setFilter}) => {
         onChange={e => {
           setValue(e.target.value)
           onChange(e.target.value)
+          window.localStorage.removeItem("pageIndex")
         }} placeholder="Buscar..."></input>
         </div>
     )
