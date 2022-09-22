@@ -21,7 +21,7 @@ margin-top:5px;
       border-right: 0px solid black;
       font-size: 1.1vw;
     }
-    tr:nth-child(even){background-color: whitesmoke;}
+    tr:nth-child(even){background-color: rgb(235, 235, 235);}
     
     tr {
       height:1.8rem;
