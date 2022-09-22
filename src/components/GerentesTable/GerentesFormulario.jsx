@@ -28,19 +28,6 @@ const GerentesFormulario = () =>{
     const {gerentesById, statusNuevoGerente} = useSelector(
         (state) => state.gerentes)
 
-    useEffect(() => {
-      window.addEventListener("beforeunload", alertUser);
-      return () => {
-        window.removeEventListener("beforeunload", alertUser);
-      };
-    }, []);
-    const alertUser = (e) => {
-        e.preventDefault();
-        dispatch(endUpdate({
-          Codigo: id
-        }))
-    };
-
 
 
 

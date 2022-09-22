@@ -52,18 +52,7 @@ const {vendedoresById, teamleader, teamleaderActivo, escalas, oficialesScoring, 
         };
 
 
-useEffect(() => {
-  window.addEventListener("beforeunload", alertUser);
-  return () => {
-    window.removeEventListener("beforeunload", alertUser);
-  };
-}, []);
-const alertUser = (e) => {
-    e.preventDefault();
-    dispatch(endUpdate({
-      Codigo: id
-    }))
-};
+
 useEffect(() => {
   dispatch(reset())
   return () => {

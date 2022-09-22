@@ -47,18 +47,7 @@ const validateform = function (form) {
     return errors;
   };
   
-  useEffect(() => {
-    window.addEventListener("beforeunload", alertUser);
-    return () => {
-      window.removeEventListener("beforeunload", alertUser);
-    };
-  }, []);
-  const alertUser = (e) => {
-      e.preventDefault();
-      dispatch(endUpdate({
-        Codigo: id
-      }))
-  };
+ 
   useEffect(() => {
     if(usuarioById.status === false){
         Swal.fire({
