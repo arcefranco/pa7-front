@@ -227,7 +227,7 @@ useEffect(() => {
 
     return (
         <div className={styles.container}>
-            <TitleLogo style={{marginTop: '1.1rem', alignSelf: 'flex-start'}}>
+            <TitleLogo style={{marginTop: '0rem', top:"1em", left:"6em", position: "absolute"}}>
             <div>
               <span>{empresaReal}</span>
               <ReturnLogo empresa={empresaReal}/>

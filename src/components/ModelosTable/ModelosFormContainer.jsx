@@ -14,30 +14,40 @@ import {Link, useNavigate} from 'react-router-dom';
 import { getModeloById, createModelos, updateModelos, reset, endUpdate, getAllTipoPlan } from '../../reducers/Modelos/modelosSlice';
 import Swal from "sweetalert2";
 import mStyles from './modelos.module.css'
+import TitleLogo from "../../styled-components/containers/TitleLogo";
+import { ReturnLogo } from "../../helpers/ReturnLogo";
 
 
-const ModelosFormContainer = ({cuotas, input, error, HandleSubmitInsert, HandleChange, HandleSubmitUpdate, handleCheckChange, HandleCuotasChange}) =>{
+
+const ModelosFormContainer = ({cuotas, input, error, HandleSubmitInsert, HandleChange, HandleSubmitUpdate, HandleCheckChange, HandleCuotasChange}) =>{
     const {id} = useParams()
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const {empresaReal} = useSelector((state) => state.login.user)
     
 
 
   return(<div className={styles.container}>
+     <TitleLogo style={{marginTop: '0rem', top:"1em", left:"6em", position: "absolute"}}>
+            <div>
+              <span>{empresaReal}</span>
+              <ReturnLogo empresa={empresaReal}/>
+            </div>
+            </TitleLogo>
   {/*--------------------------------------MODELOS FORMS--------------------------------------------------  */}
   <Form action=""  className={styles.form} onSubmit={HandleSubmitInsert}>
  <Stack className={styles.titleContainer} direction="horizontal" gap={3} >
                 <TitlePrimary className={styles.title}>{id?.length ? 'Modificar Modelos' : 'Alta de Modelos'}</TitlePrimary>
-                <Link to={'/modelos'} className="ms-auto" style={{marginRight:"1rem", marginTop:"-1rem"}}><ButtonPrimary  className={styles.btn} >Volver</ButtonPrimary></Link>
+                <Link to={'/modelos'} className="ms-auto" style={{marginRight:"1rem", marginTop:".5rem"}}><ButtonPrimary  className={styles.btn} >Volver</ButtonPrimary></Link>
             </Stack>
             
 
             <div className={styles.containerInputText}>
 
-            <Row className="g-1">
+            <Row className="g-0" style={{margin: "10px", marginTop:'-.5rem', marginBottom: '-.5rem'}}>
  {id?.length  &&
  <> <Col>
-    <Form.Group  style={{marginTop:'1rem', marginBottom: '.5rem'}}>
+    <Form.Group  style={{marginTop:'.5rem', marginBottom: '.5rem'}}>
     
    <Form.Control size="sm" type="text" style={{width:"6rem"}} name="Codigo" onChange={HandleChange} value={input.Codigo} disabled />
    
@@ -54,7 +64,7 @@ const ModelosFormContainer = ({cuotas, input, error, HandleSubmitInsert, HandleC
   <span  style={{marginTop: '0rem'}}>Activo</span>
   <div style={{marginTop: '-.5rem'}}>
   
-   <input className={styles.inputCheck} type="checkbox" name="Activo" onChange={handleCheckChange} value={input.Activo} checked={input.Activo } />
+   <input className={styles.inputCheck} type="checkbox" name="Activo" onChange={HandleCheckChange} value={input.Activo} checked={input.Activo} />
    
    </div>
    </div>

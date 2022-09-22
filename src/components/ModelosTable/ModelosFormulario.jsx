@@ -18,6 +18,7 @@ import ModelosFormContainer from "./ModelosFormContainer";
 
 
 
+
 const ModelosFormulario = () =>{
     const {id} = useParams()
     const dispatch = useDispatch();
@@ -27,6 +28,7 @@ const ModelosFormulario = () =>{
     const [cuotas, setCuotas] = useState([])
     const [updateArray, setUpdateArray] = useState([])
 
+    
     const {modeloById, tipoPlan,  modeloStatus} = useSelector(
         (state) => state.modelos)
         const {user} = useSelector(
@@ -63,10 +65,6 @@ const ModelosFormulario = () =>{
               }
           }
       }, [])
-/*       
-      useEffect(() => {
-        dispatch(reset())
-      },[]) */
       useEffect(() => {
         dispatch(getAllTipoPlan())
       },[])
@@ -198,9 +196,10 @@ const HandleChange =  (e) =>{
   }
   const handleCheckChange = (e) => {
     const { name} = e.target;
-    var value = e.target.checked
-    value = e.target.checked? 1 : 0
+    var value = e.target.checked;
+    value = e.target.checked? 1 : 0;
     const newForm = { ...input, [name]: value };
+    console.log(newForm)
     setInput(newForm);
     
 };
