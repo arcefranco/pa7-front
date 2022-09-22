@@ -103,7 +103,7 @@ export const getAllModelos = createAsyncThunk('modelos/All', async (thunkAPI) =>
   export const endUpdate = createAsyncThunk('endUpdate', async (ModelosData, thunkAPI) => {
     try {
       
-      const data = await modelosService.endUpdate()
+      const data = await modelosService.endUpdate(ModelosData)
 
       return data
     } catch (error) {
@@ -211,19 +211,7 @@ export const ModelosSlice = createSlice({
             state.isError = true
             state.modeloStatus = action.payload
         })
-        .addCase(endUpdate.pending, (state) => {
-          state.isLoading = true
-      })
-        .addCase(endUpdate.fulfilled, (state, action) => {
-          state.isLoading = false
-          state.isSuccess = true
-          state.modeloStatus = action.payload
-      }) 
-        .addCase(endUpdate.rejected, (state, action) => {
-          state.isLoading = false
-          state.isError = true
-          state.modeloStatus = action.payload
-      })
+
 }})
 
 

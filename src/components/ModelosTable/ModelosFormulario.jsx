@@ -57,7 +57,9 @@ const ModelosFormulario = () =>{
           return () => {
               if(id){
       
-                  dispatch(endUpdate())
+                  dispatch(endUpdate({
+                    Codigo: id
+                  }))
               }
           }
       }, [])
@@ -78,26 +80,30 @@ const ModelosFormulario = () =>{
 
   useEffect(() => {
     
-    if(modeloStatus.length && modeloStatus[0]?.status === true){
+    if(modeloStatus && modeloStatus?.status === true){
         Swal.fire({
             icon: 'success',
-            title: modeloStatus[0]?.data,
+            title: modeloStatus?.data,
             showConfirmButton: false,
-            timer: 5000
+            timer: 2000
+          }).then(() => {
+            window.location.replace('/modelos')
+            
           })
-          window.location.replace('/modelos')
         
         dispatch(reset())
-    }else if(modeloStatus.length && modeloStatus[0]?.status === false){
+    }else if(modeloStatus && modeloStatus?.status === false){
      Swal.fire({
             icon: 'error',
             title: 'Oops...',
             showConfirmButton: true,
             
-            text: modeloStatus[0]?.data
+            text: modeloStatus?.data
           }).then((result) => {
             if (result.isConfirmed) {
-              dispatch(endUpdate())
+              dispatch(endUpdate({
+                Codigo: id
+              }))
               window.location.reload()
               
             } 
@@ -116,7 +122,9 @@ const ModelosFormulario = () =>{
               text: modeloById.message
             }).then((result) => {
               if (result.isConfirmed) {
-                  dispatch(endUpdate())
+                  dispatch(endUpdate({
+                    Codigo: id
+                  }))
                 window.location.replace('/modelos')
                 
               } 

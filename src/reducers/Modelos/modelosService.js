@@ -111,7 +111,7 @@ const updateModelos = async (ModelosData) => {
 
 const endUpdate = async (ModelosData) => {
   const headers = getHeaderToken()
-    const response = await axios.get(process.env.REACT_APP_HOST + 'modelos/endUpdate', ModelosData, headers)
+    const response = await axios.post(process.env.REACT_APP_HOST + 'modelos/endUpdate', ModelosData, headers).catch(err => console.log(err))
     return response.data
 }
 
