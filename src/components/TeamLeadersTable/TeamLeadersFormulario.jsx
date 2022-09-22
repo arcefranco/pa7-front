@@ -49,7 +49,18 @@ const TeamLeadersFormulario = () =>{
           return errors;
         };
 
-
+    useEffect(() => {
+          window.addEventListener("beforeunload", alertUser);
+          return () => {
+            window.removeEventListener("beforeunload", alertUser);
+          };
+        }, []);
+        const alertUser = (e) => {
+            e.preventDefault();
+            dispatch(endUpdate({
+              Codigo: id
+            }))
+        };
     useEffect(() => {
     Promise.all([dispatch(getAllSupervisores()), dispatch(getAllSupervisoresActivos()),dispatch(reset())])
       if(id) {  
@@ -246,7 +257,7 @@ return(
    
    </div>
    
-   <hr className={styles.hr}/>
+   
    <div className={styles.inputSelect} >
    <Row>
    {id?.length? <Col>

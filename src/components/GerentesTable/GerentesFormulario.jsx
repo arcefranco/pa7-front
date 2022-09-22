@@ -27,7 +27,23 @@ const GerentesFormulario = () =>{
     
     const {gerentesById, statusNuevoGerente} = useSelector(
         (state) => state.gerentes)
-        
+
+    useEffect(() => {
+      window.addEventListener("beforeunload", alertUser);
+      return () => {
+        window.removeEventListener("beforeunload", alertUser);
+      };
+    }, []);
+    const alertUser = (e) => {
+        e.preventDefault();
+        dispatch(endUpdate({
+          Codigo: id
+        }))
+    };
+
+
+
+
     useEffect(() => {
       Promise.all([dispatch(reset())]);
     if(id) {  
@@ -181,7 +197,7 @@ const HandleSubmitUpdate =async (event) =>{
   
   }
 
- const floatingLabel = {textAlign:"start", paddingTop:"0.5em", fontSize:"1.3em"}
+ const floatingLabel = {textAlign:"start"}
 
 return(   
     <div className={styles.container}>
@@ -195,13 +211,13 @@ return(
  <Form action=""  className={styles.form} onSubmit={HandleSubmitInsert}>
  <Stack className={styles.titleContainer} direction="horizontal" gap={3}>
                 <TitlePrimary className={styles.title}>{id?.length ? 'Modificar Gerente' : 'Alta de Gerente'}</TitlePrimary>
-                <Link className="ms-auto" style={{marginRight:"1rem", marginTop:"-1rem"}} to={'/gerentes'}><ButtonPrimary  className={styles.btn} >Volver</ButtonPrimary></Link>
+                <Link to={'/gerentes'}><ButtonPrimary  className={styles.btn} >Volver</ButtonPrimary></Link>
             </Stack >
-            <div className={styles.containerInputText}>
+            <div className={styles.containerInputText} >
             <Row>
  {id?.length  &&
  <>
-    <Form.Group as={Col} style={{marginTop:'1rem', marginBottom: '.5rem'}}>
+    <Form.Group as={Col} >
     <FloatingLabel
     controlId="floatingInputGrid"
     label="Código"
@@ -210,7 +226,7 @@ return(
    <Form.Control size="sm" type="text" style={{width:"6rem"}} name="Codigo" onChange={HandleChange} value={input.Codigo} disabled />
    </FloatingLabel>
    </Form.Group></>}
-   <Form.Group as={Col} style={{marginTop:'1rem', marginBottom: '.5rem'}}>
+   <Form.Group as={Col} >
    <FloatingLabel
     controlId="floatingInputGrid"
     label="Nombre"
@@ -221,10 +237,10 @@ return(
    {error.Nombre && <div className={styles.error}>{error.Nombre}</div>}
    </FloatingLabel>
    </Form.Group>
-   <Form.Group as={Col} style={{marginTop:'1rem', marginBottom: '.5rem'}}>
-   <div className={styles.inputCheck}>
-   <span style={{marginTop: '-.2rem'}}>Activo</span>
-   <div style={{marginTop: '0rem'}}>
+   <Form.Group as={Col}>
+   <div className={styles.inputCheck} style={{alignItems: 'flex-start'}}>
+   <span>Activo</span>
+   <div>
    
    <input type="checkbox" name="Activo" onChange={handleCheckChange} value={input.Activo} checked={input.Activo}/>
    </div>

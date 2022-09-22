@@ -27,6 +27,21 @@ const [input, setInput] = useState({
     Nombre: '',
     UsuarioAltaRegistro: ''
 })
+
+useEffect(() => {
+    window.addEventListener("beforeunload", alertUser);
+    return () => {
+      window.removeEventListener("beforeunload", alertUser);
+    };
+  }, []);
+  const alertUser = (e) => {
+      e.preventDefault();
+      dispatch(endUpdate({
+        Codigo: id
+      }))
+  };
+
+
 useEffect(() => {
     if(sucursalStatus && sucursalStatus.status === true){
         Swal.fire({
@@ -130,7 +145,7 @@ const handleSubmit = async (e) => {
 
     })
 }
-  const floatingLabel = {textAlign:"start", paddingTop:"0.5em", fontSize:"1.3em"}
+  const floatingLabel = {textAlign:"start"}
   return (
     <div className={styles.container}>
             <TitleLogo style={{marginTop: '1.1rem', alignSelf: 'flex-start'}}>
@@ -142,22 +157,23 @@ const handleSubmit = async (e) => {
     <Form action="" className={styles.form}>
     <Stack className={styles.titleContainer} direction="horizontal" gap={3}>
         <TitlePrimary>{id?.length ? 'Modificar Sucursal' : 'Alta de Sucursal'}</TitlePrimary>
-        <Link className="ms-auto" style={{marginRight:"1rem", marginTop:"-1rem"}} to={'/sucursales'}><ButtonPrimary>Volver</ButtonPrimary></Link>
+        <Link to={'/sucursales'}><ButtonPrimary>Volver</ButtonPrimary></Link>
     </Stack>
     
 
-        <div className={styles.containerInputText}>
+        <div style={{display: 'grid',
+    gridTemplateColumns: '1fr 1fr', columnGap: '1rem', height: '5rem', alignItems: 'center'}}>
             
 
         <Row className="g-2">
                 
-                    <Form.Group as={Col} style={{marginTop:'.5rem', marginBottom: '.2rem'}}>
+                    <Form.Group as={Col} style={{ marginBottom: '.2rem'}}>
                     <FloatingLabel
                         controlId="floatingInputGrid"
                         label="Nombre"
                         style={floatingLabel}
                     >
-                    <Form.Control size="sm" type="text" value={input.Nombre} name="Nombre" placeholder="Nombre" onChange={handleChange} required />
+                    <Form.Control style={{ height: '2.7rem'}} size="sm" type="text" value={input.Nombre} name="Nombre" placeholder="Nombre" onChange={handleChange} required />
                     </FloatingLabel>
                     </Form.Group>
                     </Row>
@@ -165,13 +181,13 @@ const handleSubmit = async (e) => {
                     {
                         !id &&
                 <Row className="g-2">
-                <Form.Group as={Col} style={{marginTop:'.5rem', marginBottom: '.2rem'}}>
+                <Form.Group as={Col} style={{ marginBottom: '.2rem'}}>
                 <FloatingLabel
                     controlId="floatingInputGrid"
                     label="Usuario Alta Registro"
                     style={floatingLabel}
                 >
-                <Form.Control size="sm" type="text" value={input.UsuarioAltaRegistro} name="UsuarioAltaRegistro" placeholder="Usuario Alta Registro" onChange={handleChange} required />
+                <Form.Control size="sm" style={{ height: '2.7rem'}} type="text" value={input.UsuarioAltaRegistro} name="UsuarioAltaRegistro" placeholder="Usuario Alta Registro" onChange={handleChange} required />
                 </FloatingLabel>
                 </Form.Group>
                 </Row> 
@@ -183,7 +199,7 @@ const handleSubmit = async (e) => {
                     <ButtonPrimary type="submit" style={{ marginBottom:'.4rem'}}  onClick={(e) => handleUpdate(e)}><FcApproval/>Actualizar</ButtonPrimary> 
                     :(
                       
-                         <ButtonPrimary onClick={handleSubmit}  style={{ marginBottom:'.4rem'}} type="submit" ><FcApproval/>Enviar</ButtonPrimary> 
+                         <ButtonPrimary onClick={handleSubmit}  style={{ marginBottom:'.4rem', marginTop:'.4rem'}} type="submit" >Enviar</ButtonPrimary> 
                        
                     )
                 }

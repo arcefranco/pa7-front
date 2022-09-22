@@ -31,7 +31,19 @@ const [input, setInput] = useState({
     Activo: 0,
     HN: 0
 })
-
+useEffect(() => {
+  window.addEventListener("beforeunload", alertUser);
+  return () => {
+    window.removeEventListener("beforeunload", alertUser);
+  };
+}, []);
+const alertUser = (e) => {
+    e.preventDefault();
+    dispatch(endUpdate({
+      categoria: oficialCategoria,
+      Codigo: id
+    }))
+};
 useEffect(() => {
     if(id) {  
         dispatch(getOficialById({categoria: oficialCategoria, Codigo: id}))
