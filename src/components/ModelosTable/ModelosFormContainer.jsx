@@ -24,7 +24,8 @@ const ModelosFormContainer = ({cuotas, input, error, HandleSubmitInsert, HandleC
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const {empresaReal} = useSelector((state) => state.login.user)
-    
+    const {modeloById, tipoPlan,  modeloStatus} = useSelector(
+      (state) => state.modelos)
 
 
   return(<div className={styles.container}>
@@ -45,7 +46,7 @@ const ModelosFormContainer = ({cuotas, input, error, HandleSubmitInsert, HandleC
             <div className={styles.containerInputText}>
 
             <Row className="g-0" style={{margin: "10px", marginTop:'-.5rem', marginBottom: '-.5rem'}}>
- {id?.length  &&
+ {modeloById &&
  <> <Col>
     <Form.Group  style={{marginTop:'.5rem', marginBottom: '.5rem'}}>
     
