@@ -6,9 +6,11 @@ import getHeaderDB from '../../helpers/getHeaderDB';
 
 
 const getModeloById = async(id) => {
-  const headers = getHeaderDB()
+  const headers = getHeaderToken()
 
     const response = await axios.post(process.env.REACT_APP_HOST + 'modelos/id',  {Codigo:id}, headers).catch((error) => errorsHandling(error))
+    
+    if(response.data[0].status === false) return response.data[0]
     const modelos = response.data
     const array = [];
  
@@ -40,7 +42,6 @@ const getModeloById = async(id) => {
         this[e.Codigo]['Cuota2_' + e.Codtipoplan]= parseFloat(e.Cuota2).toFixed(2)
       }
      }, {})
-     console.log('byId', array)
     return array
 }
 

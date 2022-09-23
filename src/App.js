@@ -22,13 +22,14 @@ import ModelosTable from './components/ModelosTable/ModelosTable';
 import ModelosFormulario from './components/ModelosTable/ModelosFormulario';
 
 import SucursalesTable from './components/SucursalesTable/SucursalesTable';
-
+import PuntosTable from './components/PuntosDeVenta/PuntosTable';
 import TeamLeadersTable from './components/TeamLeadersTable/TeamLeadersTable';
 import TeamLeadersFormulario from './components/TeamLeadersTable/TeamLeadersFormulario';
 import VendedoresTable from './components/VendedoresTable/VendedoresTable';
 import VendedoresFormulario from './components/VendedoresTable/VendedoresFormulario';
 import OficialesTable from './components/Oficiales/OficialesTable';
 import OficialesForm from './components/Oficiales/OficialesForm';
+import PuntosForm from './components/PuntosDeVenta/PuntosForm';
 
 function App() {
   const {user, toggle} = useSelector(
@@ -94,6 +95,9 @@ function App() {
           <Route path="/sucursales" element={<SucursalesTable/>}/>
           <Route path='/modifSucursales/:id' element={<AltaSucursalesForm/>}/>
           <Route path='/altaSucursal' element={<AltaSucursalesForm/>}/>
+          <Route path="/puntosDeVenta" element={<PuntosTable/>}/>
+          <Route path='/modifPunto/:id' element={<PuntosForm/>}/>
+          <Route path='/altaPunto' element={<PuntosForm/>}/>
           <Route path='/roles' element={<RolesForm/>}/>
           <Route path='/copyRoles' element={<CopyRoles/>}/>
           <Route path='/oficiales' element={<OficialesTable/>}/>
