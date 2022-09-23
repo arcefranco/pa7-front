@@ -170,7 +170,7 @@ export const ModelosSlice = createSlice({
           .addCase(getModeloById.rejected, (state, action) => {
             state.isLoading = false
             state.isError = true
-            state.message = action.payload
+            state.modeloById = action.payload
         })
         .addCase(deleteModelos.pending, (state) => {
             state.isLoading = true

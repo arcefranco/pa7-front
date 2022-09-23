@@ -110,16 +110,15 @@ const ModelosFormulario = () =>{
         })
           
     }}, [modeloStatus])
-
+ 
     useEffect(() => {
 
       if(modeloById && modeloById.status === false){
           Swal.fire({
               icon: 'error',
-              title: 'Tiempo de espera excedido',
+              title: modeloById.message,
               showConfirmButton: true,
-              
-              text: modeloById.message
+
             }).then((result) => {
               if (result.isConfirmed) {
                   dispatch(endUpdate({
@@ -131,12 +130,12 @@ const ModelosFormulario = () =>{
           })
       }
   
-    }, [modeloById])
+    }, [modeloById]) 
 
     
   
     const inputArray =  [{ Codigo: id? id : null,
-      Nombre: modeloById[0]?.Nombre, 
+      Nombre: modeloById[0]?.Nombre ? modeloById[0]?.Nombre : null, 
       Activo: modeloById[0]?.Activo,
       NacionalImportado: modeloById[0]?.NacionalImportado,
       HechoPor: user.username,
@@ -225,18 +224,7 @@ const dataInput = [input, ...updateArray]
 
 console.log(dataInput)
 dispatch(createModelos(dataInput, user))
-// setInput(
-//   tipoPlan?.map(plan=>{
-//     return{
-//   Codigo: id? id: '',
-//   Nombre:'',
-//   ["CuotaTerminal_" + plan.ID]:0.00,
-//   ["CuotaACobrar_" + plan.ID]:0.00,
-//   ["CuotaACobrarA_" + plan.ID]:0.00,
-//   ["Cuota1_" + plan.ID]:0.00,
-//   ["Cuota2_" + plan.ID]:0.00,
-//   Activo: 0,
-// }}))    
+
 
 }
 
@@ -262,27 +250,11 @@ tipoPlan.map(plan=>{
 const dataInput = [input, ...updateArray]
 
   
-  console.log(dataInput)
+  console.log('esto es dataInput', dataInput)
   
  
   dispatch(updateModelos(dataInput, user))
   dispatch(reset())
-
-  // setInput(
-  //   {Codigo: id? id: '',
-  //   Nombre:'',
-  //   Activo: 0,},
-  //   tipoPlan?.map(plan=>{
-  //     input.push({
-    
-  //   ["CuotaTerminal_" + plan.ID]:0.00,
-  //   ["CuotaACobrar_" + plan.ID]:0.00,
-  //   ["CuotaACobrarA_" + plan.ID]:0.00,
-  //   ["Cuota1_" + plan.ID]:0.00,
-  //   ["Cuota2_" + plan.ID]:0.00,
-    
-  // })}))    
-
 
   }
 
