@@ -53,7 +53,7 @@ export function ActiveFilter({column }) {
     return (
       <input
         type="text" 
-        style={{height:"17px", border: "groove"}}
+        style={{height:"17px"}}
         className={styles.search}
         value={value || ''}
         onChange={e => {

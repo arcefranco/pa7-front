@@ -51,7 +51,6 @@ const {globalFilter} = state
   <div className={styles.title}>
       <span className={styles.titleContainer}>
         <h3>Modelos</h3>
-      <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}/>
       <div className={styles.buttonContainer}>
       {rolAltayModif ?
        <><Link to={'/altaModelos'}><button>Nuevo</button></Link>

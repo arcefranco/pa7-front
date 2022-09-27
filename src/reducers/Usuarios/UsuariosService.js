@@ -53,8 +53,10 @@ const addRol = async (rolData) => {
 }
 
 const deleteRol = async (rolData) => {
-    const headers = getHeaderDB()
-    const response = await axios.delete(process.env.REACT_APP_HOST + 'roles',  { data: rolData }, headers).catch((error) => errorsHandling(error))
+    const response = await axios.delete(process.env.REACT_APP_HOST + 'roles',{  headers: {
+        'x-auth-token': window.localStorage.getItem('userToken').split(" ")[1],
+        "db-connection": window.localStorage.getItem('db')
+      }, data:  rolData  }).catch((error) => errorsHandling(error))
     return response.data
 }
 

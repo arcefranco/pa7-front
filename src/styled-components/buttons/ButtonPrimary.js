@@ -8,8 +8,7 @@ export default styled.button`
     box-shadow: none;
     min-width:4.5em;
     color: white;
-    font-weight:600;
-    font-size: 1.15em;
+    font-size: 1em;
    
    
    

@@ -223,7 +223,7 @@ useEffect(() => {
 
     }
 
-    const floatingLabel = {textAlign:"start"}
+    const floatingLabel = {textAlign:"start", paddingTop: '0.5rem'}
 
     return (
         <div className={styles.container}>

@@ -199,7 +199,7 @@ const HandleSubmitUpdate =async (event) =>{
 
   }
 
- const floatingLabel = {textAlign:"start", paddingTop:"0.5em", fontSize:"1.3em"}
+ const floatingLabel = {textAlign:"start", paddingTop:"0.5em"}
 
 return(   
     <div className={styles.container}>

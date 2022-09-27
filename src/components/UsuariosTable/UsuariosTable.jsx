@@ -4,7 +4,8 @@ import { deleteUsuario, getAllUsuarios, reset } from '../../reducers/Usuarios/Us
 import TableContainer from '../GerentesTable/TableContainer';
 import { Link, useNavigate } from 'react-router-dom';
 import * as BiIcons from 'react-icons/bi';
-import { useTable, useSortBy, usePagination, useGlobalFilter} from 'react-table';
+import { useTable, useSortBy, usePagination, useGlobalFilter, useFilters} from 'react-table';
+import {ActiveFilter, SearchFilter} from '../GerentesTable/ActiveFilter'
 import styles from '../GerentesTable/Gerentes.module.css';
 import Swal from 'sweetalert2';
 import { ExportCSV } from '../../helpers/exportCSV';
@@ -61,6 +62,7 @@ const { toggle } = useSelector(
     () => [
       {
         Header: "Código",
+        ShortHeader: 'Código',
         accessor: "ID",
         Cell: ({ value }) => <strong>{value}</strong>,
         Filter: false
@@ -69,52 +71,63 @@ const { toggle } = useSelector(
       {
         Header: "Usuario",
         accessor: "Usuario",
-        Filter: false
+        ShortHeader: 'Usuario',
+        Filter: SearchFilter
       },
       {
         Header: "Nombre",
         accessor: "Nombre",
-        Filter: false
+        ShortHeader: 'Nombre',
+        Filter: SearchFilter
       },
       {
         Header: "Vendedor",
         accessor: "Vendedor",
-        Filter: false
+        ShortHeader: 'Vendedor',
+        Filter: SearchFilter
+
       },
       {
         Header: "Team Leader",
         accessor: "Team Leader",
-        Filter: false
+        ShortHeader: 'Team Leader',
+        Filter: SearchFilter
       },
       {
         Header: "Supervisor",
         accessor: "Supervisor",
-        Filter: false
+        ShortHeader: 'Supervisor',
+        Filter: SearchFilter
       },
       {
         Header: "Email",
         accessor: "email",
-        Filter: false
+        ShortHeader: 'Email',
+        Filter: SearchFilter
       },
       {
         Header: "Gerente",
         accessor: "Gerente",
-        Filter: false
-      },
+        ShortHeader: 'Gerente',
+        Filter: SearchFilter
+      },    
       {
         Header: "User Anura",
         accessor: "UsuarioAnura",
+        ShortHeader: 'User Anura',
         Filter: false
       },
       {
         Header: "Scoring",
         accessor: "VerSoloScoringAsignado",
+        ShortHeader: 'Scoring',
         Cell: ({ value }) => <strong>{value === 0 ? 'No' : 'Si'}</strong>,
         Filter: false
       },
       {
         Header: "Bloqueado",
         accessor: "us_bloqueado",
+        ShortHeader: 'Bloqueado',
         Cell: ({ value }) => <strong>{value === 0 ? 'No' : 'Si'}</strong>,
         Filter: false
       },
@@ -123,6 +136,7 @@ const { toggle } = useSelector(
       {
         Header: "Activo",
         accessor: "us_activo",
+        ShortHeader: 'Activo',
         Cell: ({ value }) => <strong>{value === 0 ? 'No' : 'Si'}</strong>,
         Filter: false
         
@@ -132,7 +146,7 @@ const { toggle } = useSelector(
         accessor: "ID",
         id: 'modify',
         Cell: (value) => ( rolAltayModif ? 
-        <button style={{background:"burlywood"}} className={styles.buttonRows} onClick={(()=> navigate(`/modifUsuarios/${value.value}`))}>Modificar</button> :
+        <button style={{background:'#3dc254bf'}} className={styles.buttonRows} onClick={(()=> navigate(`/modifUsuarios/${value.value}`))}>Modificar</button> :
         <button style={{background:"silver"}} className={styles.buttonRows} disabled>Modificar</button>
         ),
         Filter: false
@@ -175,7 +189,7 @@ const { toggle } = useSelector(
     setGlobalFilter,
     prepareRow,
   } =
-    useTable({ columns: columns, data: usuarios, initialState:{pageSize:15, pageIndex:JSON.parse(localStorage.getItem('pageIndex'))} }, useGlobalFilter, 
+    useTable({ columns: columns, data: usuarios, initialState:{pageSize:15, pageIndex:JSON.parse(localStorage.getItem('pageIndex'))} }, useGlobalFilter, useFilters, 
         useSortBy, usePagination,
         );
         const {pageIndex, pageSize} = state
@@ -197,7 +211,6 @@ const {globalFilter} = state
         </div>
         <TitlePrimary>Usuarios</TitlePrimary>
         </TitleLogo>
-      <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}/>
       <div className={styles.buttonContainer}>
       {rolAltayModif ?
        <><Link to={'/altaUsuarios'}><button>Nuevo</button></Link>
@@ -215,11 +228,14 @@ const {globalFilter} = state
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
                 
-                <th {...column.getHeaderProps(column.getSortByToggleProps())}>{column.render("Header")}
-                <span>
-                  {column.isSorted ? (column.isSortedDesc ? <BiIcons.BiDownArrow/> : <BiIcons.BiUpArrow/>) : ''}
-                </span>
-                <div>{column.canFilter ? column.render('Filter') : null}</div>
+                <th >
+                <div {...column.getHeaderProps(column.getSortByToggleProps())}>
+                 
+                  <span >{column.isSorted? (column.isSortedDesc? column.render("ShortHeader") +' ▼' : column.render("ShortHeader")+ '▲'  ): column.render("Header")}</span>
+                
+                {/* {column.canFilter? <div>O</div> : null} */}</div>
+                <div style={{display:"flex"}}>{column.canFilter ? column.render('Filter') : null}</div>
+                
                 </th>
                
               ))}

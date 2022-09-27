@@ -52,7 +52,7 @@ const TableAsignacion = () => {
                 accessor: "Codigo",
                 id: 'modify',
                 Cell: (value) => ( rolAltayModif ? 
-                <button style={{background:"burlywood"}} className={styles.buttonRows}  onClick={(()=> navigate(`/modifOficiales/Asignacion/${value.value}`))} >Modificar</button> :
+                <button style={{background:'#3dc254bf'}} className={styles.buttonRows}  onClick={(()=> navigate(`/modifOficiales/Asignacion/${value.value}`))} >Modificar</button> :
                 <button style={{background:"silver"}} className={styles.buttonRows} disabled>Modificar</button>
                 ),
                 Filter: false

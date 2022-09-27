@@ -31,6 +31,7 @@ import OficialesTable from './components/Oficiales/OficialesTable';
 import OficialesForm from './components/Oficiales/OficialesForm';
 import PuntosForm from './components/PuntosDeVenta/PuntosForm';
 import Estructura from './components/EstructuraComercial/Estructura';
+import Error404 from './pages/Error404';
 
 function App() {
   const {user, toggle} = useSelector(
@@ -52,7 +53,8 @@ function App() {
           <div style={{
          width: '100%',
          opacity: 0.5,
-         position: 'absolute',
+         position: 'fixed',
+         height: '100vh',
          zIndex: toggle ? 1 : -1,
          backgroundColor: 'black',
          display: !toggle && 'none',
@@ -105,6 +107,7 @@ function App() {
           <Route path='/permission' element={<NotPermission/>}/>
           <Route path='/480' element={<ErrorDB/>}></Route>
           <Route path='/Estructura' element={<Estructura/>}/>
+          <Route path='/404' element={<Error404/>}/>
         </Routes> 
         </div>
        
