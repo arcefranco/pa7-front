@@ -10,7 +10,6 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Stack from 'react-bootstrap/Stack';
 import InputGroup from 'react-bootstrap/InputGroup';
-import validateEmail from "../../helpers/validateEmail";
 import {Link, useNavigate} from 'react-router-dom';
 import { getSupervisoresById, postSupervisores, updateSupervisores,getAllGerentes,getAllGerentesActivos,getAllZonas, reset, endUpdate } from '../../reducers/Supervisores/supervisoresSlice';
 import Swal from "sweetalert2";
@@ -33,7 +32,11 @@ const SupervisoresFormulario = () =>{
       
           if(!form.Nombre){
               errors.Nombre = "Campo requerido"
-          }   
+          } 
+          
+          if(!form.Email){
+            errors.Email = 'Campo requerido'
+          }
           // if (form.password !== form.confirmPassword) {
           //   errors.contrasenaConfirm = "Las contraseñas deben coincidir";
           // }
@@ -272,9 +275,9 @@ return(
     label="Email"
     style={floatingLabel}
     >
-   <Form.Control size="sm" type="text" placeholder="Email"  className={error.email && styles.inputError} name="Email" onChange={HandleChange} 
+   <Form.Control size="sm" type="text" placeholder="Email"  className={error.Email && styles.inputError} name="Email" onChange={HandleChange} 
    value={input.Email} />
-  {/*  {error.email && <div className={styles.error}>{error.email}</div>} */}
+    {error.Email && <div className={styles.error}>{error.Email}</div>} 
    </FloatingLabel>
    </Form.Group>
    <Form.Group as={Col} style={{marginTop:'.5rem', marginBottom: '.2rem'}}>
