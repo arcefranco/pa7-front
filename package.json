@@ -26,6 +26,7 @@
     "react-table-filter": "^2.0.2",
     "react-tooltip": "^4.2.21",
     "redux": "^4.2.0",
+    "rsuite": "^5.19.0",
     "styled-components": "^5.3.5",
     "sweetalert2": "^11.4.23",
     "web-vitals": "^2.1.4",
