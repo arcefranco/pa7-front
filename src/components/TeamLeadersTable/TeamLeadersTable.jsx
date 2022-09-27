@@ -86,7 +86,7 @@ useEffect(() => {
     () => [
       {
         Header: "Código",
-        ShortHeader:"Codigo",
+        ShortHeader:"Código",
         accessor: "Codigo",
         Cell: ({ value }) => <div style={{ textIndent: "20px" }}><strong  >{value}</strong></div>,
         Filter: ActiveFilter,
@@ -125,7 +125,7 @@ useEffect(() => {
         id:'Modificar',
         disableSortBy: true,
         Filter: false,
-        Cell: (value) => (rolModificar ? <button  style={{background:"burlywood"}} onClick=  {(()=> navigate(`/modificarTeamLeaders/${value.value}`))}
+        Cell: (value) => (rolModificar ? <button  style={{background:'#3dc254bf'}} onClick=  {(()=> navigate(`/modificarTeamLeaders/${value.value}`))}
         className={styles.buttonRows} >Modificar</button>:
         <button style={{background:"silver"}} className={styles.buttonRows} disabled>Modificar</button>),
               },
@@ -196,7 +196,7 @@ useEffect(() => {
         </div>
         <TitlePrimary>Team Leader</TitlePrimary>
         </TitleLogo>
-          <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}/>
+
 
           <div className={styles.buttonContainer}>
           { rolAlta ? 

@@ -1,13 +1,12 @@
 import React, {useEffect, useMemo, useState, useRef} from 'react'
 import { useSelector, useDispatch} from 'react-redux'
-import { deleteVendedores, getVendedores, getVendedoresById, postVendedores, updateVendedores, reset } from '../../reducers/Vendedores/vendedoresSlice.js'
+import { deleteVendedores, getVendedores, reset } from '../../reducers/Vendedores/vendedoresSlice.js'
 import TableContainer from '../GerentesTable/TableContainer'
 import { useFilters, usePagination,useSortBy, useGlobalFilter} from 'react-table'
 import {ActiveFilter, SearchFilter} from '../GerentesTable/ActiveFilter'
-import { GlobalFilter } from '../UsuariosTable/GlobalFilter';
 import { useTable } from 'react-table'
 import styles from '../GerentesTable/Gerentes.module.css'
-import {Link, useNavigate} from 'react-router-dom'
+import { useNavigate} from 'react-router-dom'
 import Swal from 'sweetalert2';
 import { ExportCSV } from '../../helpers/exportCSV';
 import TitleLogo from '../../styled-components/containers/TitleLogo.js'
@@ -151,7 +150,7 @@ useEffect(() => {
         id:'Modificar',
         disableSortBy: true,
         Filter: false,
-        Cell: (value) => (rolModificar ? <button  style={{background:"burlywood"}} onClick=  {(()=> navigate(`/modificarVendedores/${value.value}`))}
+        Cell: (value) => (rolModificar ? <button  style={{background:'#3dc254bf'}} onClick=  {(()=> navigate(`/modificarVendedores/${value.value}`))}
         className={styles.buttonRows} >Modificar</button>:
         <button style={{background:"silver"}} className={styles.buttonRows} disabled>Modificar</button>),
               },
@@ -222,7 +221,6 @@ useEffect(() => {
         </div>
         <TitlePrimary>Vendedores</TitlePrimary>
         </TitleLogo>
-          <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}/>
 
           <div className={styles.buttonContainer}>
           { rolAlta ? 

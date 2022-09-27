@@ -38,11 +38,6 @@ const SupervisoresFormulario = () =>{
           //   errors.contrasenaConfirm = "Las contraseñas deben coincidir";
           // }
         
-          if (!form.Email) {
-            errors.email = "Campo requerido";
-          } else if (!validateEmail(form.Email)) {
-            errors.email = "Escriba un email válido";
-          }
       
         
           return errors;
@@ -224,7 +219,7 @@ const HandleSubmitUpdate =async (event) =>{
 
   }
 
- const floatingLabel = {textAlign:"start", paddingTop:"0.5em", fontSize:"1.3em"}
+ const floatingLabel = {textAlign:"start", paddingTop:"0.5em"}
 
 return(   
     <div className={styles.container}>
@@ -248,7 +243,7 @@ return(
 
             <Row className="g-1">
  {id?.length  &&
- <><Form.Group as={Col} style={{marginTop:'1rem', marginBottom: '.5rem'}}>
+ <><Form.Group as={Col} style={{marginTop:'.5rem', marginBottom: '.2rem'}}>
     <FloatingLabel
     controlId="floatingInputGrid"
     label="Código"
@@ -258,7 +253,7 @@ return(
    </FloatingLabel>
    </Form.Group></>}
    
-   <Form.Group as={Col} style={{marginTop:'1rem', marginBottom: '.5rem'}}>
+   <Form.Group as={Col} style={{marginTop:'.5rem', marginBottom: '.2rem'}}>
    <FloatingLabel
     controlId="floatingInputGrid"
     label="Nombre"
@@ -271,18 +266,18 @@ return(
    </Form.Group>
    </Row>
    <Row className='g-2'>
-   <Form.Group as={Col} style={{marginTop:'1rem', marginBottom: '.5rem'}}>
+   <Form.Group as={Col} style={{marginTop:'.5rem', marginBottom: '.2rem'}}>
    <FloatingLabel
     controlId="floatingInputGrid"
     label="Email"
     style={floatingLabel}
     >
-   <Form.Control size="sm" type="email" placeholder="Email"  className={error.email && styles.inputError} name="Email" onChange={HandleChange} 
-   value={input.Email} required />
-   {error.email && <div className={styles.error}>{error.email}</div>}
+   <Form.Control size="sm" type="text" placeholder="Email"  className={error.email && styles.inputError} name="Email" onChange={HandleChange} 
+   value={input.Email} />
+  {/*  {error.email && <div className={styles.error}>{error.email}</div>} */}
    </FloatingLabel>
    </Form.Group>
-   <Form.Group as={Col} style={{marginTop:'1rem', marginBottom: '.5rem'}}>
+   <Form.Group as={Col} style={{marginTop:'.5rem', marginBottom: '.2rem'}}>
    <FloatingLabel
     controlId="floatingInputGrid"
     label="Valor Promedio Móvil"

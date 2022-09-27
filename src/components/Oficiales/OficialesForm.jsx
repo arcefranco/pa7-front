@@ -189,7 +189,7 @@ if(e.target.checked){
 
 
 
-  const floatingLabel = {textAlign:"start", padding:"0.5em", fontSize:"1.3em", width: '17rem', marginTop: '1rem' }
+  const floatingLabel = {textAlign:"start", padding:"0.5em", width: '17rem', marginTop: '1rem' }
   return (
     <div className={styles.container}>
             <TitleLogo style={{marginTop: '1.1rem', alignSelf: 'flex-start'}}>
@@ -198,7 +198,7 @@ if(e.target.checked){
               <ReturnLogo empresa={empresaReal}/>
             </div>
             </TitleLogo>
-    <Form action="" className={styles.form}>
+    <Form action="" className={styles.form} style={{minWidth: '35rem'}}>
     <Stack className={styles.titleContainer} direction="horizontal" gap={3}>
         <TitlePrimary>{id?.length ? 'Modificar Oficial' : `Alta Oficiales (${categoria})`}</TitlePrimary>
         

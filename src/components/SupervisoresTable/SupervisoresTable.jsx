@@ -128,7 +128,7 @@ useEffect(() => {
         ShortHeader: "V. Promedio...",
         accessor: "ValorPromedioMovil",
         Cell: ({ value }) => <div style={{  textAlign:"end", marginRight:"3rem"}}>{value}</div>,
-        Filter: <div className={styles.filter} style={{border:'none', paddingTop:"1.56em"}} ></div>,
+        Filter: false,
       },
       
       {
@@ -153,7 +153,7 @@ useEffect(() => {
         id:'Modificar',
         disableSortBy: true,
         Filter: false,
-        Cell: (value) => (rolModificar ? <button  style={{background:"burlywood"}} onClick={()=>(console.log(pageIndex), navigate(`/modificarSupervisores/${value.value}`))}
+        Cell: (value) => (rolModificar ? <button  style={{background:'#3dc254bf'}} onClick={()=>(console.log(pageIndex), navigate(`/modificarSupervisores/${value.value}`))}
         className={styles.buttonRows} >Modificar</button>:
         <button style={{background:"silver"}} className={styles.buttonRows} disabled>Modificar</button>),
               },
@@ -228,7 +228,6 @@ useEffect(() => {
         </div>
         <TitlePrimary>Supervisores</TitlePrimary>
         </TitleLogo>
-          <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}/>
 
           <div className={styles.buttonContainer}>
           { rolAlta ? 
@@ -251,7 +250,7 @@ useEffect(() => {
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
-                <th >
+                <th>
                 <div {...column.getHeaderProps(column.getSortByToggleProps())}>
                  
                   <span >{column.isSorted? (column.isSortedDesc? column.render("ShortHeader") +' ▼' : column.render("ShortHeader")+ '▲'  ): column.render("Header")}</span>

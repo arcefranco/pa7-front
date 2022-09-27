@@ -31,8 +31,8 @@ const OficialesTable = () => {
 
         const {roles, empresaReal} = useSelector((state) => state.login.user)
         const rolAltayModif = roles.find(e => e.rl_codigo === '1.2.2' || e.rl_codigo === '1')
-        const [columnsName, setColumnsName] = useState([]) 
         const {oficialesSelected, oficialStatus, oficialCategoria} = useSelector(state => state.oficiales)
+        const [columnsName, setColumnsName] = useState(oficialCategoria ? oficialCategoria : []) 
 
         const onChange = (e) => {
             setColumnsName(e.target.value)
@@ -75,7 +75,7 @@ const OficialesTable = () => {
 
           </TitleLogo>
             <span>Seleccione oficial: </span>
-            <select id='select' onChange={(e) => onChange(e)}>
+            <select id='select' defaultValue={oficialCategoria ? oficialCategoria : null} onChange={(e) => onChange(e)}>
                 <option value="">---</option>
                 <option value="Adjudicaciones">Adjudicacion</option>
                 <option value="Licitaciones">Licitacion</option>

@@ -4,7 +4,7 @@ import { getAllSucursales, getSucursalById , reset, deleteSucursal } from '../..
 import TableContainer from '../GerentesTable/TableContainer';
 import { Link, useNavigate } from 'react-router-dom';
 import * as BiIcons from 'react-icons/bi';
-import { useTable, useSortBy, usePagination, useGlobalFilter} from 'react-table';
+import { useTable, useSortBy, usePagination, useGlobalFilter, useFilters} from 'react-table';
 import styles from '../GerentesTable/Gerentes.module.css';
 import Swal from 'sweetalert2';
 import { ExportCSV } from '../../helpers/exportCSV';
@@ -12,6 +12,7 @@ import { GlobalFilter } from '../UsuariosTable/GlobalFilter';
 import TitleLogo from '../../styled-components/containers/TitleLogo';
 import TitlePrimary from '../../styled-components/h/TitlePrimary';
 import { ReturnLogo } from '../../helpers/ReturnLogo';
+import { SearchFilter } from '../GerentesTable/ActiveFilter';
 const SucursalesTable = () => {
 
 const dispatch = useDispatch()
@@ -62,6 +63,7 @@ const [pageHistory, setPageHistory] = useState('')
     () => [
       {
         Header: "Código",
+        ShortHeader: 'Código',
         accessor: "Codigo",
         Cell: ({ value }) => <strong>{value}</strong>,
         Filter: false
@@ -69,8 +71,9 @@ const [pageHistory, setPageHistory] = useState('')
       },      
       {
         Header: "Nombre",
+        ShortHeader: 'Nombre',
         accessor: "Nombre",
-        Filter: false
+        Filter: SearchFilter
       },
 
       {
@@ -78,7 +81,7 @@ const [pageHistory, setPageHistory] = useState('')
         accessor: "Codigo",
         id: 'modify',
         Cell: (value) => ( rolAltayModif ? 
-        <button style={{background:"burlywood"}} className={styles.buttonRows} onClick={(()=> navigate(`/modifSucursales/${value.value}`))}>Modificar</button> :
+        <button style={{background:'#3dc254bf'}} className={styles.buttonRows} onClick={(()=> navigate(`/modifSucursales/${value.value}`))}>Modificar</button> :
         <button style={{background:"silver"}} className={styles.buttonRows} disabled>Modificar</button>
         ),
         Filter: false
@@ -121,7 +124,7 @@ const [pageHistory, setPageHistory] = useState('')
     setGlobalFilter,
     prepareRow,
   } =
-    useTable({ columns: columns, data: sucursales, initialState:{pageSize:15, pageIndex:JSON.parse(localStorage.getItem('pageIndex'))} }, useGlobalFilter, 
+    useTable({ columns: columns, data: sucursales, initialState:{pageSize:15, pageIndex:JSON.parse(localStorage.getItem('pageIndex'))} }, useGlobalFilter, useFilters,
         useSortBy, usePagination,
         );
         const {pageIndex, pageSize} = state
@@ -143,7 +146,6 @@ const {globalFilter} = state
           </div>
         <TitlePrimary>Sucursales</TitlePrimary>
         </TitleLogo>
-      <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}/>
       <div className={styles.buttonContainer}>
       {rolAltayModif ?
        <><Link to={'/altaSucursal'}><button>Nuevo</button></Link>
@@ -161,11 +163,14 @@ const {globalFilter} = state
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
                 
-                <th {...column.getHeaderProps(column.getSortByToggleProps())}>{column.render("Header")}
-                <span>
-                  {column.isSorted ? (column.isSortedDesc ? <BiIcons.BiDownArrow/> : <BiIcons.BiUpArrow/>) : ''}
-                </span>
-                <div>{column.canFilter ? column.render('Filter') : null}</div>
+                <th>
+                <div {...column.getHeaderProps(column.getSortByToggleProps())}>
+                 
+                  <span >{column.isSorted? (column.isSortedDesc? column.render("ShortHeader") +' ▼' : column.render("ShortHeader")+ '▲'  ): column.render("Header")}</span>
+                
+                {/* {column.canFilter? <div>O</div> : null} */}</div>
+                <div style={{display:"flex"}}>{column.canFilter ? column.render('Filter') : null}</div>
+                
                 </th>
                
               ))}
