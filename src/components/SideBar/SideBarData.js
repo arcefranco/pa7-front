@@ -154,7 +154,7 @@ export const SidebarData = [
       {title: 'Team Leader', rol:'1.7.19', path:'/teamleaders', cName:'subMenuL2', },
       {title: 'Supervisores', rol:'1.7.2', path:'/supervisores', cName:'subMenuL2'},
       {title: 'Gerentes', rol:'1.7.18', path:'/gerentes', cName:'subMenuL2'},
-      {title: 'Estructura Comercial', rol:'1.7.20', cName:'subMenuL2', path:'/'},
+      {title: 'Estructura Comercial', rol:'1.7.20', cName:'subMenuL2', path:'/Estructura'},
       {title: 'Modelos', rol:'1.7.6', cName:'subMenuL2', path:'/modelos'},
       {title: 'Cambio Modelo', rol:'1.7.4', cName:'subMenuL2', path:'/'},
       {title: 'Lista de Precios', rol:'1.7.7', cName:'subMenuL2', path:'/'},

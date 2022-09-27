@@ -1,0 +1,36 @@
+.item{
+    background-color: #a9a9a91f;
+    cursor: pointer;
+    border-radius: 4px;
+    margin: 5px;
+    width: 40rem;
+    padding: 12px;
+    text-align-last: start;
+}
+
+.text{
+    margin-left: 8px;
+    font-weight: 600;
+
+
+}
+
+.subItem{
+
+    margin-left: 5px;
+    padding: 5px;
+    margin-top: 8px;
+    text-align-last: start;
+}
+
+.arrow{
+    transform : rotateZ(180deg);
+    transition: linear 250ms;
+    
+  }
+
+  .arrowDown{
+    transform : rotateZ(0deg);
+    transition: linear 250ms;
+
+  }

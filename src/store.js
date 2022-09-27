@@ -10,7 +10,7 @@ import teamLeadersReducer from "./reducers/TeamLeaders/teamLeadersSlice"
 import vendedoresReducer from "./reducers/Vendedores/vendedoresSlice"
 import oficialesReducer from './reducers/Oficiales/OficialesSlice'
 import puntosReducer from './reducers/PuntosDeVenta/puntosSlice'
-
+import estructuraReducer from './reducers/Estructura/EstructuraSlice'
 const reducer = combineReducers({
   login: loginReducer,
   gerentes: gerentesReducer,
@@ -19,7 +19,7 @@ const reducer = combineReducers({
 
   modelos: modelosReducer,
   sucursales: sucursalesReducer,
-
+  estructura: estructuraReducer,
   teamLeaders: teamLeadersReducer,
   vendedores: vendedoresReducer,
   oficiales: oficialesReducer,

@@ -30,6 +30,7 @@ import VendedoresFormulario from './components/VendedoresTable/VendedoresFormula
 import OficialesTable from './components/Oficiales/OficialesTable';
 import OficialesForm from './components/Oficiales/OficialesForm';
 import PuntosForm from './components/PuntosDeVenta/PuntosForm';
+import Estructura from './components/EstructuraComercial/Estructura';
 
 function App() {
   const {user, toggle} = useSelector(
@@ -40,7 +41,6 @@ function App() {
         <SideBar/>
         <div className='appContainer' style={{
           width: '100%',
-          maxHeight:'100vh',
           position: 'absolute',
           paddingLeft: '5em',
           overflow:'hidden',
@@ -51,7 +51,6 @@ function App() {
         }}>
           <div style={{
          width: '100%',
-         height: '100vh',
          opacity: 0.5,
          position: 'absolute',
          zIndex: toggle ? 1 : -1,
@@ -105,6 +104,7 @@ function App() {
           <Route path='/modifOficiales/:categoria' element={<OficialesForm/>} />
           <Route path='/permission' element={<NotPermission/>}/>
           <Route path='/480' element={<ErrorDB/>}></Route>
+          <Route path='/Estructura' element={<Estructura/>}/>
         </Routes> 
         </div>
        
