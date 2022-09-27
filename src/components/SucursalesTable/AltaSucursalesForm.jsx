@@ -150,13 +150,12 @@ const handleSubmit = async (e) => {
     </Stack>
     
 
-        <div style={{display: 'grid',
-    gridTemplateColumns: '1fr 1fr', columnGap: '1rem', height: '5rem', alignItems: 'center'}}>
+        <div style={{display: 'flex', height: '5rem', alignItems: 'center', placeContent: 'center'}}>
             
 
         <Row className="g-2">
                 
-                    <Form.Group as={Col} style={{ marginBottom: '.2rem'}}>
+                    <Form.Group as={Col} style={{ marginBottom: '.2rem',     width: '16rem'}}>
                     <FloatingLabel
                         controlId="floatingInputGrid"
                         label="Nombre"
@@ -167,21 +166,7 @@ const handleSubmit = async (e) => {
                     </Form.Group>
                     </Row>
 
-                    {
-                        !id &&
-                <Row className="g-2">
-                <Form.Group as={Col} style={{ marginBottom: '.2rem'}}>
-                <FloatingLabel
-                    controlId="floatingInputGrid"
-                    label="Usuario Alta Registro"
-                    style={floatingLabel}
-                >
-                <Form.Control size="sm" style={{ height: '2.7rem'}} type="text" value={input.UsuarioAltaRegistro} name="UsuarioAltaRegistro" placeholder="Usuario Alta Registro" onChange={handleChange} required />
-                </FloatingLabel>
-                </Form.Group>
-                </Row> 
- 
-                    }
+
                 
                     </div>
                     {   id?.length? 
