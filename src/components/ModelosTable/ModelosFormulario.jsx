@@ -216,7 +216,7 @@ tipoPlan.map(plan=>{
     CuotaACobrar: typeof formInput[plan.ID ]?.["CuotaACobrar_" + plan.ID] === 'string' && formInput[plan.ID ]?.["CuotaACobrar_" + plan.ID].length ? parseInt(formInput[plan.ID ]?.["CuotaACobrar_" + plan.ID]).toFixed(2) : parseFloat(0.00).toFixed(2),
     CuotaACobrarA: typeof formInput[plan.ID ]?.["CuotaACobrarA_" + plan.ID] === 'string' && formInput[plan.ID ]?.["CuotaACobrarA_" + plan.ID].length ? parseInt(formInput[plan.ID ]?.["CuotaACobrarA_" + plan.ID]).toFixed(2) : parseFloat(0.00).toFixed(2),
     Cuota1: typeof formInput[plan.ID ]?.["Cuota1_" + plan.ID] === 'string' && formInput[plan.ID ]?.["Cuota1_" + plan.ID].length ? parseInt(formInput[plan.ID ]?.["Cuota1_" + plan.ID]).toFixed(2) : parseFloat(0.00).toFixed(2),
-    Cuota2: typeof formInput[plan.ID ]?.["Cuota2_" + plan.ID] === 'string' && formInput[plan.ID ]?.["Cuota2_" + plan.ID].length ? parseInt(formInput[plan.ID ]?.["Cuota2_" + plan.ID]).toFixed(2) : parseFloat(0.00).toFixed(2),
+    Cuota2: typeof formInput[plan.ID ]?.["Cuota2_" + plan.ID] === 'string' && formInput[plan.ID ]?.["Cuota2_" + plan.ID].length ? parseInt(formInput[plan.ID ]?.["Cuota2_" + plan.ID]).toFixed(2) : parseFloat(0.00).toFixed(2),        
     TipoPlan: plan.ID - 1,
     Descripcion: plan.Descripcion,
     CodigoMarca: user.codigoMarca,
