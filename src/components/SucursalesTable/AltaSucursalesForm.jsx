@@ -134,7 +134,7 @@ const handleSubmit = async (e) => {
 
     })
 }
-  const floatingLabel = {textAlign:"start"}
+  const floatingLabel = {textAlign:"start", paddingTop: '.5rem'}
   return (
     <div className={styles.container}>
             <TitleLogo style={{marginTop: '1.1rem', alignSelf: 'flex-start'}}>
@@ -143,7 +143,7 @@ const handleSubmit = async (e) => {
               <ReturnLogo empresa={empresaReal}/>
             </div>
             </TitleLogo>
-    <Form action="" className={styles.form}>
+    <Form action="" className={styles.form} style={{minWidth: '35rem'}}>
     <Stack className={styles.titleContainer} direction="horizontal" gap={3}>
         <TitlePrimary>{id?.length ? 'Modificar Sucursal' : 'Alta de Sucursal'}</TitlePrimary>
         <Link to={'/sucursales'}><ButtonPrimary>Volver</ButtonPrimary></Link>
@@ -185,7 +185,7 @@ const handleSubmit = async (e) => {
                 
                     </div>
                     {   id?.length? 
-                    <ButtonPrimary type="submit" style={{ marginBottom:'.4rem'}}  onClick={(e) => handleUpdate(e)}><FcApproval/>Actualizar</ButtonPrimary> 
+                    <ButtonPrimary type="submit" style={{ marginBottom:'.4rem'}}  onClick={(e) => handleUpdate(e)}>Actualizar</ButtonPrimary> 
                     :(
                       
                          <ButtonPrimary onClick={handleSubmit}  style={{ marginBottom:'.4rem', marginTop:'.4rem'}} type="submit" >Enviar</ButtonPrimary> 

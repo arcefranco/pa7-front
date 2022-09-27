@@ -114,7 +114,7 @@ useEffect(() => {
         id:'Modificar',
         disableSortBy: true,
         Filter: false,
-        Cell: (value) => (rolModificar ? <button  style={{background:"burlywood"}} onClick=  {(()=> navigate(`/modificarGerentes/${value.value}`))}
+        Cell: (value) => (rolModificar ? <button  style={{background:'#3dc254bf'}} onClick=  {(()=> navigate(`/modificarGerentes/${value.value}`))}
         className={styles.buttonRows} >Modificar</button>:
         <button style={{background:"silver"}} className={styles.buttonRows} disabled>Modificar</button>),
               },
@@ -195,7 +195,6 @@ useEffect(() => {
           </div>
         <TitlePrimary>Gerentes</TitlePrimary>
         </TitleLogo>
-      <GlobalFilter filter={globalFilter} setFilter={setGlobalFilter}/>
 
       
       <div className={styles.buttonContainer}>

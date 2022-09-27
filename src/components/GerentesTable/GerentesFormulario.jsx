@@ -184,7 +184,7 @@ const HandleSubmitUpdate =async (event) =>{
   
   }
 
- const floatingLabel = {textAlign:"start"}
+ const floatingLabel = {textAlign:"start", paddingTop: '.5rem'}
 
 return(   
     <div className={styles.container}>
@@ -195,7 +195,7 @@ return(
             </div>
             </TitleLogo>
   {/*--------------------------------------GERENTES FORMS--------------------------------------------------  */}
- <Form action=""  className={styles.form} onSubmit={HandleSubmitInsert}>
+ <Form action=""  className={styles.form} style={{minWidth: '35rem'}} onSubmit={HandleSubmitInsert}>
  <Stack className={styles.titleContainer} direction="horizontal" gap={3}>
                 <TitlePrimary className={styles.title}>{id?.length ? 'Modificar Gerente' : 'Alta de Gerente'}</TitlePrimary>
                 <Link to={'/gerentes'}><ButtonPrimary  className={styles.btn} >Volver</ButtonPrimary></Link>
