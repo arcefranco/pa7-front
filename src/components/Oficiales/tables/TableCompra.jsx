@@ -7,7 +7,7 @@ import * as BiIcons from 'react-icons/bi';
 import { useTable, useSortBy, usePagination, useGlobalFilter, useFilters} from 'react-table';
 import styles from '../../GerentesTable/Gerentes.module.css';
 import Swal from 'sweetalert2';
-import { deleteOficiales } from "../../../reducers/Oficiales/OficialesSlice";
+import { deleteOficiales, getOficialSelected } from "../../../reducers/Oficiales/OficialesSlice";
 import { useNavigate } from "react-router-dom";
 import { ActiveFilter, SearchFilter } from "../../GerentesTable/ActiveFilter";
 const TableCompra = () => {
@@ -22,6 +22,7 @@ const rolAltayModif = roles.find(e => e.rl_codigo === '1.2.2' || e.rl_codigo ===
 
 useEffect(() => {
     dispatch(getAllSupervisores())
+      dispatch(getOficialSelected({oficialName: 'Compra'}))
   }, [])
     const defaultColumns = useMemo(() => [
         {

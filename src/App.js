@@ -32,6 +32,7 @@ import OficialesForm from './components/Oficiales/OficialesForm';
 import PuntosForm from './components/PuntosDeVenta/PuntosForm';
 import Estructura from './components/EstructuraComercial/Estructura';
 import Error404 from './pages/Error404';
+import OficialesMenu from './components/Oficiales/OficialesMenu';
 
 function App() {
   const {user, toggle} = useSelector(
@@ -101,7 +102,8 @@ function App() {
           <Route path='/altaPunto' element={<PuntosForm/>}/>
           <Route path='/roles' element={<RolesForm/>}/>
           <Route path='/copyRoles' element={<CopyRoles/>}/>
-          <Route path='/oficiales' element={<OficialesTable/>}/>
+          <Route path='/oficiales' element={<OficialesMenu/>}/>
+          <Route path='/oficiales/:table' element={<OficialesTable/>}/>
           <Route path='/modifOficiales/:categoria/:id' element={<OficialesForm/>} />
           <Route path='/modifOficiales/:categoria' element={<OficialesForm/>} />
           <Route path='/permission' element={<NotPermission/>}/>

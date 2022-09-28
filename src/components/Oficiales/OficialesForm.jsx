@@ -9,7 +9,7 @@ import Row from 'react-bootstrap/Row';
 import Stack from 'react-bootstrap/Stack';
 import InputGroup from 'react-bootstrap/InputGroup';
 import styles from '../UsuariosTable/AltaUsuarios.module.css'
-import { getOficialById, updateOficiales, reset, createOficiales, endUpdate } from "../../reducers/Oficiales/OficialesSlice";
+import { getOficialById, updateOficiales, reset, createOficiales, endUpdate, getOficialCategoria } from "../../reducers/Oficiales/OficialesSlice";
 import { getAllUsuarios, getAllSupervisores } from "../../reducers/Usuarios/UsuariosSlice";
 import Swal from "sweetalert2";
 import { useParams, useNavigate, Link } from "react-router-dom";
@@ -53,19 +53,21 @@ useEffect(() => {
           showConfirmButton: true,
         }).then((result) => {
           if(result.isConfirmed){
-            window.location.replace('/oficiales')
+            navigate(0)
           }
         })
       }
       if(oficialStatus && oficialStatus.status === true){
+       
         Swal.fire({
           icon:'success',
           showConfirmButton: true,
           text: oficialStatus.message
         }).then((result) => {
+         
           if(result.isConfirmed){
-            dispatch(reset())
-            window.location.replace('/oficiales')
+            dispatch(getOficialCategoria(categoria))
+            window.location.assign(`/oficiales/${categoria}`)
           }
         })
     }
@@ -96,6 +98,7 @@ useEffect(() => {
   useEffect(() => {
     dispatch(reset())
     dispatch(getAllUsuarios())
+    dispatch(getOficialCategoria(categoria))
     if(categoria === 'Subite') dispatch(getAllSupervisores())
     return () => {
       if(id){
@@ -245,7 +248,7 @@ if(e.target.checked){
                  
                         <InputGroup>
                         <InputGroup.Text id="basic-addon1">Usuario</InputGroup.Text>
-                        <Form.Select size="sm" name="Usuario" value={input.Usuario} onChange={handleChange} id="">
+                        <Form.Select size="sm" name="Usuario" required value={input.Usuario} onChange={handleChange} id="" >
                           {
                             oficialUsuario ? <option value={oficialUsuario.Usuario}>{oficialUsuario.Usuario}</option> : <option value={oficialById[0]?.IdUsuarioLogin}>{oficialById[0]?.IdUsuarioLogin}</option>
                           }

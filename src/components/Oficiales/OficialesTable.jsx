@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { useSelector, useDispatch} from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import styles from '../GerentesTable/Gerentes.module.css';
 import { ExportCSV } from '../../helpers/exportCSV';
 import { getOficialSelected, getOficialCategoria } from "../../reducers/Oficiales/OficialesSlice";
@@ -20,6 +20,7 @@ import { getAllSupervisores } from '../../reducers/Usuarios/UsuariosSlice';
 import TitlePrimary from '../../styled-components/h/TitlePrimary';
 import { ReturnLogo } from "../../helpers/ReturnLogo";
 import TitleLogo from '../../styled-components/containers/TitleLogo';
+import ButtonPrimary from '../../styled-components/buttons/ButtonPrimary';
 
 
 
@@ -32,15 +33,20 @@ const OficialesTable = () => {
         const {roles, empresaReal} = useSelector((state) => state.login.user)
         const rolAltayModif = roles.find(e => e.rl_codigo === '1.2.2' || e.rl_codigo === '1')
         const {oficialesSelected, oficialStatus, oficialCategoria} = useSelector(state => state.oficiales)
-        const [columnsName, setColumnsName] = useState(oficialCategoria ? oficialCategoria : []) 
+        const {table} = useParams()
+/*         const [columnsName, setColumnsName] = useState(oficialCategoria ? oficialCategoria : [])  */
 
         const onChange = (e) => {
-            setColumnsName(e.target.value)
+            /* setColumnsName(e.target.value) */
             dispatch(getOficialCategoria(e.target.value))
             dispatch(getOficialSelected({oficialName: e.target.value}))
         }
         useEffect(() => {
           dispatch(getAllSupervisores())
+          if(oficialCategoria){
+            dispatch(getOficialCategoria(oficialCategoria))
+            /* setColumnsName(oficialCategoria) */
+          }
         }, [])
         useEffect(() => {
             if(oficialStatus && oficialStatus.status === false){
@@ -71,10 +77,11 @@ const OficialesTable = () => {
               <span>{empresaReal}</span>
               <ReturnLogo empresa={empresaReal}/>
             </div>
-            <TitlePrimary style={{textAlign: 'start'}}>Oficiales</TitlePrimary>
+            <TitlePrimary style={{textAlign: 'start'}}>Oficiales {table === 'Licitacion' ? 'Licitación' : table === 'Asignacion' ? 'Asignación' : table === 'Adjudicacion' ? 'Adjudicación' : table}</TitlePrimary>
 
           </TitleLogo>
-            <span>Seleccione oficial: </span>
+         
+{/*             <span>Seleccione oficial: </span>
             <select id='select' defaultValue={oficialCategoria ? oficialCategoria : null} onChange={(e) => onChange(e)}>
                 <option value="">---</option>
                 <option value="Adjudicaciones">Adjudicacion</option>
@@ -87,11 +94,12 @@ const OficialesTable = () => {
                 <option value="Carga">Carga</option>
                 <option value="Patentamiento">Patentamiento</option>
                 <option value="Asignacion">Asignacion</option>
-            </select>
+            </select> */}
             <span className={styles.titleContainer}>
       <div className={styles.buttonContainer}>
+        <Link to={'/oficiales'}>Volver a oficiales</Link>
       {rolAltayModif ?
-       <><Link to={`/modifOficiales/${oficialCategoria}`}><button>Nuevo</button></Link>
+       <><Link to={`/modifOficiales/${table}`}><button>Nuevo</button></Link>
         <ExportCSV csvData={oficialesSelected} fileName={'sucursales'} /></> :
          <Link to={'/altaOficiales'}><button disabled>Nuevo</button></Link>
       }</div>
@@ -101,15 +109,15 @@ const OficialesTable = () => {
         {
           'Mora': <TableMora />,
           'Scoring': <TableScoring/>,
-          'Adjudicaciones': <TableAdjudicacion/>,
-          'Licitaciones': <TableLicitaciones/>,
+          'Adjudicacion': <TableAdjudicacion/>,
+          'Licitacion': <TableLicitaciones/>,
           'Plan Canje': <TableCanje />,
           'Carga': <TableCarga />,
           'Patentamiento': <TablePatentamiento />,
           'Asignacion': <TableAsignacion />,
           'Subite': <TableSubite/>,
           'Compra': <TableCompra/>
-        }[columnsName]
+        }[table]
       }
 
         </div>

@@ -1,14 +1,12 @@
 import React, {useEffect, useMemo, useState} from 'react';
 import { useSelector, useDispatch} from 'react-redux';
-import { getAllSucursales, getSucursalById , reset, deleteSucursal } from '../../reducers/Sucursales/SucursalesSlice';
+import { getAllSucursales, reset, deleteSucursal } from '../../reducers/Sucursales/SucursalesSlice';
 import TableContainer from '../GerentesTable/TableContainer';
 import { Link, useNavigate } from 'react-router-dom';
-import * as BiIcons from 'react-icons/bi';
 import { useTable, useSortBy, usePagination, useGlobalFilter, useFilters} from 'react-table';
 import styles from '../GerentesTable/Gerentes.module.css';
 import Swal from 'sweetalert2';
 import { ExportCSV } from '../../helpers/exportCSV';
-import { GlobalFilter } from '../UsuariosTable/GlobalFilter';
 import TitleLogo from '../../styled-components/containers/TitleLogo';
 import TitlePrimary from '../../styled-components/h/TitlePrimary';
 import { ReturnLogo } from '../../helpers/ReturnLogo';
@@ -184,7 +182,7 @@ const {globalFilter} = state
               <tr {...row.getRowProps()}>
                 {row.cells.map((cell) => {
                   return (
-                    <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
+                    <td className={styles.tdSmall} {...cell.getCellProps()}>{cell.render("Cell")}</td>
                     
                   );
                 })}

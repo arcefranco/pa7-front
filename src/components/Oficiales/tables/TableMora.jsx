@@ -1,10 +1,10 @@
-import { useMemo } from "react";
+import { useMemo, useEffect } from "react";
 import React from 'react';
 import { useDispatch, useSelector} from 'react-redux';
 import TableContainer from '../../GerentesTable/TableContainer';
-import * as BiIcons from 'react-icons/bi';
 import { useTable, useSortBy, usePagination, useGlobalFilter, useFilters} from 'react-table';
 import styles from '../../GerentesTable/Gerentes.module.css';
+import { getOficialSelected } from "../../../reducers/Oficiales/OficialesSlice";
 import Swal from 'sweetalert2';
 import { deleteOficiales } from "../../../reducers/Oficiales/OficialesSlice";
 import { useNavigate } from "react-router-dom";
@@ -19,6 +19,11 @@ const TableMora = () => {
   const rolAltayModif = roles.find(e => e.rl_codigo === '1.2.2' || e.rl_codigo === '1')
   const dispatch = useDispatch()
   
+  useEffect(() => {
+    dispatch(getOficialSelected({oficialName: 'Mora'}))
+  }, [])
+
+
   const navigate = useNavigate()    
     const defaultColumns = useMemo(() => [
         {
