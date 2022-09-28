@@ -1,8 +1,8 @@
-import { useMemo } from "react";
+import { useMemo, useEffect } from "react";
 import React from 'react';
 import { useSelector, useDispatch} from 'react-redux';
 import TableContainer from '../../GerentesTable/TableContainer';
-import { deleteOficiales } from "../../../reducers/Oficiales/OficialesSlice";
+import { deleteOficiales, getOficialSelected } from "../../../reducers/Oficiales/OficialesSlice";
 import * as BiIcons from 'react-icons/bi';
 import { useTable, useSortBy, usePagination, useGlobalFilter, useFilters} from 'react-table';
 import styles from '../../GerentesTable/Gerentes.module.css';
@@ -21,7 +21,9 @@ const TableAsignacion = () => {
     
     const navigate = useNavigate()
 
-  
+    useEffect(() => {
+      dispatch(getOficialSelected({oficialName: 'Asignacion'}))
+    }, [])
 
   const defaultColumns = useMemo(() => [
         {

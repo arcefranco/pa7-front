@@ -1,9 +1,8 @@
-import { useMemo } from "react";
+import { useMemo, useEffect } from "react";
 import React from 'react';
 import { useSelector, useDispatch} from 'react-redux';
 import TableContainer from '../../GerentesTable/TableContainer';
-import { deleteOficiales } from "../../../reducers/Oficiales/OficialesSlice";
-import * as BiIcons from 'react-icons/bi';
+import { deleteOficiales, getOficialSelected } from "../../../reducers/Oficiales/OficialesSlice";
 import { useTable, useSortBy, usePagination, useGlobalFilter, useFilters} from 'react-table';
 import styles from '../../GerentesTable/Gerentes.module.css';
 import Swal from 'sweetalert2';
@@ -20,7 +19,9 @@ const TablePatentamiento = () => {
   
   const navigate = useNavigate()
 
-  
+  useEffect(() => {
+    dispatch(getOficialSelected({oficialName: 'Patentamiento'}))
+  }, [])
 
   const defaultColumns = useMemo(() => [
         {
