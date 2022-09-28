@@ -126,7 +126,7 @@ useEffect(() => {
         disableSortBy: true,
         Filter: false,
         Cell: (value) => (rolModificar ? <button  style={{background:'#3dc254bf'}} onClick=  {(()=> navigate(`/modificarTeamLeaders/${value.value}`))}
-        className={styles.buttonRows} >Modificar</button>:
+         className={styles.buttonRows}>Modificar</button>:
         <button style={{background:"silver"}} className={styles.buttonRows} disabled>Modificar</button>),
               },
               
@@ -239,7 +239,7 @@ useEffect(() => {
               <tr  {...row.getRowProps()}>
                 {row.cells.map((cell) => {
                   return (
-                    <td  {...cell.getCellProps()} >{cell.render("Cell")}</td>
+                    <td className={styles.tdSmall} {...cell.getCellProps()} >{cell.render("Cell")}</td>
                   );
                 })}
               </tr>

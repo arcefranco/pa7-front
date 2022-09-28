@@ -1,8 +1,8 @@
-import { useMemo } from "react";
+import { useMemo, useEffect } from "react";
 import React from 'react';
 import { useSelector, useDispatch} from 'react-redux';
 import TableContainer from '../../GerentesTable/TableContainer';
-import { deleteOficiales } from "../../../reducers/Oficiales/OficialesSlice";
+import { deleteOficiales, getOficialSelected } from "../../../reducers/Oficiales/OficialesSlice";
 import * as BiIcons from 'react-icons/bi';
 import { useTable, useSortBy, usePagination, useGlobalFilter, useFilters} from 'react-table';
 import styles from '../../GerentesTable/Gerentes.module.css';
@@ -19,7 +19,9 @@ const TableCanje = () => {
   const rolAltayModif = roles.find(e => e.rl_codigo === '1.2.2' || e.rl_codigo === '1')
   const navigate = useNavigate()
 
-  
+  useEffect(() => {
+    dispatch(getOficialSelected({oficialName: 'Plan Canje'}))
+  }, [])
 
   const defaultColumns = useMemo(() => [
         {
@@ -49,7 +51,7 @@ const TableCanje = () => {
                 accessor: "Codigo",
                 id: 'modify',
                 Cell: (value) => ( rolAltayModif ? 
-                <button style={{background:'#3dc254bf'}} className={styles.buttonRows}  onClick={(()=> navigate(`/modifOficiales/Canje/${value.value}`))}>Modificar</button> :
+                <button style={{background:'#3dc254bf'}} className={styles.buttonRows}  onClick={(()=> navigate(`/modifOficiales/Plan%20Canje/${value.value}`))}>Modificar</button> :
                 <button style={{background:"silver"}} className={styles.buttonRows} disabled>Modificar</button>
                 ),
                 Filter: false

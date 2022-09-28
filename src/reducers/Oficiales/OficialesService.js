@@ -35,7 +35,7 @@ const updateOficiales = async (oficialData) => {
 }
 
 const createOficiales = async (oficialData) => {
-    const headers = getHeaderDB()
+    const headers = getHeader()
     const response = await axios.post(process.env.REACT_APP_HOST + 'oficiales/create', oficialData, headers).catch((error) => errorsHandling(error))
     return response.data
 }

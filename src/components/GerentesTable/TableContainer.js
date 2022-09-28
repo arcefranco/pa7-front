@@ -19,7 +19,7 @@ margin-top:5px;
       // max-height: 1em;
       border-bottom: 0px solid black;
       border-right: 0px solid black;
-      font-size: 1.1vw;
+      font-size: 12px;
     }
     tr:nth-child(even){background-color: rgb(235, 235, 235);}
     
@@ -42,7 +42,9 @@ margin-top:5px;
       border-bottom: 0px solid black;
       border-right: 0px solid black;
       font-size: .7em;
-      min-width:auto;
+      min-width: 0.5rem;
+ 
+      
       // max-width: 16.2rem;
       height:auto;
 

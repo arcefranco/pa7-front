@@ -1,9 +1,8 @@
-import { useMemo } from "react";
+import { useMemo, useEffect } from "react";
 import React from 'react';
 import { useSelector, useDispatch} from 'react-redux';
 import TableContainer from '../../GerentesTable/TableContainer';
-import { deleteOficiales } from "../../../reducers/Oficiales/OficialesSlice";
-import * as BiIcons from 'react-icons/bi';
+import { deleteOficiales, getOficialSelected } from "../../../reducers/Oficiales/OficialesSlice";
 import { useTable, useSortBy, usePagination, useGlobalFilter, useFilters} from 'react-table';
 import styles from '../../GerentesTable/Gerentes.module.css';
 import Swal from 'sweetalert2';
@@ -19,7 +18,9 @@ const TableLicitaciones = () => {
   const rolAltayModif = roles.find(e => e.rl_codigo === '1.2.2' || e.rl_codigo === '1')
   
   const navigate = useNavigate()
-
+  useEffect(() => {
+    dispatch(getOficialSelected({oficialName: 'Licitacion'}))
+  }, [])
   
 
   const defaultColumns = useMemo(() => [
@@ -59,7 +60,7 @@ const TableLicitaciones = () => {
                 accessor: "Codigo",
                 id: 'modify',
                 Cell: (value) => ( rolAltayModif ? 
-                <button style={{background:'#3dc254bf'}} className={styles.buttonRows}  onClick={(()=> navigate(`/modifOficiales/Licitaciones/${value.value}`))}>Modificar</button> :
+                <button style={{background:'#3dc254bf'}} className={styles.buttonRows}  onClick={(()=> navigate(`/modifOficiales/Licitacion/${value.value}`))}>Modificar</button> :
                 <button style={{background:"silver"}} className={styles.buttonRows} disabled>Modificar</button>
                 ),
                  Filter: false 
@@ -79,7 +80,7 @@ const TableLicitaciones = () => {
                     }).then((result) => {
                       if(result.isConfirmed){
                        
-                        dispatch(deleteOficiales({oficialName: 'Licitaciones', Codigo: value.value}))
+                        dispatch(deleteOficiales({oficialName: 'Licitacion', Codigo: value.value}))
                       }
                     })
         

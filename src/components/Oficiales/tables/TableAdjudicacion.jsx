@@ -1,9 +1,9 @@
-import { useMemo } from "react";
+import { useMemo, useEffect } from "react";
 import React from 'react';
 import { useSelector, useDispatch} from 'react-redux';
 import TableContainer from '../../GerentesTable/TableContainer';
 import { useTable, useSortBy, usePagination, useGlobalFilter, useFilters} from 'react-table';
-import { deleteOficiales } from "../../../reducers/Oficiales/OficialesSlice";
+import { deleteOficiales, getOficialSelected } from "../../../reducers/Oficiales/OficialesSlice";
 import styles from '../../GerentesTable/Gerentes.module.css';
 import Swal from 'sweetalert2';
 import { SearchFilter } from "../../GerentesTable/ActiveFilter";
@@ -17,6 +17,9 @@ const TableAdjudicacion = () => {
   const {roles} = useSelector((state) => state.login.user)
             const rolAltayModif = roles.find(e => e.rl_codigo === '1.2.2' || e.rl_codigo === '1')
   const navigate = useNavigate()
+  useEffect(() => {
+    dispatch(getOficialSelected({oficialName: 'Adjudicacion'}))
+  }, [])
     const defaultColumns = useMemo(() => [
         {
             Header: "Código",
@@ -64,7 +67,7 @@ const TableAdjudicacion = () => {
                   text: 'Esta seguro que desea eliminar?'
                 }).then((result) => {
                   if(result.isConfirmed){
-                     dispatch(deleteOficiales({oficialName: 'Adjudicaciones', Codigo: value.value})) 
+                     dispatch(deleteOficiales({oficialName: 'Adjudicacion', Codigo: value.value})) 
                   }
                 })
             
