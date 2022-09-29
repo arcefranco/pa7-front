@@ -33,6 +33,7 @@ import PuntosForm from './components/PuntosDeVenta/PuntosForm';
 import Estructura from './components/EstructuraComercial/Estructura';
 import Error404 from './pages/Error404';
 import OficialesMenu from './components/Oficiales/OficialesMenu';
+import ListasPrecios from './components/ListasPrecios/ListasPrecios';
 
 function App() {
   const {user, toggle} = useSelector(
@@ -110,6 +111,7 @@ function App() {
           <Route path='/480' element={<ErrorDB/>}></Route>
           <Route path='/Estructura' element={<Estructura/>}/>
           <Route path='/404' element={<Error404/>}/>
+          <Route path='/listasprecios' element={<ListasPrecios/>}/>
         </Routes> 
         </div>
        

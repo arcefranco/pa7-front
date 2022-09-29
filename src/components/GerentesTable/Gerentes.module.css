@@ -95,7 +95,7 @@ margin: auto;
     /* width: 40%; */
     margin-top: -3em;
     height: 3em;
-    border-radius: 10px;
+    border-radius: .3em;
     align-items: center;
     display: flex;
     justify-content: flex-end;
