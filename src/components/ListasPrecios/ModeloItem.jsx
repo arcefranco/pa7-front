@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import usuarioStyles from '../UsuariosTable/UsuariosTable.module.css'
+import styles from '../GerentesTable/Gerentes.module.css'
 import { deleteModeloFromLista, updatePrecioModelo } from "../../reducers/ListasPrecios/ListaSlice";
 
 
@@ -13,7 +13,7 @@ const [modelo, setModelo] = useState({
     Precio: Precio
 })
 
-const {updatedModelo} = useSelector((state) => state.listasprecios)
+const {updatedModelo, createdModelo} = useSelector((state) => state.listasprecios)
 
 const dispatch = useDispatch()
 
@@ -54,15 +54,19 @@ const HandleChange =  (e) =>{
         <td>
             {
                 modelo.Nombre !== Nombre && !updatedModelo || modelo.Precio !== Precio  && !updatedModelo  ? 
-                <button style={{background:'#3dc254bf', cursor: 'pointer', width: '117px'}} className={usuarioStyles.buttonRows} onClick={() => onSubmit(Codigo)}>Guardar Modificación</button> :
-                <button style={{background:'gray', width: '117px'}} className={usuarioStyles.buttonRows} disabled>Guardar Modificación</button>
+                <button style={{background:'#3dc254bf', cursor: 'pointer', width: '117px'}} className={styles.buttonRows} onClick={() => onSubmit(Codigo)}>Guardar Modificación</button> :
+                <button style={{background:'gray', width: '110px'}} className={styles.buttonRows} disabled>Guardar Modificación</button>
             }
             
         
         </td>
-        <td><button style={{background:"red", cursor: 'pointer', width: '53px'}} className={usuarioStyles.buttonRows} onClick={() => onDelete(Codigo)}>Eliminar</button></td>
+        <td><button style={{background:"red", cursor: 'pointer', width: '48px'}} className={styles.buttonRows} onClick={() => onDelete(Codigo)}>Eliminar</button></td>
         {
             updatedModelo && updatedModelo.codigo === Codigo && <span style={{fontSize: '12px'}}>{updatedModelo.message}</span>
+        }
+
+        {
+            createdModelo && parseInt(createdModelo.codigo) === Codigo && <span style={{fontSize: '12px'}}>{createdModelo.message}</span>
         }
     </tr>
     )
