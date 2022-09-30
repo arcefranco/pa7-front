@@ -6,7 +6,10 @@ import styles from './ListaItem.module.css'
 import { getListas, modelosOnLista, reset, insertModeloLista, deleteLista, updateLista } from "../../reducers/ListasPrecios/ListaSlice";
 import TableContainer from '../GerentesTable/TableContainer'
 import { useEffect } from "react";
+import ReactTooltip from "react-tooltip";
+import ButtonPrimary from '../../styled-components/buttons/ButtonPrimary'
 import * as AiIcons from 'react-icons/ai';
+
 import ModeloItem from "./ModeloItem";
 
 const ListaItem = ({Codigo, Descripcion, VigenciaD, VigenciaH}) => {
@@ -23,12 +26,18 @@ const ListaItem = ({Codigo, Descripcion, VigenciaD, VigenciaH}) => {
         Lista: Codigo,
         Marca: codigoMarca
     })
+
+
+   
     const [editLista, setEditLista] = useState({
         Codigo: Codigo,
         Descripcion: Descripcion, 
         VigenciaD: VigenciaD,
         VigenciaH: VigenciaH
     })
+
+
+
 
     const dispatch = useDispatch()
     
@@ -108,6 +117,9 @@ const ListaItem = ({Codigo, Descripcion, VigenciaD, VigenciaH}) => {
 
     return (
         <div className={styles.item}>
+           
+
+
             {
             
                 activo ? <MdIcons.MdOutlineKeyboardArrowDown className={styles.arrow} onClick={() => onClickDown()}  /> 
@@ -157,7 +169,17 @@ const ListaItem = ({Codigo, Descripcion, VigenciaD, VigenciaH}) => {
             <span className={styles.span}><b>Vigencia Desde:</b> {VigenciaD}</span>
             <span className={styles.span}>  <b>Vigencia Hasta:</b> {VigenciaH}</span>
             {
-                activo ? <AiIcons.AiFillPlusCircle onClick={() => setNewModelo(!newModelo)}/> :
+                activo ? 
+                <div>
+                <ReactTooltip id="botonTooltip">
+                Agregar nuevo modelo
+                </ReactTooltip>    
+                <AiIcons.AiFillPlusCircle data-tip data-for="botonTooltip" onClick={() =>{
+                    setNewModelo(!newModelo)}}/>
+                
+                </div>
+  
+                :
                 <div>
                     <AiIcons.AiFillCloseCircle style={{color: 'red'}} onClick={() => onDelete(Codigo)}/>
                     <AiIcons.AiFillEdit style={{marginLeft: '0.5rem'}} onClick={() => setEdit(true)}/>
@@ -190,7 +212,7 @@ const ListaItem = ({Codigo, Descripcion, VigenciaD, VigenciaH}) => {
                                             }
                                         </select></td>
                                     <td><input type="text" name="Precio" value={createModelo.Precio} onChange={handleChange}/></td>
-                                    <td><button onClick={() =>{ 
+                                    <td><ButtonPrimary onClick={() =>{ 
                                         dispatch(insertModeloLista(createModelo))
                                         setCreateModelo({
                                             Modelo: '',
@@ -199,7 +221,7 @@ const ListaItem = ({Codigo, Descripcion, VigenciaD, VigenciaH}) => {
                                             Marca: codigoMarca
                                         })
                                         
-                                        }}>Agregar</button></td>    
+                                        }}>Agregar</ButtonPrimary></td>    
                                 </tr>
                             }
                             {

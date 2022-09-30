@@ -7,6 +7,8 @@ import styles from './ListaItem.module.css'
 import Swal from "sweetalert2";
 import { ReturnLogo } from "../../helpers/ReturnLogo";
 import * as AiIcons from 'react-icons/ai';
+import ReactTooltip from "react-tooltip";
+import ButtonPrimary from '../../styled-components/buttons/ButtonPrimary'
 import ListaItem from "./ListaItem";
 
 const ListasPrecios = () => {
@@ -77,13 +79,16 @@ const ListasPrecios = () => {
                 display: 'flex',
                 justifyContent: 'flex-end'
         }}>
+                <ReactTooltip id="botonTooltip2">
+                Agregar nueva lista
+                </ReactTooltip>  
         <AiIcons.AiFillPlusCircle style={{
                 marginRight: '20px',
                 marginBottom: '20px',
                 width: '2rem',
                 height: '2rem',
                 cursor: 'pointer'
-            }} onClick={() => setNewList(!newList)}/>
+            }} onClick={() => setNewList(!newList)} data-tip data-for="botonTooltip2" />
 
         </div>
         <div style={{textAlign: '-webkit-center'}}>
@@ -100,7 +105,7 @@ const ListasPrecios = () => {
                     <span>Vigencia Hasta: </span>
                     <input type="date" onChange={handleChange}  name="VigenciaH" />
                     </div>
-                    <button onClick={() =>{
+                    <ButtonPrimary onClick={() =>{
                         
                         dispatch(createLista(input))
                         setInput({
@@ -111,7 +116,7 @@ const ListasPrecios = () => {
                         })
                         setNewList(false)
                         
-                        }}>Agregar</button>
+                        }}>Agregar</ButtonPrimary>
                 </div>
             }
 

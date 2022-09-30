@@ -10,7 +10,7 @@ export default styled.button`
     color: white;
     font-size: 1em;
    
-   
+    text-align-last: center;
    
 &:hover{
        background-color: #1971a4
