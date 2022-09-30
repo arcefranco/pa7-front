@@ -157,7 +157,7 @@ export const SidebarData = [
       {title: 'Estructura Comercial', rol:'1.7.20', cName:'subMenuL2', path:'/Estructura'},
       {title: 'Modelos', rol:'1.7.6', cName:'subMenuL2', path:'/modelos'},
       {title: 'Cambio Modelo', rol:'1.7.4', cName:'subMenuL2', path:'/'},
-      {title: 'Lista de Precios', rol:'1.7.7', cName:'subMenuL2', path:'/'},
+      {title: 'Lista de Precios', rol:'1.7.7', cName:'subMenuL2', path:'/listasprecios'},
       {title: 'Puntos de Venta', rol:'1.7.9', cName:'subMenuL2', path:'/puntosDeVenta'},
       {title: 'Sucursales', rol:'1.7.3', cName:'subMenuL2', path:'/sucursales'},
       {title: 'Objetivos X Marca', rol:'1.7.11', cName:'subMenuL2', path:'/'},

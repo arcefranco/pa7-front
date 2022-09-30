@@ -11,12 +11,13 @@ import vendedoresReducer from "./reducers/Vendedores/vendedoresSlice"
 import oficialesReducer from './reducers/Oficiales/OficialesSlice'
 import puntosReducer from './reducers/PuntosDeVenta/puntosSlice'
 import estructuraReducer from './reducers/Estructura/EstructuraSlice'
+import listaReducer from './reducers/ListasPrecios/ListaSlice'
 const reducer = combineReducers({
   login: loginReducer,
   gerentes: gerentesReducer,
   usuarios: usuariosReducer,
   supervisores: supervisoresReducer,
-
+  listasprecios: listaReducer,
   modelos: modelosReducer,
   sucursales: sucursalesReducer,
   estructura: estructuraReducer,
