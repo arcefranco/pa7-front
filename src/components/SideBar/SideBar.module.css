@@ -219,7 +219,7 @@ font-size: 0.7em;
 height: 1.5em;
 display: flex;
 text-align: left;
-align-items: start;
+align-items: flex-start;
 margin-left: 0.8em;
 cursor: pointer;
 font-weight:400
