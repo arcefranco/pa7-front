@@ -39,6 +39,8 @@ const [pageHistory, setPageHistory] = useState('')
 useEffect(() => {
   Promise.all(dispatch(getGerentes()), dispatch(reset()))
   }, [dispatch])
+
+  
   const {user} = useSelector(
     (state) => state.login)
  const {gerentes, gerentesById,statusNuevoGerente} = useSelector(
