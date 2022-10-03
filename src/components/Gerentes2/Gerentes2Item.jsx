@@ -1,7 +1,7 @@
 import React, {useState} from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getGerentesById, postGerentes, updateGerentes, reset, endUpdate, deleteGerentes} from '../../reducers/Gerentes/gerentesSlice';
-import styles from '../GerentesTable/Gerentes.module.css'
+import { useDispatch  } from "react-redux";
+import { updateGerentes, deleteGerentes} from '../../reducers/Gerentes/gerentesSlice';
+import styles from './Gerentes.module.css'
 
 
 const Gerentes2Item = ({Codigo, Nombre, Activo}) => {
@@ -11,10 +11,6 @@ const [item, setItem] = useState({
     Nombre: Nombre,
     Activo: Activo
 })
-const {user} = useSelector(
-    (state) => state.login)
-const {gerentes, gerentesById,statusNuevoGerente} = useSelector(
-        (state) => state.gerentes)
 
 const dispatch = useDispatch()
 
@@ -49,8 +45,11 @@ const HandleSubmitUpdate =async (event) =>{
     return (
         <tr>
         <td>{Codigo}</td>
-        <td><input type="text" style={{background: 'none',
-            border: 'none'}}  name="Nombre" value={item.Nombre} onChange={HandleChange} /></td>
+        <td>
+            
+        <input type="text" className={styles.inputFilter} name="Nombre" value={item.Nombre} onChange={HandleChange} />
+            
+        </td>
 
 
         <td>
@@ -58,28 +57,26 @@ const HandleSubmitUpdate =async (event) =>{
          <input name="Activo" type="checkbox"value={item.Activo} checked={item.Activo === 1 ? true : false} onChange={handleCheckChange}/> 
             
             </td>
-        <td style={{width: '21rem'}}>
+        <td>
             {
             item.Activo === Activo && item.Nombre === Nombre ?
     
                 
-            <button style={{background:'gray', width: '117px'}} disabled className={styles.buttonRows}>Modificar</button> 
+            <button disabled className={`${styles.buttonRows} ${styles.disabled}`}>Modificar</button> 
 
                                                                                                                         :
-            <button style={{background:'#3dc254bf', cursor: 'pointer', width: '117px'}} className={styles.buttonRows} 
-            onClick={(e) => HandleSubmitUpdate(e)}
-            >Modificar</button> 
+            <button className={`${styles.buttonRows} ${styles.modify}`} 
+            onClick={(e) => HandleSubmitUpdate(e)}>
+                Modificar
+            </button> 
             }
-        
-        {
-                    statusNuevoGerente[0]?.status === true && statusNuevoGerente[0]?.codigo === Codigo ? <span>{statusNuevoGerente[0].data}</span> :
-                    null
-                }
             
         
         </td>
-        <td style={{width: '5rem'}}>
-            <button style={{background:"red", cursor: 'pointer', width: '48px'}} onClick={() => dispatch(deleteGerentes({Codigo: Codigo}))} className={styles.buttonRows}>Eliminar</button>
+        <td>
+            <button onClick={() => dispatch(deleteGerentes({Codigo: Codigo}))} className={`${styles.buttonRows} ${styles.delete}`}>
+                Eliminar
+            </button>
         </td>
 
     </tr>

@@ -165,7 +165,8 @@ export const ListaSlice = createSlice({
         state.isError = false
         state.message = ''
         state.modeloOnLista = []
-        state.updatedModelo = ''    
+        state.updatedModelo = ''
+        state.updatedLista = ' '   
       },
     },
 
