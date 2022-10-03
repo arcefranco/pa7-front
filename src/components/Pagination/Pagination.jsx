@@ -23,7 +23,6 @@ const Pagination = ({ nPages, currentPage, setCurrentPage }) => {
                     display: 'flex',
                     flexDirection: 'row',
                     justifyContent: 'space-between',
-                    width: '20rem',
                     listStyle: 'none',
                     padding: '0'
             }}>
@@ -34,7 +33,7 @@ const Pagination = ({ nPages, currentPage, setCurrentPage }) => {
                         onClick={prevPage} 
                         href='#'>
                         
-                        Previous
+                        
                     </AiIcons.AiFillBackward>
                 </li>
                 {pageNumbers.map(pgNumber => (
@@ -56,7 +55,7 @@ const Pagination = ({ nPages, currentPage, setCurrentPage }) => {
                         onClick={nextPage}
                         href='#'>
                         
-                        Next
+                       
                     </AiIcons.AiFillForward>
                 </li>
             </ul>

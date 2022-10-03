@@ -8,6 +8,14 @@
     text-align-last: start;
 }
 
+.inputFilter {
+  margin-bottom: 0.8em;
+  padding: 0.2em;
+  font-size: 13px;
+  height: 2em;
+
+}
+
 .text{
     margin-left: 8px;
     font-weight: 600;
@@ -38,32 +46,4 @@
 
   }
 
-  .tooltipText {
-    visibility: hidden;
-    display: none;
-    z-index: 1;
-    width: 123px;
-    color: white;
-    padding: 6px;
-    text-align-last: center;
-    font-size: 10px;
-    background-color: #000616f0;
-    border-radius: 5px;
-  }
-  .hoverText {
-    position: relative;
-    display: inline-block;
-    text-align: center;
-  }
-  
-  .hoverText:hover .tooltipText {
-    visibility: visible;
-    display: inline-block;
-  }
 
-  .attr[title]:hover::after {
-    content: attr(title);
-    position: absolute;
-    top: -100%;
-    left: 0;
-  }
