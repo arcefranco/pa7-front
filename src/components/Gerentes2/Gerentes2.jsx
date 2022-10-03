@@ -1,25 +1,23 @@
 import React, {useEffect, useState } from 'react'
 import { useSelector, useDispatch} from 'react-redux'
-import { deleteGerentes, getGerentes, getGerentesById, postGerentes, updateGerentes, reset } from '../../reducers/Gerentes/gerentesSlice'
+import { getGerentes, postGerentes, reset } from '../../reducers/Gerentes/gerentesSlice'
 import TableContainer from '../GerentesTable/TableContainer'
 import Gerentes2Item from './Gerentes2Item'
 import * as AiIcons from 'react-icons/ai';
-import Pagination from './Pagination'
-import styles from '../ListasPrecios/ListaItem.module.css'
+import styles from './Gerentes.module.css'
+import Pagination from '../Pagination/Pagination'
 import TitlePrimary from '../../styled-components/h/TitlePrimary'
 import TitleLogo from '../../styled-components/containers/TitleLogo'
 import { ReturnLogo } from '../../helpers/ReturnLogo'
-import {Link, useNavigate} from 'react-router-dom'
 import ButtonPrimary from '../../styled-components/buttons/ButtonPrimary'
-import { ExportCSV } from '../../helpers/exportCSV';
 import ModalStatus from '../ModalStatus'
 
 
 const Gerentes2 = () => {
     const dispatch = useDispatch()
-    const {user, empresaReal} = useSelector(
+    const {empresaReal} = useSelector(
       (state) => state.login.user)
-   const {gerentes, gerentesById,statusNuevoGerente} = useSelector(
+   const {gerentes, statusNuevoGerente} = useSelector(
       (state) => state.gerentes)
     const [newField, setNewField] = useState(false)
     const [newGerente, setNewGerente] = useState({
@@ -51,7 +49,8 @@ const Gerentes2 = () => {
     
     useEffect(() => {
         if(filterNombre.length || filterActivo.length){
-
+            setCurrentPage(1)
+            
             if(filterActivo.length){
                 setGerentesFiltered(
                     gerentes
@@ -123,7 +122,9 @@ const Gerentes2 = () => {
     return (
         <div>
             {
-                (statusNuevoGerente.length && modal) ? <ModalStatus message={statusNuevoGerente[0]?.data} status={statusNuevoGerente[0]?.status}/> : null
+                (statusNuevoGerente.length && modal) ? 
+                <ModalStatus message={statusNuevoGerente[0]?.data} status={statusNuevoGerente[0]?.status}/> :
+                null
             }
 
             <TitleLogo>
@@ -133,12 +134,8 @@ const Gerentes2 = () => {
           </div>
         <TitlePrimary>Gerentes</TitlePrimary>
         </TitleLogo>
-            <AiIcons.AiFillPlusCircle style={{
-                marginBottom: '20px',
-                width: '2rem',
-                height: '2rem',
-                cursor: 'pointer'
-            }} onClick={() => setNewField(!newField)} data-tip data-for="botonTooltip2" />
+            <AiIcons.AiFillPlusCircle className={styles.plusCircle}
+             onClick={() => setNewField(!newField)} data-tip data-for="botonTooltip2" />
             <Pagination
             nPages = { nPages }
             currentPage = { currentPage } 
@@ -150,22 +147,18 @@ const Gerentes2 = () => {
                     <th>Codigo
 
                     </th>
-                    <th style={{flexDirection: 'column'}}>
+                    <th >
                         <span>
                           Nombre   
                         </span> <br />
                             
-                <input type="text"  
-                style={{width: '7rem',
-                        height:'1.2rem',
-                        padding: '0.6em',
-                        marginTop: '0.2em',
-                        marginBottom: '0.2em'}}
+                <input type="text" 
+                className={styles.inputFilterColumn} 
                 value={filterNombre}
                 onChange={(e) => setFilterNombre(e.target.value)}    
                     />
                 </th>
-                    <th style={{flexDirection: 'column'}}>
+                    <th>
                         <span>  
                             Activo
                             </span> <br />
@@ -209,7 +202,8 @@ const Gerentes2 = () => {
                 }
                 
                 {
-                    currentRecords && currentRecords.map(e => <Gerentes2Item key={e.Codigo} Codigo={e.Codigo} Nombre={e.Nombre} Activo={e.Activo}/>)
+                    currentRecords && currentRecords.map(e => 
+                    <Gerentes2Item key={e.Codigo} Codigo={e.Codigo} Nombre={e.Nombre} Activo={e.Activo}/>)
                 }
 
                 </table>

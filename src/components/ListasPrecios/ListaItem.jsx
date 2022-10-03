@@ -89,8 +89,9 @@ const ListaItem = ({Codigo, Descripcion, VigenciaD, VigenciaH}) => {
     };
 
     const handleEditChange = (e) => {
-        const { name, value } = e.target;
-
+        let { name, value } = e.target;
+        if(name === 'VigenciaD') value = value.split('-').reverse().join('-')
+        if (name === 'VigenciaH') value = value.split('-').reverse().join('-')
         const newForm = { ...editLista, [name]: value };
         setEditLista(newForm);        
 
@@ -137,11 +138,11 @@ const ListaItem = ({Codigo, Descripcion, VigenciaD, VigenciaH}) => {
             <input type="text" value={editLista.Descripcion} name="Descripcion" placeholder="Descripcion" onChange={handleEditChange} />
             <div>
             <span className={styles.span}><b>Vigencia Desde: </b> </span>
-            <input type="date" name="VigenciaD" value={editLista.VigenciaD} onChange={handleEditChange}/>
+            <input type="date" name="VigenciaD"  value={editLista.VigenciaD.split('-').reverse().join('-')} onChange={handleEditChange}/>
             </div>
             <div>
             <span className={styles.span}>  <b>Vigencia Hasta: </b></span> 
-            <input type="date" name="VigenciaH" value={editLista.VigenciaH} onChange={handleEditChange} />
+            <input type="date" name="VigenciaH"  value={editLista.VigenciaH?.split('-').reverse().join('-')} onChange={handleEditChange} />
             </div>
             <div>
                 <AiIcons.AiFillCheckCircle onClick={() =>{

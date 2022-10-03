@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getListas, getModelos, createLista } from "../../reducers/ListasPrecios/ListaSlice";
+import Pagination from "../Pagination/Pagination";
+import ModalStatus from "../ModalStatus";
+import { getListas, getModelos, createLista, reset } from "../../reducers/ListasPrecios/ListaSlice";
 import TitleLogo from "../../styled-components/containers/TitleLogo";
 import TitlePrimary from "../../styled-components/h/TitlePrimary";
 import styles from './ListaItem.module.css'
@@ -14,7 +16,7 @@ import ListaItem from "./ListaItem";
 const ListasPrecios = () => {
 
     const dispatch = useDispatch()
-    const {listas, nuevaLista, deletedLista} = useSelector((state) => state.listasprecios)
+    const { updatedLista, listas, nuevaLista, deletedLista, createdLista, createdModelo} = useSelector((state) => state.listasprecios)
     const {empresaReal, marca, codigoMarca} = useSelector((state) => state.login.user)
     const [newList, setNewList] = useState(false)
     const [input, setInput] = useState({
@@ -23,6 +25,17 @@ const ListasPrecios = () => {
         VigenciaD: '',
         VigenciaH: ''
     })
+    const [currentPage, setCurrentPage] = useState(1);
+    const [recordsPerPage] = useState(7);
+    const [filteredListas, setFilteredListas] = useState('') 
+    const [inputFilter, setInputFilter] = useState('')
+    const [modal, setModal] = useState(true)
+    const indexOfLastRecord = currentPage * recordsPerPage;
+    const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+    const currentRecords = filteredListas.slice(indexOfFirstRecord, 
+        indexOfLastRecord);
+
+    const nPages = Math.ceil(filteredListas?.length / recordsPerPage)
 
     useEffect(() => {
         dispatch(getListas())
@@ -58,6 +71,31 @@ const ListasPrecios = () => {
 
     }, [])
 
+    useEffect(() => {
+        setFilteredListas(listas)
+    }, [listas])
+
+    useEffect(() => {
+        setFilteredListas(listas.filter(e => e.Descripcion.toLowerCase().includes(inputFilter.toLowerCase())))
+    }, [inputFilter])
+
+    useEffect(() => {
+        setModal(true)
+
+         if(updatedLista && typeof(updatedLista?.message) === 'string'){
+            setTimeout(() => {setModal(false)}, 5000)
+            
+        } 
+        if(updatedLista?.status === true){
+            dispatch(getListas())
+        }
+
+    }, [updatedLista]) 
+
+    useEffect(() => {
+        setTimeout(() => {dispatch(reset())}, 9000)
+    }, [modal])
+
     const handleChange = (e) => {
         const { name, value } = e.target;
 
@@ -68,6 +106,11 @@ const ListasPrecios = () => {
 
     return (
         <div>
+            {
+                 (updatedLista && typeof(updatedLista?.message) === 'string') && modal ? 
+                <ModalStatus message={updatedLista?.message} status={updatedLista?.status}/> :
+                null
+            } 
         <TitleLogo>
           <div>
             <span>{empresaReal}</span>
@@ -91,6 +134,12 @@ const ListasPrecios = () => {
             }} onClick={() => setNewList(!newList)} data-tip data-for="botonTooltip2" />
 
         </div>
+        <Pagination
+            nPages = { nPages }
+            currentPage = { currentPage } 
+            setCurrentPage = { setCurrentPage }
+            />
+            <input value={inputFilter} onChange={(e) => setInputFilter(e.target.value)} type="text" className={styles.inputFilter} placeholder="Buscar por nombre"/>
         <div style={{textAlign: '-webkit-center'}}>
             {
                 newList && <div className={styles.item} style={{    display: 'flex',
@@ -121,8 +170,8 @@ const ListasPrecios = () => {
             }
 
             {
-                listas && listas.map(e => 
-                    <ListaItem Codigo={e.Codigo} Descripcion={e.Descripcion} VigenciaD={e.VigenciaDesde.slice(0,10)} VigenciaH={e.VigenciaHasta ? e.VigenciaHasta.slice(0,10) : null}/>
+                currentRecords && currentRecords.map(e => 
+                    <ListaItem Codigo={e.Codigo} Descripcion={e.Descripcion} VigenciaD={e.VigenciaDesde.slice(0,10) } VigenciaH={e.VigenciaHasta ? e.VigenciaHasta.slice(0,10) : null}/>
                     )
             }
 
