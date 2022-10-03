@@ -22,12 +22,12 @@ const getGerentes = async () => {
 }
 
 const postGerentes = async (form) => {
-    const headers = getHeaderDB()
+    const headers = getHeaderToken()
     const response = await axios.post(process.env.REACT_APP_HOST + 'gerentes', form, headers ).catch((error) => errorsHandling(error))
     return response.data 
   }
 const updateGerentes = async (form) => {
-  const headers = getHeaderDB()
+  const headers = getHeaderToken()
   const response = await axios.put(process.env.REACT_APP_HOST + 'gerentes' , form, headers)
   return response.data 
 }  

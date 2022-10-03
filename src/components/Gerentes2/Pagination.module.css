@@ -1,0 +1,13 @@
+.pageItem{
+    padding: 0.6em;
+    font-size: 12px;
+}
+.pgNumber{
+    text-decoration: none;
+    color: black;
+
+}
+.pageItem.active {
+background-color:  #d1cfcf;
+font-size: 15px;
+}
