@@ -35,6 +35,7 @@ import Error404 from './pages/Error404';
 import OficialesMenu from './components/Oficiales/OficialesMenu';
 import ListasPrecios from './components/ListasPrecios/ListasPrecios';
 import Gerentes2 from './components/Gerentes2/Gerentes2';
+import Vendedores2 from './components/Vendedores2/Vendedores2';
 
 function App() {
   const {user, toggle} = useSelector(
@@ -93,7 +94,7 @@ function App() {
           <Route path='/modifUsuarios/:id' element={<PrivateMasterRoute rol={'1.7.16.3.2'}/>}>
               <Route path='/modifUsuarios/:id' element={<AltaUsuariosForm/>}/>
           </Route>
-          <Route path='/vendedores' element={<VendedoresTable/>}/>
+          <Route path='/vendedores' element={<Vendedores2/>}/>
           <Route path='/altaVendedores/' element={<VendedoresFormulario/>}/>
           <Route path='/modificarVendedores/:id' element={<VendedoresFormulario/>}/>
           <Route path="/sucursales" element={<SucursalesTable/>}/>

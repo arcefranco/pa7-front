@@ -1,10 +1,10 @@
 import React, {useEffect, useState } from 'react'
 import { useSelector, useDispatch} from 'react-redux'
-import { getGerentes, postGerentes, reset, endUpdate } from '../../reducers/Gerentes/gerentesSlice'
+import { getVendedores, getAllOficialesScoring, reset, getAllTeamLeaders, getAllOficialesMora } from '../../reducers/Vendedores/vendedoresSlice';
 import TableContainer from '../GerentesTable/TableContainer'
-import Gerentes2Item from './Gerentes2Item'
 import * as AiIcons from 'react-icons/ai';
-import styles from './Gerentes.module.css'
+import VendedorItem from './VendedorItem';
+import styles from '../Gerentes2/Gerentes.module.css'
 import Pagination from '../Pagination/Pagination'
 import TitlePrimary from '../../styled-components/h/TitlePrimary'
 import TitleLogo from '../../styled-components/containers/TitleLogo'
@@ -13,22 +13,24 @@ import ButtonPrimary from '../../styled-components/buttons/ButtonPrimary'
 import ModalStatus from '../ModalStatus'
 
 
-const Gerentes2 = () => {
+const Vendedores2 = () => {
+
+
     const dispatch = useDispatch()
     const {empresaReal} = useSelector(
       (state) => state.login.user)
-   const {gerentes, statusNuevoGerente, gerentesById} = useSelector(
-      (state) => state.gerentes)
+   const {vendedores, statusNuevoVendedor} = useSelector(
+      (state) => state.vendedores)
     const [newField, setNewField] = useState(false)
-    const [newGerente, setNewGerente] = useState({
+    const [newVendedor, setNewVendedor] = useState({
         Nombre: '',
         Activo: 0
     })
-    const [modal, setModal] = useState(true)
-    const [gerentesFiltered, setGerentesFiltered] = useState('')
+    const [vendedoresFiltered, setVendedoresFiltered] = useState('')
     const [filterNombre, setFilterNombre] = useState('')
     const [filterActivo, setFilterActivo] = useState('')
-    const [inEdit, setInEdit] = useState('')
+
+    const [modal, setModal] = useState(true)
 
     const [currentPage, setCurrentPage] = useState(1);
     const [recordsPerPage] = useState(10);
@@ -37,27 +39,16 @@ const Gerentes2 = () => {
     
         useEffect(() => {
             
-            dispatch(getGerentes())
-
+            Promise.all([dispatch(getVendedores()), dispatch(getAllOficialesScoring(),
+                    dispatch(getAllTeamLeaders(), dispatch(getAllOficialesMora()))
+                )])
+           
+    
             }, [])
 
-        useEffect(() => {
-            return () => {
-                dispatch(endUpdate({Codigo: inEdit}))
-            }
-        }, [inEdit])
-
-
-        useEffect(() => {
-            setGerentesFiltered(gerentes)
-        }, [gerentes])
-
-        useEffect(() => {
-            if(gerentesById?.status === true){
-
-                setInEdit(gerentesById?.codigo)
-            }
-        }, [gerentesById])
+         useEffect(() => {
+            setVendedoresFiltered(vendedores)
+        }, [vendedores]) 
 
     
     useEffect(() => {
@@ -65,89 +56,78 @@ const Gerentes2 = () => {
             setCurrentPage(1)
             
             if(filterActivo.length){
-                setGerentesFiltered(
-                    gerentes
+                setVendedoresFiltered(
+                    vendedores
                 .filter(e => {
                     return e.Nombre.toLowerCase().includes(filterNombre.toLocaleLowerCase()) && e.Activo === parseInt(filterActivo) 
                 }))
                     
 
             }else{
-                setGerentesFiltered(
-                    gerentes
+                setVendedoresFiltered(
+                    vendedores
                 .filter(e => {
                     return e.Nombre.toLowerCase().includes(filterNombre.toLocaleLowerCase())
                 }))
             }
             
         }else{
-            setGerentesFiltered(gerentes)
+            setVendedoresFiltered(vendedores)
         }
     },[filterActivo, filterNombre])
 
     
 
-    const currentRecords = gerentesFiltered.slice(indexOfFirstRecord, 
+    const currentRecords = vendedoresFiltered.slice(indexOfFirstRecord, 
             indexOfLastRecord);
 
-    const nPages = Math.ceil(gerentesFiltered?.length / recordsPerPage)
+    const nPages = Math.ceil(vendedoresFiltered?.length / recordsPerPage)
 
-    
-    useEffect(() => {
-        if(gerentesById?.status === false){
-            setTimeout(() => {setModal(false)}, 5000)
-        }
-    }, [gerentesById])
-    
-    useEffect(() => {
-        setModal(true)
-        
-        if(statusNuevoGerente && statusNuevoGerente.length){
-            setTimeout(() => {setModal(false)}, 5000)
-            
-        } 
-        if(statusNuevoGerente[0]?.status === true){
-            dispatch(getGerentes())
-        }
-        
-    }, [statusNuevoGerente]) 
-    
-    
-    useEffect(() => {
-        setTimeout(() => {dispatch(reset())}, 7000)
-    }, [modal])
-
-    const handleCheckChange = (e) => {
-        const { name} = e.target;
-        var value = e.target.checked
-        value = e.target.checked? 1 : 0
-        const newForm = { ...newGerente, [name]: value };
-        setNewGerente(newForm);
-    };
-    
-    
-    
     const HandleChange =  (e) =>{
   
     
         const {name , value} = e.target
-        const newForm = {...newGerente,
+        const newForm = {...newVendedor,
           [name]:value,
           }
         
-        setNewGerente(newForm)
+        setNewVendedor(newForm)
         
       }
+
+    useEffect(() => {
+        setModal(true)
+
+         if(statusNuevoVendedor && statusNuevoVendedor.length){
+            setTimeout(() => {setModal(false)}, 5000)
+            
+        } 
+        if(statusNuevoVendedor[0]?.status === true){
+            dispatch(getVendedores())
+        }
+
+    }, [statusNuevoVendedor]) 
+    
+
+    useEffect(() => {
+        setTimeout(() => {dispatch(reset())}, 7000)
+    }, [modal])
+
+      const handleCheckChange = (e) => {
+        const { name} = e.target;
+        var value = e.target.checked
+        value = e.target.checked? 1 : 0
+        const newForm = { ...newVendedor, [name]: value };
+        setNewVendedor(newForm);
+    };
+
+    
+
     return (
         <div>
             {
-                (statusNuevoGerente.length && modal) ? 
-                <ModalStatus message={statusNuevoGerente[0]?.data} status={statusNuevoGerente[0]?.status}/> :
-                null
-            }
-            {
-                (gerentesById?.status === false && modal) ? 
-                <ModalStatus message={gerentesById?.message} status={gerentesById?.status}/> :
+                (statusNuevoVendedor.length && modal) ? 
+                <ModalStatus message={statusNuevoVendedor[0]?.data} status={statusNuevoVendedor[0]?.status}/> :
                 null
             }
 
@@ -156,7 +136,7 @@ const Gerentes2 = () => {
             <span>{empresaReal}</span>
             <ReturnLogo empresa={empresaReal}/>
           </div>
-        <TitlePrimary>Gerentes</TitlePrimary>
+        <TitlePrimary>Vendedores</TitlePrimary>
         </TitleLogo>
         <div className={styles.buttonAddContainer}>
             <AiIcons.AiFillPlusCircle className={styles.plusCircle}
@@ -185,6 +165,11 @@ const Gerentes2 = () => {
                 onChange={(e) => setFilterNombre(e.target.value)}    
                     />
                 </th>
+                    <th>Team Leader</th>
+                    <th>Oficial Scoring</th>
+                    <th>Oficial Mora</th>
+                    <th>Fecha Baja</th>
+                    <th>Escala</th>
                     <th>
                         <span>  
                             Activo
@@ -206,33 +191,41 @@ const Gerentes2 = () => {
                     newField && 
                     <tr>
                         <td></td>
-                        
                         <td>
-                            <input value={newGerente.Nombre} name="Nombre" onChange={HandleChange} type="text" />
+                            <input value={newVendedor.Nombre} name="Nombre" onChange={HandleChange} type="text" />
                         </td>
                         <td>
-                            <input value={newGerente.Activo} name="Activo" onChange={handleCheckChange} type="checkbox" />
+                            <input value={newVendedor.Activo} name="Activo" onChange={handleCheckChange} type="checkbox" />
                         </td>
-                        <td></td>
                         <td>
                             <ButtonPrimary style={{margin: '0.8em'}}
-                            onClick={() =>{
-                                 dispatch(postGerentes(newGerente))
-                                    setNewGerente({
+   /*                          onClick={() =>{
+                                 dispatch(postGerentes(newVendedor))
+                                    setnewVendedor({
                                         Nombre: '',
                                         Activo: 0
                                     })
                                     setNewField(false)
-                                }}
+                                }} */
                             >Agregar</ButtonPrimary>
                         </td>
                         <td></td>
                     </tr>
                 }
-                
+                 
                 {
                     currentRecords && currentRecords.map(e => 
-                    <Gerentes2Item key={e.Codigo} Codigo={e.Codigo} Nombre={e.Nombre} Activo={e.Activo}/>)
+                    <VendedorItem key={
+                    e.Codigo} 
+                    Codigo={e.Codigo} 
+                    Nombre={e.Nombre} 
+                    TeamLeader={e.TeamLeader}
+                    OficialS={e.OficialScoring}
+                    OficialM={e.OficialM}
+                    Categoria={e.Categoria}
+                    Escala={e.Escala} 
+                    FechaBaja={e.FechaBaja}
+                    Activo={e.Activo}/>)
                 }
 
                 </table>
@@ -241,4 +234,4 @@ const Gerentes2 = () => {
     )
 }
 
-export default Gerentes2
+export default Vendedores2

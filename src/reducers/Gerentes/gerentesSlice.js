@@ -84,6 +84,18 @@ export const updateGerentes = createAsyncThunk('updategerentes', async (form, th
     }
   })
 
+  export const beginUpdate = createAsyncThunk('beginUpdate', async (gerentesData ,thunkAPI) => {
+    try {
+      const data = await gerentesService.beginUpdate(gerentesData)
+      return data
+    } catch (error) {
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+  })
+
 
 
 export const gerentesSlice = createSlice({
@@ -95,8 +107,7 @@ export const gerentesSlice = createSlice({
         state.isSuccess = false
         state.isError = false
         state.message = ''
-        state.gerentesById= []
-        state.statusNuevoGerente= []
+        state.statusNuevoGerente = []
       },
     },
 
@@ -130,6 +141,19 @@ export const gerentesSlice = createSlice({
             state.isError = true
             state.message = action.payload
             state.gerentesById = null
+          });
+          builder.addCase(beginUpdate.pending, (state) => {
+            state.isLoading = true
+          })
+        builder.addCase(beginUpdate.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.isSuccess = true
+            state.gerentesById = action.payload
+          }) 
+        builder.addCase(beginUpdate.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            state.gerentesById = action.payload
           });
 
           
