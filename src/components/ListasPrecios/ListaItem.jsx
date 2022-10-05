@@ -116,6 +116,8 @@ const ListaItem = ({Codigo, Descripcion, VigenciaD, VigenciaH}) => {
           })
     }
 
+    
+
     return (
         <div className={styles.item}>
            
@@ -213,7 +215,7 @@ const ListaItem = ({Codigo, Descripcion, VigenciaD, VigenciaH}) => {
                                             }
                                         </select></td>
                                     <td><input type="text" name="Precio" value={createModelo.Precio} onChange={handleChange}/></td>
-                                    <td><ButtonPrimary onClick={() =>{ 
+                                    <td><ButtonPrimary style={{margin: '0.8em'}} onClick={() =>{ 
                                         dispatch(insertModeloLista(createModelo))
                                         setCreateModelo({
                                             Modelo: '',

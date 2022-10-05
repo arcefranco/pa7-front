@@ -20,6 +20,11 @@ const getGerentes = async () => {
     const response = await axios.post(process.env.REACT_APP_HOST + 'gerentes/endUpdate', gerenteData, headers).catch((error) => errorsHandling(error))
     return response.data
 }
+const beginUpdate = async (gerenteData) => {
+  const headers = getHeaderToken()
+  const response = await axios.post(process.env.REACT_APP_HOST + 'gerentes/beginUpdate', gerenteData, headers).catch((error) => errorsHandling(error))
+  return response.data
+}
 
 const postGerentes = async (form) => {
     const headers = getHeaderToken()
@@ -42,7 +47,8 @@ const deleteGerentes = async (gerentesData) => {
 const gerentesService = {
     getGerentes, 
     postGerentes, 
-    updateGerentes, 
+    updateGerentes,
+    beginUpdate, 
     deleteGerentes, 
     getGerentesById,
     endUpdate

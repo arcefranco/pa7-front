@@ -4,7 +4,9 @@ import * as AiIcons from 'react-icons/ai';
 
 const Pagination = ({ nPages, currentPage, setCurrentPage }) => {
 
-    const pageNumbers = [...Array(nPages + 1).keys()].slice(1)
+
+    const pageNumbers = nPages > 20 ? [...Array(nPages + 1).keys()].slice(currentPage, currentPage+10) : [...Array(nPages + 1).keys()].slice(1)
+
 
     
 

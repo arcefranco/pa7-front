@@ -25,6 +25,12 @@ const getVendedores = async () => {
     const response = await axios.post(process.env.REACT_APP_HOST + 'vendedores/endUpdate', gerenteData, headers).catch((error) => errorsHandling(error))
     return response.data
 }
+
+const beginUpdate = async (gerenteData) => {
+  const headers = getHeaderToken()
+  const response = await axios.post(process.env.REACT_APP_HOST + 'vendedores/beginUpdate', gerenteData, headers).catch((error) => errorsHandling(error))
+  return response.data
+}
   const getAllTeamLeaders = async () => {
     const headers = getHeaderDB()
     const response = await axios.get(process.env.REACT_APP_HOST + 'teamleaders', headers ).catch((error) => errorsHandling(error))
@@ -82,7 +88,8 @@ const deleteVendedores = async (vendedoresData) => {
 
 const vendedoresService = {
     getVendedores, 
-    postVendedores, 
+    postVendedores,
+    beginUpdate, 
     updateVendedores, 
     deleteVendedores, 
     getVendedoresById, 
