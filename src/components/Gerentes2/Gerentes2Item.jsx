@@ -1,7 +1,9 @@
 import React, {useState} from "react";
-import { useDispatch  } from "react-redux";
-import { updateGerentes, deleteGerentes} from '../../reducers/Gerentes/gerentesSlice';
+import { useDispatch, useSelector  } from "react-redux";
+import * as AiIcons from 'react-icons/ai'
+import { updateGerentes, deleteGerentes, beginUpdate, endUpdate} from '../../reducers/Gerentes/gerentesSlice';
 import styles from './Gerentes.module.css'
+import { useEffect } from "react";
 
 
 const Gerentes2Item = ({Codigo, Nombre, Activo}) => {
@@ -12,7 +14,42 @@ const [item, setItem] = useState({
     Activo: Activo
 })
 
+const {gerentesById, statusNuevoGerente} = useSelector(state => state.gerentes)
+
+const [edit, setEdit] = useState(false)
+
 const dispatch = useDispatch()
+
+useEffect(() => {
+    if(gerentesById?.status === false){
+       setEdit(false)
+    }
+}, [gerentesById])
+
+ useEffect(() => {
+
+    if((gerentesById?.status === true) && (gerentesById?.codigo !== Codigo) && edit){
+        setEdit(false)
+        dispatch(endUpdate({Codigo: Codigo}))
+    }
+
+    return () => {
+        if((gerentesById?.status === true) && (gerentesById?.codigo !== Codigo) && edit){
+            setEdit(false)
+            dispatch(endUpdate({Codigo: Codigo}))
+        }
+    }
+
+}, [gerentesById])
+
+useEffect(() => {
+    
+    if(statusNuevoGerente && statusNuevoGerente.length){
+        setEdit(false)
+        
+    } 
+    
+}, [statusNuevoGerente]) 
 
 const HandleChange =  (e) =>{
   
@@ -41,20 +78,44 @@ const HandleSubmitUpdate =async (event) =>{
     dispatch(updateGerentes(item))
 }
 
+const handleEdit = () => {
+    dispatch(beginUpdate({Codigo: Codigo}))
+    setEdit(true)
+}
 
     return (
         <tr>
         <td>{Codigo}</td>
-        <td>
+        <td style={{ width: '30rem'}}>
+
+             {
+                (edit && gerentesById && gerentesById.status === true) ? <span style={{width: '5rem'}}><input type="text" className={styles.inputFilter} name="Nombre" value={item.Nombre} onChange={HandleChange} /></span>  :
+                <span style={{width: '5rem'}}>{item.Nombre}</span>
+             }
             
-        <input type="text" className={styles.inputFilter} name="Nombre" value={item.Nombre} onChange={HandleChange} />
+        
             
         </td>
 
 
         <td>
+
+            {
+                (edit && gerentesById && gerentesById.status === true)  ? <input name="Activo" type="checkbox"value={item.Activo} checked={item.Activo === 1 ? true : false} onChange={handleCheckChange}/> : 
+                <input name="Activo" type="checkbox"  checked={item.Activo === 1 ? true : false}/>
+            }
             
-         <input name="Activo" type="checkbox"value={item.Activo} checked={item.Activo === 1 ? true : false} onChange={handleCheckChange}/> 
+          
+            
+            </td>
+
+            <td>
+                {
+                    !edit ? <AiIcons.AiFillEdit style={{marginLeft: '0.5rem', cursor: 'pointer'}} onClick={handleEdit}/> : 
+                    <AiIcons.AiFillCloseCircle style={{color: 'red', marginLeft: '0.5rem', cursor: 'pointer'}} onClick={() =>{
+                        dispatch(endUpdate({Codigo: Codigo}))
+                        setEdit(false)}}/>
+                }
             
             </td>
         <td>

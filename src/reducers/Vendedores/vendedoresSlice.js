@@ -59,6 +59,21 @@ export const getVendedores = createAsyncThunk('vendedores', async (thunkAPI) => 
       return thunkAPI.rejectWithValue(error.response.data)
     }
   })
+
+  export const beginUpdate = createAsyncThunk('beginUpdate', async (usuarioData, thunkAPI) => {
+    try {
+      
+      const data = await vendedoresService.beginUpdate(usuarioData)
+
+      return data
+    } catch (error) {
+
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+  })
   export const getAllEscalas = createAsyncThunk('vendedores/escalas', async (thunkAPI) => {
     try {
       
@@ -239,6 +254,19 @@ export const vendedoresSlice = createSlice({
             state.isError = true
             state.message = action.payload
             state.vendedoresById = null
+          });
+        builder.addCase(beginUpdate.pending, (state) => {
+            state.isLoading = true
+          })
+        builder.addCase(beginUpdate.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.isSuccess = true
+            state.vendedoresById = action.payload
+          }) 
+        builder.addCase(beginUpdate.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            state.vendedoresById = action.payload
           });
           builder.addCase(getAllTeamLeaders.pending, (state) => {
             state.isLoading = true

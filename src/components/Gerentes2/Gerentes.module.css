@@ -1,7 +1,4 @@
-.inputFilter{
-    background: none;
-    border: none;
-}
+
 
 .inputFilterColumn{
     width: 7rem;
@@ -24,8 +21,9 @@
     width: 48px
 }
 .plusCircle {
-    margin-bottom: 20px;
     width: 2rem;
+    margin-right: 20px;
+    margin-bottom: 20px;
     height: 2rem;
     cursor: pointer;
 }
@@ -39,4 +37,9 @@
     margin: .8em; 
     font-size: .9em;
     
+}
+
+.buttonAddContainer {
+    display: flex;
+    justify-content: flex-end;
 }
