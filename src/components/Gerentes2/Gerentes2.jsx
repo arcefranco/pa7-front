@@ -1,6 +1,6 @@
-import React, {useEffect, useState } from 'react'
+import React, {useEffect, useState, useRef } from 'react'
 import { useSelector, useDispatch} from 'react-redux'
-import { getGerentes, postGerentes, reset, endUpdate } from '../../reducers/Gerentes/gerentesSlice'
+import { getGerentes, postGerentes, reset, endUpdate, resetGerenteById, resetStatus,  getGerentesById } from '../../reducers/Gerentes/gerentesSlice'
 import TableContainer from '../GerentesTable/TableContainer'
 import Gerentes2Item from './Gerentes2Item'
 import * as AiIcons from 'react-icons/ai';
@@ -29,7 +29,7 @@ const Gerentes2 = () => {
     const [filterNombre, setFilterNombre] = useState('')
     const [filterActivo, setFilterActivo] = useState('')
     const [inEdit, setInEdit] = useState('')
-
+    const actualInEdit = useRef(inEdit);
     const [currentPage, setCurrentPage] = useState(1);
     const [recordsPerPage] = useState(10);
     const indexOfLastRecord = currentPage * recordsPerPage;
@@ -38,14 +38,29 @@ const Gerentes2 = () => {
         useEffect(() => {
             
             dispatch(getGerentes())
+            
 
             }, [])
 
         useEffect(() => {
-            return () => {
-                dispatch(endUpdate({Codigo: inEdit}))
+            
+            actualInEdit.current = inEdit; //Actualizar el estado de inEdit para hacer el endUpdate al actualizar/desmontar
+        
+        }, [inEdit]);
+
+        useEffect(() => {
+
+            function endEdit () {
+                dispatch(endUpdate({Codigo: actualInEdit.current}))
             }
-        }, [inEdit])
+ 
+            window.addEventListener('beforeunload', endEdit) //evento para remover el inUpdate cuando esta abierto inEdit y se actualiza
+            
+            return () => {
+                window.removeEventListener('beforeunload', endEdit)
+                dispatch(endUpdate({Codigo: actualInEdit.current}))
+            } 
+        }, []) 
 
 
         useEffect(() => {
@@ -101,21 +116,34 @@ const Gerentes2 = () => {
     
     useEffect(() => {
         setModal(true)
+
+        function resetModal () {
+                dispatch(resetStatus())
+                setModal(false)
+        }
+        function resetGerente () {
+            dispatch(resetGerenteById())
+            setModal(false)
+    }
+
         
         if(statusNuevoGerente && statusNuevoGerente.length){
-            setTimeout(() => {setModal(false)}, 5000)
+            setTimeout(resetModal, 5000)
             
-        } 
-        if(statusNuevoGerente[0]?.status === true){
-            dispatch(getGerentes())
         }
+        if(gerentesById && Object.keys(gerentesById).length){
+             setTimeout(resetGerente, 5000) 
+            
+        }  
+        if(statusNuevoGerente[0]?.status === true){  //como no se limpia el estado y el status queda en true no me deja editar porque hace el getGerentes automaticamente
+            dispatch(getGerentes())
+        } 
         
-    }, [statusNuevoGerente]) 
+    }, [statusNuevoGerente, gerentesById])     
     
-    
-    useEffect(() => {
-        setTimeout(() => {dispatch(reset())}, 7000)
-    }, [modal])
+/*     useEffect(() => {
+        setTimeout(() => {dispatch(reset())}, 5000)
+    }, [modal]) */
 
     const handleCheckChange = (e) => {
         const { name} = e.target;

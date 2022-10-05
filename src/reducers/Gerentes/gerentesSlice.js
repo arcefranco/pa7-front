@@ -107,8 +107,16 @@ export const gerentesSlice = createSlice({
         state.isSuccess = false
         state.isError = false
         state.message = ''
+      },
+
+      resetStatus : (state) => {
         state.statusNuevoGerente = []
       },
+
+      resetGerenteById: (state) => {
+        state.gerentesById = []
+      }
+      
     },
 
     extraReducers: (builder) => {
@@ -144,6 +152,7 @@ export const gerentesSlice = createSlice({
           });
           builder.addCase(beginUpdate.pending, (state) => {
             state.isLoading = true
+            state.gerentesById = []
           })
         builder.addCase(beginUpdate.fulfilled, (state, action) => {
             state.isLoading = false
@@ -215,5 +224,5 @@ export const gerentesSlice = createSlice({
 
 })
 
-export const { reset } = gerentesSlice.actions
+export const { reset, resetStatus, resetGerenteById } = gerentesSlice.actions
 export default gerentesSlice.reducer

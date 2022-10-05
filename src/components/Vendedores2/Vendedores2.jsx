@@ -1,6 +1,6 @@
-import React, {useEffect, useState } from 'react'
+import React, {useEffect, useState, useRef } from 'react'
 import { useSelector, useDispatch} from 'react-redux'
-import { getVendedores, getAllOficialesScoring, reset, getAllTeamLeaders, getAllOficialesMora } from '../../reducers/Vendedores/vendedoresSlice';
+import { getVendedores, getAllOficialesScoring, reset, getAllTeamLeaders, getAllOficialesMora, postVendedores, endUpdate } from '../../reducers/Vendedores/vendedoresSlice';
 import TableContainer from '../GerentesTable/TableContainer'
 import * as AiIcons from 'react-icons/ai';
 import VendedorItem from './VendedorItem';
@@ -19,19 +19,24 @@ const Vendedores2 = () => {
     const dispatch = useDispatch()
     const {empresaReal} = useSelector(
       (state) => state.login.user)
-   const {vendedores, statusNuevoVendedor} = useSelector(
+   const {vendedores, statusNuevoVendedor, teamleader, oficialesScoring, oficialesMora, vendedoresById} = useSelector(
       (state) => state.vendedores)
     const [newField, setNewField] = useState(false)
     const [newVendedor, setNewVendedor] = useState({
         Nombre: '',
+        TeamLeader: '',
+        OficialS: '',
+        OficialM: '',
+        FechaBaja: '',
+        Escala: '',
         Activo: 0
     })
     const [vendedoresFiltered, setVendedoresFiltered] = useState('')
     const [filterNombre, setFilterNombre] = useState('')
     const [filterActivo, setFilterActivo] = useState('')
-
     const [modal, setModal] = useState(true)
-
+    const [inEdit, setInEdit] = useState('')
+    const actualInEdit = useRef(inEdit);
     const [currentPage, setCurrentPage] = useState(1);
     const [recordsPerPage] = useState(10);
     const indexOfLastRecord = currentPage * recordsPerPage;
@@ -43,13 +48,30 @@ const Vendedores2 = () => {
                     dispatch(getAllTeamLeaders(), dispatch(getAllOficialesMora()))
                 )])
            
-    
             }, [])
+
+            useEffect(() => {
+                actualInEdit.current = inEdit; //Actualizar el estado de inEdit para hacer el endUpdate al actualizar/desmontar
+              }, [inEdit]);
+
 
          useEffect(() => {
             setVendedoresFiltered(vendedores)
         }, [vendedores]) 
 
+        useEffect(() => {
+
+            function endEdit () {
+                dispatch(endUpdate({Codigo: actualInEdit.current}))
+            }
+ 
+            window.addEventListener('beforeunload', endEdit) //evento para remover el inUpdate cuando esta abierto inEdit y se actualiza
+            
+            return () => {
+                window.removeEventListener('beforeunload', endEdit)
+                dispatch(endUpdate({Codigo: actualInEdit.current}))
+            } 
+        }, []) 
     
     useEffect(() => {
         if(filterNombre.length || filterActivo.length){
@@ -87,18 +109,26 @@ const Vendedores2 = () => {
   
     
         const {name , value} = e.target
+        let parseValue = value
+        if(name === "OficialS" || name === "OficialM" || name === "TeamLeader" || name === "Escala") {
+            parseValue = parseInt(value)
+        }
         const newForm = {...newVendedor,
-          [name]:value,
+          [name]: parseValue,
           }
         
         setNewVendedor(newForm)
         
       }
 
-    useEffect(() => {
+    useEffect(() => { //Manejar actualizaciones de vendedores (ABM) y su inUpdate
         setModal(true)
 
-         if(statusNuevoVendedor && statusNuevoVendedor.length){
+         if(statusNuevoVendedor && statusNuevoVendedor.length){ 
+            setTimeout(() => {setModal(false)}, 5000)
+            
+        } 
+        if(vendedoresById){
             setTimeout(() => {setModal(false)}, 5000)
             
         } 
@@ -106,11 +136,11 @@ const Vendedores2 = () => {
             dispatch(getVendedores())
         }
 
-    }, [statusNuevoVendedor]) 
+    }, [statusNuevoVendedor, vendedoresById]) 
     
 
     useEffect(() => {
-        setTimeout(() => {dispatch(reset())}, 7000)
+        setTimeout(() => {dispatch(reset())}, 5000)
     }, [modal])
 
       const handleCheckChange = (e) => {
@@ -120,6 +150,14 @@ const Vendedores2 = () => {
         const newForm = { ...newVendedor, [name]: value };
         setNewVendedor(newForm);
     };
+    useEffect(() => {
+        if(vendedoresById?.status === true){
+
+            setInEdit(vendedoresById?.codigo)
+        }
+    }, [vendedoresById])
+    
+  
 
     
 
@@ -128,6 +166,11 @@ const Vendedores2 = () => {
             {
                 (statusNuevoVendedor.length && modal) ? 
                 <ModalStatus message={statusNuevoVendedor[0]?.data} status={statusNuevoVendedor[0]?.status}/> :
+                null
+            }
+            {
+                (vendedoresById?.status === false && modal) ? 
+                <ModalStatus message={vendedoresById?.message} status={vendedoresById?.status}/> :
                 null
             }
 
@@ -195,18 +238,58 @@ const Vendedores2 = () => {
                             <input value={newVendedor.Nombre} name="Nombre" onChange={HandleChange} type="text" />
                         </td>
                         <td>
-                            <input value={newVendedor.Activo} name="Activo" onChange={handleCheckChange} type="checkbox" />
+                            <select name="TeamLeader" id="" value={newVendedor.TeamLeader} onChange={HandleChange}>
+                                <option value="*">---</option>
+                                {
+                                    teamleader && teamleader.map(e => <option value={e.Codigo}>{e.Nombre}</option>)
+                                }
+                            </select>
                         </td>
                         <td>
+                            <select name="OficialS" id="" value={newVendedor.OficialS} onChange={HandleChange}>
+                                <option value="*">---</option>
+                                {
+                                    oficialesScoring && oficialesScoring.map(e => <option value={e.Codigo}>{e.Nombre}</option>)
+                                }
+                            </select>
+                        </td>
+                        <td>
+                            <select name="OficialM" id="" value={newVendedor.OficialM} onChange={HandleChange}>
+                                <option value="*">---</option>
+                                {
+                                    oficialesMora && oficialesMora.map(e => <option value={e.Codigo}>{e.Nombre}</option>)
+                                }
+                            </select>
+                        </td>
+                        <td>
+                                <input type="date" name='FechaBaja' value={newVendedor.FechaBaja} onChange={HandleChange}/>
+                        </td>
+                        <td>
+                                <select name="Escala" value={newVendedor.Escala} onChange={HandleChange} id="">
+                                    <option value="*">---</option>
+                                    <option value={1}>Margian</option>
+                                    <option value={2}>Gestión Financiera</option>
+                                </select>
+                        </td>
+                        <td style={{textAlign: 'center'}}>
+                            <input value={newVendedor.Activo} name="Activo" onChange={handleCheckChange} type="checkbox" />
+                        </td>
+                        <td></td>
+                        <td>
                             <ButtonPrimary style={{margin: '0.8em'}}
-   /*                          onClick={() =>{
-                                 dispatch(postGerentes(newVendedor))
-                                    setnewVendedor({
+                             onClick={() =>{
+                                 dispatch(postVendedores(newVendedor))
+                                    setNewVendedor({
                                         Nombre: '',
+                                        TeamLeader: '',
+                                        OficialS: '',
+                                        OficialM: '',
+                                        FechaBaja: '',
+                                        Escala: '',
                                         Activo: 0
                                     })
                                     setNewField(false)
-                                }} */
+                                }} 
                             >Agregar</ButtonPrimary>
                         </td>
                         <td></td>
@@ -215,13 +298,13 @@ const Vendedores2 = () => {
                  
                 {
                     currentRecords && currentRecords.map(e => 
-                    <VendedorItem key={
-                    e.Codigo} 
+                    <VendedorItem 
+                    key={e.Codigo} 
                     Codigo={e.Codigo} 
                     Nombre={e.Nombre} 
                     TeamLeader={e.TeamLeader}
                     OficialS={e.OficialScoring}
-                    OficialM={e.OficialM}
+                    OficialM={e.OficialMora}
                     Categoria={e.Categoria}
                     Escala={e.Escala} 
                     FechaBaja={e.FechaBaja}
