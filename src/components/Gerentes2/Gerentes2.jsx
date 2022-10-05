@@ -17,7 +17,10 @@ const Gerentes2 = () => {
     const dispatch = useDispatch()
     const {empresaReal} = useSelector(
       (state) => state.login.user)
+
    const {gerentes, statusNuevoGerente, gerentesById} = useSelector(
+
+
       (state) => state.gerentes)
     const [newField, setNewField] = useState(false)
     const [newGerente, setNewGerente] = useState({
@@ -172,11 +175,13 @@ const Gerentes2 = () => {
                 (statusNuevoGerente.length && modal) ? 
                 <ModalStatus message={statusNuevoGerente[0]?.data} status={statusNuevoGerente[0]?.status}/> :
                 null
+
             }
             {
                 (gerentesById?.status === false && modal) ? 
                 <ModalStatus message={gerentesById?.message} status={gerentesById?.status}/> :
                 null
+
             }
 
             <TitleLogo>
@@ -186,11 +191,13 @@ const Gerentes2 = () => {
           </div>
         <TitlePrimary>Gerentes</TitlePrimary>
         </TitleLogo>
+
         <div className={styles.buttonAddContainer}>
             <AiIcons.AiFillPlusCircle className={styles.plusCircle}
              onClick={() => setNewField(!newField)} data-tip data-for="botonTooltip2" />
 
         </div>
+
             <Pagination
             nPages = { nPages }
             currentPage = { currentPage } 

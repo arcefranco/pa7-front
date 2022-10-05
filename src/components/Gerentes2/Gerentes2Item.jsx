@@ -6,6 +6,7 @@ import styles from './Gerentes.module.css'
 import { useEffect } from "react";
 
 
+
 const Gerentes2Item = ({Codigo, Nombre, Activo}) => {
 
 const [item, setItem] = useState({
@@ -14,9 +15,11 @@ const [item, setItem] = useState({
     Activo: Activo
 })
 
+
 const {gerentesById, statusNuevoGerente} = useSelector(state => state.gerentes)
 
 const [edit, setEdit] = useState(false)
+
 
 const dispatch = useDispatch()
 
@@ -86,6 +89,7 @@ const handleEdit = () => {
     return (
         <tr>
         <td>{Codigo}</td>
+
         <td style={{ width: '30rem'}}>
 
              {
@@ -94,6 +98,7 @@ const handleEdit = () => {
              }
             
         
+
             
         </td>
 
