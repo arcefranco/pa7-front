@@ -4,7 +4,7 @@ import { getGerentes, postGerentes, reset, endUpdate, resetGerenteById, resetSta
 import TableContainer from '../GerentesTable/TableContainer'
 import Gerentes2Item from './Gerentes2Item'
 import * as AiIcons from 'react-icons/ai';
-import styles from './Gerentes.module.css'
+import styles from '../../styles/Table.module.css'
 import Pagination from '../Pagination/Pagination'
 import TitlePrimary from '../../styled-components/h/TitlePrimary'
 import TitleLogo from '../../styled-components/containers/TitleLogo'
@@ -124,26 +124,23 @@ const Gerentes2 = () => {
         function resetGerente () {
             dispatch(resetGerenteById())
             setModal(false)
-    }
+        }
 
         
         if(statusNuevoGerente && statusNuevoGerente.length){
             setTimeout(resetModal, 5000)
             
         }
-        if(gerentesById && Object.keys(gerentesById).length){
+        if(gerentesById && Object.keys(gerentesById).length && gerentesById?.status === false){
              setTimeout(resetGerente, 5000) 
             
         }  
-        if(statusNuevoGerente[0]?.status === true){  //como no se limpia el estado y el status queda en true no me deja editar porque hace el getGerentes automaticamente
+        if(statusNuevoGerente[0]?.status === true){  
             dispatch(getGerentes())
         } 
         
     }, [statusNuevoGerente, gerentesById])     
     
-/*     useEffect(() => {
-        setTimeout(() => {dispatch(reset())}, 5000)
-    }, [modal]) */
 
     const handleCheckChange = (e) => {
         const { name} = e.target;

@@ -114,6 +114,21 @@ export const getAllSucursales = createAsyncThunk('sucursales/All', async (thunkA
     }
   })
 
+  export const beginUpdate = createAsyncThunk('beginUpdate', async (sucursalData, thunkAPI) => {
+    try {
+      
+      const data = await sucursalesService.beginUpdate(sucursalData)
+
+      return data
+    } catch (error) {
+
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+  })
+
 
 
 
@@ -125,10 +140,16 @@ export const sucursalesSlice = createSlice({
         state.isLoading = false
         state.isSuccess = false
         state.isError = false
-        state.message = ''
-        state.sucursalById = []
-        state.sucursalStatus = ''       
+        state.message = ''       
       },
+
+      resetStatus: (state) => {
+        state.sucursalStatus = {}
+      },
+
+      resetSucursales: (state) => {
+        state.sucursalStatus = []
+      }
     },
 
     extraReducers: (builder) => {
@@ -159,18 +180,18 @@ export const sucursalesSlice = createSlice({
           state.isError = true
           state.message = action.payload
       })
-        .addCase(getSucursalById.pending, (state) => {
+        .addCase(beginUpdate.pending, (state) => {
             state.isLoading = true
         })
-          .addCase(getSucursalById.fulfilled, (state, action) => {
+        .addCase(beginUpdate.fulfilled, (state, action) => {
             state.isLoading = false
             state.isSuccess = true
-            state.sucursalById = action.payload
+            state.sucursalStatus = action.payload
         }) 
-          .addCase(getSucursalById.rejected, (state, action) => {
+        .addCase(beginUpdate.rejected, (state, action) => {
             state.isLoading = false
             state.isError = true
-            state.message = action.payload
+            state.sucursalStatus = action.payload
         })
         .addCase(deleteSucursal.pending, (state) => {
             state.isLoading = true
@@ -215,5 +236,5 @@ export const sucursalesSlice = createSlice({
 }})
 
 
-export const { reset } = sucursalesSlice.actions
+export const { reset, resetStatus, resetSucursales } = sucursalesSlice.actions
 export default sucursalesSlice.reducer

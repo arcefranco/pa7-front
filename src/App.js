@@ -36,6 +36,7 @@ import OficialesMenu from './components/Oficiales/OficialesMenu';
 import ListasPrecios from './components/ListasPrecios/ListasPrecios';
 import Gerentes2 from './components/Gerentes2/Gerentes2';
 import Vendedores2 from './components/Vendedores2/Vendedores2';
+import Sucursales from './components/Sucursales/Sucursales';
 
 function App() {
   const {user, toggle} = useSelector(
@@ -97,7 +98,7 @@ function App() {
           <Route path='/vendedores' element={<Vendedores2/>}/>
           <Route path='/altaVendedores/' element={<VendedoresFormulario/>}/>
           <Route path='/modificarVendedores/:id' element={<VendedoresFormulario/>}/>
-          <Route path="/sucursales" element={<SucursalesTable/>}/>
+          <Route path="/sucursales" element={<Sucursales/>}/>
           <Route path='/modifSucursales/:id' element={<AltaSucursalesForm/>}/>
           <Route path='/altaSucursal' element={<AltaSucursalesForm/>}/>
           <Route path="/puntosDeVenta" element={<PuntosTable/>}/>

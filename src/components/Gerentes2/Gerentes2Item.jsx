@@ -1,8 +1,8 @@
 import React, {useState} from "react";
 import { useDispatch, useSelector  } from "react-redux";
 import * as AiIcons from 'react-icons/ai'
-import { updateGerentes, deleteGerentes, beginUpdate, endUpdate} from '../../reducers/Gerentes/gerentesSlice';
-import styles from './Gerentes.module.css'
+import { updateGerentes, deleteGerentes, beginUpdate, endUpdate, resetGerenteById} from '../../reducers/Gerentes/gerentesSlice';
+import styles from '../../styles/Table.module.css'
 import { useEffect } from "react";
 
 
@@ -73,9 +73,10 @@ const HandleChange =  (e) =>{
 
 const HandleSubmitUpdate =async (event) =>{
     event.preventDefault()
+    
+    Promise.all([dispatch(resetGerenteById()),  dispatch(updateGerentes(item))])
   
-  
-    dispatch(updateGerentes(item))
+   
 }
 
 const handleEdit = () => {
@@ -102,7 +103,7 @@ const handleEdit = () => {
 
             {
                 (edit && gerentesById && gerentesById.status === true)  ? <input name="Activo" type="checkbox"value={item.Activo} checked={item.Activo === 1 ? true : false} onChange={handleCheckChange}/> : 
-                <input name="Activo" type="checkbox"  checked={item.Activo === 1 ? true : false}/>
+                <input name="Activo" type="checkbox" disabled checked={item.Activo === 1 ? true : false} onChange={handleCheckChange}/>
             }
             
           

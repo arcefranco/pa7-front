@@ -219,9 +219,15 @@ export const vendedoresSlice = createSlice({
         state.isSuccess = false
         state.isError = false
         state.message = ''
-        state.vendedoresById =[]
+      },
+
+      resetStatus: (state) => {
         state.statusNuevoVendedor = []
       },
+
+      resetVendedoresById: (state) => {
+        state.vendedoresById = []
+      }
     },
 
     extraReducers: (builder) => {
@@ -419,5 +425,5 @@ export const vendedoresSlice = createSlice({
 
 })
 
-export const { reset } = vendedoresSlice.actions
+export const { reset, resetStatus, resetVendedoresById } = vendedoresSlice.actions
 export default vendedoresSlice.reducer
