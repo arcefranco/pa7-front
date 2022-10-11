@@ -15,6 +15,12 @@ const endUpdate = async (sucursalData) => {
     return response.data
 }
 
+const beginUpdate = async (sucursalesData) => {
+  const headers = getHeaderToken()
+  const response = await axios.post(process.env.REACT_APP_HOST + 'sucursales/beginUpdate', sucursalesData, headers).catch((error) => errorsHandling(error))
+  return response.data
+}
+
 const getAllSucursales = async () => {
     const headers = getHeaderDB()
     const response = await axios.get(process.env.REACT_APP_HOST + 'sucursales', headers).catch((error) => errorsHandling(error))
@@ -25,7 +31,7 @@ const getAllSucursales = async () => {
     const response = await axios.delete(process.env.REACT_APP_HOST + 'sucursales',  {  headers: {
         'x-auth-token': window.localStorage.getItem('userToken').split(" ")[1],
         "db-connection": window.localStorage.getItem('db')
-      }, data: { id: id } })
+      }, data: id })
     return response.data
 }
 
@@ -46,7 +52,6 @@ const getAllTipoPlan = async () => {
     const headers = getHeaderToken()
     const response = await axios.get(process.env.REACT_APP_HOST + 'modelos/tipoplan', headers).catch((error) => errorsHandling(error))
     const planes = response.data[0]
-    // window.localStorage.setItem("tipoPlan", JSON.stringify(planes))
     return planes
   } 
 const SucursalesService = {
@@ -55,6 +60,7 @@ getAllSucursales,
 deleteSucursal,
 createSucursal,
 updateSucursal,
+beginUpdate,
 endUpdate,
 getAllTipoPlan,
 }

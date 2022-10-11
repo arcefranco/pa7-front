@@ -8,6 +8,7 @@ export default styled.button`
     box-shadow: none;
     min-width:4.5em;
     color: white;
+    margin: 0.8em;
     font-size: 1em;
    
     text-align-last: center;

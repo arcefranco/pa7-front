@@ -1,10 +1,11 @@
 import React, {useEffect, useState, useRef } from 'react'
 import { useSelector, useDispatch} from 'react-redux'
-import { getVendedores, getAllOficialesScoring, reset, getAllTeamLeaders, getAllOficialesMora, postVendedores, endUpdate } from '../../reducers/Vendedores/vendedoresSlice';
+import { getVendedores, getAllOficialesScoring, 
+    reset, getAllTeamLeaders, getAllOficialesMora, postVendedores, endUpdate, resetStatus, resetVendedoresById } from '../../reducers/Vendedores/vendedoresSlice';
 import TableContainer from '../GerentesTable/TableContainer'
 import * as AiIcons from 'react-icons/ai';
 import VendedorItem from './VendedorItem';
-import styles from '../Gerentes2/Gerentes.module.css'
+import styles from '../../styles/Table.module.css'
 import Pagination from '../Pagination/Pagination'
 import TitlePrimary from '../../styled-components/h/TitlePrimary'
 import TitleLogo from '../../styled-components/containers/TitleLogo'
@@ -65,7 +66,7 @@ const Vendedores2 = () => {
                 dispatch(endUpdate({Codigo: actualInEdit.current}))
             }
  
-            window.addEventListener('beforeunload', endEdit) //evento para remover el inUpdate cuando esta abierto inEdit y se actualiza
+            window.addEventListener('beforeunload', endEdit) 
             
             return () => {
                 window.removeEventListener('beforeunload', endEdit)
@@ -124,12 +125,22 @@ const Vendedores2 = () => {
     useEffect(() => { //Manejar actualizaciones de vendedores (ABM) y su inUpdate
         setModal(true)
 
+        function resetModal () {
+            dispatch(resetStatus())
+            setModal(false)
+        }
+        
+        function resetGerente () {
+            dispatch(resetVendedoresById())
+            setModal(false)
+        }
+
          if(statusNuevoVendedor && statusNuevoVendedor.length){ 
-            setTimeout(() => {setModal(false)}, 5000)
+            setTimeout(resetModal, 5000)
             
         } 
-        if(vendedoresById){
-            setTimeout(() => {setModal(false)}, 5000)
+        if(vendedoresById && Object.keys(vendedoresById).length && vendedoresById?.status === false){
+            setTimeout(resetGerente, 5000)
             
         } 
         if(statusNuevoVendedor[0]?.status === true){
