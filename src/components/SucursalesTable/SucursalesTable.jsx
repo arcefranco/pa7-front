@@ -4,7 +4,7 @@ import { getAllSucursales, reset, deleteSucursal } from '../../reducers/Sucursal
 import TableContainer from '../GerentesTable/TableContainer';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTable, useSortBy, usePagination, useGlobalFilter, useFilters} from 'react-table';
-import styles from '../GerentesTable/Gerentes.module.css';
+import styles from '../../styles/Table.module.css';
 import Swal from 'sweetalert2';
 import { ExportCSV } from '../../helpers/exportCSV';
 import TitleLogo from '../../styled-components/containers/TitleLogo';

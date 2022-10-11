@@ -6,7 +6,7 @@ import { useFilters, usePagination,useSortBy, useGlobalFilter} from 'react-table
 import {ActiveFilter, SearchFilter} from '../GerentesTable/ActiveFilter'
 import { GlobalFilter } from '../UsuariosTable/GlobalFilter';
 import { useTable } from 'react-table'
-import styles from '../GerentesTable/Gerentes.module.css'
+import styles from '../../styles/Table.module.css'
 import TitleLogo from '../../styled-components/containers/TitleLogo'
 import TitlePrimary from '../../styled-components/h/TitlePrimary'
 import { ReturnLogo } from '../../helpers/ReturnLogo'

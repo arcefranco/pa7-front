@@ -5,7 +5,7 @@ import TableContainer from '../GerentesTable/TableContainer';
 import { Link, useNavigate } from 'react-router-dom';
 import * as BiIcons from 'react-icons/bi';
 import { useTable, useSortBy, usePagination, useGlobalFilter} from 'react-table';
-import styles from '../GerentesTable/Gerentes.module.css';
+import styles from '../../styles/Table.module.css';
 import Swal from 'sweetalert2';
 import {ActiveFilter, SearchFilter} from '../GerentesTable/ActiveFilter';
 import { ExportCSV } from '../../helpers/exportCSV';

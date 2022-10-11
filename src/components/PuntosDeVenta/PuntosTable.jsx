@@ -5,7 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import * as BiIcons from 'react-icons/bi';
 import { useTable, useSortBy, usePagination, useGlobalFilter} from 'react-table';
 import { getAllPuntosDeVenta, reset, deletePuntoDeVenta } from '../../reducers/PuntosDeVenta/puntosSlice';
-import styles from '../GerentesTable/Gerentes.module.css';
+import styles from '../../styles/Table.module.css';
 import Swal from 'sweetalert2';
 import { ExportCSV } from '../../helpers/exportCSV';
 import { GlobalFilter } from '../UsuariosTable/GlobalFilter';

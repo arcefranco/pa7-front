@@ -5,7 +5,7 @@ import TableContainer from '../../GerentesTable/TableContainer';
 import { useNavigate } from 'react-router-dom';
 import { getOficialSelected } from "../../../reducers/Oficiales/OficialesSlice";
 import { useTable, useSortBy, usePagination, useGlobalFilter, useFilters} from 'react-table';
-import styles from '../../GerentesTable/Gerentes.module.css';
+import styles from '../../../styles/Table.module.css'
 import Swal from 'sweetalert2';
 import { deleteOficiales} from "../../../reducers/Oficiales/OficialesSlice"; 
 import { SearchFilter, ActiveFilter } from "../../GerentesTable/ActiveFilter";
