@@ -1,9 +1,10 @@
 import React, {useState} from "react";
 import { useDispatch, useSelector  } from "react-redux";
 import * as AiIcons from 'react-icons/ai'
-import { updateGerentes, deleteGerentes, beginUpdate, endUpdate, resetGerenteById} from '../../reducers/Gerentes/gerentesSlice';
+import { updateGerentes, deleteGerentes, beginUpdate, endUpdate } from '../../reducers/Gerentes/gerentesSlice';
 import styles from '../../styles/Table.module.css'
 import { useEffect } from "react";
+import Swal from "sweetalert2";
 
 
 const Gerentes2Item = ({Codigo, Nombre, Activo}) => {
@@ -14,44 +15,20 @@ const [item, setItem] = useState({
     Activo: Activo
 })
 
-const {gerentesById, statusNuevoGerente} = useSelector(state => state.gerentes)
+const {statusNuevoGerente} = useSelector(state => state.gerentes)
 
 const [edit, setEdit] = useState(false)
 
 const dispatch = useDispatch()
 
-useEffect(() => {
-    if(gerentesById?.status === false){
-       setEdit(false)
-    }
-}, [gerentesById])
-
- useEffect(() => {
-
-    if((gerentesById?.status === true) && (gerentesById?.codigo !== Codigo) && edit){
-        setEdit(false)
-        dispatch(endUpdate({Codigo: Codigo}))
-    }
-
-    return () => {
-        if((gerentesById?.status === true) && (gerentesById?.codigo !== Codigo) && edit){
-            setEdit(false)
-            dispatch(endUpdate({Codigo: Codigo}))
-        }
-    }
-
-}, [gerentesById])
 
 useEffect(() => {
-    
-    if(statusNuevoGerente && statusNuevoGerente.length){
+    if(Object.keys(statusNuevoGerente)?.includes('status') ) { //esta mirando el estado de statusNuevoGerente (inUpdate) para inhabilitar la edicion mientras este en false
         setEdit(false)
-        
-    } 
-    
-}, [statusNuevoGerente]) 
+    }
+}, [statusNuevoGerente])
 
-const HandleChange =  (e) =>{
+const handleChange =  (e) =>{
   
     
     const {name , value} = e.target
@@ -71,12 +48,29 @@ const HandleChange =  (e) =>{
     setItem(newForm);
 };
 
-const HandleSubmitUpdate =async (event) =>{
+const handleSubmitUpdate =async (event) =>{
     event.preventDefault()
     
-    Promise.all([dispatch(resetGerenteById()),  dispatch(updateGerentes(item))])
+     dispatch(updateGerentes(item))
   
    
+}
+
+const handleDelete = () => {
+    Swal.fire({
+        icon: 'info',
+        title: `Seguro que desea eliminar el gerente ${Nombre}?`,
+        showConfirmButton: true,
+        showCancelButton: true
+        
+      }).then((result) => {
+        if (result.isConfirmed) {
+
+            dispatch(deleteGerentes({Codigo: Codigo}))
+          
+        } 
+    })
+    
 }
 
 const handleEdit = () => {
@@ -90,7 +84,7 @@ const handleEdit = () => {
         <td style={{ width: '30rem'}}>
 
              {
-                (edit && gerentesById && gerentesById.status === true) ? <span style={{width: '5rem'}}><input type="text" className={styles.inputFilter} name="Nombre" value={item.Nombre} onChange={HandleChange} /></span>  :
+                edit ? <span style={{width: '5rem'}}><input type="text" className={styles.inputFilter} name="Nombre" value={item.Nombre} onChange={handleChange} /></span>  :
                 <span style={{width: '5rem'}}>{item.Nombre}</span>
              }
             
@@ -102,7 +96,7 @@ const handleEdit = () => {
         <td>
 
             {
-                (edit && gerentesById && gerentesById.status === true)  ? <input name="Activo" type="checkbox"value={item.Activo} checked={item.Activo === 1 ? true : false} onChange={handleCheckChange}/> : 
+                edit ? <input name="Activo" type="checkbox"value={item.Activo} checked={item.Activo === 1 ? true : false} onChange={handleCheckChange}/> : 
                 <input name="Activo" type="checkbox" disabled checked={item.Activo === 1 ? true : false} onChange={handleCheckChange}/>
             }
             
@@ -124,19 +118,19 @@ const handleEdit = () => {
             item.Activo === Activo && item.Nombre === Nombre ?
     
                 
-            <button disabled className={`${styles.buttonRows} ${styles.disabled}`}>Modificar</button> 
+            <button disabled className={`${styles.buttonRows} ${styles.disabled}`}>Guardar datos</button> 
 
                                                                                                                         :
             <button className={`${styles.buttonRows} ${styles.modify}`} 
-            onClick={(e) => HandleSubmitUpdate(e)}>
-                Modificar
+            onClick={(e) => handleSubmitUpdate(e)}>
+                Guardar datos
             </button> 
             }
             
         
         </td>
         <td>
-            <button onClick={() => dispatch(deleteGerentes({Codigo: Codigo}))} className={`${styles.buttonRows} ${styles.delete}`}>
+            <button onClick={handleDelete} className={`${styles.buttonRows} ${styles.delete}`}>
                 Eliminar
             </button>
         </td>

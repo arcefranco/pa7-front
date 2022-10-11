@@ -25,17 +25,6 @@ export const getGerentes = createAsyncThunk('gerentes', async (thunkAPI) => {
     }
   })
   
-  export const getGerentesById = createAsyncThunk('getgerentesbyid', async (gerentesData,thunkAPI) => {
-    try {
-      const data = await gerentesService.getGerentesById(gerentesData)
-      return data
-    } catch (error) {
-        (error.response && error.response.data && error.response.data.message) ||
-        error.message ||
-        error.toString()
-      return thunkAPI.rejectWithValue(error.response.data)
-    }
-  })
 
 export const postGerentes = createAsyncThunk('postgerentes', async  (form,thunkAPI) => {
     try {
@@ -111,10 +100,6 @@ export const gerentesSlice = createSlice({
 
       resetStatus : (state) => {
         state.statusNuevoGerente = []
-      },
-
-      resetGerenteById: (state) => {
-        state.gerentesById = []
       }
       
     },
@@ -136,33 +121,19 @@ export const gerentesSlice = createSlice({
             state.gerentes = null
           });
 
-          builder.addCase(getGerentesById.pending, (state) => {
-            state.isLoading = true
-          })
-        builder.addCase(getGerentesById.fulfilled, (state, action) => {
-            state.isLoading = false
-            state.isSuccess = true
-            state.gerentesById = action.payload
-          }) 
-        builder.addCase(getGerentesById.rejected, (state, action) => {
-            state.isLoading = false
-            state.isError = true
-            state.message = action.payload
-            state.gerentesById = null
-          });
           builder.addCase(beginUpdate.pending, (state) => {
             state.isLoading = true
-            state.gerentesById = []
+            state.statusNuevoGerente = []
           })
         builder.addCase(beginUpdate.fulfilled, (state, action) => {
             state.isLoading = false
             state.isSuccess = true
-            state.gerentesById = action.payload
+            state.statusNuevoGerente = action.payload
           }) 
         builder.addCase(beginUpdate.rejected, (state, action) => {
             state.isLoading = false
             state.isError = true
-            state.gerentesById = action.payload
+            state.statusNuevoGerente = action.payload
           });
 
           
@@ -174,12 +145,12 @@ export const gerentesSlice = createSlice({
         builder.addCase(postGerentes.fulfilled, (state, action) => {
             state.isLoading = false
             state.isSuccess = true
-            state.statusNuevoGerente = [action.payload]
+            state.statusNuevoGerente = action.payload
           }) 
         builder.addCase(postGerentes.rejected, (state, action) => {
             state.isLoading = false
             state.isError = true
-            state.statusNuevoGerente = [action.payload]
+            state.statusNuevoGerente = action.payload
             state.gerentes = null
           });
 
@@ -191,13 +162,13 @@ export const gerentesSlice = createSlice({
         builder.addCase(updateGerentes.fulfilled, (state, action) => {
             state.isLoading = false
             state.isSuccess = true
-            state.statusNuevoGerente = [action.payload]
+            state.statusNuevoGerente = action.payload
 
           }) 
         builder.addCase(updateGerentes.rejected, (state, action) => {
             state.isLoading = false
             state.isError = true
-            state.statusNuevoGerente = [action.payload]
+            state.statusNuevoGerente = action.payload
           });
           
           builder.addCase(deleteGerentes.pending, (state) => {
@@ -208,13 +179,13 @@ export const gerentesSlice = createSlice({
         builder.addCase(deleteGerentes.fulfilled, (state, action) => {
             state.isLoading = false
             state.isSuccess = true
-            state.statusNuevoGerente = [action.payload]
+            state.statusNuevoGerente = action.payload
 
           }) 
         builder.addCase(deleteGerentes.rejected, (state, action) => {
             state.isLoading = false
             state.isError = true
-            state.statusNuevoGerente = [action.payload]
+            state.statusNuevoGerente = action.payload
           });
 
 
@@ -224,5 +195,5 @@ export const gerentesSlice = createSlice({
 
 })
 
-export const { reset, resetStatus, resetGerenteById } = gerentesSlice.actions
+export const { reset, resetStatus } = gerentesSlice.actions
 export default gerentesSlice.reducer

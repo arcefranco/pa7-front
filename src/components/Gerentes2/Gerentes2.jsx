@@ -1,6 +1,6 @@
 import React, {useEffect, useState, useRef } from 'react'
 import { useSelector, useDispatch} from 'react-redux'
-import { getGerentes, postGerentes, reset, endUpdate, resetGerenteById, resetStatus,  getGerentesById } from '../../reducers/Gerentes/gerentesSlice'
+import { getGerentes, postGerentes, endUpdate, resetStatus } from '../../reducers/Gerentes/gerentesSlice'
 import TableContainer from '../GerentesTable/TableContainer'
 import Gerentes2Item from './Gerentes2Item'
 import * as AiIcons from 'react-icons/ai';
@@ -9,6 +9,7 @@ import Pagination from '../Pagination/Pagination'
 import TitlePrimary from '../../styled-components/h/TitlePrimary'
 import TitleLogo from '../../styled-components/containers/TitleLogo'
 import { ReturnLogo } from '../../helpers/ReturnLogo'
+import ReactTooltip from "react-tooltip";
 import ButtonPrimary from '../../styled-components/buttons/ButtonPrimary'
 import ModalStatus from '../ModalStatus'
 
@@ -17,7 +18,7 @@ const Gerentes2 = () => {
     const dispatch = useDispatch()
     const {empresaReal} = useSelector(
       (state) => state.login.user)
-   const {gerentes, statusNuevoGerente, gerentesById} = useSelector(
+   const {gerentes, statusNuevoGerente} = useSelector(
       (state) => state.gerentes)
     const [newField, setNewField] = useState(false)
     const [newGerente, setNewGerente] = useState({
@@ -31,7 +32,7 @@ const Gerentes2 = () => {
     const [inEdit, setInEdit] = useState('')
     const actualInEdit = useRef(inEdit);
     const [currentPage, setCurrentPage] = useState(1);
-    const [recordsPerPage] = useState(10);
+    const [recordsPerPage] = useState(14);
     const indexOfLastRecord = currentPage * recordsPerPage;
     const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
     
@@ -67,13 +68,6 @@ const Gerentes2 = () => {
             setGerentesFiltered(gerentes)
         }, [gerentes])
 
-        useEffect(() => {
-            if(gerentesById?.status === true){
-
-                setInEdit(gerentesById?.codigo)
-            }
-        }, [gerentesById])
-
     
     useEffect(() => {
         if(filterNombre.length || filterActivo.length){
@@ -108,38 +102,28 @@ const Gerentes2 = () => {
     const nPages = Math.ceil(gerentesFiltered?.length / recordsPerPage)
 
     
-    useEffect(() => {
-        if(gerentesById?.status === false){
-            setTimeout(() => {setModal(false)}, 5000)
-        }
-    }, [gerentesById])
     
-    useEffect(() => {
+    useEffect(() => { //Manejar actualizaciones de vendedores (ABM) y su inUpdate
         setModal(true)
 
         function resetModal () {
-                dispatch(resetStatus())
-                setModal(false)
-        }
-        function resetGerente () {
-            dispatch(resetGerenteById())
+            dispatch(resetStatus())
             setModal(false)
         }
+        if(Object.keys(statusNuevoGerente).includes('codigo')) {
+            setInEdit(statusNuevoGerente?.codigo)
+        }
 
-        
-        if(statusNuevoGerente && statusNuevoGerente.length){
+         if(statusNuevoGerente && Object.keys(statusNuevoGerente).length){ 
             setTimeout(resetModal, 5000)
             
-        }
-        if(gerentesById && Object.keys(gerentesById).length && gerentesById?.status === false){
-             setTimeout(resetGerente, 5000) 
-            
-        }  
-        if(statusNuevoGerente[0]?.status === true){  
-            dispatch(getGerentes())
         } 
-        
-    }, [statusNuevoGerente, gerentesById])     
+
+        if(statusNuevoGerente?.status === true){
+            dispatch(getGerentes())
+        }
+
+    }, [statusNuevoGerente])    
     
 
     const handleCheckChange = (e) => {
@@ -152,7 +136,7 @@ const Gerentes2 = () => {
     
     
     
-    const HandleChange =  (e) =>{
+    const handleChange =  (e) =>{
   
     
         const {name , value} = e.target
@@ -166,13 +150,8 @@ const Gerentes2 = () => {
     return (
         <div>
             {
-                (statusNuevoGerente.length && modal) ? 
-                <ModalStatus message={statusNuevoGerente[0]?.data} status={statusNuevoGerente[0]?.status}/> :
-                null
-            }
-            {
-                (gerentesById?.status === false && modal) ? 
-                <ModalStatus message={gerentesById?.message} status={gerentesById?.status}/> :
+                (Object.keys(statusNuevoGerente).length && modal) && Object.keys(statusNuevoGerente).includes('status') ? 
+                <ModalStatus message={statusNuevoGerente?.message} status={statusNuevoGerente?.status}/> :
                 null
             }
 
@@ -184,19 +163,18 @@ const Gerentes2 = () => {
         <TitlePrimary>Gerentes</TitlePrimary>
         </TitleLogo>
         <div className={styles.buttonAddContainer}>
+        <ReactTooltip id="botonTooltip2">
+                Agregar nuevo gerente
+                </ReactTooltip>  
             <AiIcons.AiFillPlusCircle className={styles.plusCircle}
              onClick={() => setNewField(!newField)} data-tip data-for="botonTooltip2" />
 
         </div>
-            <Pagination
-            nPages = { nPages }
-            currentPage = { currentPage } 
-            setCurrentPage = { setCurrentPage }
-            />
+
             <TableContainer>
                 <table>
                 <tr>
-                    <th>Codigo
+                    <th>Código
 
                     </th>
                     <th >
@@ -233,7 +211,7 @@ const Gerentes2 = () => {
                         <td></td>
                         
                         <td>
-                            <input value={newGerente.Nombre} name="Nombre" onChange={HandleChange} type="text" />
+                            <input value={newGerente.Nombre} name="Nombre" onChange={handleChange} type="text" />
                         </td>
                         <td>
                             <input value={newGerente.Activo} name="Activo" onChange={handleCheckChange} type="checkbox" />
@@ -261,6 +239,11 @@ const Gerentes2 = () => {
                 }
 
                 </table>
+                <Pagination
+            nPages = { nPages }
+            currentPage = { currentPage } 
+            setCurrentPage = { setCurrentPage }
+            />
             </TableContainer>
         </div>
     )

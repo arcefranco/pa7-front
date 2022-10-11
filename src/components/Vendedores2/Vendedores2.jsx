@@ -107,7 +107,7 @@ const Vendedores2 = () => {
 
     const nPages = Math.ceil(vendedoresFiltered?.length / recordsPerPage)
 
-    const HandleChange =  (e) =>{
+    const handleChange =  (e) =>{
   
     
         const {name , value} = e.target
@@ -248,10 +248,10 @@ const Vendedores2 = () => {
                     <tr>
                         <td></td>
                         <td>
-                            <input value={newVendedor.Nombre} name="Nombre" onChange={HandleChange} type="text" />
+                            <input value={newVendedor.Nombre} name="Nombre" onChange={handleChange} type="text" />
                         </td>
                         <td>
-                            <select name="TeamLeader" id="" value={newVendedor.TeamLeader} onChange={HandleChange}>
+                            <select name="TeamLeader" id="" value={newVendedor.TeamLeader} onChange={handleChange}>
                                 <option value="*">---</option>
                                 {
                                     teamleader && teamleader.map(e => <option value={e.Codigo}>{e.Nombre}</option>)
@@ -259,7 +259,7 @@ const Vendedores2 = () => {
                             </select>
                         </td>
                         <td>
-                            <select name="OficialS" id="" value={newVendedor.OficialS} onChange={HandleChange}>
+                            <select name="OficialS" id="" value={newVendedor.OficialS} onChange={handleChange}>
                                 <option value="*">---</option>
                                 {
                                     oficialesScoring && oficialesScoring.map(e => <option value={e.Codigo}>{e.Nombre}</option>)
@@ -267,7 +267,7 @@ const Vendedores2 = () => {
                             </select>
                         </td>
                         <td>
-                            <select name="OficialM" id="" value={newVendedor.OficialM} onChange={HandleChange}>
+                            <select name="OficialM" id="" value={newVendedor.OficialM} onChange={handleChange}>
                                 <option value="*">---</option>
                                 {
                                     oficialesMora && oficialesMora.map(e => <option value={e.Codigo}>{e.Nombre}</option>)
@@ -275,10 +275,10 @@ const Vendedores2 = () => {
                             </select>
                         </td>
                         <td>
-                                <input type="date" name='FechaBaja' value={newVendedor.FechaBaja} onChange={HandleChange}/>
+                                <input type="date" name='FechaBaja' value={newVendedor.FechaBaja} onChange={handleChange}/>
                         </td>
                         <td>
-                                <select name="Escala" value={newVendedor.Escala} onChange={HandleChange} id="">
+                                <select name="Escala" value={newVendedor.Escala} onChange={handleChange} id="">
                                     <option value="*">---</option>
                                     <option value={1}>Margian</option>
                                     <option value={2}>Gestión Financiera</option>
