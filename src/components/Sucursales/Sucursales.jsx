@@ -1,7 +1,7 @@
 import React, {useEffect, useState, useRef} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllSucursales, endUpdate, resetStatus, resetSucursales, createSucursal } from "../../reducers/Sucursales/SucursalesSlice";
-import styles from '../../styles/Table.module.css';
+import styles from '../../styles/Table.module.css'
 import * as AiIcons from 'react-icons/ai';
 import SucursalesItem from "./SucursalesItem";
 import Pagination from "../Pagination/Pagination";

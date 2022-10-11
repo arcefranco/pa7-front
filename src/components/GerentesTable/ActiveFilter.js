@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useAsyncDebounce } from 'react-table';
-import styles from './Gerentes.module.css'
+import styles from '../../styles/Table.module.css'
 
 
 export function ActiveFilter({column }) {

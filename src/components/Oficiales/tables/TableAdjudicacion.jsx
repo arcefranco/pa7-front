@@ -4,7 +4,7 @@ import { useSelector, useDispatch} from 'react-redux';
 import TableContainer from '../../GerentesTable/TableContainer';
 import { useTable, useSortBy, usePagination, useGlobalFilter, useFilters} from 'react-table';
 import { deleteOficiales, getOficialSelected } from "../../../reducers/Oficiales/OficialesSlice";
-import styles from '../../GerentesTable/Gerentes.module.css';
+import styles from '../../../styles/Table.module.css'
 import Swal from 'sweetalert2';
 import { SearchFilter } from "../../GerentesTable/ActiveFilter";
 import { InactiveFilter } from "../InactiveFilter";

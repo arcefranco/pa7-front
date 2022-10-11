@@ -1,5 +1,5 @@
 import React from "react";
-import styles from '../GerentesTable/Gerentes.module.css'
+import styles from '../../styles/Table.module.css'
 
 
 export function InactiveFilter({column }) {
