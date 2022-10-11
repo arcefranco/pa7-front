@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as AiIcons from 'react-icons/ai'
 import { beginUpdate, endUpdate, deleteSucursal, updateSucursal } from "../../reducers/Sucursales/SucursalesSlice";
 import styles from '../../styles/Table.module.css'
+import Swal from "sweetalert2";
 import { useEffect } from "react";
 const SucursalesItem = ({Codigo, Nombre}) => {
 
@@ -12,7 +13,7 @@ const SucursalesItem = ({Codigo, Nombre}) => {
         Nombre: Nombre
     })
     const [edit, setEdit] = useState(false)
-    const {sucursales, sucursalStatus} = useSelector(state => state.sucursales)
+    const { sucursalStatus} = useSelector(state => state.sucursales)
     const dispatch = useDispatch()
 
     const handleChange = (e) => {
@@ -36,7 +37,20 @@ const SucursalesItem = ({Codigo, Nombre}) => {
     }
 
     const handleDelete = () => {
-        dispatch(deleteSucursal({Codigo: Codigo}))
+        Swal.fire({
+            icon: 'info',
+            title: `Seguro que desea eliminar la sucursal ${Nombre}?`,
+            showConfirmButton: true,
+            showCancelButton: true
+            
+          }).then((result) => {
+            if (result.isConfirmed) {
+
+                dispatch(deleteSucursal({Codigo: Codigo}))
+              
+            } 
+        })
+        
     }
 
     const handleSubmitUpdate = () => {
@@ -80,11 +94,11 @@ const SucursalesItem = ({Codigo, Nombre}) => {
                 {
                     item.Nombre !== Nombre ? 
                     
-                    <button className={`${styles.buttonRows} ${styles.modify}`} onClick={handleSubmitUpdate}>Modificar</button> 
+                    <button className={`${styles.buttonRows} ${styles.modify}`} onClick={handleSubmitUpdate}>Guardar datos</button> 
                     
                     :
 
-                    <button className={`${styles.buttonRows} ${styles.disabled}`}>Modificar</button>
+                    <button className={`${styles.buttonRows} ${styles.disabled}`}>Guardar datos</button>
 
                 }
                 

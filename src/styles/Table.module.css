@@ -1,4 +1,6 @@
-
+.container {
+    height: 100vh;
+}
 
 .inputFilterColumn{
     width: 7rem;
@@ -33,13 +35,39 @@
     border: solid 0px rgb(0, 0, 0);
     color: #fff;
     height: 1.8em;
-    width: 6em;
-    margin: .8em; 
+    width: 8em;
+    margin: .6em; 
     font-size: .9em;
     
 }
 
+
+.inputDate {
+    max-width: auto;
+    max-height: 2rem;
+    border: none;
+    background: none;
+}
 .buttonAddContainer {
     display: flex;
     justify-content: flex-end;
+    height: 2.4rem;
+}
+
+.pageButton
+{   
+    
+    border-radius: .3em;
+    width:6em;
+    height: 1.8em;
+    margin: 1em;
+    font-size: .8em;
+    border: none;
+    color: #fff;
+    background-color: #3c8dbc;
+
+}
+
+.pageButton:disabled {
+background-color: silver;
 }

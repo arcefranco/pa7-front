@@ -15,17 +15,8 @@ const Pagination = ({ nPages, currentPage, setCurrentPage }) => {
         if(currentPage !== 1) setCurrentPage(currentPage - 1)
     }
     return (
-        <nav style={{
-            display: 'flex',
-            justifyContent: 'center'
-        }}>
-            <ul style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    listStyle: 'none',
-                    padding: '0'
-            }}>
+        <nav className={styles.nav}>
+            <ul className={styles.ul}>
                 <li className={styles.pageItem} >
                     <AiIcons.AiFillBackward
                     style={{cursor: 'pointer'}}

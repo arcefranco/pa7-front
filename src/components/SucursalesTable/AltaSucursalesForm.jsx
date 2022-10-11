@@ -8,7 +8,7 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Stack from 'react-bootstrap/Stack';
 import styles from '../UsuariosTable/AltaUsuarios.module.css'
-import { getSucursalById, reset, updateSucursal, createSucursal, endUpdate } from "../../reducers/Sucursales/SucursalesSlice";
+import { reset, updateSucursal, createSucursal, endUpdate } from "../../reducers/Sucursales/SucursalesSlice";
 import Swal from "sweetalert2";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import {FcApproval} from 'react-icons/fc';
@@ -97,12 +97,6 @@ useEffect(() => {
     })
 }, [sucursalById[0]])
 
-useEffect(() => {
-    if(id) {  
-        dispatch(getSucursalById({id: id}))
-        }
-  }, [id])
-  
   const handleChange = (e) => {
     const { name, value } = e.target;
 

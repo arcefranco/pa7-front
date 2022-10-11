@@ -5,7 +5,6 @@ import sucursalesService from './SucursalesService'
 
 const initialState = {
     sucursales: [],
-    sucursalById: [],
     sucursalStatus: '',
     tipoPlan:[],
     isError: false,
@@ -42,20 +41,7 @@ export const getAllSucursales = createAsyncThunk('sucursales/All', async (thunkA
       return thunkAPI.rejectWithValue(error.response.data)
     }
   })
-  export const getSucursalById = createAsyncThunk('sucursales/Id', async (id, thunkAPI) => {
-    try {
-      
-      const data = await sucursalesService.getSucursalById(id)
 
-      return data
-    } catch (error) {
-
-        (error.response && error.response.data && error.response.data.message) ||
-        error.message ||
-        error.toString()
-      return thunkAPI.rejectWithValue(error.response.data)
-    }
-  })
   export const deleteSucursal = createAsyncThunk('sucursales/delete', async (id, thunkAPI) => {
     try {
       
@@ -145,11 +131,8 @@ export const sucursalesSlice = createSlice({
 
       resetStatus: (state) => {
         state.sucursalStatus = {}
-      },
-
-      resetSucursales: (state) => {
-        state.sucursalStatus = []
       }
+      
     },
 
     extraReducers: (builder) => {
