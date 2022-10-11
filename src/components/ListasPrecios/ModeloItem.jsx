@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import styles from '../GerentesTable/Gerentes.module.css'
+import styles from '../../styles/Table.module.css'
 import { deleteModeloFromLista, updatePrecioModelo } from "../../reducers/ListasPrecios/ListaSlice";
 
 

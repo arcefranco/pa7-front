@@ -1,4 +1,4 @@
-import styles from '../GerentesTable/Gerentes.module.css'
+import styles from '../../styles/Table.module.css'
 import React, { useState } from 'react'
 import { useAsyncDebounce } from 'react-table';
 

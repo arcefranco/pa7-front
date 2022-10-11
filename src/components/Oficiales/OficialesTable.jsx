@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { useSelector, useDispatch} from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import styles from '../GerentesTable/Gerentes.module.css';
+import styles from '../../styles/Table.module.css';
 import { ExportCSV } from '../../helpers/exportCSV';
 import { getOficialSelected, getOficialCategoria } from "../../reducers/Oficiales/OficialesSlice";
 import Swal from 'sweetalert2';

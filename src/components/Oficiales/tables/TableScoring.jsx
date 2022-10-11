@@ -3,7 +3,7 @@ import React from 'react';
 import { useSelector, useDispatch} from 'react-redux';
 import TableContainer from '../../GerentesTable/TableContainer';
 import { useTable, useSortBy, usePagination, useGlobalFilter, useFilters} from 'react-table';
-import styles from '../../GerentesTable/Gerentes.module.css';
+import styles from '../../../styles/Table.module.css'
 import Swal from 'sweetalert2';
 import { deleteOficiales, getOficialSelected } from "../../../reducers/Oficiales/OficialesSlice";
 import { useNavigate } from "react-router-dom";
