@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from "react";
 import { useDispatch, useSelector} from "react-redux";
 import * as AiIcons from 'react-icons/ai'
-import { deleteVendedores, updateVendedores, beginUpdate, endUpdate } from "../../reducers/Vendedores/vendedoresSlice";
-import styles from '../Gerentes2/Gerentes.module.css'
+import { deleteVendedores, updateVendedores, beginUpdate, endUpdate, resetVendedoresById } from "../../reducers/Vendedores/vendedoresSlice";
+import styles from '../../styles/Table.module.css'
 
 
 const VendedorItem = ({Codigo, Nombre, TeamLeader, Categoria, OficialS, OficialM, FechaBaja, Escala, Activo}) => {
@@ -73,7 +73,7 @@ useEffect(() => {
         event.preventDefault()
         
         
-        dispatch(updateVendedores(item))
+        Promise.all([dispatch(resetVendedoresById()),  dispatch(updateVendedores(item))])
     }
     
     

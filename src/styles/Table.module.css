@@ -21,11 +21,9 @@
     width: 48px
 }
 .plusCircle {
-
     width: 2rem;
     margin-right: 20px;
     margin-bottom: 20px;
-
     height: 2rem;
     cursor: pointer;
 }
@@ -41,9 +39,7 @@
     
 }
 
-
 .buttonAddContainer {
     display: flex;
     justify-content: flex-end;
 }
-
