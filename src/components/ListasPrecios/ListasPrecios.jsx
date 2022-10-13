@@ -105,7 +105,7 @@ const ListasPrecios = () => {
     };
 
     return (
-        <div>
+        <div className={styles.container}>
             {
                  (updatedLista && typeof(updatedLista?.message) === 'string') && modal ? 
                 <ModalStatus message={updatedLista?.message} status={updatedLista?.status}/> :
@@ -118,10 +118,7 @@ const ListasPrecios = () => {
           </div>
         <TitlePrimary>Listas de precios ({marca})</TitlePrimary>
         </TitleLogo>
-        <div style={{
-                display: 'flex',
-                justifyContent: 'flex-end'
-        }}>
+        <div className={styles.addButtonContainer}>
                 <ReactTooltip id="botonTooltip2">
                 Agregar nueva lista
                 </ReactTooltip>  
@@ -135,6 +132,7 @@ const ListasPrecios = () => {
 
         </div>
         <Pagination
+
             nPages = { nPages }
             currentPage = { currentPage } 
             setCurrentPage = { setCurrentPage }
@@ -145,7 +143,7 @@ const ListasPrecios = () => {
                 newList && <div className={styles.item} style={{    display: 'flex',
                     justifyContent: 'space-between'}}>
 
-                    <input type="text" name="Nombre" onChange={handleChange} placeholder="Nombre"/>
+                    <input type="text" name="Nombre" className={styles.inputFilter} style={{margin:'0'}} onChange={handleChange} placeholder="Nombre"/>
                     <div>
                     <span>Vigencia Desde: </span>
                     <input type="date" onChange={handleChange}  name="VigenciaD" />
@@ -175,7 +173,9 @@ const ListasPrecios = () => {
                     )
             }
 
+        
         </div>
+
 
         </div>
     )

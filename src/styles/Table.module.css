@@ -1,7 +1,15 @@
 .container {
     height: 100vh;
 }
+.select {
+    border: none;
+    background: none;
+    width: 5rem;
+}
 
+.inputText {
+    width: 5rem;
+}
 .inputFilterColumn{
     width: 7rem;
     height: 1.2rem;

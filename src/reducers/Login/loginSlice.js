@@ -90,6 +90,11 @@ export const loginSlice = createSlice({
         state.isSuccess = false
         state.isError = false
         state.message = ''
+        state.user = ''
+      },
+      resetToken: (state) => {
+        state.tokenForgot = {status: false}
+        state.isSuccess = false
       },
       setToggle: (state) => {
         state.toggle = !state.toggle
@@ -160,7 +165,6 @@ export const loginSlice = createSlice({
           })
           .addCase(updatePass.fulfilled, (state, action) => {
             state.isLoading = false
-            state.isSuccess = true
             state.updateStatus = action.payload
           })
           .addCase(updatePass.rejected, (state, action) => {
@@ -174,5 +178,5 @@ export const loginSlice = createSlice({
 
 
 
-export const { reset, setToggle, setToggleFalse } = loginSlice.actions
+export const { reset, setToggle, setToggleFalse, resetToken } = loginSlice.actions
 export default loginSlice.reducer
