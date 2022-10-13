@@ -107,20 +107,7 @@ export const getAllUsuarios = createAsyncThunk('usuarios/All', async (thunkAPI) 
       return thunkAPI.rejectWithValue(error.response.data)
     }
   })
-  export const getUsuarioById = createAsyncThunk('usuarioById', async (id, thunkAPI) => {
-    try {
-      
-      const data = await usuariosService.getUsuarioById(id)
 
-      return data
-    } catch (error) {
-
-        (error.response && error.response.data && error.response.data.message) ||
-        error.message ||
-        error.toString()
-      return thunkAPI.rejectWithValue(error.response.data)
-    }
-  })
   export const getSelectedRoles = createAsyncThunk('selectedRoles', async (rolData, thunkAPI) => {
     try {
       
@@ -247,6 +234,20 @@ export const getAllUsuarios = createAsyncThunk('usuarios/All', async (thunkAPI) 
       return thunkAPI.rejectWithValue(error.response.data)
     }
   })
+  export const beginUpdate = createAsyncThunk('beginUpdate', async (usuarioData, thunkAPI) => {
+    try {
+      
+      const data = await usuariosService.beginUpdate(usuarioData)
+
+      return data
+    } catch (error) {
+
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+  })
   export const endUpdate = createAsyncThunk('endUpdate', async (usuarioData, thunkAPI) => {
     try {
       
@@ -278,6 +279,10 @@ export const getAllUsuarios = createAsyncThunk('usuarios/All', async (thunkAPI) 
         state.commitState = ''
        
       },
+      
+      resetStatus: (state) => {
+        state.statusNuevoUsuario = {}
+      }
     },
 
     extraReducers: (builder) => {
@@ -359,13 +364,13 @@ export const getAllUsuarios = createAsyncThunk('usuarios/All', async (thunkAPI) 
           .addCase(createUsuario.fulfilled, (state, action) => {
             state.isLoading = false
             state.isSuccess = true
-            state.statusNuevoUsuario = [action.payload]
+            state.statusNuevoUsuario = action.payload
           }) 
           .addCase(createUsuario.rejected, (state, action) => {
             state.isLoading = false
             state.isError = true
             
-            state.statusNuevoUsuario = [action.payload]
+            state.statusNuevoUsuario = action.payload
           })
           .addCase(updateUsuario.pending, (state) => {
             state.isLoading = true
@@ -374,7 +379,7 @@ export const getAllUsuarios = createAsyncThunk('usuarios/All', async (thunkAPI) 
           .addCase(updateUsuario.fulfilled, (state, action) => {
             state.isLoading = false
             state.isSuccess = true
-            state.statusNuevoUsuario = [action.payload]
+            state.statusNuevoUsuario = action.payload
           }) 
           .addCase(updateUsuario.rejected, (state, action) => {
             state.isLoading = false
@@ -382,19 +387,20 @@ export const getAllUsuarios = createAsyncThunk('usuarios/All', async (thunkAPI) 
             
             state.statusNuevoUsuario = [action.payload]
           })
-          .addCase(getUsuarioById.pending, (state) => {
+          .addCase(beginUpdate.pending, (state) => {
             state.isLoading = true
             
           })
-          .addCase(getUsuarioById.fulfilled, (state, action) => {
+          .addCase(beginUpdate.fulfilled, (state, action) => {
             state.isLoading = false
             state.isSuccess = true
-            state.usuarioById = [action.payload][0]
+            state.statusNuevoUsuario = [action.payload][0]
           }) 
-          .addCase(getUsuarioById.rejected, (state, action) => {
+          .addCase(beginUpdate.rejected, (state, action) => {
             state.isLoading = false
             state.isError = true
             state.message = action.payload
+            state.statusNuevoUsuario = [action.payload][0]
           })
           
           .addCase(deleteUsuario.pending, (state) => {
@@ -404,13 +410,13 @@ export const getAllUsuarios = createAsyncThunk('usuarios/All', async (thunkAPI) 
           .addCase(deleteUsuario.fulfilled, (state, action) => {
             state.isLoading = false
             state.isSuccess = true
-            state.statusNuevoUsuario = [action.payload]
+            state.statusNuevoUsuario = action.payload
           }) 
           .addCase(deleteUsuario.rejected, (state, action) => {
             state.isLoading = false
             state.isError = true
             
-            state.statusNuevoUsuario = [action.payload]
+            state.statusNuevoUsuario = action.payload
           })
           .addCase(getSelectedRoles.pending, (state) => {
             state.isLoading = true
@@ -522,5 +528,5 @@ export const getAllUsuarios = createAsyncThunk('usuarios/All', async (thunkAPI) 
 
 })
 
-export const { reset } = usuariosSlice.actions
+export const { reset, resetStatus } = usuariosSlice.actions
 export default usuariosSlice.reducer

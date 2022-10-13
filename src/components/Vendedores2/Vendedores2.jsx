@@ -1,7 +1,7 @@
 import React, {useEffect, useState, useRef } from 'react'
 import { useSelector, useDispatch} from 'react-redux'
 import { getVendedores, getAllOficialesScoring, 
-    reset, getAllTeamLeaders, getAllOficialesMora, postVendedores, endUpdate, resetStatus, resetVendedoresById } from '../../reducers/Vendedores/vendedoresSlice';
+    reset, getAllTeamLeaders, getAllOficialesMora, postVendedores, endUpdate, resetStatus } from '../../reducers/Vendedores/vendedoresSlice';
 import TableContainer from '../GerentesTable/TableContainer'
 import * as AiIcons from 'react-icons/ai';
 import VendedorItem from './VendedorItem';
@@ -12,6 +12,7 @@ import TitleLogo from '../../styled-components/containers/TitleLogo'
 import { ReturnLogo } from '../../helpers/ReturnLogo'
 import ButtonPrimary from '../../styled-components/buttons/ButtonPrimary'
 import ModalStatus from '../ModalStatus'
+import ReactTooltip from "react-tooltip";
 
 
 const Vendedores2 = () => {
@@ -20,7 +21,7 @@ const Vendedores2 = () => {
     const dispatch = useDispatch()
     const {empresaReal} = useSelector(
       (state) => state.login.user)
-   const {vendedores, statusNuevoVendedor, teamleader, oficialesScoring, oficialesMora, vendedoresById} = useSelector(
+   const {vendedores, statusNuevoVendedor, teamleader, oficialesScoring, oficialesMora} = useSelector(
       (state) => state.vendedores)
     const [newField, setNewField] = useState(false)
     const [newVendedor, setNewVendedor] = useState({
@@ -106,7 +107,7 @@ const Vendedores2 = () => {
 
     const nPages = Math.ceil(vendedoresFiltered?.length / recordsPerPage)
 
-    const HandleChange =  (e) =>{
+    const handleChange =  (e) =>{
   
     
         const {name , value} = e.target
@@ -122,6 +123,21 @@ const Vendedores2 = () => {
         
       }
 
+      const resetNewField = () => {
+
+        dispatch(postVendedores(newVendedor))
+           setNewVendedor({
+               Nombre: '',
+               TeamLeader: '',
+               OficialS: '',
+               OficialM: '',
+               FechaBaja: '',
+               Escala: '',
+               Activo: 0
+           })
+           setNewField(false)
+       }
+
     useEffect(() => { //Manejar actualizaciones de vendedores (ABM) y su inUpdate
         setModal(true)
 
@@ -129,25 +145,20 @@ const Vendedores2 = () => {
             dispatch(resetStatus())
             setModal(false)
         }
-        
-        function resetGerente () {
-            dispatch(resetVendedoresById())
-            setModal(false)
+        if(Object.keys(statusNuevoVendedor).includes('codigo')) {
+            setInEdit(statusNuevoVendedor?.codigo)
         }
 
-         if(statusNuevoVendedor && statusNuevoVendedor.length){ 
+         if(statusNuevoVendedor && Object.keys(statusNuevoVendedor).length){ 
             setTimeout(resetModal, 5000)
             
         } 
-        if(vendedoresById && Object.keys(vendedoresById).length && vendedoresById?.status === false){
-            setTimeout(resetGerente, 5000)
-            
-        } 
-        if(statusNuevoVendedor[0]?.status === true){
+
+        if(statusNuevoVendedor?.status === true){
             dispatch(getVendedores())
         }
 
-    }, [statusNuevoVendedor, vendedoresById]) 
+    }, [statusNuevoVendedor]) 
     
 
     useEffect(() => {
@@ -161,12 +172,9 @@ const Vendedores2 = () => {
         const newForm = { ...newVendedor, [name]: value };
         setNewVendedor(newForm);
     };
-    useEffect(() => {
-        if(vendedoresById?.status === true){
 
-            setInEdit(vendedoresById?.codigo)
-        }
-    }, [vendedoresById])
+
+    
     
   
 
@@ -175,13 +183,8 @@ const Vendedores2 = () => {
     return (
         <div>
             {
-                (statusNuevoVendedor.length && modal) ? 
-                <ModalStatus message={statusNuevoVendedor[0]?.data} status={statusNuevoVendedor[0]?.status}/> :
-                null
-            }
-            {
-                (vendedoresById?.status === false && modal) ? 
-                <ModalStatus message={vendedoresById?.message} status={vendedoresById?.status}/> :
+                modal && Object.keys(statusNuevoVendedor).length && Object.keys(statusNuevoVendedor).includes('status') ? 
+                <ModalStatus status={statusNuevoVendedor?.status} message={statusNuevoVendedor?.message}/> :
                 null
             }
 
@@ -193,19 +196,18 @@ const Vendedores2 = () => {
         <TitlePrimary>Vendedores</TitlePrimary>
         </TitleLogo>
         <div className={styles.buttonAddContainer}>
+        <ReactTooltip id="botonTooltip2">
+                Agregar nuevo vendedor
+                </ReactTooltip>  
             <AiIcons.AiFillPlusCircle className={styles.plusCircle}
              onClick={() => setNewField(!newField)} data-tip data-for="botonTooltip2" />
 
         </div>
-            <Pagination
-            nPages = { nPages }
-            currentPage = { currentPage } 
-            setCurrentPage = { setCurrentPage }
-            />
+
             <TableContainer>
                 <table>
                 <tr>
-                    <th>Codigo
+                    <th>Código
 
                     </th>
                     <th >
@@ -246,10 +248,10 @@ const Vendedores2 = () => {
                     <tr>
                         <td></td>
                         <td>
-                            <input value={newVendedor.Nombre} name="Nombre" onChange={HandleChange} type="text" />
+                            <input value={newVendedor.Nombre} name="Nombre" onChange={handleChange} type="text" />
                         </td>
                         <td>
-                            <select name="TeamLeader" id="" value={newVendedor.TeamLeader} onChange={HandleChange}>
+                            <select name="TeamLeader" id="" value={newVendedor.TeamLeader} onChange={handleChange}>
                                 <option value="*">---</option>
                                 {
                                     teamleader && teamleader.map(e => <option value={e.Codigo}>{e.Nombre}</option>)
@@ -257,7 +259,7 @@ const Vendedores2 = () => {
                             </select>
                         </td>
                         <td>
-                            <select name="OficialS" id="" value={newVendedor.OficialS} onChange={HandleChange}>
+                            <select name="OficialS" id="" value={newVendedor.OficialS} onChange={handleChange}>
                                 <option value="*">---</option>
                                 {
                                     oficialesScoring && oficialesScoring.map(e => <option value={e.Codigo}>{e.Nombre}</option>)
@@ -265,7 +267,7 @@ const Vendedores2 = () => {
                             </select>
                         </td>
                         <td>
-                            <select name="OficialM" id="" value={newVendedor.OficialM} onChange={HandleChange}>
+                            <select name="OficialM" id="" value={newVendedor.OficialM} onChange={handleChange}>
                                 <option value="*">---</option>
                                 {
                                     oficialesMora && oficialesMora.map(e => <option value={e.Codigo}>{e.Nombre}</option>)
@@ -273,10 +275,10 @@ const Vendedores2 = () => {
                             </select>
                         </td>
                         <td>
-                                <input type="date" name='FechaBaja' value={newVendedor.FechaBaja} onChange={HandleChange}/>
+                                <input type="date" name='FechaBaja' value={newVendedor.FechaBaja} onChange={handleChange}/>
                         </td>
                         <td>
-                                <select name="Escala" value={newVendedor.Escala} onChange={HandleChange} id="">
+                                <select name="Escala" value={newVendedor.Escala} onChange={handleChange} id="">
                                     <option value="*">---</option>
                                     <option value={1}>Margian</option>
                                     <option value={2}>Gestión Financiera</option>
@@ -288,19 +290,7 @@ const Vendedores2 = () => {
                         <td></td>
                         <td>
                             <ButtonPrimary style={{margin: '0.8em'}}
-                             onClick={() =>{
-                                 dispatch(postVendedores(newVendedor))
-                                    setNewVendedor({
-                                        Nombre: '',
-                                        TeamLeader: '',
-                                        OficialS: '',
-                                        OficialM: '',
-                                        FechaBaja: '',
-                                        Escala: '',
-                                        Activo: 0
-                                    })
-                                    setNewField(false)
-                                }} 
+                             onClick={resetNewField} 
                             >Agregar</ButtonPrimary>
                         </td>
                         <td></td>
@@ -323,6 +313,11 @@ const Vendedores2 = () => {
                 }
 
                 </table>
+                <Pagination
+            nPages = { nPages }
+            currentPage = { currentPage } 
+            setCurrentPage = { setCurrentPage }
+            />
             </TableContainer>
         </div>
     )

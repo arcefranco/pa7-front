@@ -11,7 +11,7 @@ import TitleLogo from "../../styled-components/containers/TitleLogo";
 import { ReturnLogo } from "../../helpers/ReturnLogo";
 import Swal from "sweetalert2";
 import {Link, useNavigate} from 'react-router-dom';
-import { getGerentesById, postGerentes, updateGerentes, reset, endUpdate} from '../../reducers/Gerentes/gerentesSlice';
+import { postGerentes, updateGerentes, reset, endUpdate} from '../../reducers/Gerentes/gerentesSlice';
 import TitlePrimary from "../../styled-components/h/TitlePrimary";
 import ButtonPrimary from "../../styled-components/buttons/ButtonPrimary";
 
@@ -33,9 +33,6 @@ const GerentesFormulario = () =>{
 
     useEffect(() => {
       Promise.all([dispatch(reset())]);
-    if(id) {  
-        dispatch(getGerentesById(id))
-        }
   }, [id])
   useEffect(() => {
     if(statusNuevoGerente.length && statusNuevoGerente[0]?.status === true){

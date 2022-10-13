@@ -49,9 +49,13 @@
     integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
 </script>
 <script>
-/*   $(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip();
-  }); */
-  </script>
+  document.addEventListener("mousemove", () =>{ 
+  localStorage.setItem('lastActvity', new Date())
+});
+document.addEventListener("click", () =>{ 
+  localStorage.setItem('lastActvity', new Date())
+});
+
+</script>
 </body>
 </html>

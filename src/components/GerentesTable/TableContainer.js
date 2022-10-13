@@ -3,8 +3,8 @@ import styled from "styled-components";
 export default styled.div`
 
 text-align: -webkit-center;
-padding: 5px;
-margin-top:5px;
+height: 39rem;
+position: relative;
   table {
     border-spacing: 0;
     width: 100%;
@@ -24,8 +24,8 @@ margin-top:5px;
     tr:nth-child(even){background-color: rgb(235, 235, 235);}
     
     tr {
-      height:1.8rem;
-      padding:.6em
+      height:0.5rem;
+      padding:.4em
       ;
       :last-child {
         td {
