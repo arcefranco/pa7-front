@@ -18,7 +18,9 @@ const Gerentes2 = () => {
     const dispatch = useDispatch()
     const {empresaReal} = useSelector(
       (state) => state.login.user)
+
    const {gerentes, statusNuevoGerente} = useSelector(
+
       (state) => state.gerentes)
     const [newField, setNewField] = useState(false)
     const [newGerente, setNewGerente] = useState({
@@ -150,9 +152,12 @@ const Gerentes2 = () => {
     return (
         <div>
             {
+
                 (Object.keys(statusNuevoGerente).length && modal) && Object.keys(statusNuevoGerente).includes('status') ? 
                 <ModalStatus message={statusNuevoGerente?.message} status={statusNuevoGerente?.status}/> :
+
                 null
+
             }
 
             <TitleLogo>
@@ -162,6 +167,7 @@ const Gerentes2 = () => {
           </div>
         <TitlePrimary>Gerentes</TitlePrimary>
         </TitleLogo>
+
         <div className={styles.buttonAddContainer}>
         <ReactTooltip id="botonTooltip2">
                 Agregar nuevo gerente
@@ -170,6 +176,8 @@ const Gerentes2 = () => {
              onClick={() => setNewField(!newField)} data-tip data-for="botonTooltip2" />
 
         </div>
+
+
 
             <TableContainer>
                 <table>
