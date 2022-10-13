@@ -14,7 +14,7 @@ import Stack from 'react-bootstrap/Stack';
 import InputGroup from 'react-bootstrap/InputGroup';
 import validateEmail from "../../helpers/validateEmail";
 import {Link, useNavigate} from 'react-router-dom';
-import { getTeamLeadersById, postTeamLeaders, updateTeamLeaders, getAllSupervisores, getAllSupervisoresActivos,reset, endUpdate } from '../../reducers/TeamLeaders/teamLeadersSlice';
+import { postTeamLeaders, updateTeamLeaders, getAllSupervisores, getAllSupervisoresActivos,reset, endUpdate } from '../../reducers/TeamLeaders/teamLeadersSlice';
 import Swal from "sweetalert2";
 
 
@@ -49,13 +49,13 @@ const TeamLeadersFormulario = () =>{
           return errors;
         };
 
-
+/* 
     useEffect(() => {
     Promise.all([dispatch(getAllSupervisores()), dispatch(getAllSupervisoresActivos()),dispatch(reset())])
       if(id) {  
         dispatch(getTeamLeadersById(id))
         }
-  }, [id])
+  }, [id]) */
 
 
   useEffect(() => {

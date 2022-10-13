@@ -20,7 +20,7 @@ const Usuarios = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const {empresaReal} = useSelector(state => state.login.user)
-    const {usuarios, statusNuevoUsuario} = useSelector(state => state.usuarios)
+    const {usuarios, statusNuevoUsuario, vendedores, supervisores, teamLeaders, gerentes} = useSelector(state => state.usuarios)
     const [usuariosFiltered, setUsuariosFiltered] = useState('') 
     const [filterNombre, setFilterNombre] = useState('')
     const [currentPage, setCurrentPage] = useState(1);
@@ -29,8 +29,19 @@ const Usuarios = () => {
     const indexOfLastRecord = currentPage * recordsPerPage;
     const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
     const [inEdit, setInEdit] = useState('')
+    const [newField, setNewField] = useState(false)
     const [newUsuario, setNewUsuario] = useState({
-        Nombre: ''
+        Usuario: '',
+        Nombre: '',
+        email: '',
+        Vendedor: '',
+        Supervisor: '',
+        TeamLeader: '',
+        Gerente: '',
+        UsuarioAnura: '',
+        us_activo: 0,
+        us_bloqueado: 0,
+        scoringAsignado: 0
     })
     const actualInEdit = useRef(inEdit);
     useEffect(() => {
@@ -125,8 +136,28 @@ const Usuarios = () => {
 
     const handleSubmit = () => {
         dispatch(createUsuario(newUsuario))
+        setNewUsuario({
+            Usuario: '',
+            Nombre: '',
+            email: '',
+            Vendedor: '',
+            Supervisor: '',
+            TeamLeader: '',
+            Gerente: '',
+            UsuarioAnura: '',
+            us_activo: 0,
+            us_bloqueado: 0,
+            scoringAsignado: 0
+        })
+        setNewField(false)
     }
-
+    const handleCheckChange = (e) => {
+        const { name} = e.target;
+        var value = e.target.checked
+        value = e.target.checked? 1 : 0
+        const newForm = { ...newUsuario, [name]: value };
+        setNewUsuario(newForm);
+    };
 
 
 
@@ -157,7 +188,7 @@ const Usuarios = () => {
                 Agregar nuevo usuario
                 </ReactTooltip>  
             <AiIcons.AiFillPlusCircle className={styles.plusCircle}
-             onClick={() => navigate('/altaUsuarios')} data-tip data-for="botonTooltip2" />
+             onClick={() => setNewField(!newField)} data-tip data-for="botonTooltip2" />
 
         </div>
 
@@ -188,7 +219,55 @@ const Usuarios = () => {
                     <th></th>
                     <th></th>
                 </tr>
+                {
+                    newField && 
 
+                    <tr>
+                        <td></td>
+                        <td><input type="text" className={styles.inputText} name="Usuario" value={newUsuario.Usuario} onChange={handleChange}/></td>
+                        <td><input type="text" className={styles.inputText} name="Nombre" value={newUsuario.Nombre} onChange={handleChange}/></td>
+                        <td>
+                            <select name="Vendedor" className={styles.select} onChange={handleChange} id="">
+                                <option value="*">---</option>
+                                {
+                                    vendedores && vendedores.map(e => <option value={e.Codigo}>{e.Nombre}</option>)
+                                }
+                            </select>
+                        </td>
+                        <td>
+                            <select name="TeamLeader" className={styles.select} onChange={handleChange} id="">
+                                <option value="*">---</option>
+                                {
+                                    teamLeaders && teamLeaders.map(e => <option value={e.Codigo}>{e.Nombre}</option>)
+                                }
+                            </select>
+                        </td>
+                        <td>
+                            <select name="Supervisor" className={styles.select} onChange={handleChange} id="">
+                                <option value="*">---</option>
+                                {
+                                    supervisores && supervisores.map(e => <option value={e.Codigo}>{e.Nombre}</option>)
+                                }
+                            </select>
+                        </td>
+                        <td>
+                            <select name="Gerente" className={styles.select} onChange={handleChange} id="">
+                                <option value="*">---</option>
+                                {
+                                    gerentes && gerentes.map(e => <option value={e.Codigo}>{e.Nombre}</option>)
+                                }
+                            </select>
+                        </td>
+                        <td><input type="text" className={styles.inputText} name="email" value={newUsuario.email} onChange={handleChange}/></td>
+                        <td><input type="text" className={styles.inputText} name="UsuarioAnura" value={newUsuario.UsuarioAnura} onChange={handleChange}/></td>
+                        <td><input type="checkbox" name="scoringAsignado" value={newUsuario.scoringAsignado}  onChange={handleCheckChange}/></td>
+                        <td><input type="checkbox" name="us_bloqueado" value={newUsuario.us_bloqueado}  onChange={handleCheckChange}/></td>
+                        <td><input type="checkbox" name="us_activo" value={newUsuario.us_activo}  onChange={handleCheckChange}/></td>
+                        <td><ButtonPrimary onClick={handleSubmit}>Agregar</ButtonPrimary></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                }
 
 
                 {

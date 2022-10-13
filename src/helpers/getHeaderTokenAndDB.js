@@ -1,6 +1,5 @@
 export default function getHeaderTokenAndDB() {
     if (window.localStorage.getItem('userToken')) {
-      console.log('token del front: ', window.localStorage.getItem('userToken').split(" ")[1])
        return {
           headers: {
              "x-auth-token": window.localStorage.getItem('userToken').split(" ")[1],
