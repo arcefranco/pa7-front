@@ -7,6 +7,7 @@ import { useEffect } from "react";
 import Swal from "sweetalert2";
 
 
+
 const Gerentes2Item = ({Codigo, Nombre, Activo}) => {
 
 const [item, setItem] = useState({
@@ -15,9 +16,13 @@ const [item, setItem] = useState({
     Activo: Activo
 })
 
+
 const {statusNuevoGerente} = useSelector(state => state.gerentes)
 
+
+
 const [edit, setEdit] = useState(false)
+
 
 const dispatch = useDispatch()
 
@@ -81,6 +86,7 @@ const handleEdit = () => {
     return (
         <tr>
         <td>{Codigo}</td>
+
         <td style={{ width: '30rem'}}>
 
              {
@@ -89,6 +95,7 @@ const handleEdit = () => {
              }
             
         
+
             
         </td>
 
