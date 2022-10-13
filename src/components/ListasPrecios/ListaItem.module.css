@@ -1,11 +1,25 @@
+
+.addButtonContainer{
+  display: flex;
+  justify-content: flex-end
+}
+.container nav{
+  position: inherit;
+  margin-bottom: 1rem;
+}
+
 .item{
     background-color: #a9a9a91f;
     cursor: pointer;
     border-radius: 4px;
     margin: 5px;
     width: 60rem;
+    align-items: center;
     padding: 10px;
     text-align-last: start;
+}
+.item button {
+  font-size: .8em;
 }
 
 .inputFilter {

@@ -9,6 +9,7 @@ import TitleLogo from "../../styled-components/containers/TitleLogo";
 import TitlePrimary from "../../styled-components/h/TitlePrimary";
 import TableContainer from "../GerentesTable/TableContainer";
 import ModalStatus from "../ModalStatus";
+import ReactTooltip from "react-tooltip";
 import { ReturnLogo } from "../../helpers/ReturnLogo";
 import ButtonPrimary from "../../styled-components/buttons/ButtonPrimary";
 
@@ -18,7 +19,7 @@ const Sucursales = () => {
     const {empresaReal} = useSelector(state => state.login.user)
     const {sucursales, sucursalStatus} = useSelector(state => state.sucursales) 
     const [currentPage, setCurrentPage] = useState(1);
-    const [recordsPerPage] = useState(10);
+    const [recordsPerPage] = useState(15);
     const [modal, setModal] = useState(false)
     const indexOfLastRecord = currentPage * recordsPerPage;
     const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
@@ -60,11 +61,6 @@ const Sucursales = () => {
 
         function resetModal () {
             dispatch(resetStatus())
-            setModal(false)
-        }
-        
-        function resetSucursalesById () {
-            dispatch(resetSucursales())
             setModal(false)
         }
 
@@ -120,9 +116,9 @@ const Sucursales = () => {
     const nPages = Math.ceil(sucursales?.length / recordsPerPage)
 
     return (
-        <div>
-
-            {
+        
+        <div className={styles.container}>
+        {
                 modal && Object.keys(sucursalStatus).length && Object.keys(sucursalStatus).includes('status') ? 
                 <ModalStatus status={sucursalStatus?.status} message={sucursalStatus?.message}/> :
                 null
@@ -136,19 +132,18 @@ const Sucursales = () => {
         <TitlePrimary>Sucursales</TitlePrimary>
         </TitleLogo>
         <div className={styles.buttonAddContainer}>
+            <ReactTooltip id="botonTooltip2">
+                Agregar nueva sucursal
+                </ReactTooltip>  
             <AiIcons.AiFillPlusCircle className={styles.plusCircle}
              onClick={() => setNewField(!newField)} data-tip data-for="botonTooltip2" />
 
         </div>
-        <Pagination
-            nPages = { nPages }
-            currentPage = { currentPage } 
-            setCurrentPage = { setCurrentPage }
-            />
+
         <TableContainer>
             <table>
                 <tr>
-                    <th>Codigo</th>
+                    <th>Código</th>
                     <th>Nombre</th>
                     <th></th>
                     <th></th>
@@ -171,8 +166,12 @@ const Sucursales = () => {
                     currentRecords && currentRecords.map(e => <SucursalesItem key={e.Codigo} Codigo={e.Codigo} Nombre={e.Nombre}/>)
                 }
             </table>
+        <Pagination
+            nPages = { nPages }
+            currentPage = { currentPage } 
+            setCurrentPage = { setCurrentPage }
+            />
         </TableContainer>
-        
         </div>
     )
 }

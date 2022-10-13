@@ -20,7 +20,7 @@ import NotPermission from './NotPermission';
 import RolesForm from './components/RolesForm/RolesForm';
 import ModelosTable from './components/ModelosTable/ModelosTable';
 import ModelosFormulario from './components/ModelosTable/ModelosFormulario';
-
+import Usuarios from './components/Usuarios/Usuarios';
 import SucursalesTable from './components/SucursalesTable/SucursalesTable';
 import PuntosTable from './components/PuntosDeVenta/PuntosTable';
 import TeamLeadersTable from './components/TeamLeadersTable/TeamLeadersTable';
@@ -37,10 +37,30 @@ import ListasPrecios from './components/ListasPrecios/ListasPrecios';
 import Gerentes2 from './components/Gerentes2/Gerentes2';
 import Vendedores2 from './components/Vendedores2/Vendedores2';
 import Sucursales from './components/Sucursales/Sucursales';
+import React from 'react';
+import Error552 from './pages/Error552';
 
 function App() {
   const {user, toggle} = useSelector(
     (state) => state.login)
+
+    React.useEffect(() => {
+      let timeInterval = setInterval(() => {
+        let lastAcivity = localStorage.getItem('lastActvity')
+        var diffMs = Math.abs(new Date(lastAcivity) - new Date()); // milliseconds between now & last activity
+        var seconds = Math.floor((diffMs/1000));
+        var minute = Math.floor((seconds/60));
+/*         console.log(seconds +' sec and '+minute+' min since last activity') */
+        if(minute == 30){
+          console.log('No activity from last 10 minutes... Logging Out')
+          clearInterval(timeInterval)
+          localStorage.removeItem('user')
+          localStorage.removeItem('userToken')
+          localStorage.removeItem('db')
+        }
+      
+      },1000)
+    }, [user])
   return (
     user && (user?.newUser === 0 || user?.newUser === null || !user?.newUser) ?
     <div className="App">
@@ -84,7 +104,7 @@ function App() {
           <Route path='/altaSupervisores/' element={<SupervisoresFormulario/>}/>
           <Route path='/modificarSupervisores/:id' element={<SupervisoresFormulario/>}/>
           <Route path='/usuarios' element={<PrivateMasterRoute rol={'1.7.16'}/>}>
-            <Route path='/usuarios' element={<UsuariosTable/>}/>
+            <Route path='/usuarios' element={<Usuarios/>}/>
           </Route>
           <Route path='/modelos' element={<ModelosTable/>}/>
           <Route path='/altaModelos/' element={<ModelosFormulario/>}/>
@@ -124,6 +144,7 @@ function App() {
     <Route path='/' element={<Login/>}/>
     <Route path='/recovery' element={<RecoveryPass/>}/>
     <Route path='/reset-password/:id/:token' element={<ResetPassword/>}/>
+    <Route path='/552' element={<Error552/>}/>
     </Routes> 
    
   );

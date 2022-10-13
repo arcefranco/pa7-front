@@ -19,9 +19,9 @@ const empresa = user.empresaReal;
 let logo;
 let cssClass;
 
-    React.useEffect(() => {
+/*     React.useEffect(() => {
         dispatch(reset())
-    }, [])
+    }, []) */
 
 /*---------CONDICION DE MARCA POR EMPRESA------*/
 switch(empresa)

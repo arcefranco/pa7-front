@@ -100,6 +100,12 @@ const endUpdate = async (usuarioData) => {
     return response.data
 }
 
+const beginUpdate = async (usuarioData) => {
+    const headers = getHeaderToken()
+    const response = await axios.post(process.env.REACT_APP_HOST + 'usuarios/beginUpdate', usuarioData, headers).catch((error) => errorsHandling(error))
+    return response.data
+  }
+
 
 
 
@@ -120,7 +126,8 @@ const usuariosService = {
     getUsuarioById,
     updateUsuario,
     deleteUsuario,
-    endUpdate
+    endUpdate,
+    beginUpdate
   }
 
 

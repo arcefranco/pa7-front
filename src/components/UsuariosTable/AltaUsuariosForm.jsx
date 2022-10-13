@@ -9,7 +9,7 @@ import Row from 'react-bootstrap/Row';
 import Stack from 'react-bootstrap/Stack';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { getAllGerentes, getAllSupervisores, getAllTeamLeaders, 
-    getAllVendedores, createUsuario, reset, getUsuarioById, updateUsuario, endUpdate} from "../../reducers/Usuarios/UsuariosSlice";
+    getAllVendedores, createUsuario, reset, updateUsuario, endUpdate} from "../../reducers/Usuarios/UsuariosSlice";
 import validateEmail from "../../helpers/validateEmail";
 import styles from './AltaUsuarios.module.css'
 import './AltaUsuarios.module.css'
@@ -48,22 +48,7 @@ const validateform = function (form) {
   };
   
  
-  useEffect(() => {
-    if(usuarioById.status === false){
-        Swal.fire({
-            icon: 'error',
-            title: usuarioById.message,
-            showConfirmButton: true,
-            
-          }).then((result) => {
-            if (result.isConfirmed) {
 
-              window.location.replace('/usuarios')
-              
-            } 
-        })
-    }
-  }, [usuarioById])
 
 
   useEffect(() => {
@@ -80,52 +65,18 @@ const validateform = function (form) {
 useEffect(() => {
     Promise.all([dispatch(getAllVendedores()), dispatch(getAllGerentes()), 
         dispatch(getAllSupervisores()), dispatch(getAllTeamLeaders()), dispatch(reset())])
-    if(id) {  
-        dispatch(getUsuarioById({id: id}))
-        }
+
   }, [id])
 
-  useEffect(() => {
-    setInput({
-        ID: id? id : null,
-        Nombre: usuarioById[0]?.Nombre,
-        Usuario: usuarioById[0]?.Usuario,
-        UsuarioAnura: usuarioById[0]?.UsuarioAnura,
-        Vendedor: usuarioById[0]?.Vendedor,
-        Gerente: usuarioById[0]?.Gerente,
-        TeamLeader: usuarioById[0]?.TeamLeader,
-        Supervisor: usuarioById[0]?.Supervisor,
-        us_activo: usuarioById[0]?.us_activo, 
-        us_bloqueado: 0, 
-        scoringAsignado: 0, 
-        newUserBoolean: usuarioById.length ? 0 : 1, 
-        email: usuarioById[0]?.email 
-    });
-  }, [usuarioById]);
+
 
   useEffect(() => {
-    if(statusNuevoUsuario.length && statusNuevoUsuario[0]?.status === true){
-        Swal.fire({
-            icon: 'success',
-            title: statusNuevoUsuario[0]?.data,
-            showConfirmButton: false,
-            timer: 5000,
-          })
+    if(Object.keys(statusNuevoUsuario).length && statusNuevoUsuario?.status === true){
         navigate('/usuarios')
-    }else if(statusNuevoUsuario.length && statusNuevoUsuario[0]?.status === false){
-     Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            showConfirmButton: true,
-            
-            text: statusNuevoUsuario[0]?.data
-          }).then((result) => {
-            if (result.isConfirmed) {
-              window.location.reload()
-              
-            } 
-        })
-          
+        
+    }else if(Object.keys(statusNuevoUsuario).length && statusNuevoUsuario?.status === false){
+
+        window.location.reload()
     }
 
 
@@ -265,32 +216,9 @@ useEffect(() => {
                             {error.usuario && <div className={styles.error}>{error.usuario}</div>}
                             </FloatingLabel>
                             </Form.Group>
-                            {!id?.length && <Form.Group as={Col} style={{marginTop:'.5rem', marginBottom: '.2rem'}}>
-                                <FloatingLabel
-                                controlId="floatingInput"
-                                label="Contraseña"
-                                style={floatingLabel}
-                                > 
-                                <Form.Control size="sm" type="password" name="password" value={input.password}  onChange={handleChange} placeholder="Contraseña" required/>
-                                </FloatingLabel>
-                            </Form.Group> }
                         </Row>
                         <pre/>
                         <Row className="g-2">
-
-                            {!id?.length && <Form.Group as={Col} >
-                            <FloatingLabel
-                                controlId="floatingInputGrid"
-                                label="Confirmar Contraseña"
-                                style={floatingLabel}
-                            > 
-                            <Form.Control size="sm" type="password" name="confirmPassword" value={input.confirmPassword} onChange={handleChange} placeholder="Repetir Contraseña" required/>
-                            {!id?.length && error.contrasenaConfirm ? <div className={styles.error}>{error.contrasenaConfirm}</div>: null}
-                            </FloatingLabel>
-     
-                            </Form.Group>} 
-
-                            
                             <Form.Group as={Col} >
 
                             <FloatingLabel

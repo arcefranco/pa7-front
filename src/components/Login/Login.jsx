@@ -5,10 +5,8 @@ import { Link } from 'react-router-dom'
 import * as BiIcons from 'react-icons/bi';
 import { useSelector } from 'react-redux/es/exports'
 import styles from './Login.module.css'
-import { login, reset } from '../../reducers/Login/loginSlice'
+import { login, reset, resetToken } from '../../reducers/Login/loginSlice'
 import { useDispatch } from 'react-redux'
-// import {Howl, Howler} from 'howler'
-// import mp3 from '../../s'
  
 
 export const Login = () => {
@@ -27,13 +25,12 @@ export const Login = () => {
         marca:'',
     })
 
-    /*const sound= new Howl({
-      src:['/src/sounds/intro.mp3'],
-      html5:true,
-    });*/
+    React.useEffect(() => {
+      dispatch(resetToken())
+    }, [])
     
     React.useEffect(() => {
-      dispatch(reset())
+      dispatch(reset()) 
       if (isError) {
           Swal.fire({
             icon: 'error',
@@ -49,23 +46,13 @@ export const Login = () => {
             timer: 5000
           }).then((result) => {
             if(result.isConfirmed)
-            navigate('/recovery')
+            window.localStorage.setItem('db', user.empresa)
+            navigate(user.link)
           })
           dispatch(reset())
           localStorage.removeItem('user')
           localStorage.removeItem('userToken')
           
-        }
-        if (isSuccess && user !== null) {
-          Swal.fire({
-            icon: 'success',
-            title: 'You have successfully logged in',
-            showConfirmButton: false,
-            timer: 1500
-          })
-          
-          navigate('/')
-          dispatch(reset())
         }
         },
         
@@ -80,15 +67,11 @@ export const Login = () => {
           setInput(newForm);
         };
 
-/*          React.useEffect(() => {
-          setEmpresaReal(d ? d.options[d.selectedIndex].text : null)
-        }, [handleChange]) */
          
 
 
     const onSubmit = (e) => {
         e.preventDefault()
-        // sound.play()
         switch(input.empresaReal){
           case "Car Group S.A.":
           case "Gestión Financiera S.A.":
@@ -119,6 +102,14 @@ export const Login = () => {
         }
         console.log(input)
         dispatch(login(input))
+        setInput({
+          empresa:'',
+          empresaReal: '',
+          login: '',
+          password: '',
+          codigoMarca:'',
+          marca:'',
+      })
       }
     
   return (

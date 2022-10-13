@@ -223,10 +223,6 @@ export const vendedoresSlice = createSlice({
 
       resetStatus: (state) => {
         state.statusNuevoVendedor = []
-      },
-
-      resetVendedoresById: (state) => {
-        state.vendedoresById = []
       }
     },
 
@@ -253,13 +249,13 @@ export const vendedoresSlice = createSlice({
         builder.addCase(getVendedoresById.fulfilled, (state, action) => {
             state.isLoading = false
             state.isSuccess = true
-            state.vendedoresById = action.payload
+            state.statusNuevoVendedor = action.payload
           }) 
         builder.addCase(getVendedoresById.rejected, (state, action) => {
             state.isLoading = false
             state.isError = true
-            state.message = action.payload
-            state.vendedoresById = null
+            state.message = null
+            state.statusNuevoVendedor = action.payload
           });
         builder.addCase(beginUpdate.pending, (state) => {
             state.isLoading = true
@@ -267,12 +263,12 @@ export const vendedoresSlice = createSlice({
         builder.addCase(beginUpdate.fulfilled, (state, action) => {
             state.isLoading = false
             state.isSuccess = true
-            state.vendedoresById = action.payload
+            state.statusNuevoVendedor = action.payload
           }) 
         builder.addCase(beginUpdate.rejected, (state, action) => {
             state.isLoading = false
             state.isError = true
-            state.vendedoresById = action.payload
+            state.statusNuevoVendedor = action.payload
           });
           builder.addCase(getAllTeamLeaders.pending, (state) => {
             state.isLoading = true
@@ -379,12 +375,12 @@ export const vendedoresSlice = createSlice({
         builder.addCase(postVendedores.fulfilled, (state, action) => {
             state.isLoading = false
             state.isSuccess = true
-            state.statusNuevoVendedor = [action.payload]
+            state.statusNuevoVendedor = action.payload
           }) 
         builder.addCase(postVendedores.rejected, (state, action) => {
             state.isLoading = false
             state.isError = true
-            state.statusNuevoVendedor = [action.payload]
+            state.statusNuevoVendedor = action.payload
           });
 
         builder.addCase(updateVendedores.pending, (state) => {
@@ -394,12 +390,12 @@ export const vendedoresSlice = createSlice({
         builder.addCase(updateVendedores.fulfilled, (state, action) => {
             state.isLoading = false
             state.isSuccess = true
-            state.statusNuevoVendedor = [action.payload]
+            state.statusNuevoVendedor = action.payload
           }) 
         builder.addCase(updateVendedores.rejected, (state, action) => {
             state.isLoading = false
             state.isError = true
-            state.statusNuevoVendedor = [action.payload]
+            state.statusNuevoVendedor = action.payload
           });
           
           builder.addCase(deleteVendedores.pending, (state) => {
@@ -409,12 +405,12 @@ export const vendedoresSlice = createSlice({
         builder.addCase(deleteVendedores.fulfilled, (state, action) => {
             state.isLoading = false
             state.isSuccess = true
-            state.statusNuevoVendedor = [action.payload]
+            state.statusNuevoVendedor = action.payload
           }) 
         builder.addCase(deleteVendedores.rejected, (state, action) => {
             state.isLoading = false
             state.isError = true
-            state.statusNuevoVendedor = [action.payload]
+            state.statusNuevoVendedor = action.payload
             state.vendedores = null
           });
 
@@ -425,5 +421,5 @@ export const vendedoresSlice = createSlice({
 
 })
 
-export const { reset, resetStatus, resetVendedoresById } = vendedoresSlice.actions
+export const { reset, resetStatus } = vendedoresSlice.actions
 export default vendedoresSlice.reducer
