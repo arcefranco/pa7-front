@@ -14,9 +14,9 @@ const getTeamLeaders = async () => {
     })
     return response.data[0] 
   }
-  const getTeamLeadersById = async (teamLeadersData) => {
+  const beginUpdate = async (sucursalesData) => {
     const headers = getHeaderToken()
-    const response = await axios.post(process.env.REACT_APP_HOST + 'teamleaders/id',  {Codigo:teamLeadersData}, headers).catch((error) => errorsHandling(error))
+    const response = await axios.post(process.env.REACT_APP_HOST + 'teamleaders/beginUpdate', sucursalesData, headers).catch((error) => errorsHandling(error))
     return response.data
   }
 
@@ -62,7 +62,7 @@ const teamLeadersService = {
     postTeamLeaders, 
     updateTeamLeaders, 
     deleteTeamLeaders, 
-    getTeamLeadersById, 
+    beginUpdate, 
     getAllSupervisores, 
     getAllSupervisoresActivos,
     endUpdate
