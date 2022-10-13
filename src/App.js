@@ -9,7 +9,7 @@ import { RecoveryPass } from './components/ForgotPassword/RecoveryPass';
 import GerentesTable from './components/GerentesTable/GerentesTable';
 import CopyRoles from './components/RolesForm/CopyRoles';
 import ErrorDB from './pages/ErrorDB';
-import UsuariosTable from './components/UsuariosTable/UsuariosTable';
+import TeamLeaders from './components/TeamLeaders/TeamLeaders';
 import SupervisoresTable from './components/SupervisoresTable/SupervisoresTable';
 import { useSelector } from 'react-redux';
 import AltaUsuariosForm from './components/UsuariosTable/AltaUsuariosForm';
@@ -97,7 +97,7 @@ function App() {
           <Route path='/modificarGerentes/:id' element={<PrivateMasterRoute rol={'1.7.18.2'}/>}>
             <Route path='/modificarGerentes/:id' element={<GerentesFormulario/>}/>
           </Route>
-          <Route path='/teamleaders' element={<TeamLeadersTable/>}/>
+          <Route path='/teamleaders' element={<TeamLeaders/>}/>
           <Route path='/altaTeamLeaders' element={<TeamLeadersFormulario/>}/>
           <Route path='/modificarTeamLeaders/:id' element={<TeamLeadersFormulario/>}/>
           <Route path='/supervisores' element={<SupervisoresTable/>}/>

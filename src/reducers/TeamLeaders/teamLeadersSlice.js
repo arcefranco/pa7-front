@@ -28,11 +28,14 @@ export const getTeamLeaders = createAsyncThunk('teamleaders', async (thunkAPI) =
     }
   })
   
-  export const getTeamLeadersById = createAsyncThunk('getteamleadersbyid', async (teamLeadersData,thunkAPI) => {
+  export const beginUpdate = createAsyncThunk('beginUpdate', async (teamLeadersData, thunkAPI) => {
     try {
-      const data = await teamLeadersService.getTeamLeadersById(teamLeadersData)
+      
+      const data = await teamLeadersService.beginUpdate(teamLeadersData)
+
       return data
     } catch (error) {
+
         (error.response && error.response.data && error.response.data.message) ||
         error.message ||
         error.toString()
@@ -130,9 +133,11 @@ export const teamLeadersSlice = createSlice({
         state.isSuccess = false
         state.isError = false
         state.message = ''
-        state.teamLeadersById =[]
-        state.statusNuevoTeamLeader = []
       },
+
+      resetStatus: (state) => {
+        state.statusNuevoTeamLeader = []
+      }
     },
 
     extraReducers: (builder) => {
@@ -152,20 +157,6 @@ export const teamLeadersSlice = createSlice({
             state.teamLeaders = null
           });
 
-          builder.addCase(getTeamLeadersById.pending, (state) => {
-            state.isLoading = true
-          })
-        builder.addCase(getTeamLeadersById.fulfilled, (state, action) => {
-            state.isLoading = false
-            state.isSuccess = true
-            state.teamLeadersById = action.payload
-          }) 
-        builder.addCase(getTeamLeadersById.rejected, (state, action) => {
-            state.isLoading = false
-            state.isError = true
-            state.message = action.payload
-            state.teamLeadersById = null
-          });
           builder.addCase(getAllSupervisores.pending, (state) => {
             state.isLoading = true
           })
@@ -202,12 +193,12 @@ export const teamLeadersSlice = createSlice({
         builder.addCase(postTeamLeaders.fulfilled, (state, action) => {
             state.isLoading = false
             state.isSuccess = true
-            state.statusNuevoTeamLeader = [action.payload]
+            state.statusNuevoTeamLeader = action.payload
           }) 
         builder.addCase(postTeamLeaders.rejected, (state, action) => {
             state.isLoading = false
             state.isError = true
-            state.statusNuevoTeamLeader = [action.payload]
+            state.statusNuevoTeamLeader = action.payload
           });
 
         builder.addCase(updateTeamLeaders.pending, (state) => {
@@ -217,12 +208,12 @@ export const teamLeadersSlice = createSlice({
         builder.addCase(updateTeamLeaders.fulfilled, (state, action) => {
             state.isLoading = false
             state.isSuccess = true
-            state.statusNuevoTeamLeader = [action.payload]
+            state.statusNuevoTeamLeader = action.payload
           }) 
         builder.addCase(updateTeamLeaders.rejected, (state, action) => {
             state.isLoading = false
             state.isError = true
-            state.statusNuevoTeamLeader = [action.payload]
+            state.statusNuevoTeamLeader = action.payload
           });
           
           builder.addCase(deleteTeamLeaders.pending, (state) => {
@@ -232,13 +223,27 @@ export const teamLeadersSlice = createSlice({
         builder.addCase(deleteTeamLeaders.fulfilled, (state, action) => {
             state.isLoading = false
             state.isSuccess = true
-            state.statusNuevoTeamLeader = [action.payload]
+            state.statusNuevoTeamLeader = action.payload
           }) 
         builder.addCase(deleteTeamLeaders.rejected, (state, action) => {
             state.isLoading = false
             state.isError = true
-            state.statusNuevoTeamLeader = [action.payload]
+            state.statusNuevoTeamLeader = action.payload
             state.teamLeaders = null
+          });
+          builder.addCase(beginUpdate.pending, (state) => {
+            state.isLoading = true
+            state.statusNuevoTeamLeader = []
+          })
+        builder.addCase(beginUpdate.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.isSuccess = true
+            state.statusNuevoTeamLeader = action.payload
+          }) 
+        builder.addCase(beginUpdate.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            state.statusNuevoTeamLeader = action.payload
           });  
 }
         
@@ -246,5 +251,5 @@ export const teamLeadersSlice = createSlice({
 
 })
 
-export const { reset } = teamLeadersSlice.actions
+export const { reset, resetStatus } = teamLeadersSlice.actions
 export default teamLeadersSlice.reducer
