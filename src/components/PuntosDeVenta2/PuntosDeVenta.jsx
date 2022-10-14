@@ -1,9 +1,9 @@
 import React, {useEffect, useState, useRef} from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllSucursales, endUpdate, resetStatus, resetSucursales, createSucursal } from "../../reducers/Sucursales/SucursalesSlice";
+import { getAllPuntosDeVenta, createPuntoDeVenta, endUpdate, resetStatus } from "../../reducers/PuntosDeVenta/puntosSlice";
 import styles from '../../styles/Table.module.css'
 import * as AiIcons from 'react-icons/ai';
-import SucursalesItem from "./SucursalesItem";
+import PuntosItem from "./PuntosItem";
 import Pagination from "../Pagination/Pagination";
 import TitleLogo from "../../styled-components/containers/TitleLogo";
 import TitlePrimary from "../../styled-components/h/TitlePrimary";
@@ -14,10 +14,12 @@ import { ReturnLogo } from "../../helpers/ReturnLogo";
 import ButtonPrimary from "../../styled-components/buttons/ButtonPrimary";
 
 
-const Sucursales = () => {
+const PuntosDeVenta = () => {
     const dispatch = useDispatch()
     const {empresaReal} = useSelector(state => state.login.user)
-    const {sucursales, sucursalStatus} = useSelector(state => state.sucursales) 
+    const {puntosDeVenta, puntoStatus} = useSelector(state => state.puntosDeVenta)
+    const [puntosFiltered, setPuntosFiltered] = useState('')
+    const [filterNombre, setFilterNombre] = useState('')  
     const [currentPage, setCurrentPage] = useState(1);
     const [recordsPerPage] = useState(13);
     const [modal, setModal] = useState(false)
@@ -25,17 +27,19 @@ const Sucursales = () => {
     const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
     const [inEdit, setInEdit] = useState('')
     const [newField, setNewField] = useState(false)
-    const [newSucursal, setNewSucursal] = useState({
+    const [newPunto, setNewPunto] = useState({
         Nombre: ''
     })
     const actualInEdit = useRef(inEdit);
     useEffect(() => {
 
-        dispatch(getAllSucursales())
+        dispatch(getAllPuntosDeVenta())
 
     }, [])
 
-    
+    useEffect(() => {
+        setPuntosFiltered(puntosDeVenta)
+    }, [puntosDeVenta]) 
     
     useEffect(() => {
         actualInEdit.current = inEdit; //Actualizar el estado de inEdit para hacer el endUpdate al actualizar/desmontar
@@ -64,63 +68,80 @@ const Sucursales = () => {
             setModal(false)
         }
 
-         if(Object.keys(sucursalStatus).length){ 
+         if(Object.keys(puntoStatus).length){ 
             setTimeout(resetModal, 5000)
             
         } 
 
-        if(sucursalStatus?.status === true){
+        if(puntoStatus?.status === true){
             resetNewField()
-            dispatch(getAllSucursales())
+            dispatch(getAllPuntosDeVenta())
         }
 
-    }, [sucursalStatus]) 
+    }, [puntoStatus]) 
     
     useEffect(() => {
-        if(Object.keys(sucursalStatus).includes('codigo')) {
-            setInEdit(sucursalStatus?.codigo)
+        if(Object.keys(puntoStatus).includes('codigo')) {
+            setInEdit(puntoStatus?.codigo)
         }
 
-        if(sucursalStatus?.status === false) {
+        if(puntoStatus?.status === false) {
             setModal(true)
         }
         
-    }, [sucursalStatus])
+    }, [puntoStatus])
+
+
+    useEffect(() => {
+        if(filterNombre.length){
+            setCurrentPage(1)
+            
+                setPuntosFiltered(
+                    puntosDeVenta
+                .filter(e => {
+                    return e.Nombre.toLowerCase().includes(filterNombre.toLocaleLowerCase())
+                }))
+            
+            
+        }else{
+            setPuntosFiltered(puntosDeVenta)
+        }
+    },[filterNombre])
 
     const handleChange = (e) => {
                 
         const {name , value} = e.target
-        const newForm = {...newSucursal,
+        const newForm = {...newPunto,
             [name]: value,
         }
         
-        setNewSucursal(newForm)
+        setNewPunto(newForm)
     }
 
     const handleSubmit = () => {
-        dispatch(createSucursal(newSucursal))
+        dispatch(createPuntoDeVenta(newPunto))
     }
 
     const resetNewField = () => {
         setNewField(false)
-        setNewSucursal({
+        setNewPunto({
             Nombre: ''
         })
     }
 
 
 
-    const currentRecords = sucursales.slice(indexOfFirstRecord, 
+    const currentRecords = puntosFiltered.slice(indexOfFirstRecord, 
         indexOfLastRecord);
 
-    const nPages = Math.ceil(sucursales?.length / recordsPerPage)
+    const nPages = Math.ceil(puntosFiltered?.length / recordsPerPage)
 
     return (
         
         <div className={styles.container}>
         {
-                modal && Object.keys(sucursalStatus).length && Object.keys(sucursalStatus).includes('status') ? 
-                <ModalStatus status={sucursalStatus?.status} message={sucursalStatus?.message}/> :
+                modal && Object.keys(puntoStatus).length && Object.keys(puntoStatus).includes('status') ? 
+                <ModalStatus status={puntoStatus?.status} message={puntoStatus?.message}/> :
                 null
             }
 
@@ -129,11 +150,11 @@ const Sucursales = () => {
             <span>{empresaReal}</span>
             <ReturnLogo empresa={empresaReal}/>
           </div>
-        <TitlePrimary>Sucursales</TitlePrimary>
+        <TitlePrimary>Puntos de Venta</TitlePrimary>
         </TitleLogo>
         <div className={styles.buttonAddContainer}>
             <ReactTooltip id="botonTooltip2">
-                Agregar nueva sucursal
+                Agregar nuevo punto de venta
                 </ReactTooltip>  
             <AiIcons.AiFillPlusCircle className={styles.plusCircle}
              onClick={() => setNewField(!newField)} data-tip data-for="botonTooltip2" />
@@ -144,7 +165,14 @@ const Sucursales = () => {
             <table>
                 <tr>
                     <th>Código</th>
-                    <th>Nombre</th>
+                    <th>Nombre
+                    <br />
+                    <input type="text" 
+                className={styles.inputFilterColumn} 
+                value={filterNombre}
+                onChange={(e) => setFilterNombre(e.target.value)}    
+                    />
+                    </th>
                     <th></th>
                     <th></th>
                     <th></th>
@@ -155,7 +183,7 @@ const Sucursales = () => {
 
                     <tr>
                         <td></td>
-                        <td><input type="text" name="Nombre" value={newSucursal.Nombre} onChange={handleChange}/></td>
+                        <td><input type="text" name="Nombre" value={newPunto.Nombre} onChange={handleChange}/></td>
                         <td></td>
                         <td><ButtonPrimary onClick={handleSubmit}>Agregar</ButtonPrimary></td>
                         <td></td>
@@ -163,7 +191,7 @@ const Sucursales = () => {
                 }
 
                 {
-                    currentRecords && currentRecords.map(e => <SucursalesItem key={e.Codigo} Codigo={e.Codigo} Nombre={e.Nombre}/>)
+                    currentRecords && currentRecords.map(e => <PuntosItem key={e.Codigo} Codigo={e.Codigo} Nombre={e.Nombre}/>)
                 }
             </table>
         <Pagination
@@ -176,4 +204,4 @@ const Sucursales = () => {
     )
 }
 
-export default Sucursales
+export default PuntosDeVenta
