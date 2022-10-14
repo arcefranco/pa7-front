@@ -99,6 +99,21 @@ export const getOficialSelected = createAsyncThunk('getOficialSelected', async (
     }
   })
 
+  export const beginUpdate = createAsyncThunk('beginUpdate', async (oficialData, thunkAPI) => {
+    try {
+      
+      const data = await OficialesService.beginUpdate(oficialData)
+
+      return data
+    } catch (error) {
+
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+  })
+
   export const endUpdate = createAsyncThunk('endUpdate', async (oficialData, thunkAPI) => {
     try {
       
@@ -125,9 +140,12 @@ export const oficialesSlice = createSlice({
         state.isSuccess = false
         state.isError = false
         state.message = ''
-        state.oficialById = []
-        state.oficialStatus = ''       
+      
       },
+
+      resetStatus: (state) => {
+        state.oficialStatus = [] 
+      }
     },
 
     extraReducers: (builder) => {
@@ -198,15 +216,29 @@ export const oficialesSlice = createSlice({
     state.isError = true
     state.oficialStatus = action.payload
 })
-.addCase(createOficiales.pending, (state) => {
+    .addCase(createOficiales.pending, (state) => {
   state.isLoading = true
 })
-  .addCase(createOficiales.fulfilled, (state, action) => {
+    .addCase(createOficiales.fulfilled, (state, action) => {
   state.isLoading = false
   state.isSuccess = true
   state.oficialStatus = action.payload
 }) 
-  .addCase(createOficiales.rejected, (state, action) => {
+  . addCase(createOficiales.rejected, (state, action) => {
+  state.isLoading = false
+  state.isError = true
+  state.oficialStatus = action.payload
+})
+
+.addCase(beginUpdate.pending, (state) => {
+  state.isLoading = true
+})
+.addCase(beginUpdate.fulfilled, (state, action) => {
+  state.isLoading = false
+  state.isSuccess = true
+  state.oficialStatus = action.payload
+}) 
+.addCase(beginUpdate.rejected, (state, action) => {
   state.isLoading = false
   state.isError = true
   state.oficialStatus = action.payload
@@ -214,5 +246,5 @@ export const oficialesSlice = createSlice({
     }
 })
 
-export const { reset } = oficialesSlice.actions
+export const { reset, resetStatus } = oficialesSlice.actions
 export default oficialesSlice.reducer
