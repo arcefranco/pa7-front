@@ -15,7 +15,7 @@ font-size: 12px;
 .nav{
     display: flex;
     position: absolute;
-    bottom: 75px;
+    bottom: 95px;
     flex-wrap: nowrap;
     margin-left: auto;
     margin-right: auto;

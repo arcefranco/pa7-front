@@ -11,7 +11,7 @@ import Row from 'react-bootstrap/Row';
 import Stack from 'react-bootstrap/Stack';
 import InputGroup from 'react-bootstrap/InputGroup';
 import {Link, useNavigate} from 'react-router-dom';
-import { getSupervisoresById, postSupervisores, updateSupervisores,getAllGerentes,getAllGerentesActivos,getAllZonas, reset, endUpdate } from '../../reducers/Supervisores/supervisoresSlice';
+import { postSupervisores, updateSupervisores,getAllGerentes,getAllGerentesActivos,getAllZonas, reset, endUpdate } from '../../reducers/Supervisores/supervisoresSlice';
 import Swal from "sweetalert2";
 import TitleLogo from "../../styled-components/containers/TitleLogo";
 import { ReturnLogo } from "../../helpers/ReturnLogo";
@@ -57,9 +57,9 @@ const SupervisoresFormulario = () =>{
         
     useEffect(() => {
     Promise.all([dispatch(reset()),dispatch(getAllGerentes()), dispatch(getAllGerentesActivos()),dispatch(getAllZonas()),dispatch(reset())])
-      if(id) {  
+/*       if(id) {  
         setTimeout(dispatch(getSupervisoresById(id)), 8000) 
-        }
+        } */
   }, [id])
 
 

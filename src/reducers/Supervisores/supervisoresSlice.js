@@ -29,11 +29,14 @@ export const getSupervisores = createAsyncThunk('supervisores', async (thunkAPI)
     }
   })
   
-  export const getSupervisoresById = createAsyncThunk('getsupervisoresbyid', async (supervisoresData,thunkAPI) => {
+  export const beginUpdate = createAsyncThunk('beginUpdate', async (supervisorData, thunkAPI) => {
     try {
-      const data = await supervisoresService.getSupervisoresById(supervisoresData)
+      
+      const data = await supervisoresService.beginUpdate(supervisorData)
+
       return data
     } catch (error) {
+
         (error.response && error.response.data && error.response.data.message) ||
         error.message ||
         error.toString()
@@ -141,9 +144,12 @@ export const supervisoresSlice = createSlice({
         state.isSuccess = false
         state.isError = false
         state.message = ''
-        state.supervisoresById =[]
-        state.statusNuevoSupervisor = []
+     
       },
+
+      resetStatus: (state) => {
+           state.statusNuevoSupervisor = []
+      }
     },
 
     extraReducers: (builder) => {
@@ -163,19 +169,19 @@ export const supervisoresSlice = createSlice({
             state.supervisores = null
           });
 
-          builder.addCase(getSupervisoresById.pending, (state) => {
+          builder.addCase(beginUpdate.pending, (state) => {
             state.isLoading = true
           })
-        builder.addCase(getSupervisoresById.fulfilled, (state, action) => {
+        builder.addCase(beginUpdate.fulfilled, (state, action) => {
             state.isLoading = false
             state.isSuccess = true
-            state.supervisoresById = action.payload
+            state.statusNuevoSupervisor = action.payload
           }) 
-        builder.addCase(getSupervisoresById.rejected, (state, action) => {
+        builder.addCase(beginUpdate.rejected, (state, action) => {
             state.isLoading = false
             state.isError = true
-            state.message = action.payload
-            state.supervisoresById = null
+            state.message = null
+            state.statusNuevoSupervisor = action.payload
           });
           builder.addCase(getAllGerentes.pending, (state) => {
             state.isLoading = true
@@ -226,12 +232,12 @@ export const supervisoresSlice = createSlice({
         builder.addCase(postSupervisores.fulfilled, (state, action) => {
             state.isLoading = false
             state.isSuccess = true
-            state.statusNuevoSupervisor = [action.payload]
+            state.statusNuevoSupervisor = action.payload
           }) 
         builder.addCase(postSupervisores.rejected, (state, action) => {
             state.isLoading = false
             state.isError = true
-            state.statusNuevoSupervisor = [action.payload]
+            state.statusNuevoSupervisor = action.payload
           });
 
         builder.addCase(updateSupervisores.pending, (state) => {
@@ -241,12 +247,12 @@ export const supervisoresSlice = createSlice({
         builder.addCase(updateSupervisores.fulfilled, (state, action) => {
             state.isLoading = false
             state.isSuccess = true
-            state.statusNuevoSupervisor = [action.payload]
+            state.statusNuevoSupervisor = action.payload
           }) 
         builder.addCase(updateSupervisores.rejected, (state, action) => {
             state.isLoading = false
             state.isError = true
-            state.statusNuevoSupervisor = [action.payload]
+            state.statusNuevoSupervisor = action.payload
           });
           
           builder.addCase(deleteSupervisores.pending, (state) => {
@@ -256,12 +262,12 @@ export const supervisoresSlice = createSlice({
         builder.addCase(deleteSupervisores.fulfilled, (state, action) => {
             state.isLoading = false
             state.isSuccess = true
-            state.statusNuevoSupervisor = [action.payload]
+            state.statusNuevoSupervisor = action.payload
           }) 
         builder.addCase(deleteSupervisores.rejected, (state, action) => {
             state.isLoading = false
             state.isError = true
-            state.statusNuevoSupervisor = [action.payload]
+            state.statusNuevoSupervisor = action.payload
             state.supervisores = null
           });
 }
@@ -270,5 +276,5 @@ export const supervisoresSlice = createSlice({
 
 })
 
-export const { reset } = supervisoresSlice.actions
+export const { reset, resetStatus } = supervisoresSlice.actions
 export default supervisoresSlice.reducer

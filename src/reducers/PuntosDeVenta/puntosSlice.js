@@ -27,10 +27,10 @@ export const getAllPuntosDeVenta = createAsyncThunk('puntos/All', async (thunkAP
       return thunkAPI.rejectWithValue(error.response.data)
     }
   })
-  export const getPuntoById = createAsyncThunk('puntos/id', async (puntoData, thunkAPI) => {
+  export const beginUpdate = createAsyncThunk('beginUpdate', async (puntoData, thunkAPI) => {
     try {
       
-      const data = await puntosService.getPuntoById(puntoData)
+      const data = await puntosService.beginUpdate(puntoData)
 
       return data
     } catch (error) {
@@ -107,10 +107,12 @@ export const puntosSlice = createSlice({
         state.isLoading = false
         state.isSuccess = false
         state.isError = false
-        state.message = ''
-        state.puntoById = []
-        state.puntoStatus = ''       
+        state.message = ''   
       },
+      
+      resetStatus: (state) => {
+        state.puntoStatus = []  
+      }
     },
 
     extraReducers: (builder) => {
@@ -128,18 +130,18 @@ export const puntosSlice = createSlice({
             state.isError = true
             state.message = action.payload
         })
-        .addCase(getPuntoById.pending, (state) => {
+        .addCase(beginUpdate.pending, (state) => {
           state.isLoading = true
       })
-        .addCase(getPuntoById.fulfilled, (state, action) => {
+        .addCase(beginUpdate.fulfilled, (state, action) => {
           state.isLoading = false
           state.isSuccess = true
-          state.puntoById = action.payload
+          state.puntoStatus = action.payload
       }) 
-        .addCase(getPuntoById.rejected, (state, action) => {
+        .addCase(beginUpdate.rejected, (state, action) => {
           state.isLoading = false
           state.isError = true
-          state.message = action.payload
+          state.puntoStatus = action.payload
       })
         .addCase(deletePuntoDeVenta.pending, (state) => {
           state.isLoading = true
@@ -185,5 +187,5 @@ export const puntosSlice = createSlice({
 
 
 
-export const { reset } = puntosSlice.actions
+export const { reset, resetStatus } = puntosSlice.actions
 export default puntosSlice.reducer

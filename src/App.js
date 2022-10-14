@@ -10,7 +10,7 @@ import GerentesTable from './components/GerentesTable/GerentesTable';
 import CopyRoles from './components/RolesForm/CopyRoles';
 import ErrorDB from './pages/ErrorDB';
 import TeamLeaders from './components/TeamLeaders/TeamLeaders';
-import SupervisoresTable from './components/SupervisoresTable/SupervisoresTable';
+import Supervisores from './components/Supervisores2/Supervisores';
 import { useSelector } from 'react-redux';
 import AltaUsuariosForm from './components/UsuariosTable/AltaUsuariosForm';
 import AltaSucursalesForm from './components/SucursalesTable/AltaSucursalesForm';
@@ -22,7 +22,7 @@ import ModelosTable from './components/ModelosTable/ModelosTable';
 import ModelosFormulario from './components/ModelosTable/ModelosFormulario';
 import Usuarios from './components/Usuarios/Usuarios';
 import SucursalesTable from './components/SucursalesTable/SucursalesTable';
-import PuntosTable from './components/PuntosDeVenta/PuntosTable';
+import PuntosDeVenta from './components/PuntosDeVenta2/PuntosDeVenta';
 import TeamLeadersTable from './components/TeamLeadersTable/TeamLeadersTable';
 import TeamLeadersFormulario from './components/TeamLeadersTable/TeamLeadersFormulario';
 import VendedoresTable from './components/VendedoresTable/VendedoresTable';
@@ -39,6 +39,7 @@ import Vendedores2 from './components/Vendedores2/Vendedores2';
 import Sucursales from './components/Sucursales/Sucursales';
 import React from 'react';
 import Error552 from './pages/Error552';
+import SupervisoresTable from './components/SupervisoresTable/SupervisoresTable';
 
 function App() {
   const {user, toggle} = useSelector(
@@ -100,7 +101,7 @@ function App() {
           <Route path='/teamleaders' element={<TeamLeaders/>}/>
           <Route path='/altaTeamLeaders' element={<TeamLeadersFormulario/>}/>
           <Route path='/modificarTeamLeaders/:id' element={<TeamLeadersFormulario/>}/>
-          <Route path='/supervisores' element={<SupervisoresTable/>}/>
+          <Route path='/supervisores' element={<Supervisores/>}/>
           <Route path='/altaSupervisores/' element={<SupervisoresFormulario/>}/>
           <Route path='/modificarSupervisores/:id' element={<SupervisoresFormulario/>}/>
           <Route path='/usuarios' element={<PrivateMasterRoute rol={'1.7.16'}/>}>
@@ -121,7 +122,7 @@ function App() {
           <Route path="/sucursales" element={<Sucursales/>}/>
           <Route path='/modifSucursales/:id' element={<AltaSucursalesForm/>}/>
           <Route path='/altaSucursal' element={<AltaSucursalesForm/>}/>
-          <Route path="/puntosDeVenta" element={<PuntosTable/>}/>
+          <Route path="/puntosDeVenta" element={<PuntosDeVenta/>}/>
           <Route path='/modifPunto/:id' element={<PuntosForm/>}/>
           <Route path='/altaPunto' element={<PuntosForm/>}/>
           <Route path='/roles' element={<RolesForm/>}/>

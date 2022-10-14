@@ -10,7 +10,7 @@ import Stack from 'react-bootstrap/Stack';
 import styles from '../UsuariosTable/AltaUsuarios.module.css'
 import Swal from "sweetalert2";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { getPuntoById, updatePuntoDeVenta, createPuntoDeVenta, endUpdate, reset } from "../../reducers/PuntosDeVenta/puntosSlice";
+import { updatePuntoDeVenta, createPuntoDeVenta, endUpdate, reset } from "../../reducers/PuntosDeVenta/puntosSlice";
 import TitleLogo from "../../styled-components/containers/TitleLogo";
 import { ReturnLogo } from "../../helpers/ReturnLogo";
 
@@ -95,11 +95,11 @@ const [input, setInput] = useState({
     })
 }, [puntoById]) 
 
- useEffect(() => {
+/*  useEffect(() => {
     if(id) {  
         dispatch(getPuntoById({Codigo: id}))
         }
-  }, [id])
+  }, [id]) */
   
   const handleChange = (e) => {
     const { name, value } = e.target;

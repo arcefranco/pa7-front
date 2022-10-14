@@ -19,7 +19,7 @@ const TeamLeaders = () => {
     const {empresaReal} = useSelector(state => state.login.user)
     const {teamLeaders, statusNuevoTeamLeader, supervisores} = useSelector(state => state.teamLeaders) 
     const [currentPage, setCurrentPage] = useState(1);
-    const [recordsPerPage] = useState(15);
+    const [recordsPerPage] = useState(14);
     const [modal, setModal] = useState(false)
     const indexOfLastRecord = currentPage * recordsPerPage;
     const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;

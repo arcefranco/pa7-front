@@ -8,9 +8,9 @@ const getAllPuntosDeVenta = async () => {
     const response = await axios.get(process.env.REACT_APP_HOST + 'puntosDeVenta', headers).catch((error) => errorsHandling(error))
     return response.data
   }
-  const getPuntoById = async (puntoData) => {
+  const beginUpdate = async (puntoData) => {
     const headers = getHeaderToken()
-    const response = await axios.post(process.env.REACT_APP_HOST + 'puntosDeVenta/id', puntoData, headers).catch((error) => errorsHandling(error)) 
+    const response = await axios.post(process.env.REACT_APP_HOST + 'puntosDeVenta/beginUpdate', puntoData, headers).catch((error) => errorsHandling(error))
     return response.data
   }
 const createPuntoDeVenta = async (puntoData) => {
@@ -20,6 +20,7 @@ const createPuntoDeVenta = async (puntoData) => {
 }
   const deletePuntoDeVenta = async (puntoData) => {
   const response = await axios.delete(process.env.REACT_APP_HOST + 'puntosDeVenta',{  headers: {
+    'x-auth-token': window.localStorage.getItem('userToken').split(" ")[1],
     "db-connection": window.localStorage.getItem('db')
   }, data: puntoData }).catch((error) => errorsHandling(error))
   return response.data
@@ -40,7 +41,7 @@ const endUpdate = async (puntoData) => {
 
 const puntosService = {
     getAllPuntosDeVenta,
-    getPuntoById,
+    beginUpdate,
     deletePuntoDeVenta,
     updatePuntoDeVenta,
     createPuntoDeVenta,

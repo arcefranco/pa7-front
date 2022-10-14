@@ -14,9 +14,9 @@ const getSupervisores = async () => {
     })
     return response.data[0] 
   } 
-  const getSupervisoresById = async (supervisoresData) => {
+  const beginUpdate = async (supervisorData) => {
     const headers = getHeaderToken()
-    const response = await axios.post(process.env.REACT_APP_HOST + 'supervisores/id',  {Codigo:supervisoresData}, headers).catch((error) => errorsHandling(error))
+    const response = await axios.post(process.env.REACT_APP_HOST + 'supervisores/beginUpdate', supervisorData, headers).catch((error) => errorsHandling(error))
     return response.data
   }
 
@@ -67,7 +67,7 @@ const supervisoresService = {
     postSupervisores, 
     updateSupervisores, 
     deleteSupervisores, 
-    getSupervisoresById, 
+    beginUpdate, 
     getAllGerentes, 
     getAllGerentesActivos, 
     getAllZonas,
