@@ -172,7 +172,17 @@ const nPages = Math.ceil(oficialesFiltered?.length / recordsPerPage)
                 }
 
                 {
-                    currentRecords && currentRecords.map(e => <OficialItem key={e.Codigo} IdUsLogin={e.IdUsuarioLogin} Categoria={'Licitacion'} Codigo={e.Codigo} Nombre={e.Nombre} Activo={e.Activo} Inactivo={e.Inactivo}/>)
+                    currentRecords && currentRecords.map(e => 
+                    <OficialItem 
+                    key={e.Codigo} 
+                    IdUsLogin={e.IdUsuarioLogin} 
+                    Categoria={'Licitacion'} 
+                    Codigo={e.Codigo} 
+                    Nombre={e.Nombre} 
+                    Activo={e.Activo} 
+                    Inactivo={e.Inactivo}
+                    
+                    />)
                 }
             </table>
         <Pagination

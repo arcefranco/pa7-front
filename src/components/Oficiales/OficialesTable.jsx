@@ -15,7 +15,7 @@ import TablePatentamiento from './tables/TablePatentamiento';
 import TableCarga from './tables/TableCarga';
 import TableCompra from './tables/TableCompra';
 import { useEffect } from 'react';
-import { getAllSupervisores } from '../../reducers/Usuarios/UsuariosSlice';
+import { getAllSupervisores, getAllUsuarios } from '../../reducers/Usuarios/UsuariosSlice';
 import TitlePrimary from '../../styled-components/h/TitlePrimary';
 import { ReturnLogo } from "../../helpers/ReturnLogo";
 import TitleLogo from '../../styled-components/containers/TitleLogo';
@@ -38,7 +38,7 @@ const OficialesTable = () => {
 
 
         useEffect(() => {
-          dispatch(getAllSupervisores())
+          Promise.all([dispatch(getAllSupervisores()), dispatch(getAllUsuarios())])
           if(oficialCategoria){
             dispatch(getOficialCategoria(oficialCategoria))
           }
