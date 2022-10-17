@@ -8,7 +8,11 @@ const getOficialSelected = async (oficialName) => {
     const response = await axios.post(process.env.REACT_APP_HOST + 'oficiales', oficialName, headers).catch((error) => errorsHandling(error))
     return response.data
 }
-
+const beginUpdate = async (oficialData) => {
+    const headers = getHeader()
+    const response = await axios.post(process.env.REACT_APP_HOST + 'oficiales/beginUpdate', oficialData, headers).catch((error) => errorsHandling(error))
+    return response.data
+  }
 const deleteOficiales = async (oficialData) => {
 
     const response = await axios.delete(process.env.REACT_APP_HOST + 'oficiales',  {  headers: {
@@ -53,6 +57,7 @@ const OficialesService = {
     getOficialById,
     updateOficiales,
     createOficiales,
+    beginUpdate,
     endUpdate
     }
     

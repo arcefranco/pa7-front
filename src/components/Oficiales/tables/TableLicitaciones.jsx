@@ -1,168 +1,199 @@
-import { useMemo, useEffect } from "react";
+import { useEffect, useState, useRef } from "react";
 import React from 'react';
 import { useSelector, useDispatch} from 'react-redux';
 import TableContainer from '../../GerentesTable/TableContainer';
-import { deleteOficiales, getOficialSelected } from "../../../reducers/Oficiales/OficialesSlice";
-import { useTable, useSortBy, usePagination, useGlobalFilter, useFilters} from 'react-table';
+import ButtonPrimary from "../../../styled-components/buttons/ButtonPrimary";
+import { deleteOficiales, getOficialSelected, createOficiales, endUpdate } from "../../../reducers/Oficiales/OficialesSlice";
 import styles from '../../../styles/Table.module.css'
-import Swal from 'sweetalert2';
-import { useNavigate } from "react-router-dom";
-import { SearchFilter, ActiveFilter } from "../../GerentesTable/ActiveFilter";
+import * as AiIcons from 'react-icons/ai';
+import ReactTooltip from "react-tooltip";
+import Pagination from "../../Pagination/Pagination";
+import { useParams } from "react-router-dom";
+import OficialItem from "../OficialItem";
 
-const TableLicitaciones = () => {
+const TableLicitacion = () => {
 
-  const {oficialesSelected} = useSelector(state => state.oficiales)        
-
+  const {oficialesSelected, oficialStatus} = useSelector(state => state.oficiales)
+  const dispatch = useDispatch()            
   const {roles} = useSelector((state) => state.login.user)
-  const dispatch = useDispatch()
-  const rolAltayModif = roles.find(e => e.rl_codigo === '1.2.2' || e.rl_codigo === '1')
-  
-  const navigate = useNavigate()
+            const rolAltayModif = roles.find(e => e.rl_codigo === '1.2.2' || e.rl_codigo === '1')
+  const [oficialesFiltered, setOficialesFiltered] = useState('')
+  const [filterNombre, setFilterNombre] = useState('')  
+  const [currentPage, setCurrentPage] = useState(1);
+  const [recordsPerPage] = useState(10);
+  const [modal, setModal] = useState(false)
+  const indexOfLastRecord = currentPage * recordsPerPage;
+  const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
+  const [inEdit, setInEdit] = useState('')
+  const [newField, setNewField] = useState(false)
+  const [newOficial, setNewOficial] = useState({
+    categoria: 'Licitacion',
+    Nombre: '',
+    Activo: 0,
+  })
+  const actualInEdit = useRef(inEdit);
+  const {table} = useParams();
+
   useEffect(() => {
+
     dispatch(getOficialSelected({oficialName: 'Licitacion'}))
   }, [])
-  
 
-  const defaultColumns = useMemo(() => [
-        {
-            Header: "Código",
-            accessor: "Codigo",
-            ShortHeader: "Código",
-            Cell: ({ value }) => <strong>{value}</strong>,
-            Filter:  false
-            
-        },
-        {
-            Header: "Nombre",
-            accessor: "Nombre",
-            ShortHeader: "Nombre",
-            Filter: SearchFilter
-        },
-          
-        {
-              Header: "Activo",
-              accessor: "Activo",
-              ShortHeader: "Activo",
-              Cell: (value) => value.value === 0 ? 'No' : 'Si',
-              Filter:  ActiveFilter
-              /* Filter: false */
-        },
-        {
-          Header: "Usuario",
-          accessor: "IdUsuarioLogin",
-          ShortHeader: "Usuario",
-          Filter: SearchFilter
-          /* Filter: false */
-    },
+  useEffect(() => {
+    setOficialesFiltered(oficialesSelected)
+}, [oficialesSelected])
 
-              {
-                Header: "",
-                accessor: "Codigo",
-                id: 'modify',
-                Cell: (value) => ( rolAltayModif ? 
-                <button style={{background:'#3dc254bf'}} className={styles.buttonRows}  onClick={(()=> navigate(`/modifOficiales/Licitacion/${value.value}`))}>Modificar</button> :
-                <button style={{background:"silver"}} className={styles.buttonRows} disabled>Modificar</button>
-                ),
-                 Filter: false 
-              },
-              {
-                Header: "",
-                accessor: "Codigo",
-                id: 'delete',
-                Cell: (value) => (
-                  rolAltayModif ? 
-                  <button style={{background:"red"}} onClick={(()=> {
-                    Swal.fire({
-                      icon:'info',
-                      showConfirmButton: true,
-                      showCancelButton:true,
-                      text: 'Esta seguro que desea eliminar?'
-                    }).then((result) => {
-                      if(result.isConfirmed){
-                       
-                        dispatch(deleteOficiales({oficialName: 'Licitacion', Codigo: value.value}))
-                      }
-                    })
+useEffect(() => {
+  if(filterNombre.length){
+      setCurrentPage(1)
+      
+          setOficialesFiltered(
+              oficialesSelected
+          .filter(e => {
+              return e.Nombre.toLowerCase().includes(filterNombre.toLocaleLowerCase())
+          }))
+      
+      
+  }else{
+      setOficialesFiltered(oficialesSelected)
+  }
+},[filterNombre])
+
+useEffect(() => {
+  actualInEdit.current = inEdit; //Actualizar el estado de inEdit para hacer el endUpdate al actualizar/desmontar
+}, [inEdit]);
+
+useEffect(() => {
         
-                })} className={styles.buttonRows} >Eliminar</button> : <button style={{background:"silver"}} className={styles.buttonRows} disabled>Eliminar</button> ),
-                 Filter: false 
-              },        
-    ]
-,[]
-)
+  function endEdit () {
+      dispatch(endUpdate({Codigo: actualInEdit.current, categoria: 'Licitacion'}))
+  }
+  
+  window.addEventListener('beforeunload', endEdit) 
+  
+  return () => {
+      window.removeEventListener('beforeunload', endEdit)
+      dispatch(endUpdate({Codigo: actualInEdit.current, categoria: 'Licitacion'}))
+  } 
+}, [])
 
-    const { getTableProps, getTableBodyProps, 
-        headerGroups, page,  nextPage,
-        previousPage,
-        canNextPage,
-        canPreviousPage,
-        pageOptions,
-        setPageSize,
-        state,
-        setGlobalFilter,
-        prepareRow,
-      } =
-        useTable({ columns: defaultColumns , data: oficialesSelected, initialState:{pageSize:15} }, useGlobalFilter,  useFilters,
-            useSortBy, usePagination,
-            );
-            const {pageIndex, pageSize} = state
-    const {globalFilter} = state
+useEffect(() => {
+  if(Object.keys(oficialStatus).includes('codigo')) {
+      setInEdit(oficialStatus?.codigo)
+  }
 
+  if(oficialStatus?.status === false) {
+      setModal(true)
+  }
+  
+}, [oficialStatus])
+
+useEffect(() => { //Manejar actualizaciones de vendedores (ABM) y su inUpdate
+  setModal(true)
+
+  if(oficialStatus?.status === true){
+      resetNewField()
+      dispatch(getOficialSelected({oficialName: 'Licitacion'}))
+  }
+
+}, [oficialStatus]) 
+
+  const handleChange = (e) => {
+                
+    const {name , value} = e.target
+    const newForm = {...newOficial,
+        [name]: value,
+    }
+    
+    setNewOficial(newForm)
+}
+const handleSubmit = () => {
+  dispatch(createOficiales(newOficial))
+}
+const handleCheckChange = (e) => {
+  const { name} = e.target;
+  var value = e.target.checked
+  value = e.target.checked? 1 : 0
+  const newForm = { ...newOficial, [name]: value };
+  setNewOficial(newForm);
+};
+
+const resetNewField = () => {
+  setNewField(false)
+  setNewOficial({
+      Nombre: '',
+      Activo: 0
+  })
+}
+const currentRecords = oficialesFiltered.slice(indexOfFirstRecord, 
+  indexOfLastRecord);
+
+const nPages = Math.ceil(oficialesFiltered?.length / recordsPerPage)
     return   (         
     
     <TableContainer>
-    <div className={styles.tableContainer}>
-    <table {...getTableProps()}>
+              <div className={styles.buttonAddContainer}>
+            <ReactTooltip id="botonTooltip2">
+                Agregar nuevo oficial
+                </ReactTooltip>  
+            <AiIcons.AiFillPlusCircle className={styles.plusCircle}
+             onClick={() => setNewField(!newField)} data-tip data-for="botonTooltip2" />
 
-      <thead>
-        {headerGroups.map((headerGroup) => (
-          <tr {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map((column) => (
-              
-              <th>
-              <div {...column.getHeaderProps(column.getSortByToggleProps())}>
-                 
-                 <span>
-                  {column.isSorted? (column.isSortedDesc? column.render("ShortHeader") +' ▼' : column.render("ShortHeader")+ '▲'  ): column.render("Header")}</span>
-                 
-                 </div>
-              <div>{column.canFilter ?  column.render('Filter')  : null}</div>
-              </th>
-             
-             ))}
-          </tr>
-        ))}
-      </thead>
-      <tbody {...getTableBodyProps()}>
-        {page.map((row) => {
-          prepareRow(row);
-          return (
-            <tr {...row.getRowProps()}>
-              {row.cells.map((cell) => {
-                return (
-                  <td {...cell.getCellProps()}>{cell.render("Cell")}</td>
-                  
-                );
-              })}
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
-    </div>
-    <div>
-      <span className={styles.pageIndex}>Página {' '}
-      <strong>
-        {pageIndex + 1} de {pageOptions.length}
-      </strong>{' '}
-      </span>
-      <button className={styles.pageButton} onClick={()=> previousPage()} disabled={!canPreviousPage}>Anterior</button>
-      <button className={styles.pageButton} onClick={()=> nextPage()} disabled={!canNextPage}>Siguiente</button>
-    </div>
+        </div>
+    <table>
+
+                <tr>
+                    <th>Código</th>
+                    <th>Nombre
+                    <br />
+                    <input type="text" 
+                className={styles.inputFilterColumn} 
+                value={filterNombre}
+                onChange={(e) => setFilterNombre(e.target.value)}    
+                    />
+                    </th>
+                    <th>Activo</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+
+                {
+                    newField && 
+
+                    <tr>
+                        <td></td>
+                        <td><input type="text" name="Nombre" value={newOficial.Nombre} onChange={handleChange}/></td>
+                        <td><input type="checkbox" name="Activo" value={newOficial.Activo}  onChange={handleCheckChange}/></td>
+                        <td></td>
+                        <td><ButtonPrimary onClick={handleSubmit}>Agregar</ButtonPrimary></td>
+                        <td></td>
+                    </tr>
+                }
+
+                {
+                    currentRecords && currentRecords.map(e => 
+                    <OficialItem 
+                    key={e.Codigo} 
+                    IdUsLogin={e.IdUsuarioLogin} 
+                    Categoria={'Licitacion'} 
+                    Codigo={e.Codigo} 
+                    Nombre={e.Nombre} 
+                    Activo={e.Activo} 
+                    Inactivo={e.Inactivo}
+                    
+                    />)
+                }
+            </table>
+        <Pagination
+            nPages = { nPages }
+            currentPage = { currentPage } 
+            setCurrentPage = { setCurrentPage }
+            />
     
      </TableContainer>
     )
 
 }
 
-export default TableLicitaciones
+export default TableLicitacion
