@@ -305,7 +305,10 @@ export const SidebarData = [
     [
       {title: 'Ejecuta InterEmpresa', rol:'1.10.0', cName:'subMenuL2'},
       {title: 'Administración de Planes', rol:'1.10.1', cName:'subMenuL2'},
-      {title: 'Ventas', rol:'1.10.2', cName:'subMenuL2'},
+      {title: 'Ventas', rol:'1.10.2', cName:'subMenuL2',  
+        options:[
+        {title: 'Estadístico pre-solicitudes', rol:'1.12.1', cName:'subMenuL2', path:'/reportes/preSol'} /**ROL A REVISAR */
+      ]},
       {title: 'Mora', rol:'1.10.3', cName:'subMenuL2'},
       {title: 'Facturación', rol:'1.10.4', cName:'subMenuL2'},
       {title: 'Call Center', rol:'1.10.5', cName:'subMenuL2'},
