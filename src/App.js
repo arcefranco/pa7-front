@@ -39,7 +39,8 @@ import Vendedores2 from './components/Vendedores2/Vendedores2';
 import Sucursales from './components/Sucursales/Sucursales';
 import React from 'react';
 import Error552 from './pages/Error552';
-import SupervisoresTable from './components/SupervisoresTable/SupervisoresTable';
+import PreSolMenu from './components/Reportes/Ventas/PreSolMenu';
+
 
 function App() {
   const {user, toggle} = useSelector(
@@ -136,6 +137,7 @@ function App() {
           <Route path='/Estructura' element={<Estructura/>}/>
           <Route path='/404' element={<Error404/>}/>
           <Route path='/listasprecios' element={<ListasPrecios/>}/>
+          <Route path='/reportes/preSol' element={<PreSolMenu/>}/>
         </Routes> 
         </div>
        
