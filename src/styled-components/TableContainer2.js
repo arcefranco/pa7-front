@@ -11,11 +11,10 @@ position: relative;
     // height:10rem;
 
     th{
-      border: ridge 0.5px;
+      border: ridge black .1px;
       margin: auto;
       padding-left: 0.2em;
-      min-width:auto;
-      max-width: auto;
+
       // max-height: 1em;
       border-bottom: 0px solid black;
       border-right: 0px solid black;
@@ -25,7 +24,7 @@ position: relative;
     
     tr {
       height:0.5rem;
-      padding:.4em
+      padding:.4em;
       ;
       :last-child {
         td {
@@ -39,9 +38,8 @@ position: relative;
       padding: -.5em;
       // padding-top: -.5em;
       // padding-bottom: -.5em;
-      border-bottom: 0px solid black;
-      border-right: 0px solid black;
-      font-size: .7em;
+      border: 2px solid #00000029;
+      font-size: .8em;
       min-width: 0.5rem;
  
       

@@ -12,6 +12,9 @@ import oficialesReducer from './reducers/Oficiales/OficialesSlice'
 import puntosReducer from './reducers/PuntosDeVenta/puntosSlice'
 import estructuraReducer from './reducers/Estructura/EstructuraSlice'
 import listaReducer from './reducers/ListasPrecios/ListaSlice'
+import PreSolVentasReducer from './reducers/Reportes/Ventas/PreSolSlice'
+
+
 const reducer = combineReducers({
   login: loginReducer,
   gerentes: gerentesReducer,
@@ -24,7 +27,8 @@ const reducer = combineReducers({
   teamLeaders: teamLeadersReducer,
   vendedores: vendedoresReducer,
   oficiales: oficialesReducer,
-  puntosDeVenta: puntosReducer
+  puntosDeVenta: puntosReducer,
+  PreSolVentas: PreSolVentasReducer
 })
 
 
