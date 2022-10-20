@@ -1,17 +1,17 @@
 import { configureStore } from "@reduxjs/toolkit"
 import loginReducer from './reducers/Login/loginSlice'
-import gerentesReducer from './reducers/Gerentes/gerentesSlice'
-import usuariosReducer from './reducers/Usuarios/UsuariosSlice'
-import supervisoresReducer from './reducers/Supervisores/supervisoresSlice'
-import sucursalesReducer from './reducers/Sucursales/SucursalesSlice'
+import gerentesReducer from './reducers/ConfigDatosGenerales/Gerentes/gerentesSlice'
+import usuariosReducer from './reducers/ConfigDatosGenerales/Usuarios/UsuariosSlice'
+import supervisoresReducer from './reducers/ConfigDatosGenerales/Supervisores/supervisoresSlice'
+import sucursalesReducer from './reducers/ConfigDatosGenerales/Sucursales/SucursalesSlice'
 import { combineReducers } from "@reduxjs/toolkit"
-import modelosReducer from "./reducers/Modelos/modelosSlice"
-import teamLeadersReducer from "./reducers/TeamLeaders/teamLeadersSlice"
+import modelosReducer from "./reducers/ConfigDatosGenerales/Modelos/modelosSlice"
+import teamLeadersReducer from "./reducers/ConfigDatosGenerales/TeamLeaders/teamLeadersSlice"
 import vendedoresReducer from "./reducers/Vendedores/vendedoresSlice"
-import oficialesReducer from './reducers/Oficiales/OficialesSlice'
-import puntosReducer from './reducers/PuntosDeVenta/puntosSlice'
-import estructuraReducer from './reducers/Estructura/EstructuraSlice'
-import listaReducer from './reducers/ListasPrecios/ListaSlice'
+import oficialesReducer from './reducers/ConfigDatosGenerales/Oficiales/OficialesSlice'
+import puntosReducer from './reducers/ConfigDatosGenerales/PuntosDeVenta/puntosSlice'
+import estructuraReducer from './reducers/ConfigDatosGenerales/Estructura/EstructuraSlice'
+import listaReducer from './reducers/ConfigDatosGenerales/ListasPrecios/ListaSlice'
 import PreSolVentasReducer from './reducers/Reportes/Ventas/PreSolSlice'
 
 
