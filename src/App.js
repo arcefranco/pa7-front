@@ -6,40 +6,29 @@ import PrivateMasterRoute from './PrivateMasterRoute';
 import SideBar from './components/SideBar/SideBar';
 import { ResetPassword } from './components/ForgotPassword/ResetPassword';
 import { RecoveryPass } from './components/ForgotPassword/RecoveryPass';
-import GerentesTable from './components/GerentesTable/GerentesTable';
-import CopyRoles from './components/RolesForm/CopyRoles';
+import CopyRoles from './components/ConfigDatosGenerales/RolesForm/CopyRoles';
 import ErrorDB from './pages/ErrorDB';
-import TeamLeaders from './components/TeamLeaders/TeamLeaders';
-import Supervisores from './components/Supervisores2/Supervisores';
+import TeamLeaders from './components/ConfigDatosGenerales/TeamLeaders/TeamLeaders';
+import Supervisores from './components/ConfigDatosGenerales/Supervisores/Supervisores';
 import { useSelector } from 'react-redux';
-import AltaUsuariosForm from './components/UsuariosTable/AltaUsuariosForm';
-import AltaSucursalesForm from './components/SucursalesTable/AltaSucursalesForm';
-import  GerentesFormulario  from './components/GerentesTable/GerentesFormulario.jsx';
-import  SupervisoresFormulario  from './components/SupervisoresTable/SupervisoresFormulario.jsx';
 import NotPermission from './NotPermission';
-import RolesForm from './components/RolesForm/RolesForm';
-import ModelosTable from './components/ModelosTable/ModelosTable';
-import ModelosFormulario from './components/ModelosTable/ModelosFormulario';
-import Usuarios from './components/Usuarios/Usuarios';
-import SucursalesTable from './components/SucursalesTable/SucursalesTable';
-import PuntosDeVenta from './components/PuntosDeVenta2/PuntosDeVenta';
-import TeamLeadersTable from './components/TeamLeadersTable/TeamLeadersTable';
-import TeamLeadersFormulario from './components/TeamLeadersTable/TeamLeadersFormulario';
-import VendedoresTable from './components/VendedoresTable/VendedoresTable';
-import VendedoresFormulario from './components/VendedoresTable/VendedoresFormulario';
-import OficialesTable from './components/Oficiales/OficialesTable';
-import OficialesForm from './components/Oficiales/OficialesForm';
-import PuntosForm from './components/PuntosDeVenta/PuntosForm';
-import Estructura from './components/EstructuraComercial/Estructura';
+import RolesForm from './components/ConfigDatosGenerales/RolesForm/RolesForm';
+import ModelosTable from './components/ConfigDatosGenerales/ModelosTable/ModelosTable';
+import ModelosFormulario from './components/ConfigDatosGenerales/ModelosTable/ModelosFormulario';
+import Usuarios from './components/ConfigDatosGenerales/Usuarios/Usuarios';
+import PuntosDeVenta from './components/ConfigDatosGenerales/PuntosDeVenta/PuntosDeVenta';
+import OficialesTable from './components/ConfigDatosGenerales/Oficiales/OficialesTable';
+import OficialesForm from './components/ConfigDatosGenerales/Oficiales/OficialesForm';
+import Estructura from './components/ConfigDatosGenerales/EstructuraComercial/Estructura';
 import Error404 from './pages/Error404';
-import OficialesMenu from './components/Oficiales/OficialesMenu';
-import ListasPrecios from './components/ListasPrecios/ListasPrecios';
-import Gerentes2 from './components/Gerentes2/Gerentes2';
-import Vendedores2 from './components/Vendedores2/Vendedores2';
-import Sucursales from './components/Sucursales/Sucursales';
+import OficialesMenu from './components/ConfigDatosGenerales/Oficiales/OficialesMenu';
+import ListasPrecios from './components/ConfigDatosGenerales/ListasPrecios/ListasPrecios';
+import Gerentes from './components/ConfigDatosGenerales/Gerentes/Gerentes';
+import Vendedores from './components/ConfigDatosGenerales/Vendedores/Vendedores';
+import Sucursales from './components/ConfigDatosGenerales/Sucursales/Sucursales';
 import React from 'react';
 import Error552 from './pages/Error552';
-import PreSolMenu from './components/Reportes/Ventas/PreSolMenu';
+import PreSolMenu from './components/Reportes/Ventas/EstadisticoPreSol/PreSolMenu';
 
 
 function App() {
@@ -91,41 +80,19 @@ function App() {
         <Routes>
           <Route path='/' element={<Home/>}/>
          <Route path='/gerentes' element={<PrivateMasterRoute rol={'1.7.18'}/>}> 
-            <Route path='/gerentes' element={<Gerentes2/>}/>
-          </Route>
-          <Route path='/altaGerentes/' element={<PrivateMasterRoute rol={'1.7.18.1'}/>} > 
-            <Route path='/altaGerentes/' element={<GerentesFormulario/>}/>
-          </Route> 
-          <Route path='/modificarGerentes/:id' element={<PrivateMasterRoute rol={'1.7.18.2'}/>}>
-            <Route path='/modificarGerentes/:id' element={<GerentesFormulario/>}/>
+            <Route path='/gerentes' element={<Gerentes/>}/>
           </Route>
           <Route path='/teamleaders' element={<TeamLeaders/>}/>
-          <Route path='/altaTeamLeaders' element={<TeamLeadersFormulario/>}/>
-          <Route path='/modificarTeamLeaders/:id' element={<TeamLeadersFormulario/>}/>
           <Route path='/supervisores' element={<Supervisores/>}/>
-          <Route path='/altaSupervisores/' element={<SupervisoresFormulario/>}/>
-          <Route path='/modificarSupervisores/:id' element={<SupervisoresFormulario/>}/>
           <Route path='/usuarios' element={<PrivateMasterRoute rol={'1.7.16'}/>}>
             <Route path='/usuarios' element={<Usuarios/>}/>
           </Route>
           <Route path='/modelos' element={<ModelosTable/>}/>
           <Route path='/altaModelos/' element={<ModelosFormulario/>}/>
           <Route path='/modifModelos/:id' element={<ModelosFormulario/>}/>
-          <Route path='/altaUsuarios' element={<PrivateMasterRoute rol={'1.7.16.3.1'}/>}>
-              <Route path='/altaUsuarios' element={<AltaUsuariosForm/>}/>
-          </Route>
-          <Route path='/modifUsuarios/:id' element={<PrivateMasterRoute rol={'1.7.16.3.2'}/>}>
-              <Route path='/modifUsuarios/:id' element={<AltaUsuariosForm/>}/>
-          </Route>
-          <Route path='/vendedores' element={<Vendedores2/>}/>
-          <Route path='/altaVendedores/' element={<VendedoresFormulario/>}/>
-          <Route path='/modificarVendedores/:id' element={<VendedoresFormulario/>}/>
+          <Route path='/vendedores' element={<Vendedores/>}/>
           <Route path="/sucursales" element={<Sucursales/>}/>
-          <Route path='/modifSucursales/:id' element={<AltaSucursalesForm/>}/>
-          <Route path='/altaSucursal' element={<AltaSucursalesForm/>}/>
           <Route path="/puntosDeVenta" element={<PuntosDeVenta/>}/>
-          <Route path='/modifPunto/:id' element={<PuntosForm/>}/>
-          <Route path='/altaPunto' element={<PuntosForm/>}/>
           <Route path='/roles' element={<RolesForm/>}/>
           <Route path='/copyRoles' element={<CopyRoles/>}/>
           <Route path='/oficiales' element={<OficialesMenu/>}/>
