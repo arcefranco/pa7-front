@@ -156,6 +156,7 @@ const ListaItem = ({Codigo, Descripcion, VigenciaD, VigenciaH}) => {
                 <AiIcons.AiFillCloseCircle onClick={() => {
                     setEdit(false)
                     setEditLista({
+                        Codigo: Codigo,
                         Descripcion: Descripcion, 
                         VigenciaD: VigenciaD,
                         VigenciaH: VigenciaH

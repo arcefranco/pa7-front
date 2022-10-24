@@ -11,8 +11,6 @@ export default styled.button`
     margin: 0.8em;
     font-size: 1em;
    
-    text-align-last: center;
-   
 &:hover{
        background-color: #1971a4
    }

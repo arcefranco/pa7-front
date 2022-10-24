@@ -62,6 +62,7 @@ const {globalFilter} = state
       <table style={{
             display: 'block',
             overflowX: 'auto',
+            overflowY: 'auto',
             whiteSpace: 'nowrap'
       }} {...getTableProps()}>
 

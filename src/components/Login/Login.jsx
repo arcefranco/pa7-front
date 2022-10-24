@@ -79,7 +79,7 @@ export const Login = () => {
           setInput(input.codigoMarca = 2,
             input.marca = "FIAT")
           break;
-          case "Alyzze S.A.":
+          case "Alizze S.A.":
           setInput(input.codigoMarca = 11,
             input.marca = "PEUGEOT")
           break;

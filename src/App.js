@@ -29,8 +29,8 @@ import Sucursales from './components/ConfigDatosGenerales/Sucursales/Sucursales'
 import React from 'react';
 import Error552 from './pages/Error552';
 import PreSolMenu from './components/Reportes/Ventas/EstadisticoPreSol/PreSolMenu';
-
-
+import Detalle from './components/Reportes/Ventas/EstadisticoPreSol/TableDetalle/Detalle';
+import DetalleMP from './components/Reportes/Ventas/EstadisticoPreSol/TableDetalleMP/DetalleMP';
 function App() {
   const {user, toggle} = useSelector(
     (state) => state.login)
@@ -105,6 +105,14 @@ function App() {
           <Route path='/404' element={<Error404/>}/>
           <Route path='/listasprecios' element={<ListasPrecios/>}/>
           <Route path='/reportes/preSol' element={<PreSolMenu/>}/>
+          <Route path='/reportes/preSol/ingresadas/:fechaD/:fechaH/:codMarca/:codSup' element={<Detalle title={'Ingresadas'}/>}/>
+          <Route path='/reportes/preSol/anulRechaz/:fechaD/:fechaH/:codMarca/:codSup' element={<Detalle title={'Anuladas Rechazadas'}/>}/>
+          <Route path='/reportes/preSol/cruceScoring/:fechaD/:fechaH/:codMarca/:codSup' element={<Detalle title={'Cruce Scoring'}/>}/>
+          <Route path='/reportes/preSol/Produccion/:fechaD/:fechaH/:codMarca/:codSup' element={<Detalle title={'Produccion'}/>}/>
+          <Route path='/reportes/preSol/Pendientes/:fechaD/:fechaH/:codMarca/:codSup' element={<Detalle title={'Pendientes'}/>}/>
+          <Route path='/reportes/preSol/TresYSiete/:fechaD/:fechaH/:codMarca/:codSup' element={<Detalle title={'Anuladas 3 + 7'}/>}/>
+          <Route path='/reportes/preSol/ProdYCS/:fechaD/:fechaH/:codMarca/:codSup' element={<Detalle title={'Produccion + Cruce Scoring'}/>}/>
+          <Route path='/reportes/preSol/MP/:fechaD/:fechaH/:codMarca/:codSup' element={<DetalleMP/>}/>
         </Routes> 
         </div>
        
