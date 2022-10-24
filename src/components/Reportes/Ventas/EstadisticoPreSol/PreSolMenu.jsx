@@ -9,7 +9,7 @@ import PreSolItem from "./PreSolItem";
 import PreSolTableTotal from "./PreSolTableTotal";
 import { getPreSol } from "../../../../reducers/Reportes/Ventas/PreSolSlice";
 import PreSolItemZona from "./PreSolItemZona";
-import TableContainer2 from "../../../../styled-components/tables/TableContainer2";
+import groupBy from "../../../../helpers/groupBy";
 import { useEffect } from "react";
 
 
@@ -84,12 +84,6 @@ const PreSolMenu = () => {
 
     }, [filterBsAs, filterMdq, filterZonaNull])
 
-    var groupBy = function(xs, key) {
-        return xs.reduce(function(rv, x) {
-          (rv[x[key]] = rv[x[key]] || []).push(x);
-          return rv;
-        }, {});
-      };
 
     useEffect(() => {
         setBsAsSucursalMini(groupBy(miniBsAs, 'NomSucursal'))

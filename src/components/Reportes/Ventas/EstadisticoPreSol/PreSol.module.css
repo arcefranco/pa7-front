@@ -49,3 +49,45 @@
 .tdNumber{
     text-align-last: end;
 }
+
+.tableDetalle {
+    margin-top: 2rem;
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding-bottom: 1rem;
+    height: auto;
+    max-height: 20rem;
+
+}
+
+.tableDetalle th{
+    padding: 1rem;
+    background: #0c0c0ca8;
+    color: white;
+    font-weight: 100;
+    text-align-last: center;
+}
+
+.tableDetalle td{
+    border: 1px solid #00000021;
+    font-size: 0.7em;
+    text-align-last: center;
+}
+
+.buttonOperacion{
+    padding: 0.25rem 0.3rem 0.25rem 0.3rem;
+    border: none;
+    background-color: #3c8dbc;
+    border-radius: 0.25em;
+    box-shadow: none;
+    min-width: 4.5em;
+    color: white;
+    margin: 0.2em;
+    font-size: .9em;
+}
+
+.headerFixed{
+    position: sticky;
+    top: 0;
+}
