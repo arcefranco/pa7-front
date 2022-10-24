@@ -63,7 +63,8 @@ switch(empresa)
                 <h1>{user.empresaReal}</h1>
                 <h4>Bienvenid@, {user.Nombre}</h4>
 
-                <h3>hola a todos!!</h3>
+                <h3>holaa!!</h3>
+
                 </div>  
 
         
