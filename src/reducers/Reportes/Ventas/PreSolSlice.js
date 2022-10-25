@@ -1,10 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit/dist'
 import { createAsyncThunk } from '@reduxjs/toolkit/dist'
 import PreSolService from './PreSolService'
+import groupBy from '../../../helpers/groupBy'
 
 
 const initialState = {
     preSolSelected: [],
+    preSolEP: [],
+    preSolME: [],
     preSolDetalle: [],
     paramsDetalles: [],
     isError: false,
@@ -172,6 +175,8 @@ export const getPreSol = createAsyncThunk('preSolSelected', async (preSolData, t
             state.isLoading = false
             state.isSuccess = true
             state.preSolSelected = action.payload
+            state.preSolEP = groupBy(action.payload.data.filter(e => e.EsMiniEmprendedor === 0), 'NomSucursal')
+            state.preSolME = groupBy(action.payload.data.filter(e => e.EsMiniEmprendedor === 1), 'NomSucursal')
             state.paramsDetalles = action.meta.arg
         }) 
           .addCase(getPreSol.rejected, (state, action) => {
