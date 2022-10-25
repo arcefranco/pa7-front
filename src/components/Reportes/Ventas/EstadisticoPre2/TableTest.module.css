@@ -1,0 +1,74 @@
+.container {
+    width: 100%;
+    height: 700px;
+}
+
+.column1 {
+    display: grid;
+    font-size: 12px;
+    align-items: center;
+    text-align: -webkit-center;
+    grid-template-columns: repeat(8, 1fr)
+}
+
+.column2 {
+    display: grid;
+    font-size: 12px;
+    align-items: center;
+    text-align: -webkit-center;
+    grid-template-columns: repeat(12, 1fr);
+}
+
+.column3 {
+    display: grid;
+    font-size: 12px;
+    align-items: center;
+    text-align: -webkit-center;
+    grid-template-columns: repeat(4, 1fr)
+}
+
+.column4 {
+    display: grid;
+    font-size: 12px;
+    align-items: center;
+    text-align: -webkit-center;
+    grid-template-columns: 1fr
+}
+
+.divChild {
+    width: 100%;
+    border: 1px solid black;
+    height: 100%;
+    padding-top: 0.5rem;
+}
+
+.firstGrid {
+    display: grid;
+    grid-template-columns: 50% 35% 12% 3%;
+}
+
+.contents {
+    border: 1px solid gray;
+    /* background-color: rgb(96, 24, 24); */
+    margin: 0 auto;
+    width: 100%;
+    min-height: 600px;
+    padding: 2%;
+}
+
+.contents .item{
+    border: 1px solid gray;
+     /* padding: 5px; */
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: 100px 100px;
+    grid-template-areas: 
+      "1 1 1 1 1"
+    ;
+}
+.table .item{
+    grid-area: 1;
+    padding: 2px;
+}
+
+
