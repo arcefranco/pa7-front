@@ -64,19 +64,37 @@ const TableTest = () => {
     dispatch(getPreSol(form))
   }
 
-  const suma = () => {
-    return 10 + 7;
-  }
+
   const [columns] = useState([
     { name: 'NomVendedor', title: 'Vendedor' },
     { name: 'gender', title: 'Gender' },
     { name: 'EsMiniEmprendedor', title: 'Tipo Equipo' },
     { name: 'car', title: 'Car' },
   ]);
+  
+  const renderGridCell = (data) => {
+    if(data.value === null) return '0'
+    else return data.value
+}
 
+  
+const firstSubTotl = (data) => {
+   const subTot = data.data.C2 + data.data.C4 + data.data.C5 + data.data.C6 + data.data.C7
+   if(subTot === 0) return '0'
+   else return subTot
+}
+const secondSubTotl = (data) => {
+    const subTot = data.data.C3 + data.data.C8 + data.data.C9 
+    if(subTot === 0) return '0'
+    else return subTot
+}
 
-  const getChildGroups = groups => groups
-    .map(group => ({ key: group.key, childRows: group.items }));
+const getProm = (data) => {
+    const prom = (data.data.MesAnt + data.data.MesAnt2 + data.data.MesAnt3)/3 
+    if(prom === 0) return '0'
+    else return Math.floor(prom)
+}
+
 
   return (
     <>
@@ -157,6 +175,7 @@ const TableTest = () => {
         <Column
           dataField="NomSucursal"
           groupIndex={2}
+          
           caption="Sucursal"
           dataType="string"
         />
@@ -164,44 +183,43 @@ const TableTest = () => {
           dataField="NomVendedor"
           caption="Vendedor"
           dataType="date"
+          width={150}
         />
 
         <Column
           dataField="FechaAltaVendedor"
+          
           caption="Fecha Alta"
           dataType="date"
+          width={100}
         />
-        <Column dataField="FechaBajaVendedor" caption="Fecha Baja" dataType="date" />
-        <Column dataField="Ingresadas" caption="Ingresadas" dataType="number" />
-        <Column dataField="VentasMP" dataType="number" />
-        <Column dataField="Objetivo" dataType="number" />
-        <Column dataField="Produccion" dataType="number" />
-        <Column dataField="C2" dataType="number" />
-        <Column dataField="C3" dataType="number" />
-        <Column dataField="C4" dataType="number" />
-        <Column dataField="C5" dataType="number" />
-        <Column dataField="C6" dataType="number" />
-        <Column dataField="C7" dataType="number" />
+        <Column dataField="FechaBajaVendedor" caption="Fecha Baja" dataType="date" width={85} />
+        <Column dataField="Ingresadas" caption="Ingresadas" dataType="number" cellRender={renderGridCell} width={85}/>
+        <Column dataField="VentasMP" dataType="number" cellRender={renderGridCell}  width={85}/>
+        <Column dataField="Crucescoring" caption="Cruce Scoring" dataType="number" cellRender={renderGridCell}  width={85}/>
+        <Column dataField="Objetivo" dataType="number"   cellRender={renderGridCell}  width={85}/>
+        <Column dataField="Produccion" dataType="number"  cellRender={renderGridCell}  width={85}/>
+        <Column dataField="C2" caption="2" dataType="number" cellRender={renderGridCell}  />
+        <Column dataField="C4" caption="4"  dataType="number" cellRender={renderGridCell}/>
+        <Column dataField="C5" caption="5" dataType="number" cellRender={renderGridCell}/>
+        <Column dataField="C6" caption="6" dataType="number" cellRender={renderGridCell}/>
+        <Column dataField="C7" caption="7" dataType="number" cellRender={renderGridCell}/>
 
-        <Column dataField="SubTotal" dataType="number" />
-        <Column dataField="3" dataType="number" />
-        <Column dataField="8" dataType="number" />
-        <Column dataField="9" dataType="number" />
-        <Column dataField="Anul.3+7" dataType="number" />
-        <Column dataField="Anul.Rechaz" dataType="number" />
-        <Column dataField="-1" dataType="number" />
-        <Column dataField="-2" dataType="number" />
-        <Column dataField="-3" dataType="number" />
-        <Column dataField="PROM" dataType="number" />
+        <Column dataField="SubTotal1" dataType="number" cellRender={firstSubTotl} />
+        <Column dataField="C3" caption="3" dataType="number" cellRender={renderGridCell}/>
+        <Column dataField="C8" caption="8" dataType="number" cellRender={renderGridCell}/>
+        <Column dataField="C9" caption="9" dataType="number" cellRender={renderGridCell}/>
+        <Column dataField="SubTotal2" dataType="number" cellRender={secondSubTotl} />
+        <Column dataField="AnuladaTresYSiete" caption="Anul.3+7" dataType="number" cellRender={renderGridCell}/>
+        <Column dataField="AnuladaRechazada" caption="Anul.Rechaz" dataType="number" cellRender={renderGridCell}/>
+        <Column dataField="MesAnt" caption="-1" dataType="number" cellRender={renderGridCell}/>
+        <Column dataField="MesAnt2" caption="-2" dataType="number" cellRender={renderGridCell}/>
+        <Column dataField="MesAnt3" caption="-3" dataType="number" cellRender={renderGridCell}/>
+        <Column dataField="PROM" dataType="number" cellRender={getProm} />
         <Column dataField="GB" dataType="number" />
         
         <Summary>
-          <GroupItem
-            column="FechaBajaVendedor"
-            summaryType="sum"
-            showInGroupFooter={true}
-            displayFormat="{0}"
-          />
+
           <GroupItem
             column="Ingresadas"
             summaryType="sum"
@@ -210,6 +228,13 @@ const TableTest = () => {
           />
           <GroupItem
             column="VentasMP"
+            summaryType="sum"
+            showInGroupFooter={true}
+            displayFormat="{0}"
+          />
+
+        <GroupItem
+            column="Crucescoring"
             summaryType="sum"
             showInGroupFooter={true}
             displayFormat="{0}"
@@ -269,12 +294,7 @@ const TableTest = () => {
             showInGroupFooter={true}
             displayFormat="{0}"
           />
-          <GroupItem
-            column="3"
-            summaryType="sum"
-            showInGroupFooter={true}
-            displayFormat="{0}"
-          />
+
           <GroupItem
             column="8"
             summaryType="sum"
