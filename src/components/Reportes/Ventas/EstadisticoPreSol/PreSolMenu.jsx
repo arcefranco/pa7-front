@@ -91,8 +91,11 @@ const PreSolMenu = () => {
         
         setMdqSucursalMini(groupBy(miniMdq, 'NomSucursal'))
         setMdqSucursalPropio(groupBy(propioMdq, 'NomSucursal'))
+        
         setZonaNullSucursalMini(groupBy(miniZonaNull, 'NomSucursal'))
         setZonaNullSucursalPropio(groupBy(propioZonaNull, 'NomSucursal'))
+
+
         setArraySucursalMini(groupBy(arrayMini, 'NomSucursal'))
         setArraySucursalPropio(groupBy(arrayPropio, 'NomSucursal'))
         

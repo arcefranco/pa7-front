@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import TableContainer from "../../../../styled-components/tables/TableContainer2";
 import styles from './PreSol.module.css'
 import * as MdIcons from 'react-icons/md';
@@ -32,6 +33,7 @@ const PreSolItem = ({title, array}) => {
                     
                 </tr>
                 <tr className={styles.noHeader}>
+                    
                     <th style={{width: '7rem' , maxWidth: '7rem', minWidth: '7rem'}}>Vendedor</th>
                     <th style={{width: '4rem', maxWidth: '4rem', minWidth: '4rem'}}>Fecha Alta</th>
                     <th style={{width: '5rem' , maxWidth: '5rem', minWidth: '5rem'}}>Fecha Baja</th>
@@ -103,44 +105,53 @@ const PreSolItem = ({title, array}) => {
                     <th>SUBTOTAL</th>
                     <td></td>
                     <td></td>
-                    <td  className={styles.tdNumber} 
-                    onClick={() => navigate(`/reportes/preSol/ingresadas/${fechaD.split('-').join("")}/${fechaH.split('-').join("")}/${pMarca}/${JSON.stringify([array[0].CodSucursal])}`)}>
-                        {array.reduce((total, array) => array.Ingresadas + total,0)}
+                    <td  className={styles.tdNumber}>
+                       <Link target={"_blank"} to={`/reportes/preSol/ingresadas/${fechaD.split('-').join("")}/${fechaH.split('-').join("")}/${pMarca}/${JSON.stringify([array[0].CodSucursal])}`}>
+                            {array.reduce((total, array) => array.Ingresadas + total,0)}
+                        </Link> 
                     </td>
 
 
-                    <td  className={styles.tdNumber}
-                    onClick={() => navigate(`/reportes/preSol/MP/${fechaD.split('-').join("")}/${fechaH.split('-').join("")}/${pMarca}/${JSON.stringify([array[0].CodSucursal])}`)}
-                    >
-                        {array.reduce((total, array) => array.VentasMP + total,0)}
+                    <td className={styles.tdNumber}>
+                        <Link target={"_blank"} to={`/reportes/preSol/MP/${fechaD.split('-').join("")}/${fechaH.split('-').join("")}/${pMarca}/${JSON.stringify([array[0].CodSucursal])}`}>
+                            {array.reduce((total, array) => array.VentasMP + total,0)}
+                        </Link>
                         
                         </td>
-                    <td  className={styles.tdNumber} onClick={() => navigate(`/reportes/preSol/cruceScoring/${fechaD.split('-').join("")}/${fechaH.split('-').join("")}/${pMarca}/${JSON.stringify([array[0].CodSucursal])}`)}>
-                        {array.reduce((total, array) => array.Crucescoring + total,0)}
+                    <td  className={styles.tdNumber}>
+                        <Link target={"_blank"} to={`/reportes/preSol/cruceScoring/${fechaD.split('-').join("")}/${fechaH.split('-').join("")}/${pMarca}/${JSON.stringify([array[0].CodSucursal])}`}>
+                            {array.reduce((total, array) => array.Crucescoring + total,0)}
+                        </Link>
                     </td>
                     <td  className={styles.tdNumber}>{array.reduce((total, array) => array.Objetivo + total,0)}</td>
-                    <td  className={styles.tdNumber} onClick={() => navigate(`/reportes/preSol/Produccion/${fechaD.split('-').join("")}/${fechaH.split('-').join("")}/${pMarca}/${JSON.stringify([array[0].CodSucursal])}`)}>
-                        {array.reduce((total, array) => array.Produccion + total,0)}
+                    <td  className={styles.tdNumber}>
+                        <Link target={"_blank"} to={`/reportes/preSol/Produccion/${fechaD.split('-').join("")}/${fechaH.split('-').join("")}/${pMarca}/${JSON.stringify([array[0].CodSucursal])}`}>
+                            {array.reduce((total, array) => array.Produccion + total,0)}
+                        </Link>
                     </td>
                     <td  className={styles.tdNumber}>{array.reduce((total, array) => array.C2 + total,0)}</td>
                     <td  className={styles.tdNumber}>{array.reduce((total, array) => array.C4 + total,0)}</td>
                     <td  className={styles.tdNumber}>{array.reduce((total, array) => array.C5 + total,0)}</td>
                     <td  className={styles.tdNumber}>{array.reduce((total, array) => array.C6 + total,0)}</td>
                     <td  className={styles.tdNumber}>{array.reduce((total, array) => array.C7 + total,0)}</td>
-                    <td  className={styles.tdNumber}  onClick={() => navigate(`/reportes/preSol/Pendientes/${fechaD.split('-').join("")}/${fechaH.split('-').join("")}/${pMarca}/${JSON.stringify([array[0].CodSucursal])}`)}> 
-                    {array.reduce((total, array) => array.C7 + array.C2 + array.C4 + array.C5 + array.C6 + total,0)}
+                    <td  className={styles.tdNumber}> 
+                    <Link target={"_blank"} to={`/reportes/preSol/Pendientes/${fechaD.split('-').join("")}/${fechaH.split('-').join("")}/${pMarca}/${JSON.stringify([array[0].CodSucursal])}`}>
+                        {array.reduce((total, array) => array.C7 + array.C2 + array.C4 + array.C5 + array.C6 + total,0)}
+                    </Link>
                     </td>
                     <td  className={styles.tdNumber}>{array.reduce((total, array) => array.C3 + total,0)}</td>
                     <td  className={styles.tdNumber}>{array.reduce((total, array) => array.C8 + total,0)}</td>
                     <td  className={styles.tdNumber}>{array.reduce((total, array) => array.C9 + total,0)}</td>
-                    <td  className={styles.tdNumber}  onClick={() => navigate(`/reportes/preSol/Pendientes/${fechaD.split('-').join("")}/${fechaH.split('-').join("")}/${pMarca}/${JSON.stringify([array[0].CodSucursal])}`)}> 
-                    
-                    {array.reduce((total, array) => array.C9 + array.C8 + array.C3 + total,0)}
+                    <td  className={styles.tdNumber}> 
+                    <Link target={"_blank"} to={`/reportes/preSol/Pendientes/${fechaD.split('-').join("")}/${fechaH.split('-').join("")}/${pMarca}/${JSON.stringify([array[0].CodSucursal])}`}>
+                        {array.reduce((total, array) => array.C9 + array.C8 + array.C3 + total,0)}
+                    </Link>
                     
                     </td>
-                    <td  className={styles.tdNumber} onClick={() => navigate(`/reportes/preSol/TresYSiete/${fechaD.split('-').join("")}/${fechaH.split('-').join("")}/${pMarca}/${JSON.stringify([array[0].CodSucursal])}`)}>
-
+                    <td  className={styles.tdNumber}>
+                    <Link target={"_blank"} to={`/reportes/preSol/TresYSiete/${fechaD.split('-').join("")}/${fechaH.split('-').join("")}/${pMarca}/${JSON.stringify([array[0].CodSucursal])}`}>
                         {array.reduce((total, array) => array.AnuladaTresYSiete + total,0)}
+                    </Link>
                     </td>
 
                     <td  className={styles.tdNumber} onClick={() => navigate(`/reportes/preSol/anulRechaz/${fechaD.split('-').join("")}/${fechaH.split('-').join("")}/${pMarca}/${JSON.stringify([array[0].CodSucursal])}`)}>

@@ -1,4 +1,4 @@
-.selects{
+.selects {
     max-width: 45rem;
     min-width: 45rem;
     border-top: 3px solid #d2d6de;
@@ -8,16 +8,16 @@
     border-radius: 0.25rem;
 }
 
-.selectContainer{
+.selectContainer {
     text-align: -webkit-center;
     display: flex;
     flex-direction: column;
     margin-top: 3rem;
-    align-items: center;    
+    align-items: center;
 
 }
 
-.selectGrid{
+.selectGrid {
     display: flex;
     padding-top: 2rem;
     padding-bottom: 2rem;
@@ -25,11 +25,12 @@
     align-items: flex-end;
 }
 
-.selectGrid div{
+.selectGrid div {
     text-align: start;
 
 }
-.item{
+
+.item {
     background-color: #a9a9a91f;
     cursor: pointer;
     border-radius: 4px;
@@ -40,13 +41,13 @@
     text-align-last: start;
 }
 
-.noHeader th{
+.noHeader th {
     width: 2.3rem;
     max-width: 2.3rem;
     min-width: 2.3rem;
 }
 
-.tdNumber{
+.tdNumber {
     text-align-last: end;
 }
 
@@ -61,7 +62,7 @@
 
 }
 
-.tableDetalle th{
+.tableDetalle th {
     padding: 1rem;
     background: #0c0c0ca8;
     color: white;
@@ -69,13 +70,13 @@
     text-align-last: center;
 }
 
-.tableDetalle td{
+.tableDetalle td {
     border: 1px solid #00000021;
     font-size: 0.7em;
     text-align-last: center;
 }
 
-.buttonOperacion{
+.buttonOperacion {
     padding: 0.25rem 0.3rem 0.25rem 0.3rem;
     border: none;
     background-color: #3c8dbc;
@@ -87,7 +88,40 @@
     font-size: .9em;
 }
 
-.headerFixed{
+.headerFixed {
     position: sticky;
     top: 0;
 }
+
+
+
+.title{
+    text-align-last: center;
+    background-color: #f0efef;
+    font-size: 10px;
+    font-size: bold;
+    color: black;
+}
+
+
+.dataGrid{
+    margin: 5px; 
+    font-size: 12px;
+}
+
+ .columnIng {
+    background-color: violet;
+}
+
+.columnProd{
+    background-color: rgba(172, 255, 47, 0.599);
+}
+
+.columnTot1{
+    background-color: rgba(255, 255, 0, 0.504);
+}
+
+.columnTot2{
+    background-color: rgba(255, 166, 0, 0.619);
+}
+
