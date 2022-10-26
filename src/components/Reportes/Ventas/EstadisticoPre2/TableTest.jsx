@@ -6,13 +6,7 @@ import TitlePrimary from "../../../../styled-components/h/TitlePrimary";
 import { ReturnLogo } from "../../../../helpers/ReturnLogo";
 import ButtonPrimary from "../../../../styled-components/buttons/ButtonPrimary";
 import { getPreSol } from "../../../../reducers/Reportes/Ventas/PreSolSlice";
-import groupBy from "../../../../helpers/groupBy";
-import { useEffect } from "react";
-import TableContainer from "../../../../styled-components/tables/TableContainer";
 import 'devextreme/dist/css/dx.light.css';
-import ODataStore from 'devextreme/data/odata/store';
-import Menu, { Item } from 'devextreme-react/menu';
-import ColorBox from 'devextreme-react/color-box';
 
 import DataGrid, {
   Column,
@@ -84,6 +78,10 @@ const TableTest = () => {
     else return data.value
   }
 
+  const renderDate = (data) => {
+    return data.text?.slice(0,10).split('-').reverse().join('/')
+  }
+
 
 
 
@@ -150,7 +148,7 @@ const getProm = (data) => {
                 <option value={2022}>2022</option>
               </select>
             </div>
-            <ButtonPrimary onClick={handleSubmit}>Buscar</ButtonPrimary>
+            <ButtonPrimary onClick={handleSubmit}>Ver</ButtonPrimary>
           </div>
 
 
@@ -163,21 +161,27 @@ const getProm = (data) => {
       <DataGrid
         dataSource={data ? data : null}
         className={styles.dataGrid}
+        style={{fontSize: '10px'}}
+        paging={false}
      
       /*         rowAlternationEnabled={true}
               showBorders={true} */
       /*         onContentReady={this.onContentReady} */
       >
-        <GroupPanel />
-        <Grouping />
+{/*         <GroupPanel />
+        <Grouping /> */}
         <Column
           dataField='NombreZona'
+          visible={false}
+          defaultVisible={false}        
           groupIndex={0}
           caption="Zona"
         />
         <Column
           dataField="EsMiniEmprendedor"
           groupIndex={1}
+          visible={false}
+          defaultVisible={false}
           groupCellRender={EsMicro}
           caption="Es micro"
           dataType="number"
@@ -185,8 +189,10 @@ const getProm = (data) => {
         <Column
           dataField="NomSucursal"
           groupIndex={2}
+          visible={false}
+          defaultVisible={false}
 
-          caption="Sucursal"
+          caption="Supervisor"
           dataType="string"
         />
 
@@ -202,18 +208,18 @@ const getProm = (data) => {
 
           <Column
             dataField="FechaAltaVendedor"
-
+            cellRender={renderDate}
             caption="Fecha Alta"
-            dataType="date"
+            dataType="string"
             width={75}
           />
 
-          <Column dataField="FechaBajaVendedor" caption="Fecha Baja" dataType="date" width={75} />
-          <Column dataField="Ingresadas" caption="Ingresadas" cssClass={styles.columnIng} dataType="number" cellRender={renderGridCell} /* width={85} */ />
+          <Column dataField="FechaBajaVendedor" caption="Fecha Baja" dataType="string" cellRender={renderDate} width={75} />
+          <Column dataField="Ingresadas" caption="Ingresadas" cssClass={styles.columnIng} dataType="number" cellRender={renderGridCell}/>
           <Column dataField="VentasMP" dataType="number" cellRender={renderGridCell} width={85} />
-          <Column dataField="Crucescoring" caption="Cruce Scoring" dataType="number" cellRender={renderGridCell}  /* width={85} */ />
-          <Column dataField="Objetivo" dataType="number" cellRender={renderGridCell}  /* width={65} */ />
-          <Column dataField="Produccion" dataType="number" cssClass={styles.columnProd} cellRender={renderGridCell}  /* width={85} */ />
+          <Column dataField="Crucescoring" caption="Cruce Scoring" dataType="number" cellRender={renderGridCell} />
+          <Column dataField="Objetivo" dataType="number" cellRender={renderGridCell}   />
+          <Column dataField="Produccion" dataType="number" cssClass={styles.columnProd} cellRender={renderGridCell}/>
         </Column>
 
         <Column caption='CLASFICACIONES PENDIENTES'  cssClass={styles.title}>
@@ -222,13 +228,13 @@ const getProm = (data) => {
           <Column dataField="C5" caption="5" dataType="number" cellRender={renderGridCell} />
           <Column dataField="C6" caption="6" dataType="number" cellRender={renderGridCell} />
           <Column dataField="C7" caption="7" dataType="number" cellRender={renderGridCell} />
-          <Column dataField="SubTotal1" dataType="number" cssClass={styles.columnTot1} calculateCellValue={calculateSubTot1} /* width={55} */ />
+          <Column dataField="SubTotal1" dataType="number" cssClass={styles.columnTot1} calculateCellValue={calculateSubTot1} />
           <Column dataField="C3" caption="3" dataType="number" cellRender={renderGridCell} />
           <Column dataField="C8" caption="8" dataType="number" cellRender={renderGridCell} />
           <Column dataField="C9" caption="9" dataType="number" cellRender={renderGridCell} />
-          <Column dataField="SubTotal2" dataType="number" cssClass={styles.columnTot2} calculateCellValue={calculateSubTot2} /* width={55} */ />
-          <Column dataField="AnuladaTresYSiete" caption="Anul.3+7" dataType="number" /* width={65} */ cellRender={renderGridCell} />
-          <Column dataField="AnuladaRechazada" caption="Anul.Rechaz" dataType="number" /* width={75} */ cellRender={renderGridCell} />
+          <Column dataField="SubTotal2" dataType="number" cssClass={styles.columnTot2} calculateCellValue={calculateSubTot2}/>
+          <Column dataField="AnuladaTresYSiete" caption="Anul.3+7" dataType="number"  cellRender={renderGridCell} />
+          <Column dataField="AnuladaRechazada" caption="Anul.Rechaz" dataType="number" cellRender={renderGridCell} />
         </Column>
 
 
@@ -507,6 +513,7 @@ const getProm = (data) => {
             column="GB"
             summaryType="sum"
             displayFormat="{0}"
+           
           />
         </Summary>
 
