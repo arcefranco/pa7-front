@@ -11,6 +11,8 @@ import { useEffect } from "react";
 import TableContainer from "../../../../styled-components/tables/TableContainer";
 import 'devextreme/dist/css/dx.light.css';
 import ODataStore from 'devextreme/data/odata/store';
+import Menu, { Item } from 'devextreme-react/menu';
+import ColorBox from 'devextreme-react/color-box';
 
 import DataGrid, {
   Column,
@@ -72,14 +74,16 @@ const TableTest = () => {
     return rowData.C3 + rowData.C8 + rowData.C9 
   }
 
+
   const calculateGB = (rowData) => {
     return rowData.Crucescoring + rowData.Produccion
   }
   
   const renderGridCell = (data) => {
-    if(data.value === null) return '0'
+    if (data.value === null) return '0'
     else return data.value
-}
+  }
+
 
 
 
@@ -89,10 +93,12 @@ const getProm = (data) => {
     return Math.floor((data.MesAnt + data.MesAnt2 + data.MesAnt3)/3)
 }
 
-const EsMicro = (data) => {
-    if(data.displayValue === 0) return 'Equipos Propios'
+
+  const EsMicro = (data) => {
+    if (data.displayValue === 0) return 'Equipos Propios'
     else return 'Micro Emprendedores'
-}
+  }
+
 
 
 
@@ -152,10 +158,12 @@ const EsMicro = (data) => {
 
       </div>
 
+
+
       <DataGrid
         dataSource={data ? data : null}
         className={styles.dataGrid}
-      
+     
       /*         rowAlternationEnabled={true}
               showBorders={true} */
       /*         onContentReady={this.onContentReady} */
@@ -170,58 +178,74 @@ const EsMicro = (data) => {
         <Column
           dataField="EsMiniEmprendedor"
           groupIndex={1}
-            groupCellRender={EsMicro}
+          groupCellRender={EsMicro}
           caption="Es micro"
           dataType="number"
         />
         <Column
           dataField="NomSucursal"
           groupIndex={2}
-          
+
           caption="Sucursal"
           dataType="string"
         />
-        
-        <Column
-          dataField="NomVendedor"
-          caption="Vendedor"
-          dataType="date"
-           width={100} 
-        />
 
-        <Column
-          dataField="FechaAltaVendedor"
-        
-          caption="Fecha Alta"
-          dataType="date"
-           width={75} 
-        />
-        <Column dataField="FechaBajaVendedor" caption="Fecha Baja" dataType="date"  width={75}  />
-        <Column dataField="Ingresadas" className={styles.columnIng} cssClass={styles.columnIng} caption="Ingresadas" dataType="number" cellRender={renderGridCell}/>
-        <Column dataField="VentasMP" dataType="number" cellRender={renderGridCell}  width={85}/>
-        <Column dataField="Crucescoring" caption="Cruce Scoring" dataType="number" cellRender={renderGridCell}/>
-        <Column dataField="Objetivo" dataType="number"   cellRender={renderGridCell} />
-        <Column dataField="Produccion" dataType="number" cssClass={styles.columnProd}  cellRender={renderGridCell} />
-        <Column dataField="C2" caption="2" dataType="number" cellRender={renderGridCell}  />
-        <Column dataField="C4" caption="4"  dataType="number" cellRender={renderGridCell}/>
-        <Column dataField="C5" caption="5" dataType="number" cellRender={renderGridCell}/>
-        <Column dataField="C6" caption="6" dataType="number" cellRender={renderGridCell}/>
-        <Column dataField="C7" caption="7" dataType="number" cellRender={renderGridCell}/>
 
-        <Column dataField="SubTotal1" dataType="number" calculateCellValue={calculateSubTot1} cssClass={styles.columnTot1}/>
-        <Column dataField="C3" caption="3" dataType="number" cellRender={renderGridCell}/>
-        <Column dataField="C8" caption="8" dataType="number" cellRender={renderGridCell}/>
-        <Column dataField="C9" caption="9" dataType="number" cellRender={renderGridCell}/>
-        <Column dataField="SubTotal2" dataType="number"calculateCellValue={calculateSubTot2} cssClass={styles.columnTot2}/>
-        <Column dataField="AnuladaTresYSiete" caption="Anul.3+7" dataType="number" cellRender={renderGridCell}/>
-        <Column dataField="AnuladaRechazada" caption="Anul.Rechaz" dataType="number" cellRender={renderGridCell}/>
-        <Column dataField="MesAnt" caption="-1" dataType="number" cellRender={renderGridCell}/>
-        <Column dataField="MesAnt2" caption="-2" dataType="number" cellRender={renderGridCell}/>
-        <Column dataField="MesAnt3" caption="-3" dataType="number" cellRender={renderGridCell}/>
-        <Column dataField="PROM" dataType="number" calculateCellValue={getProm} width={50}/>
-        <Column dataField="GB" dataType="number" calculateCellValue={calculateGB} />
-        
-        <Summary>
+        <Column cssClass={styles.title}>
+
+          <Column 
+            dataField="NomVendedor"
+            caption="Vendedor"
+            dataType="date"
+            width={100}
+          /> 
+
+          <Column
+            dataField="FechaAltaVendedor"
+
+            caption="Fecha Alta"
+            dataType="date"
+            width={75}
+          />
+
+          <Column dataField="FechaBajaVendedor" caption="Fecha Baja" dataType="date" width={75} />
+          <Column dataField="Ingresadas" caption="Ingresadas" dataType="number" cellRender={renderGridCell} /* width={85} */ />
+          <Column dataField="VentasMP" dataType="number" cellRender={renderGridCell} width={85} />
+          <Column dataField="Crucescoring" caption="Cruce Scoring" dataType="number" cellRender={renderGridCell}  /* width={85} */ />
+          <Column dataField="Objetivo" dataType="number" cellRender={renderGridCell}  /* width={65} */ />
+          <Column dataField="Produccion" dataType="number" cellRender={renderGridCell}  /* width={85} */ />
+        </Column>
+
+        <Column caption='CLASFICACIONES PENDIENTES'  cssClass={styles.title}>
+          <Column dataField="C2" caption="2" dataType="number" cellRender={renderGridCell} />
+          <Column dataField="C4" caption="4" dataType="number" cellRender={renderGridCell} />
+          <Column dataField="C5" caption="5" dataType="number" cellRender={renderGridCell} />
+          <Column dataField="C6" caption="6" dataType="number" cellRender={renderGridCell} />
+          <Column dataField="C7" caption="7" dataType="number" cellRender={renderGridCell} />
+          <Column dataField="SubTotal1" dataType="number" cellRender={firstSubTotl} /* width={55} */ />
+          <Column dataField="C3" caption="3" dataType="number" cellRender={renderGridCell} />
+          <Column dataField="C8" caption="8" dataType="number" cellRender={renderGridCell} />
+          <Column dataField="C9" caption="9" dataType="number" cellRender={renderGridCell} />
+          <Column dataField="SubTotal2" dataType="number" cellRender={secondSubTotl} /* width={55} */ />
+          <Column dataField="AnuladaTresYSiete" caption="Anul.3+7" dataType="number" /* width={65} */ cellRender={renderGridCell} />
+          <Column dataField="AnuladaRechazada" caption="Anul.Rechaz" dataType="number" /* width={75} */ cellRender={renderGridCell} />
+        </Column>
+
+
+        <Column caption='MESES ANTERIORES' cssClass={styles.title}>
+          <Column dataField="MesAnt" caption="-1" dataType="number" cellRender={renderGridCell} />
+          <Column dataField="MesAnt2" caption="-2" dataType="number" cellRender={renderGridCell} />
+          <Column dataField="MesAnt3" caption="-3" dataType="number" cellRender={renderGridCell} />
+          <Column dataField="PROM" dataType="number" cellRender={getProm} width={50} />
+        </Column>
+
+        <Column  cssClass={styles.title}>
+          <Column dataField="GB" dataType="number" />
+        </Column>
+
+
+        <Summary calculateCustomSummary={calculateCustomSummary}>
+
 
           <GroupItem
             column="Ingresadas"
@@ -236,7 +260,7 @@ const EsMicro = (data) => {
             displayFormat="{0}"
           />
 
-        <GroupItem
+          <GroupItem
             column="Crucescoring"
             summaryType="sum"
             showInGroupFooter={true}
@@ -310,10 +334,14 @@ const EsMicro = (data) => {
             showInGroupFooter={true}
             displayFormat="{0}"
           />
-          
+
           <GroupItem
             column="SubTotal2"
             showInGroupFooter={true}
+
+            /*         name="customSummary1" */
+
+
             summaryType="sum"
             displayFormat="{0}"
           />
@@ -483,7 +511,7 @@ const EsMicro = (data) => {
         </Summary>
 
       </DataGrid>
-  
+
     </>
   )
 

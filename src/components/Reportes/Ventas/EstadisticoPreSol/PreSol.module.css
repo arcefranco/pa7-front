@@ -94,6 +94,16 @@
 }
 
 
+
+.title{
+    text-align-last: center;
+    background-color: #f0efef;
+    font-size: 10px;
+    font-size: bold;
+    color: black;
+}
+
+
 .dataGrid{
     margin: 5px; 
     font-size: 12px;
