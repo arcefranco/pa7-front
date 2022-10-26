@@ -95,6 +95,29 @@ const getProm = (data) => {
     else return Math.floor(prom)
 }
 
+const EsMicro = (data) => {
+    if(data.displayValue === 0) return 'Equipos Propios'
+    else return 'Micro Emprendedores'
+}
+
+const calculateCustomSummary = (options) => {
+    console.log('options', options)
+    if(options.name == "customSummary1") {
+        switch(options.summaryProcess) {
+            case "start":
+                // Initializing "totalValue" here
+                break;
+            case "calculate":
+                // Modifying "totalValue" here
+                break;
+            case "finalize":
+                // Assigning the final value to "totalValue" here
+                break;
+        }
+    }
+}
+
+
 
   return (
     <>
@@ -154,6 +177,7 @@ const getProm = (data) => {
 
       <DataGrid
         dataSource={data ? data : null}
+        style={{margin: '5px', fontSize: '12px'}}
       /*         rowAlternationEnabled={true}
               showBorders={true} */
       /*         onContentReady={this.onContentReady} */
@@ -168,7 +192,7 @@ const getProm = (data) => {
         <Column
           dataField="EsMiniEmprendedor"
           groupIndex={1}
-
+            groupCellRender={EsMicro}
           caption="Es micro"
           dataType="number"
         />
@@ -183,21 +207,21 @@ const getProm = (data) => {
           dataField="NomVendedor"
           caption="Vendedor"
           dataType="date"
-          width={150}
+          width={100}
         />
 
         <Column
           dataField="FechaAltaVendedor"
-          
+        
           caption="Fecha Alta"
           dataType="date"
-          width={100}
+          width={85}
         />
-        <Column dataField="FechaBajaVendedor" caption="Fecha Baja" dataType="date" width={85} />
+        <Column dataField="FechaBajaVendedor" caption="Fecha Baja" dataType="date" width={75} />
         <Column dataField="Ingresadas" caption="Ingresadas" dataType="number" cellRender={renderGridCell} width={85}/>
         <Column dataField="VentasMP" dataType="number" cellRender={renderGridCell}  width={85}/>
         <Column dataField="Crucescoring" caption="Cruce Scoring" dataType="number" cellRender={renderGridCell}  width={85}/>
-        <Column dataField="Objetivo" dataType="number"   cellRender={renderGridCell}  width={85}/>
+        <Column dataField="Objetivo" dataType="number"   cellRender={renderGridCell}  width={65}/>
         <Column dataField="Produccion" dataType="number"  cellRender={renderGridCell}  width={85}/>
         <Column dataField="C2" caption="2" dataType="number" cellRender={renderGridCell}  />
         <Column dataField="C4" caption="4"  dataType="number" cellRender={renderGridCell}/>
@@ -205,24 +229,25 @@ const getProm = (data) => {
         <Column dataField="C6" caption="6" dataType="number" cellRender={renderGridCell}/>
         <Column dataField="C7" caption="7" dataType="number" cellRender={renderGridCell}/>
 
-        <Column dataField="SubTotal1" dataType="number" cellRender={firstSubTotl} />
+        <Column dataField="SubTotal1" dataType="number" cellRender={firstSubTotl} width={55}/>
         <Column dataField="C3" caption="3" dataType="number" cellRender={renderGridCell}/>
         <Column dataField="C8" caption="8" dataType="number" cellRender={renderGridCell}/>
         <Column dataField="C9" caption="9" dataType="number" cellRender={renderGridCell}/>
-        <Column dataField="SubTotal2" dataType="number" cellRender={secondSubTotl} />
-        <Column dataField="AnuladaTresYSiete" caption="Anul.3+7" dataType="number" cellRender={renderGridCell}/>
-        <Column dataField="AnuladaRechazada" caption="Anul.Rechaz" dataType="number" cellRender={renderGridCell}/>
+        <Column dataField="SubTotal2" dataType="number" cellRender={secondSubTotl} width={55}/>
+        <Column dataField="AnuladaTresYSiete" caption="Anul.3+7" dataType="number" width={65} cellRender={renderGridCell}/>
+        <Column dataField="AnuladaRechazada" caption="Anul.Rechaz" dataType="number" width={75} cellRender={renderGridCell}/>
         <Column dataField="MesAnt" caption="-1" dataType="number" cellRender={renderGridCell}/>
         <Column dataField="MesAnt2" caption="-2" dataType="number" cellRender={renderGridCell}/>
         <Column dataField="MesAnt3" caption="-3" dataType="number" cellRender={renderGridCell}/>
-        <Column dataField="PROM" dataType="number" cellRender={getProm} />
+        <Column dataField="PROM" dataType="number" cellRender={getProm} width={50}/>
         <Column dataField="GB" dataType="number" />
         
-        <Summary>
+        <Summary calculateCustomSummary={calculateCustomSummary}>
 
           <GroupItem
             column="Ingresadas"
-            summaryType="sum"
+            summaryType="custom"
+            name="customSummary1"
             showInGroupFooter={true}
             displayFormat="{0}"
           />
@@ -289,7 +314,7 @@ const getProm = (data) => {
             displayFormat="{0}"
           />
           <GroupItem
-            column="SubTotal"
+            column="SubTotal1"
             summaryType="sum"
             showInGroupFooter={true}
             displayFormat="{0}"
@@ -307,36 +332,43 @@ const getProm = (data) => {
             showInGroupFooter={true}
             displayFormat="{0}"
           />
-
+          
+          <GroupItem
+            column="SubTotal2"
+            showInGroupFooter={true}
+    /*         name="customSummary1" */
+            summaryType="sum"
+            displayFormat="{0}"
+          />
 
           <GroupItem
-            column="Anul.3+7"
+            column="AnuladaTresYSiete"
             summaryType="sum"
             showInGroupFooter={true}
             displayFormat="{0}"
           />
           <GroupItem
-            column="Anul.Rechaz"
+            column="AnuladaRechazada"
             summaryType="sum"
             showInGroupFooter={true}
             displayFormat="{0}"
           />
 
           <GroupItem
-            column="-1"
+            column="MesAnt"
             summaryType="sum"
             showInGroupFooter={true}
             displayFormat="{0}"
           />
 
           <GroupItem
-            column="-2"
+            column="MesAnt2"
             summaryType="sum"
             showInGroupFooter={true}
             displayFormat="{0}"
           />
           <GroupItem
-            column="-3"
+            column="MesAnt3"
             summaryType="sum"
             showInGroupFooter={true}
             displayFormat="{0}"
@@ -360,8 +392,7 @@ const getProm = (data) => {
         </Summary>
 
       </DataGrid>
-
-
+  
     </>
   )
 
