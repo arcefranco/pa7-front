@@ -66,58 +66,39 @@ const TableTest = () => {
     dispatch(getPreSol(form))
   }
 
+  const calculateSubTot1 = (rowData) => {
+    return rowData.C2 + rowData.C4 + rowData.C5 + rowData.C6 + rowData.C7
+  }
 
-  const [columns] = useState([
-    { name: 'NomVendedor', title: 'Vendedor' },
-    { name: 'gender', title: 'Gender' },
-    { name: 'EsMiniEmprendedor', title: 'Tipo Equipo' },
-    { name: 'car', title: 'Car' },
-  ]);
+  const calculateSubTot2 = (rowData) => {
+    return rowData.C3 + rowData.C8 + rowData.C9 
+  }
 
+
+  const calculateGB = (rowData) => {
+    return rowData.Crucescoring + rowData.Produccion
+  }
+  
   const renderGridCell = (data) => {
     if (data.value === null) return '0'
     else return data.value
   }
 
 
-  const firstSubTotl = (data) => {
-    const subTot = data.data.C2 + data.data.C4 + data.data.C5 + data.data.C6 + data.data.C7
-    if (subTot === 0) return '0'
-    else return subTot
-  }
-  const secondSubTotl = (data) => {
-    const subTot = data.data.C3 + data.data.C8 + data.data.C9
-    if (subTot === 0) return 0
-    else return subTot
-  }
 
-  const getProm = (data) => {
-    const prom = (data.data.MesAnt + data.data.MesAnt2 + data.data.MesAnt3) / 3
-    if (prom === 0) return '0'
-    else return Math.floor(prom)
-  }
+
+
+
+const getProm = (data) => {
+    return Math.floor((data.MesAnt + data.MesAnt2 + data.MesAnt3)/3)
+}
+
 
   const EsMicro = (data) => {
     if (data.displayValue === 0) return 'Equipos Propios'
     else return 'Micro Emprendedores'
   }
 
-  const calculateCustomSummary = (options) => {
-    console.log('options', options)
-    if (options.name == "customSummary1") {
-      switch (options.summaryProcess) {
-        case "start":
-          // Initializing "totalValue" here
-          break;
-        case "calculate":
-          // Modifying "totalValue" here
-          break;
-        case "finalize":
-          // Assigning the final value to "totalValue" here
-          break;
-      }
-    }
-  }
 
 
 
@@ -181,7 +162,8 @@ const TableTest = () => {
 
       <DataGrid
         dataSource={data ? data : null}
-        style={{ margin: '5px', fontSize: '12px' }}
+        className={styles.dataGrid}
+     
       /*         rowAlternationEnabled={true}
               showBorders={true} */
       /*         onContentReady={this.onContentReady} */
@@ -207,6 +189,7 @@ const TableTest = () => {
           caption="Sucursal"
           dataType="string"
         />
+
 
         <Column cssClass={styles.title}>
 
@@ -263,10 +246,10 @@ const TableTest = () => {
 
         <Summary calculateCustomSummary={calculateCustomSummary}>
 
+
           <GroupItem
             column="Ingresadas"
-            summaryType="custom"
-            name="customSummary1"
+            summaryType="sum"
             showInGroupFooter={true}
             displayFormat="{0}"
           />
@@ -355,7 +338,10 @@ const TableTest = () => {
           <GroupItem
             column="SubTotal2"
             showInGroupFooter={true}
+
             /*         name="customSummary1" */
+
+
             summaryType="sum"
             displayFormat="{0}"
           />
@@ -405,9 +391,123 @@ const TableTest = () => {
             displayFormat="{0}"
           />
 
+        <TotalItem
+            column="Ingresadas"
+            summaryType="sum"
+            displayFormat="{0}"
+          />
+          <TotalItem
+            column="VentasMP"
+            summaryType="sum"
+            displayFormat="{0}"
+          />
+
+        <TotalItem
+            column="Crucescoring"
+            summaryType="sum"
+            displayFormat="{0}"
+          />
+          <TotalItem
+            column="Objetivo"
+            summaryType="sum"
+            displayFormat="{0}"
+          />
+          <TotalItem
+            column="Produccion"
+            summaryType="sum"
+            displayFormat="{0}"
+          />
+
+          <TotalItem
+            column="C2"
+            summaryType="sum"
+            displayFormat="{0}"
+          />
+          <TotalItem
+            column="C3"
+            summaryType="sum"
+            displayFormat="{0}"
+          />
+          <TotalItem
+            column="C4"
+            summaryType="sum"
+            displayFormat="{0}"
+          />
+          <TotalItem
+            column="C5"
+            summaryType="sum"
+            displayFormat="{0}"
+          />
+          <TotalItem
+            column="C6"
+            summaryType="sum"
+            displayFormat="{0}"
+          />
+          <TotalItem
+            column="C7"
+            summaryType="sum"
+            displayFormat="{0}"
+          />
+          <TotalItem
+            column="SubTotal1"
+            summaryType="sum"
+            displayFormat="{0}"
+          />
+
+          <TotalItem
+            column="8"
+            summaryType="sum"
+            displayFormat="{0}"
+          />
+          <TotalItem
+            column="9"
+            summaryType="sum"
+            displayFormat="{0}"
+          />
+          
+          <TotalItem
+            column="SubTotal2"
+            summaryType="sum"
+            displayFormat="{0}"
+          />
+
+          <TotalItem
+            column="AnuladaTresYSiete"
+            summaryType="sum"
+            displayFormat="{0}"
+          />
+          <TotalItem
+            column="AnuladaRechazada"
+            summaryType="sum"
+            displayFormat="{0}"
+          />
+
+          <TotalItem
+            column="MesAnt"
+            summaryType="sum"
+            displayFormat="{0}"
+          />
+
+          <TotalItem
+            column="MesAnt2"
+            summaryType="sum"
+            displayFormat="{0}"
+          />
+          <TotalItem
+            column="MesAnt3"
+            summaryType="sum"
+            displayFormat="{0}"
+          />
+          <TotalItem
+            column="PROM"
+            summaryType="sum"
+            displayFormat="{0}"
+          />
           <TotalItem
             column="GB"
-            summaryType="count" />
+            summaryType="sum"
+            displayFormat="{0}"
+          />
         </Summary>
 
       </DataGrid>
