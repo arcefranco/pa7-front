@@ -97,3 +97,11 @@
     display: grid;
     grid-template-columns: repeat(3, 50rem);
 }
+
+.title{
+    text-align-last: center;
+    background-color: #f0efef;
+    font-size: 10px;
+    font-size: bold;
+    color: black;
+}
