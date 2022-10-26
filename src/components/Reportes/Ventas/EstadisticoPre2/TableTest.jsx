@@ -85,7 +85,7 @@ const firstSubTotl = (data) => {
 }
 const secondSubTotl = (data) => {
     const subTot = data.data.C3 + data.data.C8 + data.data.C9 
-    if(subTot === 0) return '0'
+    if(subTot === 0) return 0
     else return subTot
 }
 
@@ -207,7 +207,7 @@ const calculateCustomSummary = (options) => {
           dataField="NomVendedor"
           caption="Vendedor"
           dataType="date"
-          width={100}
+           width={100} 
         />
 
         <Column
@@ -215,27 +215,27 @@ const calculateCustomSummary = (options) => {
         
           caption="Fecha Alta"
           dataType="date"
-          width={85}
+           width={75} 
         />
-        <Column dataField="FechaBajaVendedor" caption="Fecha Baja" dataType="date" width={75} />
-        <Column dataField="Ingresadas" caption="Ingresadas" dataType="number" cellRender={renderGridCell} width={85}/>
+        <Column dataField="FechaBajaVendedor" caption="Fecha Baja" dataType="date"  width={75}  />
+        <Column dataField="Ingresadas" caption="Ingresadas" dataType="number" cellRender={renderGridCell} /* width={85} *//>
         <Column dataField="VentasMP" dataType="number" cellRender={renderGridCell}  width={85}/>
-        <Column dataField="Crucescoring" caption="Cruce Scoring" dataType="number" cellRender={renderGridCell}  width={85}/>
-        <Column dataField="Objetivo" dataType="number"   cellRender={renderGridCell}  width={65}/>
-        <Column dataField="Produccion" dataType="number"  cellRender={renderGridCell}  width={85}/>
+        <Column dataField="Crucescoring" caption="Cruce Scoring" dataType="number" cellRender={renderGridCell}  /* width={85} *//>
+        <Column dataField="Objetivo" dataType="number"   cellRender={renderGridCell}  /* width={65} *//>
+        <Column dataField="Produccion" dataType="number"  cellRender={renderGridCell}  /* width={85} *//>
         <Column dataField="C2" caption="2" dataType="number" cellRender={renderGridCell}  />
         <Column dataField="C4" caption="4"  dataType="number" cellRender={renderGridCell}/>
         <Column dataField="C5" caption="5" dataType="number" cellRender={renderGridCell}/>
         <Column dataField="C6" caption="6" dataType="number" cellRender={renderGridCell}/>
         <Column dataField="C7" caption="7" dataType="number" cellRender={renderGridCell}/>
 
-        <Column dataField="SubTotal1" dataType="number" cellRender={firstSubTotl} width={55}/>
+        <Column dataField="SubTotal1" dataType="number" cellRender={firstSubTotl} /* width={55} *//>
         <Column dataField="C3" caption="3" dataType="number" cellRender={renderGridCell}/>
         <Column dataField="C8" caption="8" dataType="number" cellRender={renderGridCell}/>
         <Column dataField="C9" caption="9" dataType="number" cellRender={renderGridCell}/>
-        <Column dataField="SubTotal2" dataType="number" cellRender={secondSubTotl} width={55}/>
-        <Column dataField="AnuladaTresYSiete" caption="Anul.3+7" dataType="number" width={65} cellRender={renderGridCell}/>
-        <Column dataField="AnuladaRechazada" caption="Anul.Rechaz" dataType="number" width={75} cellRender={renderGridCell}/>
+        <Column dataField="SubTotal2" dataType="number" cellRender={secondSubTotl} /* width={55} *//>
+        <Column dataField="AnuladaTresYSiete" caption="Anul.3+7" dataType="number" /* width={65} */ cellRender={renderGridCell}/>
+        <Column dataField="AnuladaRechazada" caption="Anul.Rechaz" dataType="number" /* width={75} */ cellRender={renderGridCell}/>
         <Column dataField="MesAnt" caption="-1" dataType="number" cellRender={renderGridCell}/>
         <Column dataField="MesAnt2" caption="-2" dataType="number" cellRender={renderGridCell}/>
         <Column dataField="MesAnt3" caption="-3" dataType="number" cellRender={renderGridCell}/>
