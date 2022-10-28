@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from '../EstadisticoPreSol/PreSol.module.css'
 import { useSelector, useDispatch } from "react-redux";
 import TitleLogo from "../../../../styled-components/containers/TitleLogo";
@@ -6,31 +6,37 @@ import TitlePrimary from "../../../../styled-components/h/TitlePrimary";
 import { ReturnLogo } from "../../../../helpers/ReturnLogo";
 import ButtonPrimary from "../../../../styled-components/buttons/ButtonPrimary";
 import { getPreSol } from "../../../../reducers/Reportes/Ventas/PreSolSlice";
-import groupBy from "../../../../helpers/groupBy";
-import { useEffect } from "react";
-import TableContainer from "../../../../styled-components/tables/TableContainer";
 import 'devextreme/dist/css/dx.light.css';
-import ODataStore from 'devextreme/data/odata/store';
-import Menu, { Item } from 'devextreme-react/menu';
-import ColorBox from 'devextreme-react/color-box';
-
+import { useNavigate } from "react-router-dom";
 import DataGrid, {
   Column,
-  Grouping,
-  GroupPanel,
-  Pager,
-  Paging,
-  SearchPanel,
   Summary,
   TotalItem,
-  GroupItem
+  GroupItem,
+  Scrolling
 } from 'devextreme-react/data-grid';
 
 
-const TableTest = () => {
+const PreSolGrid = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const { empresaReal, codigoMarca } = useSelector(state => state.login.user)
   const { status, data } = useSelector(state => state.PreSolVentas.preSolSelected)
+  const {fechaD, fechaH, pMarca} = useSelector(state => state.PreSolVentas.paramsDetalles)
+  const [supBsAs, setSupBsAs] = useState([])
+  const [totalSupervisores, setTotalSupervisores] = useState([])
+  const [totalSupervisoresFilter, setTotalSupervisoresFilter] = useState([])
+  
+
+  useEffect(() => {
+    
+    setTotalSupervisores(data?.map(e => e.CodSucursal))
+   
+  }, [data])
+  useEffect(() => {
+    setTotalSupervisoresFilter(totalSupervisores?.filter((item,
+        index) => totalSupervisores.indexOf(item) === index))
+  }, [totalSupervisores])
 
   const [form, setForm] = useState({
     fechaD: '',
@@ -84,6 +90,10 @@ const TableTest = () => {
     else return data.value
   }
 
+  const renderDate = (data) => {
+    return data.text?.slice(0,10).split('-').reverse().join('/')
+  }
+
 
 
 
@@ -99,6 +109,142 @@ const getProm = (data) => {
     else return 'Micro Emprendedores'
   }
 
+  const onCellPrepared2 = (e) => {
+    if (e.rowType === 'totalFooter') {
+      e.cellElement.style.backgroundColor = '#4b5866ad' 
+    }else if (e.rowType === 'groupFooter'){
+      e.cellElement.style.backgroundColor = '#4b586678' 
+    }
+    }
+
+  const helperOnCellPreprared = (e, url) => {
+    console.log('aca')
+      let arr = [];
+      if(e.row.data.items[0].hasOwnProperty('key')){
+        e.row.data.items.map(e => {
+          if(e.hasOwnProperty('collapsedItems')){
+            arr = [...arr, arr.concat(e.collapsedItems[0].CodSucursal)]
+          }else{
+            arr = [...arr, arr.concat(e.items[0].CodSucursal)]
+          }
+        })
+        arr = arr.flat(1).filter(e => typeof e === 'number')
+          navigate(`/reportes/preSol/${url}/${fechaD.split('-').join("")}/${fechaH.split('-').join("")}/${codigoMarca}/[${arr}]`)  
+
+        }else{
+          navigate(`/reportes/preSol/${url}/${fechaD.split('-').join("")}/${fechaH.split('-').join("")}/${codigoMarca}/[${e.row.data.items[0].CodSucursal}]`)
+        }
+    }
+
+  const helperOnCellGroup = (e, url) => {
+   
+    let arr = [];
+    e.row.data.items.map(e => {
+      if(e.hasOwnProperty('collapsedItems')){
+        arr = [...arr, arr.concat(e.collapsedItems)]
+      }else{
+        arr = [...arr, arr.concat(e.items)]
+        
+      }
+    })
+    arr = arr.flat(1).map(e => !Array.isArray(e) ? e.items[0].CodSucursal : e[0].items[0].CodSucursal)
+    arr = [...new Set(arr)]
+    navigate(`/reportes/preSol/${url}/${fechaD.split('-').join("")}/${fechaH.split('-').join("")}/${codigoMarca}/[${arr}]`)  
+  }
+    
+
+  const onCellPrepared = (e) => {
+
+  
+  if(e.rowType === 'groupFooter' && e.column.dataField === 'Ingresadas' && e.key.length > 1){
+
+    helperOnCellPreprared(e,'ingresadas') 
+
+  } else if(e.rowType === 'groupFooter' && e.column.dataField === 'Ingresadas'){
+    helperOnCellGroup(e, 'ingresadas')
+  }
+  
+  else if (e.rowType === 'totalFooter' && e.column.dataField === 'Ingresadas'){
+    navigate(`/reportes/preSol/ingresadas/${fechaD.split('-').join("")}/${fechaH.split('-').join("")}/${codigoMarca}/[${totalSupervisoresFilter}]`)
+  
+  }else if (e.rowType === 'groupFooter' && e.column.dataField === 'VentasMP' && e.key.length > 1){
+    helperOnCellPreprared(e, 'MP')
+
+  }else if(e.rowType === 'groupFooter' && e.column.dataField === 'VentasMP'){
+    helperOnCellGroup(e, 'MP')
+   
+  }else if (e.rowType === 'totalFooter' && e.column.dataField === 'VentasMP'){
+    navigate(`/reportes/preSol/MP/${fechaD.split('-').join("")}/${fechaH.split('-').join("")}/${codigoMarca}/[${totalSupervisoresFilter}]`)
+  
+  }else if(e.rowType === 'groupFooter' && e.column.dataField === 'Crucescoring'  && e.key.length > 1){
+    helperOnCellPreprared(e, 'cruceScoring')
+
+  }else if(e.rowType === 'groupFooter' && e.column.dataField === 'Crucescoring'){
+    helperOnCellGroup(e, 'cruceScoring')
+
+  }else if (e.rowType === 'totalFooter' && e.column.dataField === 'Crucescoring'){
+
+    navigate(`/reportes/preSol/cruceScoring/${fechaD.split('-').join("")}/${fechaH.split('-').join("")}/${codigoMarca}/[${totalSupervisoresFilter}]`)
+  }else if(e.rowType === 'groupFooter' && e.column.dataField === 'Produccion'  && e.key.length > 1){
+
+    helperOnCellPreprared(e, 'Produccion')
+  }else if(e.rowType === 'groupFooter' && e.column.dataField === 'Produccion'){
+
+    helperOnCellGroup(e, 'Produccion')
+
+  }else if (e.rowType === 'totalFooter' && e.column.dataField === 'Produccion'){
+
+    navigate(`/reportes/preSol/Produccion/${fechaD.split('-').join("")}/${fechaH.split('-').join("")}/${codigoMarca}/[${totalSupervisoresFilter}]`)
+
+  }else if(e.rowType === 'groupFooter' && (e.column.dataField === 'SubTotal1' || e.column.dataField === 'SubTotal2' )  && e.key.length > 1){
+
+    helperOnCellPreprared(e, 'Pendientes')
+  }else if(e.rowType === 'groupFooter' && (e.column.dataField === 'SubTotal1' || e.column.dataField === 'SubTotal2' )){
+
+    helperOnCellGroup(e, 'Pendientes')
+
+  }else if (e.rowType === 'totalFooter' && (e.column.dataField === 'SubTotal1' || e.column.dataField === 'SubTotal2' )){
+
+    navigate(`/reportes/preSol/Pendientes/${fechaD.split('-').join("")}/${fechaH.split('-').join("")}/${codigoMarca}/[${totalSupervisoresFilter}]`)
+
+  }else if(e.rowType === 'groupFooter' && e.column.dataField === 'AnuladaTresYSiete'  && e.key.length > 1){
+
+    helperOnCellPreprared(e, 'TresYSiete')
+  }else if(e.rowType === 'groupFooter' && e.column.dataField === 'AnuladaTresYSiete'){
+
+    helperOnCellGroup(e, 'TresYSiete')
+
+  }else if (e.rowType === 'totalFooter' && e.column.dataField === 'AnuladaTresYSiete'){
+
+    navigate(`/reportes/preSol/TresYSiete/${fechaD.split('-').join("")}/${fechaH.split('-').join("")}/${codigoMarca}/[${totalSupervisoresFilter}]`)
+
+  }else if(e.rowType === 'groupFooter' && e.column.dataField === 'AnuladaRechazada'  && e.key.length > 1){
+
+    helperOnCellPreprared(e, 'anulRechaz')
+  }else if(e.rowType === 'groupFooter' && e.column.dataField === 'AnuladaRechazada'){
+
+    helperOnCellGroup(e, 'anulRechaz')
+
+  }else if (e.rowType === 'totalFooter' && e.column.dataField === 'AnuladaRechazada'){
+
+    navigate(`/reportes/preSol/anulRechaz/${fechaD.split('-').join("")}/${fechaH.split('-').join("")}/${codigoMarca}/[${totalSupervisoresFilter}]`)
+
+  }else if(e.rowType === 'groupFooter' && e.column.dataField === 'GB'  && e.key.length > 1){
+
+    helperOnCellPreprared(e, 'ProdYCS')
+  }else if(e.rowType === 'groupFooter' && e.column.dataField === 'GB'){
+
+    helperOnCellGroup(e, 'ProdYCS')
+
+  }else if (e.rowType === 'totalFooter' && e.column.dataField === 'GB'){
+
+    navigate(`/reportes/preSol/ProdYCS/${fechaD.split('-').join("")}/${fechaH.split('-').join("")}/${codigoMarca}/[${totalSupervisoresFilter}]`)
+
+  }
+
+  }
+
+  
 
 
 
@@ -150,7 +296,7 @@ const getProm = (data) => {
                 <option value={2022}>2022</option>
               </select>
             </div>
-            <ButtonPrimary onClick={handleSubmit}>Buscar</ButtonPrimary>
+            <ButtonPrimary onClick={handleSubmit}>Ver</ButtonPrimary>
           </div>
 
 
@@ -163,21 +309,27 @@ const getProm = (data) => {
       <DataGrid
         dataSource={data ? data : null}
         className={styles.dataGrid}
-     
-      /*         rowAlternationEnabled={true}
-              showBorders={true} */
-      /*         onContentReady={this.onContentReady} */
-      >
-        <GroupPanel />
-        <Grouping />
+        style={{fontSize: '10px'}}
+        paging={false}
+        onCellClick={onCellPrepared}
+        onCellPrepared={onCellPrepared2}
+        
+        >
+
+        <Scrolling useNative={false} scrollByContent={true} mode="standard" />
+          
         <Column
           dataField='NombreZona'
+          visible={false}
+          defaultVisible={false}        
           groupIndex={0}
           caption="Zona"
         />
         <Column
           dataField="EsMiniEmprendedor"
           groupIndex={1}
+          visible={false}
+          defaultVisible={false}
           groupCellRender={EsMicro}
           caption="Es micro"
           dataType="number"
@@ -185,8 +337,10 @@ const getProm = (data) => {
         <Column
           dataField="NomSucursal"
           groupIndex={2}
+          visible={false}
+          defaultVisible={false}
 
-          caption="Sucursal"
+          caption="Supervisor"
           dataType="string"
         />
 
@@ -202,18 +356,18 @@ const getProm = (data) => {
 
           <Column
             dataField="FechaAltaVendedor"
-
+            cellRender={renderDate}
             caption="Fecha Alta"
-            dataType="date"
+            dataType="string"
             width={75}
           />
 
-          <Column dataField="FechaBajaVendedor" caption="Fecha Baja" dataType="date" width={75} />
-          <Column dataField="Ingresadas" caption="Ingresadas" cssClass={styles.columnIng} dataType="number" cellRender={renderGridCell} /* width={85} */ />
+          <Column dataField="FechaBajaVendedor" caption="Fecha Baja" dataType="string" cellRender={renderDate} width={75} />
+          <Column dataField="Ingresadas" caption="Ingresadas" cssClass={styles.columnIng} dataType="number" cellRender={renderGridCell}/>
           <Column dataField="VentasMP" dataType="number" cellRender={renderGridCell} width={85} />
-          <Column dataField="Crucescoring" caption="Cruce Scoring" dataType="number" cellRender={renderGridCell}  /* width={85} */ />
-          <Column dataField="Objetivo" dataType="number" cellRender={renderGridCell}  /* width={65} */ />
-          <Column dataField="Produccion" dataType="number" cssClass={styles.columnProd} cellRender={renderGridCell}  /* width={85} */ />
+          <Column dataField="Crucescoring" caption="Cruce Scoring" dataType="number" cellRender={renderGridCell} />
+          <Column dataField="Objetivo" dataType="number" cellRender={renderGridCell}   />
+          <Column dataField="Produccion" dataType="number" cssClass={styles.columnProd} cellRender={renderGridCell}/>
         </Column>
 
         <Column caption='CLASFICACIONES PENDIENTES'  cssClass={styles.title}>
@@ -222,13 +376,13 @@ const getProm = (data) => {
           <Column dataField="C5" caption="5" dataType="number" cellRender={renderGridCell} />
           <Column dataField="C6" caption="6" dataType="number" cellRender={renderGridCell} />
           <Column dataField="C7" caption="7" dataType="number" cellRender={renderGridCell} />
-          <Column dataField="SubTotal1" dataType="number" cssClass={styles.columnTot1} calculateCellValue={calculateSubTot1} /* width={55} */ />
+          <Column dataField="SubTotal1" dataType="number" cssClass={styles.columnTot1} calculateCellValue={calculateSubTot1} />
           <Column dataField="C3" caption="3" dataType="number" cellRender={renderGridCell} />
           <Column dataField="C8" caption="8" dataType="number" cellRender={renderGridCell} />
           <Column dataField="C9" caption="9" dataType="number" cellRender={renderGridCell} />
-          <Column dataField="SubTotal2" dataType="number" cssClass={styles.columnTot2} calculateCellValue={calculateSubTot2} /* width={55} */ />
-          <Column dataField="AnuladaTresYSiete" caption="Anul.3+7" dataType="number" /* width={65} */ cellRender={renderGridCell} />
-          <Column dataField="AnuladaRechazada" caption="Anul.Rechaz" dataType="number" /* width={75} */ cellRender={renderGridCell} />
+          <Column dataField="SubTotal2" dataType="number" cssClass={styles.columnTot2} calculateCellValue={calculateSubTot2}/>
+          <Column dataField="AnuladaTresYSiete" caption="Anul.3+7" dataType="number"  cellRender={renderGridCell} />
+          <Column dataField="AnuladaRechazada" caption="Anul.Rechaz" dataType="number" cellRender={renderGridCell} />
         </Column>
 
 
@@ -244,15 +398,16 @@ const getProm = (data) => {
         </Column>
 
 
-        <Summary>
 
+        <Summary >
 
           <GroupItem
             column="Ingresadas"
             summaryType="sum"
-            showInGroupFooter={true}
-            displayFormat="{0}"
+            showInGroupFooter={true} 
+            displayFormat="{0}"     
           />
+
           <GroupItem
             column="VentasMP"
             summaryType="sum"
@@ -338,10 +493,6 @@ const getProm = (data) => {
           <GroupItem
             column="SubTotal2"
             showInGroupFooter={true}
-
-            /*         name="customSummary1" */
-
-
             summaryType="sum"
             displayFormat="{0}"
           />
@@ -390,6 +541,7 @@ const getProm = (data) => {
             showInGroupFooter={true}
             displayFormat="{0}"
           />
+  
 
         <TotalItem
             column="Ingresadas"
@@ -509,7 +661,6 @@ const getProm = (data) => {
             displayFormat="{0}"
           />
         </Summary>
-
       </DataGrid>
 
     </>
@@ -517,4 +668,4 @@ const getProm = (data) => {
 
 }
 
-export default TableTest
+export default PreSolGrid
