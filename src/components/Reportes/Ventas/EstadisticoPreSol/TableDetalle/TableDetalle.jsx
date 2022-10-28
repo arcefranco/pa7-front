@@ -64,12 +64,20 @@ const renderButtonOperacion = () => {
     return <button className={styles.buttonOperacion}>Ver Operación</button>
 }
 
+const onCellPrepared = (e) => {
+  if(e.rowType === 'header') {  
+    e.cellElement.style.setProperty('background-color', '#15141491')
+    e.cellElement.style.setProperty('color', '#fff')
+ }  
+}
+
 
 return (
     <div>
         <DataGrid
         dataSource={array ? array : null}
-        height={600}
+        height={500}
+        onCellPrepared={onCellPrepared}
         className={styles.dataGrid}
         style={{fontSize: '10px'}}
         paging={false}
@@ -100,6 +108,7 @@ return (
       {
         title !== 'Mesa de Planes' ?
           <Column
+          head
             dataField="Fecha"
             alignment={'center'}
             cellRender={renderDate}
@@ -127,6 +136,7 @@ return (
       <Column
         dataField="Cliente"
         caption="Cliente"
+        head
         dataType="string"
       />
       <Column
@@ -289,6 +299,8 @@ return (
 
       <Column
         dataField="Precio"
+        alignment={'right'}
+        cellRender={renderCuota}
         caption="Valor del Vehículo"
         dataType="string"
       />

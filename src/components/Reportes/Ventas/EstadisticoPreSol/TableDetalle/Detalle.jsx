@@ -2,10 +2,11 @@ import React, {useEffect, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getDetalleIngresadas, getDetalleMP, getDetalleAnulRechaz, getDetalleCruceScoring, getDetalleProduccion, getDetallePendientes, getDetalleTresYSiete, getDetalleProdYCS } from "../../../../../reducers/Reportes/Ventas/PreSolSlice";
 import { useParams } from "react-router-dom";
-import TitleLogo from "../../../../../styled-components/containers/TitleLogo";
 import { ReturnLogo } from "../../../../../helpers/ReturnLogo";
 import TitlePrimary from "../../../../../styled-components/h/TitlePrimary";
+import styles from '../PreSol.module.css'
 import TableDetalle from "./TableDetalle";
+import BiggerTitleLogo from "../../../../../styled-components/containers/BiggerTitleLogo";
 
 const Detalle = ({title}) => {
     const {data} = useSelector(state => state.PreSolVentas.preSolDetalle)
@@ -89,13 +90,13 @@ const Detalle = ({title}) => {
     return ( 
         <div> 
 
-        <TitleLogo>
+        <BiggerTitleLogo>
           <div>
             <span>{empresaReal}</span>
             <ReturnLogo empresa={empresaReal}/>
           </div>
         <TitlePrimary>Detalle {title} ({data?.length} operaciones)</TitlePrimary>
-        </TitleLogo>
+        </BiggerTitleLogo>
         {
             !isLoading ? 
         <div>
