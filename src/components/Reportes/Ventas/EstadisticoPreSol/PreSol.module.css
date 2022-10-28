@@ -141,4 +141,31 @@
     background-color: red;  
 }  
 
+.titleDetalleContainer{
+    display: flex;
+align-items: center;
+margin-left: .8rem;
+}
+
+.titleDetalleContainer .logoShort {
+    width: 3rem;
+    height: 1rem;
+    margin:0;
+}
+
+.titleDetalleContainer .logo{
+    width: 3rem;
+    height: 1rem;
+    margin:0;
+}
+.titleDetalleContainer div {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+}
+.titleDetalleContainer span{
+    font-size: 8px;
+}    
+
+
 
