@@ -1,142 +1,343 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import TableContainer from "../../../../../styled-components/tables/TableContainer2";
+import 'devextreme/dist/css/dx.light.css';
 import styles from '../PreSol.module.css'
+import { useSelector } from "react-redux";
+import DataGrid, {
+  Column,
+  Scrolling
+  
+} from 'devextreme-react/data-grid';
+
 
 const TableDetalle = ({title, array}) => {
 
-    
-    const {empresaReal, codigoMarca} = useSelector(state => state.login.user)
-    return (
-        <div style={{marginTop: '4rem'}} className={styles.item}>
-            <span>{title}</span>
+const {empresaReal, codigoMarca} = useSelector(state => state.login.user)
 
-
-            <TableContainer>
-                <table className={styles.tableDetalle}>
-                    <tr className={styles.headerFixed}>
-                        <th>Fecha Alta</th>
-                        <th>Solicitud</th>
-                        <th>Cliente</th>
-                        <th>Vendedor</th>
-                        <th>Modelo</th>
-                        <th>Tipo Plan</th>
-                        <th>Importe Total Cuota</th>
-                        <th>Saldo</th>
-                        <th>Fecha Estim. Cancelación</th>
-                        <th>Tiene DNI</th>
-                        <th>Tiene Servicio</th>
-                        <th>Tiene Anexos</th>
-                        <th>Estado Pre Scoring</th>
-                        <th>Estado Scoring</th>
-                        <th></th>
-                        <th>Clasificación</th>
-                        <th>Tipo Precio</th>
-                        <th>Valor del Vehículo</th>
-                        <th>Deb. Aut.</th>
-                        <th>Deb. A. Sc.</th>
-                        <th>Fecha Ing. Term.</th>
-                        <th>Fecha Cruce Scoring</th>
-                        <th>Supervisor</th>
-                        <th>MiniEmprend.</th>
-                        <th>Oficial Plan Canje</th>
-                        <th></th>
-                        
-                    </tr>
-
-                    {
-                        array.length && array.map(e => 
-                            <tr>
-                                <td>{e.Fecha?.slice(0,10).split('-').reverse().join('/')}</td>
-                                <td>{e.Solicitud}</td>
-                                <td>{e.Cliente}</td>
-                                <td>{e.NomVendedor}</td>
-                                <td>{e.Vehiculo}</td>
-                                
-                                   <td>
-                                    {
-                                        empresaReal === 'Alizze S.A.' && e.codigotipoplan === 1 ? 'PLAN 84' : 
-                                        empresaReal === 'Alizze S.A.' && e.codigotipoplan === 2 ? 'PLAN 120' : 
-                                        e.codigotipoplan === 1 ? '100 %' :
-                                        e.codigotipoplan === 2 ? '70/30' :
-                                        e.codigotipoplan === 3 ? '60/40' :
-                                        e.codigotipoplan === 4 ? '75/25' :
-                                        e.codigotipoplan === 5 ? '80/20' : 
-                                        e.codigotipoplan === 6 ? '90/10' : null
-                                    }
-                                   </td> 
-                                <td style={{textAlignLast: 'end'}}>{e.ImporteCuota?.slice(0, e.ImporteCuota.length-3)}</td>
-                                <td style={{textAlignLast: 'end'}}>{e.Saldo?.slice(0, e.Saldo.length-3)}</td>
-                                <td>{e.FechaCancelacion?.slice(0,10).split('-').reverse().join('/')}</td>
-                                <td style={{textAlignLast: 'center'}}>{
-                                    e.Dni === 1 ? <input type="checkbox" readOnly={true} checked /> : <input type="checkbox" disabled readOnly />
-                                    }
-                                </td>
-                                <td style={{textAlignLast: 'center'}}>{
-                                    e.Servicio === 1 ? <input type="checkbox" readOnly={true} checked /> : <input type="checkbox" disabled readOnly />
-                                    }
-                                </td>
-                                <td style={{textAlignLast: 'center'}}>{
-                                    e.Anexos === 1 ? <input type="checkbox" readOnly={true} checked /> : <input type="checkbox" disabled readOnly />
-                                    }
-                                </td>
-                                <td>
-                                    {
-                                        e.EstadoPrescoring === 2 ? 'Ok' : e.EstadoPrescoring === 0 ? 'Pendiente' : null
-                                    }
-                                </td>
-                                <td>
-                                    {
-                                        e.Estadoscoring === 2 ? 'Ok' : e.Estadoscoring === 0 ? 'Pendiente' : null
-                                    }
-                                </td>
-                                <td>{e.Clasificacion}</td>
-                                <td>
-                                    {
-                                        e.Clasificacion === 1 ? 'Producción' :
-                                        e.Clasificacion === 2 ? 'Lista para enviar a terminal' :
-                                        e.Clasificacion === 3 ? 'Seña' :
-                                        e.Clasificacion === 4 ? 'Pendiente scoring terminal' : 
-                                        e.Clasificacion === 5 ? 'Pendiente scoring terminal con faltante documentación' :
-                                        e.Clasificacion === 6 ? 'Aprobadas scoring terminal con faltante documentación' : 
-                                        e.Clasificacion === 7 ? 'Pendiente de Pre Scoring' :
-                                        e.Clasificacion === 8 ? 'Pre Scoring rechazado' : 
-                                        e.Clasificacion === 9 ? 'Scoring terminal rechazado' : 
-                                        e.Clasificacion === 10 ? 'Seña + Pend. Pre Scoring' : 
-                                        e.Clasificacion === 11 ? 'Rechazadas' :
-                                        null
-                                    }
-                                </td>
-                                <td>{e.TipoPrecio}</td>
-                                <td style={{textAlignLast: 'end'}}>{typeof e.Precio === "string" ? e.Precio?.slice(0, e.Precio.length-3) : e.Precio}</td>
-                                <td style={{textAlignLast: 'center'}}>{
-                                    e.DebitoAutomatico && e.DebitoAutomatico === 1 ? <input type="checkbox" readOnly={true} checked /> : <input type="checkbox" disabled readOnly />
-                                    }
-                                </td>
-                                <td style={{textAlignLast: 'center'}}>{
-                                    e.DebitoAutomaticoScoring && e.DebitoAutomaticoScoring === 1 ? <input type="checkbox" readOnly={true} checked /> : <input type="checkbox" disabled readOnly />
-                                    }
-                                </td>
-                                <td>{e.FechaIngresoTerminal?.slice(0,10).split('-').reverse().join('/')}</td>
-                                <td>{e.fechaCruceScoring?.slice(0,10).split('-').reverse().join('/')}</td>
-                                <td>{e.NomSupervisor}</td>
-                                <td style={{textAlignLast: 'center'}}>
-                                    {
-                                    e.EsMicro === 1 ? <input type="checkbox" readOnly={true} checked /> : <input type="checkbox" disabled readOnly />
-                                    }
-                                </td>
-                                <td>{e.NombreOficialPC}</td>
-                                 <td><button className={styles.buttonOperacion}>Ver operacion</button></td> 
-                            </tr>
-                            )
-                    }
-                </table>
-            </TableContainer>
-
-
-        </div>
-    )
+const renderDate = (data) => {
+    return data.text?.slice(0,10).split('-').reverse().join('/')
 }
 
+const renderTipoPlan = (data) => {
+
+        if (empresaReal === 'Alizze S.A.' && data.text === '1') return 'PLAN 84' 
+        if (empresaReal === 'Alizze S.A.' && data.text === '2') return 'PLAN 120' 
+        if(data.text === '1')  return '100 %' 
+        if(data.text === '2') return '70/30' 
+        if(data.text === '3') return '60/40' 
+        if(data.text === '4') return '75/25' 
+        if(data.text === '5') return '80/20'  
+        if(data.text === '6') return '90/10' 
+    
+}
+
+const renderCuota = (data) => {
+    return data.text.slice(0, data.text.length-3)
+}
+
+const renderCheck = (data) => {
+   if(data.value === 1) return <input type="checkbox" checked readOnly={true} />
+   else return <input type="checkbox" disabled />
+}
+
+const renderScoring = (data) => {
+    if(data.value === 2) return 'Ok'
+    else return 'Pendiente'
+}
+
+const renderClasificacion = (data) => {
+    if( data.value === 1 ) return 'Producción' 
+    if( data.value === 2 ) return 'Lista para enviar a terminal' 
+    if( data.value === 3 ) return 'Seña' 
+    if( data.value === 4 ) return 'Pendiente scoring terminal' 
+    if( data.value === 5 ) return 'Pendiente scoring terminal con faltante documentación'
+    if( data.value === 6 ) return 'Aprobadas scoring terminal con faltante documentación'  
+    if( data.value === 7 ) return 'Pendiente de Pre Scoring' 
+    if( data.value === 8 ) return 'Pre Scoring rechazado'  
+    if( data.value === 9 ) return 'Scoring terminal rechazado' 
+    if( data.value === 10) return  'Seña + Pend. Pre Scoring' 
+    if( data.value === 11) return  'Rechazadas' 
+}
+
+const renderButtonOperacion = () => {
+    return <button className={styles.buttonOperacion}>Ver Operacion</button>
+}
+
+
+return (
+    <div>
+        <DataGrid
+        dataSource={array ? array : null}
+        className={styles.dataGrid}
+        style={{fontSize: '10px'}}
+        paging={false}
+        columnAutoWidth={true}
+        
+        >
+        <Scrolling useNative={false} scrollByContent={true} scrollByThumb={true} mode="standard" />
+        {
+            title !== 'Mesa de Planes' ?
+        <Column
+          dataField="NomSupervisor"
+          groupIndex={0}
+          visible={false}
+          defaultVisible={false}
+          caption="Supervisor"
+          dataType="string"
+        /> : 
+        <Column
+        dataField="NomSup"
+        groupIndex={0}
+        visible={false}
+        defaultVisible={false}
+        caption="Supervisor"
+        dataType="string"
+      /> 
+        
+        }
+        {
+            title !== 'Mesa de Planes' ?
+            <Column
+                dataField="Fecha"
+                cellRender={renderDate}
+                caption="Fecha Alta"
+                dataType="string"
+                
+              /> : 
+              <Column
+              dataField="FechaVenta"
+              cellRender={renderDate}
+              caption="Fecha Alta"
+              dataType="string"
+              
+            />
+        }
+
+          
+        <Column 
+            dataField="Solicitud"
+            caption="Solicitud"
+            dataType="number"
+          /> 
+
+        <Column 
+            dataField="Cliente"
+            caption="Cliente"
+            dataType="string"
+          /> 
+
+        <Column 
+            dataField="NomVendedor"
+            caption="Vendedor"
+            dataType="string"
+          /> 
+        {
+            title !== 'Mesa de Planes' ? 
+            <Column 
+                dataField="Vehiculo"
+                caption="Modelo"
+                dataType="string"
+              /> : 
+              <Column 
+              dataField="NomModelo"
+              caption="Modelo"
+              dataType="string"
+            /> 
+        }
+        {
+            title === 'Mesa de Planes' &&
+            <Column 
+            dataField="VendedorVinculado"
+            caption="Vendedor Vinculado"
+            dataType="string"
+          />
+        }
+        {
+            title === 'Mesa de Planes' &&
+            <Column 
+            dataField="SupervisorVinculado"
+            caption="Supervisor Vinculado"
+            dataType="string"
+          />
+        }
+
+        <Column 
+            dataField="codigotipoplan"
+            caption="Tipo Plan"
+            cellRender={renderTipoPlan}
+            dataType="string"
+          />
+          
+        <Column 
+            dataField="ImporteCuota"
+            caption="Importe Total Cuota"
+            cellRender={renderCuota}
+            dataType="string"
+          />
+
+        {
+            title !== 'Mesa de Planes' &&
+        <Column 
+            dataField="Saldo"
+            caption="Saldo"
+            cellRender={renderCuota}
+            dataType="string"
+          />
+        }
+        {
+            title !== 'Mesa de Planes' &&
+        <Column
+            dataField="FechaCancelacion"
+            cellRender={renderDate}
+            caption="Fecha Estim. Cancelación"
+            dataType="string"
+          />
+        
+        }
+        {
+            title !== 'Mesa de Planes' &&
+        <Column
+            dataField="Dni"
+            cellRender={renderCheck}
+            caption="Tiene DNI"
+            dataType="string"
+          />
+        }
+
+        {
+            title !== 'Mesa de Planes' &&
+        <Column
+            dataField="Servicio"
+            cellRender={renderCheck}
+            caption="Tiene Servicio"
+            dataType="string"
+          />
+        }
+
+        {
+            title !== 'Mesa de Planes' &&
+        <Column
+            dataField="Anexos"
+            cellRender={renderCheck}
+            caption="Tiene Anexos"
+            dataType="string"
+          />
+        }
+        {
+            title !== 'Mesa de Planes' &&
+        <Column 
+            dataField="EstadoPrescoring"
+            caption="Estado Pre Scoring"
+            dataType="string"
+            cellRender={renderScoring}
+          />
+        }
+
+        {
+            title !== 'Mesa de Planes' &&
+        <Column 
+            dataField="Estadoscoring"
+            caption="Estado Scoring"
+            dataType="string"
+            cellRender={renderScoring}
+          />
+        }
+
+        {
+            title !== 'Mesa de Planes' &&
+        <Column 
+            dataField="Clasificacion"
+            caption=""
+            dataType="string"
+          />
+        }
+
+        {
+            title !== 'Mesa de Planes' &&
+        <Column 
+            dataField="Clasificacion"
+            caption="Clasificacion"
+            cellRender={renderClasificacion}
+            dataType="string"
+          />
+        }
+        {
+            title !== 'Mesa de Planes' &&
+        <Column 
+            dataField="TipoPrecio"
+            caption="Tipo Precio"
+            dataType="string"
+          />
+        }
+
+
+        <Column 
+            dataField="Precio"
+            caption="Valor del Vehiculo"
+            dataType="string"
+        />
+
+        <Column
+            dataField="DebitoAutomatico"
+            cellRender={renderCheck}
+            caption="Deb. Aut."
+            dataType="string"
+        />
+        {
+            title !==  'Mesa de Planes' &&
+        <Column
+            dataField="DebitoAutomaticoScoring"
+            cellRender={renderCheck}
+            caption="Deb. Aut. Sc."
+            dataType="string"
+          />
+        }
+
+        <Column
+            dataField="FechaIngresoTerminal"
+            cellRender={renderDate}
+            caption="Fecha Ing. Term."
+            dataType="string"
+        />
+        {
+            title !== 'Mesa de Planes' ? 
+            <Column 
+                dataField="NomSupervisor"
+                caption="Supervisor"
+                dataType="string"
+            /> : 
+            <Column 
+            dataField="NomSup"
+            caption="Supervisor"
+            dataType="string"
+            />
+        }
+
+        <Column
+            dataField="EsMicro"
+            cellRender={renderCheck}
+            caption="MiniEmprend."
+            dataType="string"
+        />
+        {
+            title !== 'Mesa de Planes' &&
+        <Column 
+            dataField="NombreOficialPC"
+            caption="Oficial Plan Canje"
+            dataType="string"
+        />
+        }
+        {
+            title !== 'Mesa de Planes' &&
+        <Column
+        cellRender={renderButtonOperacion}
+        width={100}
+        />
+        }
+
+        </DataGrid>
+    </div>
+)
+
+}
 
 export default TableDetalle
