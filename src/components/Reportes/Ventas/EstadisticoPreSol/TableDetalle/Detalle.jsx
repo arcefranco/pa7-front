@@ -5,7 +5,7 @@ import { useParams } from "react-router-dom";
 import TitleLogo from "../../../../../styled-components/containers/TitleLogo";
 import { ReturnLogo } from "../../../../../helpers/ReturnLogo";
 import TitlePrimary from "../../../../../styled-components/h/TitlePrimary";
-import TableDetalle2 from "./TableDetalle";
+import TableDetalle from "./TableDetalle";
 
 const Detalle = ({title}) => {
     const {data} = useSelector(state => state.PreSolVentas.preSolDetalle)
@@ -94,17 +94,13 @@ const Detalle = ({title}) => {
             <span>{empresaReal}</span>
             <ReturnLogo empresa={empresaReal}/>
           </div>
-        <TitlePrimary>Detalle {title}</TitlePrimary>
+        <TitlePrimary>Detalle {title} ({data?.length} operaciones)</TitlePrimary>
         </TitleLogo>
         {
             !isLoading ? 
         <div>
-{/*             {
-                Object.keys(groupBySupervisor).length && Object.keys(groupBySupervisor).map(e => 
-                    <TableDetalle title={e} array={groupBySupervisor[e]}/>
-                    )
-            } */}
-            <TableDetalle2 title={title} array={data}/>
+
+            <TableDetalle title={title} array={data}/>
 
 
         </div> : <div style={{textAlign: '-webkit-center'}}>Cargando...</div>
