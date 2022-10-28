@@ -1,5 +1,5 @@
 import React from "react";
-import 'devextreme/dist/css/dx.light.css';
+import 'devextreme/dist/css/dx.light.compact.css';
 import styles from '../PreSol.module.css'
 import { useSelector } from "react-redux";
 import DataGrid, {
@@ -31,7 +31,9 @@ const renderTipoPlan = (data) => {
 }
 
 const renderCuota = (data) => {
-    return data.text.slice(0, data.text.length-3)
+  console.log(data)
+    return (+data.text).toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') 
+    
 }
 
 const renderCheck = (data) => {
@@ -59,7 +61,7 @@ const renderClasificacion = (data) => {
 }
 
 const renderButtonOperacion = () => {
-    return <button className={styles.buttonOperacion}>Ver Operacion</button>
+    return <button className={styles.buttonOperacion}>Ver Operación</button>
 }
 
 
@@ -67,6 +69,7 @@ return (
     <div>
         <DataGrid
         dataSource={array ? array : null}
+        height={600}
         className={styles.dataGrid}
         style={{fontSize: '10px'}}
         paging={false}
@@ -76,265 +79,287 @@ return (
         <Scrolling useNative={false} scrollByContent={true} scrollByThumb={true} mode="standard" />
         {
             title !== 'Mesa de Planes' ?
-        <Column
-          dataField="NomSupervisor"
-          groupIndex={0}
-          visible={false}
-          defaultVisible={false}
-          caption="Supervisor"
-          dataType="string"
-        /> : 
-        <Column
-        dataField="NomSup"
-        groupIndex={0}
-        visible={false}
-        defaultVisible={false}
-        caption="Supervisor"
+          <Column
+            dataField="NomSupervisor"
+            groupIndex={0}
+            visible={false}
+            defaultVisible={false}
+            caption="Supervisor"
+            dataType="string"
+          /> :
+          <Column
+            dataField="NomSup"
+            groupIndex={0}
+            visible={false}
+            defaultVisible={false}
+            caption="Supervisor"
+            dataType="string"
+          />
+
+      }
+      {
+        title !== 'Mesa de Planes' ?
+          <Column
+            dataField="Fecha"
+            alignment={'center'}
+            cellRender={renderDate}
+            caption="Fecha Alta"
+            dataType="string"
+
+          /> :
+          <Column
+            dataField="FechaVenta"
+            alignment={'center'}
+            cellRender={renderDate}
+            caption="Fecha Alta"
+            dataType="string"
+
+          />
+      }
+
+      <Column
+        cssClass={styles.detalleTitle}
+        dataField="Solicitud"
+        caption="Solicitud"
+        dataType="number"
+      />
+
+      <Column
+        dataField="Cliente"
+        caption="Cliente"
         dataType="string"
-      /> 
-        
-        }
-        {
-            title !== 'Mesa de Planes' ?
-            <Column
-                dataField="Fecha"
-                cellRender={renderDate}
-                caption="Fecha Alta"
-                dataType="string"
-                
-              /> : 
-              <Column
-              dataField="FechaVenta"
-              cellRender={renderDate}
-              caption="Fecha Alta"
-              dataType="string"
-              
-            />
-        }
-
-          
-        <Column 
-            dataField="Solicitud"
-            caption="Solicitud"
-            dataType="number"
-          /> 
-
-        <Column 
-            dataField="Cliente"
-            caption="Cliente"
+      />
+      <Column
+        dataField="NomVendedor"
+        caption="Vendedor"
+        dataType="string"
+      />
+      {
+        title !== 'Mesa de Planes' ?
+          <Column
+            dataField="Vehiculo"
+            caption="Modelo"
             dataType="string"
-          /> 
-
-        <Column 
-            dataField="NomVendedor"
-            caption="Vendedor"
-            dataType="string"
-          /> 
-        {
-            title !== 'Mesa de Planes' ? 
-            <Column 
-                dataField="Vehiculo"
-                caption="Modelo"
-                dataType="string"
-              /> : 
-              <Column 
-              dataField="NomModelo"
-              caption="Modelo"
-              dataType="string"
-            /> 
-        }
-        {
-            title === 'Mesa de Planes' &&
-            <Column 
-            dataField="VendedorVinculado"
-            caption="Vendedor Vinculado"
+          /> :
+          <Column
+            dataField="NomModelo"
+            caption="Modelo"
             dataType="string"
           />
-        }
-        {
-            title === 'Mesa de Planes' &&
-            <Column 
-            dataField="SupervisorVinculado"
-            caption="Supervisor Vinculado"
-            dataType="string"
-          />
-        }
-
-        <Column 
-            dataField="codigotipoplan"
-            caption="Tipo Plan"
-            cellRender={renderTipoPlan}
-            dataType="string"
-          />
-          
-        <Column 
-            dataField="ImporteCuota"
-            caption="Importe Total Cuota"
-            cellRender={renderCuota}
-            dataType="string"
-          />
-
-        {
-            title !== 'Mesa de Planes' &&
-        <Column 
-            dataField="Saldo"
-            caption="Saldo"
-            cellRender={renderCuota}
-            dataType="string"
-          />
-        }
-        {
-            title !== 'Mesa de Planes' &&
+      }
+      {
+        title === 'Mesa de Planes' &&
         <Column
-            dataField="FechaCancelacion"
-            cellRender={renderDate}
-            caption="Fecha Estim. Cancelación"
-            dataType="string"
-          />
-        
-        }
-        {
-            title !== 'Mesa de Planes' &&
+          dataField="VendedorVinculado"
+          caption="Vendedor Vinculado"
+          dataType="string"
+        />
+      }
+      {
+        title === 'Mesa de Planes' &&
         <Column
-            dataField="Dni"
-            cellRender={renderCheck}
-            caption="Tiene DNI"
-            dataType="string"
-          />
-        }
+          dataField="SupervisorVinculado"
+          caption="Supervisor Vinculado"
+          dataType="string"
+        />
+      }
 
-        {
-            title !== 'Mesa de Planes' &&
+      <Column
+        dataField="codigotipoplan"
+        width={50}
+        caption="Tipo Plan"
+        cellRender={renderTipoPlan}
+        dataType="string"
+      />
+
+      <Column
+        dataField="ImporteCuota"
+        alignment={'right'}
+        caption="Importe Total Cuota"
+        cellRender={renderCuota}
+        dataType="string"
+      />
+
+      {
+        title !== 'Mesa de Planes' &&
         <Column
-            dataField="Servicio"
-            cellRender={renderCheck}
-            caption="Tiene Servicio"
-            dataType="string"
-          />
-        }
-
-        {
-            title !== 'Mesa de Planes' &&
+          dataField="Saldo"
+          caption="Saldo"
+          alignment={'right'}
+          cellRender={renderCuota}
+          dataType="string"
+        />
+      }
+      {
+        title !== 'Mesa de Planes' &&
         <Column
-            dataField="Anexos"
-            cellRender={renderCheck}
-            caption="Tiene Anexos"
-            dataType="string"
-          />
-        }
-        {
-            title !== 'Mesa de Planes' &&
-        <Column 
-            dataField="EstadoPrescoring"
-            caption="Estado Pre Scoring"
-            dataType="string"
-            cellRender={renderScoring}
-          />
-        }
-
-        {
-            title !== 'Mesa de Planes' &&
-        <Column 
-            dataField="Estadoscoring"
-            caption="Estado Scoring"
-            dataType="string"
-            cellRender={renderScoring}
-          />
-        }
-
-        {
-            title !== 'Mesa de Planes' &&
-        <Column 
-            dataField="Clasificacion"
-            caption=""
-            dataType="string"
-          />
-        }
-
-        {
-            title !== 'Mesa de Planes' &&
-        <Column 
-            dataField="Clasificacion"
-            caption="Clasificacion"
-            cellRender={renderClasificacion}
-            dataType="string"
-          />
-        }
-        {
-            title !== 'Mesa de Planes' &&
-        <Column 
-            dataField="TipoPrecio"
-            caption="Tipo Precio"
-            dataType="string"
-          />
-        }
-
-
-        <Column 
-            dataField="Precio"
-            caption="Valor del Vehiculo"
-            dataType="string"
+          dataField="FechaCancelacion"
+          alignment={'center'}
+          width={80}
+          cellRender={renderDate}
+          caption="Fecha Estim. Cancelación"
+          dataType="string"
         />
 
+      }
+      {
+        title !== 'Mesa de Planes' &&
         <Column
-            dataField="DebitoAutomatico"
-            cellRender={renderCheck}
-            caption="Deb. Aut."
-            dataType="string"
+          dataField="Dni"
+          width={40}
+          cellRender={renderCheck}
+          alignment={'center'}
+          caption="Tiene DNI"
+          dataType="string"
         />
-        {
-            title !==  'Mesa de Planes' &&
-        <Column
-            dataField="DebitoAutomaticoScoring"
-            cellRender={renderCheck}
-            caption="Deb. Aut. Sc."
-            dataType="string"
-          />
-        }
+      }
 
+      {
+        title !== 'Mesa de Planes' &&
         <Column
-            dataField="FechaIngresoTerminal"
-            cellRender={renderDate}
-            caption="Fecha Ing. Term."
-            dataType="string"
+          dataField="Servicio"
+          width={40}
+          cellRender={renderCheck}
+          alignment={'center'}
+          caption="Tiene Servicio"
+          dataType="string"
         />
-        {
-            title !== 'Mesa de Planes' ? 
-            <Column 
-                dataField="NomSupervisor"
-                caption="Supervisor"
-                dataType="string"
-            /> : 
-            <Column 
+      }
+
+      {
+        title !== 'Mesa de Planes' &&
+        <Column
+          dataField="Anexos"
+          width={40}
+          cellRender={renderCheck}
+          alignment={'center'}
+          caption="Tiene Anexos"
+          dataType="string"
+        />
+      }
+      {
+        title !== 'Mesa de Planes' &&
+        <Column
+          dataField="EstadoPrescoring"
+          caption="Estado Pre Scoring"
+          dataType="string"
+          cellRender={renderScoring}
+        />
+      }
+
+      {
+        title !== 'Mesa de Planes' &&
+        <Column
+          dataField="Estadoscoring"
+          caption="Estado Scoring"
+          dataType="string"
+          cellRender={renderScoring}
+        />
+      }
+
+      {
+        title !== 'Mesa de Planes' &&
+        <Column
+          dataField="Clasificacion"
+          caption=""
+          dataType="string"
+        />
+      }
+
+      {
+        title !== 'Mesa de Planes' &&
+        <Column
+          dataField="Clasificacion"
+          caption="Clasificación"
+          cellRender={renderClasificacion}
+          dataType="string"
+        />
+      }
+      {
+        title !== 'Mesa de Planes' &&
+        <Column
+          dataField="TipoPrecio"
+          caption="Tipo Precio"
+          alignment={'center'}
+          width={40}
+          dataType="string"
+        />
+      }
+
+
+      <Column
+        dataField="Precio"
+        caption="Valor del Vehículo"
+        dataType="string"
+      />
+
+      <Column
+        dataField="DebitoAutomatico"
+        width={40}
+        cellRender={renderCheck}
+        alignment={'center'}
+        caption="Deb. Aut."
+        dataType="string"
+      />
+      {
+        title !== 'Mesa de Planes' &&
+        <Column
+          dataField="DebitoAutomaticoScoring"
+          width={40}
+          cellRender={renderCheck}
+          alignment={'center'}
+          caption="Deb. Aut. Sc."
+          dataType="string"
+        />
+      }
+
+      <Column
+        dataField="FechaIngresoTerminal"
+        width={80}
+        alignment={'center'}
+        cellRender={renderDate}
+        caption="Fecha Ing. Term."
+        dataType="string"
+      />
+      {
+        title !== 'Mesa de Planes' ?
+          <Column
+            dataField="NomSupervisor"
+            caption="Supervisor"
+            dataType="string"
+          /> :
+          <Column
             dataField="NomSup"
             caption="Supervisor"
             dataType="string"
-            />
-        }
+          />
+      }
 
+      <Column
+        dataField="EsMicro"
+        width={40}
+        cellRender={renderCheck}
+        alignment={'center'}
+        caption="MiniEmprend."
+        dataType="string"
+      />
+      {
+        title !== 'Mesa de Planes' &&
         <Column
-            dataField="EsMicro"
-            cellRender={renderCheck}
-            caption="MiniEmprend."
-            dataType="string"
+          dataField="NombreOficialPC"
+          caption="Oficial Plan Canje"
+          dataType="string"
         />
-        {
-            title !== 'Mesa de Planes' &&
-        <Column 
-            dataField="NombreOficialPC"
-            caption="Oficial Plan Canje"
-            dataType="string"
-        />
-        }
-        {
-            title !== 'Mesa de Planes' &&
+      }
+      {
+        title !== 'Mesa de Planes' &&
         <Column
-        cellRender={renderButtonOperacion}
-        width={100}
+          cellRender={renderButtonOperacion}
+          width={100}
         />
-        }
+      }
 
-        </DataGrid>
+    </DataGrid>
     </div>
 )
 

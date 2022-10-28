@@ -8,6 +8,8 @@ import ButtonPrimary from "../../../../styled-components/buttons/ButtonPrimary";
 import { getPreSol } from "../../../../reducers/Reportes/Ventas/PreSolSlice";
 import 'devextreme/dist/css/dx.light.css';
 import { useNavigate } from "react-router-dom";
+import esMessages from 'devextreme/localization/messages/es.json'
+import { loadMessages, locale } from "devextreme/localization";
 import DataGrid, {
   Column,
   Summary,
@@ -21,12 +23,16 @@ const PreSolGrid = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { empresaReal, codigoMarca } = useSelector(state => state.login.user)
-  const { status, data } = useSelector(state => state.PreSolVentas.preSolSelected)
-  const {fechaD, fechaH, pMarca} = useSelector(state => state.PreSolVentas.paramsDetalles)
-  const [supBsAs, setSupBsAs] = useState([])
+  const { data } = useSelector(state => state.PreSolVentas.preSolSelected)
+  const { isLoading } = useSelector(state => state.PreSolVentas)
+  const {fechaD, fechaH} = useSelector(state => state.PreSolVentas.paramsDetalles)
   const [totalSupervisores, setTotalSupervisores] = useState([])
   const [totalSupervisoresFilter, setTotalSupervisoresFilter] = useState([])
   
+  useEffect(() => {
+    loadMessages(esMessages)
+    locale(navigator.language)
+  }, [])
 
   useEffect(() => {
     
@@ -119,22 +125,22 @@ const getProm = (data) => {
 
   const helperOnCellPreprared = (e, url) => {
     console.log('aca')
-      let arr = [];
-      if(e.row.data.items[0].hasOwnProperty('key')){
-        e.row.data.items.map(e => {
-          if(e.hasOwnProperty('collapsedItems')){
-            arr = [...arr, arr.concat(e.collapsedItems[0].CodSucursal)]
-          }else{
-            arr = [...arr, arr.concat(e.items[0].CodSucursal)]
-          }
-        })
-        arr = arr.flat(1).filter(e => typeof e === 'number')
-          navigate(`/reportes/preSol/${url}/${fechaD.split('-').join("")}/${fechaH.split('-').join("")}/${codigoMarca}/[${arr}]`)  
-
-        }else{
-          navigate(`/reportes/preSol/${url}/${fechaD.split('-').join("")}/${fechaH.split('-').join("")}/${codigoMarca}/[${e.row.data.items[0].CodSucursal}]`)
+    let arr = [];
+    if (e.row.data.items[0].hasOwnProperty('key')) {
+      e.row.data.items.map(e => {
+        if (e.hasOwnProperty('collapsedItems')) {
+          arr = [...arr, arr.concat(e.collapsedItems[0].CodSucursal)]
+        } else {
+          arr = [...arr, arr.concat(e.items[0].CodSucursal)]
         }
+      })
+      arr = arr.flat(1).filter(e => typeof e === 'number')
+      window.open(`/reportes/preSol/${url}/${fechaD.split('-').join("")}/${fechaH.split('-').join("")}/${codigoMarca}/[${arr}]`, '_blank')
+
+    } else {
+      window.open(`/reportes/preSol/${url}/${fechaD.split('-').join("")}/${fechaH.split('-').join("")}/${codigoMarca}/[${e.row.data.items[0].CodSucursal}]`, '_blank')
     }
+  }
 
   const helperOnCellGroup = (e, url) => {
    
@@ -149,7 +155,7 @@ const getProm = (data) => {
     })
     arr = arr.flat(1).map(e => !Array.isArray(e) ? e.items[0].CodSucursal : e[0].items[0].CodSucursal)
     arr = [...new Set(arr)]
-    navigate(`/reportes/preSol/${url}/${fechaD.split('-').join("")}/${fechaH.split('-').join("")}/${codigoMarca}/[${arr}]`)  
+    window.open(`/reportes/preSol/${url}/${fechaD.split('-').join("")}/${fechaH.split('-').join("")}/${codigoMarca}/[${arr}]`, '_blank')  
   }
     
 
@@ -250,12 +256,14 @@ const getProm = (data) => {
 
   return (
     <>
+    
       <TitleLogo>
         <div>
           <span>{empresaReal}</span>
           <ReturnLogo empresa={empresaReal} />
         </div>
-        <TitlePrimary>Estadístico Pre-Sol</TitlePrimary>
+        <TitlePrimary>Estadístico Pre-Solicitud</TitlePrimary>
+       
       </TitleLogo>
       <div className={styles.selectContainer}>
         <div className={styles.selects}>
@@ -304,10 +312,13 @@ const getProm = (data) => {
 
       </div>
 
-
+      {
+  isLoading && <div className={styles.loadingGrid}>Cargando...</div>
+}
 
       <DataGrid
         dataSource={data ? data : null}
+
         className={styles.dataGrid}
         style={{fontSize: '10px'}}
         paging={false}
@@ -351,6 +362,7 @@ const getProm = (data) => {
             dataField="NomVendedor"
             caption="Vendedor"
             dataType="date"
+            cssClass={styles.vendedorColumn}
             width={100}
           /> 
 
@@ -367,7 +379,7 @@ const getProm = (data) => {
           <Column dataField="VentasMP" dataType="number" cellRender={renderGridCell} width={85} />
           <Column dataField="Crucescoring" caption="Cruce Scoring" dataType="number" cellRender={renderGridCell} />
           <Column dataField="Objetivo" dataType="number" cellRender={renderGridCell}   />
-          <Column dataField="Produccion" dataType="number" cssClass={styles.columnProd} cellRender={renderGridCell}/>
+          <Column dataField="Produccion" caption="Producción" dataType="number" cssClass={styles.columnProd} cellRender={renderGridCell}/>
         </Column>
 
         <Column caption='CLASFICACIONES PENDIENTES'  cssClass={styles.title}>
