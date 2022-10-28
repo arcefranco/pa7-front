@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getDetalleIngresadas, getDetalleAnulRechaz, getDetalleCruceScoring, getDetalleProduccion, getDetallePendientes, getDetalleTresYSiete, getDetalleProdYCS } from "../../../../../reducers/Reportes/Ventas/PreSolSlice";
+import { getDetalleIngresadas, getDetalleMP, getDetalleAnulRechaz, getDetalleCruceScoring, getDetalleProduccion, getDetallePendientes, getDetalleTresYSiete, getDetalleProdYCS } from "../../../../../reducers/Reportes/Ventas/PreSolSlice";
 import { useParams } from "react-router-dom";
 import TitleLogo from "../../../../../styled-components/containers/TitleLogo";
 import { ReturnLogo } from "../../../../../helpers/ReturnLogo";
 import TitlePrimary from "../../../../../styled-components/h/TitlePrimary";
-import groupBy from "../../../../../helpers/groupBy";
-import TableDetalle from "./TableDetalle";
+import TableDetalle2 from "./TableDetalle";
 
 const Detalle = ({title}) => {
     const {data} = useSelector(state => state.PreSolVentas.preSolDetalle)
@@ -74,34 +73,18 @@ const Detalle = ({title}) => {
                 codMarca: codMarca,
                 codSup: JSON.parse(codSup)
             }))
-        }
-        
-        
-   
-        
+        }else if(title === 'Mesa de Planes'){
 
+            dispatch(getDetalleMP({
+                fechaD: fechaD,
+                fechaH: fechaH,
+                codMarca: codMarca,
+                codSup: JSON.parse(codSup)
+            }))
+        }
 
     }, [])
 
-    useEffect(() => {
-
-        if(Array.isArray(data) && data.length){
-
-            if(title === 'Anuladas Rechazadas'){
-
-                setGroupBySupervisor(groupBy(data, 'NomSup'));
-                
-            }else{
-                
-                setGroupBySupervisor(groupBy(data, 'NomSupervisor'));
-
-            }
-
-            
-        }
-        
-
-    }, [data])
 
     return ( 
         <div> 
@@ -116,13 +99,15 @@ const Detalle = ({title}) => {
         {
             !isLoading ? 
         <div>
-            {
+{/*             {
                 Object.keys(groupBySupervisor).length && Object.keys(groupBySupervisor).map(e => 
                     <TableDetalle title={e} array={groupBySupervisor[e]}/>
                     )
-            }
+            } */}
+            <TableDetalle2 title={title} array={data}/>
 
-        </div> : <div>Cargando...</div>
+
+        </div> : <div style={{textAlign: '-webkit-center'}}>Cargando...</div>
         }
         </div>
     )

@@ -27,12 +27,9 @@ import Gerentes from './components/ConfigDatosGenerales/Gerentes/Gerentes';
 import Vendedores from './components/ConfigDatosGenerales/Vendedores/Vendedores';
 import Sucursales from './components/ConfigDatosGenerales/Sucursales/Sucursales';
 import React from 'react';
-import PreSolMenu2 from './components/Reportes/Ventas/EstadisticoPre2/PreSolMenu2';
 import Error552 from './pages/Error552';
-import PreSolMenu from './components/Reportes/Ventas/EstadisticoPreSol/PreSolMenu';
 import Detalle from './components/Reportes/Ventas/EstadisticoPreSol/TableDetalle/Detalle';
-import DetalleMP from './components/Reportes/Ventas/EstadisticoPreSol/TableDetalleMP/DetalleMP';
-import TableTest from './components/Reportes/Ventas/EstadisticoPre2/TableTest';
+import PreSolGrid from './components/Reportes/Ventas/EstadisticoPreSol/PreSolGrid';
 function App() {
   const {user, toggle} = useSelector(
     (state) => state.login)
@@ -106,7 +103,7 @@ function App() {
           <Route path='/Estructura' element={<Estructura/>}/>
           <Route path='/404' element={<Error404/>}/>
           <Route path='/listasprecios' element={<ListasPrecios/>}/>
-          <Route path='/reportes/preSol' element={<TableTest/>}/>
+          <Route path='/reportes/preSol' element={<PreSolGrid/>}/>
           <Route path='/reportes/preSol/ingresadas/:fechaD/:fechaH/:codMarca/:codSup' element={<Detalle title={'Ingresadas'}/>}/>
           <Route path='/reportes/preSol/anulRechaz/:fechaD/:fechaH/:codMarca/:codSup' element={<Detalle title={'Anuladas Rechazadas'}/>}/>
           <Route path='/reportes/preSol/cruceScoring/:fechaD/:fechaH/:codMarca/:codSup' element={<Detalle title={'Cruce Scoring'}/>}/>
@@ -114,7 +111,7 @@ function App() {
           <Route path='/reportes/preSol/Pendientes/:fechaD/:fechaH/:codMarca/:codSup' element={<Detalle title={'Pendientes'}/>}/>
           <Route path='/reportes/preSol/TresYSiete/:fechaD/:fechaH/:codMarca/:codSup' element={<Detalle title={'Anuladas 3 + 7'}/>}/>
           <Route path='/reportes/preSol/ProdYCS/:fechaD/:fechaH/:codMarca/:codSup' element={<Detalle title={'Produccion + Cruce Scoring'}/>}/>
-          <Route path='/reportes/preSol/MP/:fechaD/:fechaH/:codMarca/:codSup' element={<DetalleMP/>}/>
+          <Route path='/reportes/preSol/MP/:fechaD/:fechaH/:codMarca/:codSup' element={<Detalle title={'Mesa de Planes'}/>}/>
         </Routes> 
         </div>
        

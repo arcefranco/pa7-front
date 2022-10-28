@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from '../EstadisticoPreSol/PreSol.module.css'
 import { useSelector, useDispatch } from "react-redux";
 import TitleLogo from "../../../../styled-components/containers/TitleLogo";
@@ -7,24 +7,36 @@ import { ReturnLogo } from "../../../../helpers/ReturnLogo";
 import ButtonPrimary from "../../../../styled-components/buttons/ButtonPrimary";
 import { getPreSol } from "../../../../reducers/Reportes/Ventas/PreSolSlice";
 import 'devextreme/dist/css/dx.light.css';
-
+import { useNavigate } from "react-router-dom";
 import DataGrid, {
   Column,
-  Grouping,
-  GroupPanel,
-  Pager,
-  Paging,
-  SearchPanel,
   Summary,
   TotalItem,
-  GroupItem
+  GroupItem,
+  Scrolling
 } from 'devextreme-react/data-grid';
 
 
-const TableTest = () => {
+const PreSolGrid = () => {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const { empresaReal, codigoMarca } = useSelector(state => state.login.user)
   const { status, data } = useSelector(state => state.PreSolVentas.preSolSelected)
+  const {fechaD, fechaH, pMarca} = useSelector(state => state.PreSolVentas.paramsDetalles)
+  const [supBsAs, setSupBsAs] = useState([])
+  const [totalSupervisores, setTotalSupervisores] = useState([])
+  const [totalSupervisoresFilter, setTotalSupervisoresFilter] = useState([])
+  
+
+  useEffect(() => {
+    
+    setTotalSupervisores(data?.map(e => e.CodSucursal))
+   
+  }, [data])
+  useEffect(() => {
+    setTotalSupervisoresFilter(totalSupervisores?.filter((item,
+        index) => totalSupervisores.indexOf(item) === index))
+  }, [totalSupervisores])
 
   const [form, setForm] = useState({
     fechaD: '',
@@ -97,6 +109,142 @@ const getProm = (data) => {
     else return 'Micro Emprendedores'
   }
 
+  const onCellPrepared2 = (e) => {
+    if (e.rowType === 'totalFooter') {
+      e.cellElement.style.backgroundColor = '#4b5866ad' 
+    }else if (e.rowType === 'groupFooter'){
+      e.cellElement.style.backgroundColor = '#4b586678' 
+    }
+    }
+
+  const helperOnCellPreprared = (e, url) => {
+    console.log('aca')
+      let arr = [];
+      if(e.row.data.items[0].hasOwnProperty('key')){
+        e.row.data.items.map(e => {
+          if(e.hasOwnProperty('collapsedItems')){
+            arr = [...arr, arr.concat(e.collapsedItems[0].CodSucursal)]
+          }else{
+            arr = [...arr, arr.concat(e.items[0].CodSucursal)]
+          }
+        })
+        arr = arr.flat(1).filter(e => typeof e === 'number')
+          navigate(`/reportes/preSol/${url}/${fechaD.split('-').join("")}/${fechaH.split('-').join("")}/${codigoMarca}/[${arr}]`)  
+
+        }else{
+          navigate(`/reportes/preSol/${url}/${fechaD.split('-').join("")}/${fechaH.split('-').join("")}/${codigoMarca}/[${e.row.data.items[0].CodSucursal}]`)
+        }
+    }
+
+  const helperOnCellGroup = (e, url) => {
+   
+    let arr = [];
+    e.row.data.items.map(e => {
+      if(e.hasOwnProperty('collapsedItems')){
+        arr = [...arr, arr.concat(e.collapsedItems)]
+      }else{
+        arr = [...arr, arr.concat(e.items)]
+        
+      }
+    })
+    arr = arr.flat(1).map(e => !Array.isArray(e) ? e.items[0].CodSucursal : e[0].items[0].CodSucursal)
+    arr = [...new Set(arr)]
+    navigate(`/reportes/preSol/${url}/${fechaD.split('-').join("")}/${fechaH.split('-').join("")}/${codigoMarca}/[${arr}]`)  
+  }
+    
+
+  const onCellPrepared = (e) => {
+
+  
+  if(e.rowType === 'groupFooter' && e.column.dataField === 'Ingresadas' && e.key.length > 1){
+
+    helperOnCellPreprared(e,'ingresadas') 
+
+  } else if(e.rowType === 'groupFooter' && e.column.dataField === 'Ingresadas'){
+    helperOnCellGroup(e, 'ingresadas')
+  }
+  
+  else if (e.rowType === 'totalFooter' && e.column.dataField === 'Ingresadas'){
+    navigate(`/reportes/preSol/ingresadas/${fechaD.split('-').join("")}/${fechaH.split('-').join("")}/${codigoMarca}/[${totalSupervisoresFilter}]`)
+  
+  }else if (e.rowType === 'groupFooter' && e.column.dataField === 'VentasMP' && e.key.length > 1){
+    helperOnCellPreprared(e, 'MP')
+
+  }else if(e.rowType === 'groupFooter' && e.column.dataField === 'VentasMP'){
+    helperOnCellGroup(e, 'MP')
+   
+  }else if (e.rowType === 'totalFooter' && e.column.dataField === 'VentasMP'){
+    navigate(`/reportes/preSol/MP/${fechaD.split('-').join("")}/${fechaH.split('-').join("")}/${codigoMarca}/[${totalSupervisoresFilter}]`)
+  
+  }else if(e.rowType === 'groupFooter' && e.column.dataField === 'Crucescoring'  && e.key.length > 1){
+    helperOnCellPreprared(e, 'cruceScoring')
+
+  }else if(e.rowType === 'groupFooter' && e.column.dataField === 'Crucescoring'){
+    helperOnCellGroup(e, 'cruceScoring')
+
+  }else if (e.rowType === 'totalFooter' && e.column.dataField === 'Crucescoring'){
+
+    navigate(`/reportes/preSol/cruceScoring/${fechaD.split('-').join("")}/${fechaH.split('-').join("")}/${codigoMarca}/[${totalSupervisoresFilter}]`)
+  }else if(e.rowType === 'groupFooter' && e.column.dataField === 'Produccion'  && e.key.length > 1){
+
+    helperOnCellPreprared(e, 'Produccion')
+  }else if(e.rowType === 'groupFooter' && e.column.dataField === 'Produccion'){
+
+    helperOnCellGroup(e, 'Produccion')
+
+  }else if (e.rowType === 'totalFooter' && e.column.dataField === 'Produccion'){
+
+    navigate(`/reportes/preSol/Produccion/${fechaD.split('-').join("")}/${fechaH.split('-').join("")}/${codigoMarca}/[${totalSupervisoresFilter}]`)
+
+  }else if(e.rowType === 'groupFooter' && (e.column.dataField === 'SubTotal1' || e.column.dataField === 'SubTotal2' )  && e.key.length > 1){
+
+    helperOnCellPreprared(e, 'Pendientes')
+  }else if(e.rowType === 'groupFooter' && (e.column.dataField === 'SubTotal1' || e.column.dataField === 'SubTotal2' )){
+
+    helperOnCellGroup(e, 'Pendientes')
+
+  }else if (e.rowType === 'totalFooter' && (e.column.dataField === 'SubTotal1' || e.column.dataField === 'SubTotal2' )){
+
+    navigate(`/reportes/preSol/Pendientes/${fechaD.split('-').join("")}/${fechaH.split('-').join("")}/${codigoMarca}/[${totalSupervisoresFilter}]`)
+
+  }else if(e.rowType === 'groupFooter' && e.column.dataField === 'AnuladaTresYSiete'  && e.key.length > 1){
+
+    helperOnCellPreprared(e, 'TresYSiete')
+  }else if(e.rowType === 'groupFooter' && e.column.dataField === 'AnuladaTresYSiete'){
+
+    helperOnCellGroup(e, 'TresYSiete')
+
+  }else if (e.rowType === 'totalFooter' && e.column.dataField === 'AnuladaTresYSiete'){
+
+    navigate(`/reportes/preSol/TresYSiete/${fechaD.split('-').join("")}/${fechaH.split('-').join("")}/${codigoMarca}/[${totalSupervisoresFilter}]`)
+
+  }else if(e.rowType === 'groupFooter' && e.column.dataField === 'AnuladaRechazada'  && e.key.length > 1){
+
+    helperOnCellPreprared(e, 'anulRechaz')
+  }else if(e.rowType === 'groupFooter' && e.column.dataField === 'AnuladaRechazada'){
+
+    helperOnCellGroup(e, 'anulRechaz')
+
+  }else if (e.rowType === 'totalFooter' && e.column.dataField === 'AnuladaRechazada'){
+
+    navigate(`/reportes/preSol/anulRechaz/${fechaD.split('-').join("")}/${fechaH.split('-').join("")}/${codigoMarca}/[${totalSupervisoresFilter}]`)
+
+  }else if(e.rowType === 'groupFooter' && e.column.dataField === 'GB'  && e.key.length > 1){
+
+    helperOnCellPreprared(e, 'ProdYCS')
+  }else if(e.rowType === 'groupFooter' && e.column.dataField === 'GB'){
+
+    helperOnCellGroup(e, 'ProdYCS')
+
+  }else if (e.rowType === 'totalFooter' && e.column.dataField === 'GB'){
+
+    navigate(`/reportes/preSol/ProdYCS/${fechaD.split('-').join("")}/${fechaH.split('-').join("")}/${codigoMarca}/[${totalSupervisoresFilter}]`)
+
+  }
+
+  }
+
+  
 
 
 
@@ -163,13 +311,13 @@ const getProm = (data) => {
         className={styles.dataGrid}
         style={{fontSize: '10px'}}
         paging={false}
-     
-      /*         rowAlternationEnabled={true}
-              showBorders={true} */
-      /*         onContentReady={this.onContentReady} */
-      >
-{/*         <GroupPanel />
-        <Grouping /> */}
+        onCellClick={onCellPrepared}
+        onCellPrepared={onCellPrepared2}
+        
+        >
+
+        <Scrolling useNative={false} scrollByContent={true} mode="standard" />
+          
         <Column
           dataField='NombreZona'
           visible={false}
@@ -250,15 +398,16 @@ const getProm = (data) => {
         </Column>
 
 
-        <Summary>
 
+        <Summary >
 
           <GroupItem
             column="Ingresadas"
             summaryType="sum"
-            showInGroupFooter={true}
-            displayFormat="{0}"
+            showInGroupFooter={true} 
+            displayFormat="{0}"     
           />
+
           <GroupItem
             column="VentasMP"
             summaryType="sum"
@@ -344,10 +493,6 @@ const getProm = (data) => {
           <GroupItem
             column="SubTotal2"
             showInGroupFooter={true}
-
-            /*         name="customSummary1" */
-
-
             summaryType="sum"
             displayFormat="{0}"
           />
@@ -396,6 +541,7 @@ const getProm = (data) => {
             showInGroupFooter={true}
             displayFormat="{0}"
           />
+  
 
         <TotalItem
             column="Ingresadas"
@@ -513,10 +659,8 @@ const getProm = (data) => {
             column="GB"
             summaryType="sum"
             displayFormat="{0}"
-           
           />
         </Summary>
-
       </DataGrid>
 
     </>
@@ -524,4 +668,4 @@ const getProm = (data) => {
 
 }
 
-export default TableTest
+export default PreSolGrid
