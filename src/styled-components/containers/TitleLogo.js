@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export default styled.div`
 display: flex;
-width: 25rem;
+width: 26rem;
 align-items: center;
 margin-left: .8rem;
 .logoShort {

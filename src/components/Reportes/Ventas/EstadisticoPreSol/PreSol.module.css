@@ -12,11 +12,24 @@
     text-align: -webkit-center;
     display: flex;
     flex-direction: column;
-    margin-top: 3rem;
+    margin-top: 1rem;
+    margin-bottom: 3rem;
     align-items: center;
 
 }
-
+.vendedorColumn{
+    font-size: 9px;
+}
+.loadingGrid{
+    height: -webkit-fill-available;
+    position: absolute;
+    z-index: 1;
+    width: -webkit-fill-available;
+    background: #928d8d94;
+    display: flex;
+    align-items: center;
+    place-content: center;
+}
 .selectGrid {
     display: flex;
     padding-top: 2rem;
@@ -84,7 +97,7 @@
     box-shadow: none;
     min-width: 4.5em;
     color: white;
-    margin: 0.2em;
+    margin: 0.05em;
     font-size: .9em;
 }
 
@@ -105,7 +118,7 @@
 
 .dataGrid{
     margin: 7px; 
-    font-size: 9px;
+    font-size: 11px;
 }
 
  .columnIng {
@@ -123,4 +136,9 @@
 .columnTot2{
     background-color: rgba(255, 166, 0, 0.619);
 }
+
+.dx-datagrid-headers .detalleTitle {  
+    background-color: red;  
+}  
+
 
