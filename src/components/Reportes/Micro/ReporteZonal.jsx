@@ -74,14 +74,21 @@ const ReporteZonal = () => {
         <DataGrid
         onCellPrepared={onCellPrepared}
         style={{fontSize: '10px'}}
+        height={450}
+        columnAutoWidth={true}
         paging={false}
         dataSource={data ? Object.values(data[0]) : null}>
+
+        <Scrolling useNative={false} scrollByContent={true} /* scrollByThumb={true} */ mode="standard" />
+
           <Column alignment={'center'} caption="">
           <Column alignment={'center'}  dataField="t_nombreGerente" caption="Gerente" groupIndex={0}></Column>
           <Column 
           dataField="t_nombreSupervisor"
           caption="Supervisor"
           width={200}
+         
+         
           />
           
           <Column alignment={'center'} dataField="t_objetivo" cssClass={styles.columnRed} caption="Objetivo"/>
