@@ -37,7 +37,11 @@
     height: 2rem;
     cursor: pointer;
 }
-
+.buttonContainer{
+    display: flex;
+    justify-content: flex-end;
+    column-gap: 10px;
+}
 .buttonRows{
     border-radius: .3em;
     border: solid 0px rgb(0, 0, 0);

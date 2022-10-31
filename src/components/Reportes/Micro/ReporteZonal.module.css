@@ -1,0 +1,10 @@
+.loadingDiv{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    align-items: center;
+    z-index: 1;
+    width: -webkit-fill-available;
+    background: #00000040;
+    height: -webkit-fill-available;
+}

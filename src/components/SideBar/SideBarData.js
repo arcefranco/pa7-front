@@ -314,7 +314,10 @@ export const SidebarData = [
       {title: 'Call Center', rol:'1.10.5', cName:'subMenuL2'},
       {title: 'Mesa de Planes', rol:'1.10.6', cName:'subMenuL2'},
       {title: 'Scoring', rol:'1.10.7', cName:'subMenuL2'},
-      {title: 'Micro Emprendedores', rol:'1.10.8', cName:'subMenuL2'},
+      {title: 'Micro Emprendedores', rol:'1.10.8', cName:'subMenuL2',
+        options:[
+          {title: 'Reporte Zonal', rol: '1.10.8', cName:'subMenuL2', path:'/reportes/Micro/Zonal'}
+        ]},
     ]
   },
   {

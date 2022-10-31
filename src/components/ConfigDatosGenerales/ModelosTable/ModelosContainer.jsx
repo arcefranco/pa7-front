@@ -7,8 +7,11 @@ import * as BiIcons from 'react-icons/bi';
 import { useTable, useSortBy, usePagination, useGlobalFilter, useFilters} from 'react-table';
 import styles from '../../../styles/Table.module.css';
 import Swal from 'sweetalert2';
+import ButtonPrimary from '../../../styled-components/buttons/ButtonPrimary';
 import { ExportCSV } from '../../../helpers/exportCSV';
-
+import TitleLogo from "../../../styled-components/containers/TitleLogo";
+import TitlePrimary from "../../../styled-components/h/TitlePrimary";
+import { ReturnLogo } from "../../../helpers/ReturnLogo";
 import './modelos.module.css';
 
 
@@ -16,6 +19,7 @@ const ModelosContainer = ({columns, modelos}) => {
 
   const [pageHistory, setPageHistory] = useState('')
   const {roles} = useSelector((state) => state.login.user)
+  const {empresaReal} = useSelector(state => state.login.user)
 const rolAltayModif = roles.find(e => e.rl_codigo === '1.2.2' || e.rl_codigo === '1')
 
 useEffect(() => {
@@ -46,16 +50,21 @@ const {globalFilter} = state
 
       
   <div className={styles.title}>
-      <span className={styles.titleContainer}>
-        <h3>Modelos</h3>
+        <TitleLogo>
+          <div>
+            <span>{empresaReal}</span>
+            <ReturnLogo empresa={empresaReal}/>
+          </div>
+        <TitlePrimary>Modelos</TitlePrimary>
+        </TitleLogo>
       <div className={styles.buttonContainer}>
       {rolAltayModif ?
-       <><Link to={'/altaModelos'}><button>Nuevo</button></Link>
-        <ExportCSV csvData={modelos} fileName={'Modelos'} /></> :
-         <Link to={'/altaModelos'}><button disabled>Nuevo</button></Link>
+       <><Link to={'/altaModelos'}><ButtonPrimary>Nuevo</ButtonPrimary></Link>
+     {/*    <ExportCSV csvData={modelos} fileName={'Modelos'} /> */}</> :
+         <Link to={'/altaModelos'}><ButtonPrimary disabled>Nuevo</ButtonPrimary></Link>
       }
       </div> 
-      </span>
+    
       <>
       <TableContainer>
       <div className={styles.tableContainer}>
