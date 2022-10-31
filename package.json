@@ -62,5 +62,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "devextreme-cldr-data": "^1.0.3",
+    "globalize": "^1.7.0"
   }
 }

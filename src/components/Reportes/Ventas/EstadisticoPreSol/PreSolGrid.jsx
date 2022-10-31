@@ -8,7 +8,7 @@ import ButtonPrimary from "../../../../styled-components/buttons/ButtonPrimary";
 import { getPreSol } from "../../../../reducers/Reportes/Ventas/PreSolSlice";
 import 'devextreme/dist/css/dx.light.css';
 import { useNavigate } from "react-router-dom";
-import esMessages from 'devextreme/localization/messages/es.json'
+import es from 'devextreme/localization/messages/es.json'
 import { loadMessages, locale } from "devextreme/localization";
 import DataGrid, {
   Column,
@@ -30,8 +30,13 @@ const PreSolGrid = () => {
   const [totalSupervisoresFilter, setTotalSupervisoresFilter] = useState([])
   
   useEffect(() => {
-    loadMessages(esMessages)
-    locale(navigator.language)
+    loadMessages({
+      "es": {
+
+        "dxNumberBox-noDataText": "Sin datos"
+      }
+    })
+    locale(navigator.language || navigator.languages)
   }, [])
 
   useEffect(() => {
@@ -121,6 +126,10 @@ const getProm = (data) => {
     }else if (e.rowType === 'groupFooter'){
       e.cellElement.style.backgroundColor = '#4b586678' 
     }
+    if(e.rowType === 'header') {  
+      e.cellElement.style.setProperty('background-color', '#15141491')
+      e.cellElement.style.setProperty('color', '#fff')
+   }  
     }
 
   const helperOnCellPreprared = (e, url) => {
