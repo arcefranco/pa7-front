@@ -3,8 +3,42 @@
     flex-direction: column;
     position: absolute;
     align-items: center;
+    place-content: center;
     z-index: 1;
     width: -webkit-fill-available;
     background: #00000040;
     height: -webkit-fill-available;
+}
+
+.loadingSpans{
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    background: white;
+    padding: 1rem;
+    border-radius: 5px;
+}
+
+.columnRed{
+    background-color: #ff000063;
+}
+
+.columnGreen{
+    background-color: #5bff5b99;
+}
+
+.columnOrange{
+    background-color: #ffa50066;
+}
+
+.columnViolet{
+    background-color: #b13cdabd;
+}
+
+.columnYellow{
+    background-color: #ffff0061;
+}
+
+.columnLightblue{
+    background-color: #c4effdd6;
 }
