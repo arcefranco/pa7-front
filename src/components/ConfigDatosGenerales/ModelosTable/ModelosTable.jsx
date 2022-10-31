@@ -88,7 +88,7 @@ const {user} = useSelector(
       {
         Header: "Activo",
         accessor: "Activo",
-        Cell: ({ value }) => <div style={{ textIndent: "15px" }}><input   type="checkbox" className={styles.checkbox} checked={value === 0  
+        Cell: ({ value }) => <div style={{ textIndent: "15px" }}><input type="checkbox" className={styles.checkbox} checked={value === 0  
             ?false
             :true}/></div> ,
         Filter: ActiveFilter
