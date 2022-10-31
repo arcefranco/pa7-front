@@ -28,6 +28,14 @@ const ReporteZonal = () => {
     locale(navigator.language || navigator.languages)
   }, [])
 
+
+  const getTotal = (data) => {
+   const values = Object.values(data).slice(7,18)
+    return values.reduce((accumulator, value) => {
+      return accumulator + value;
+    }, 0)
+}
+
   const onCellPrepared = (e) => {
     if (e.rowType === 'totalFooter') {
       e.cellElement.style.backgroundColor = '#4b5866ad' 
@@ -39,6 +47,9 @@ const ReporteZonal = () => {
       e.cellElement.style.setProperty('color', '#fff')
    }  
     }
+
+
+
   return (
     <div>
         <BiggerTitleLogo>
@@ -53,8 +64,11 @@ const ReporteZonal = () => {
         {
           isLoading ? 
           <div className={styles.loadingDiv}>
+            <div className={styles.loadingSpans}>
             <span>Cargando...</span>
             <span>Esto puede demorar unos minutos</span>
+
+            </div>
           </div> : <div></div>
         }
         <DataGrid
@@ -67,38 +81,43 @@ const ReporteZonal = () => {
           <Column 
           dataField="t_nombreSupervisor"
           caption="Supervisor"
+          width={200}
           />
           
-          <Column alignment={'center'} dataField="t_objetivo" caption="Objetivo"/>
+          <Column alignment={'center'} dataField="t_objetivo" cssClass={styles.columnRed} caption="Objetivo"/>
           </Column>
-          <Column alignment={'center'} caption="Fiat CarGroup">
-          <Column alignment={'center'} dataField="t_okCarGroup" caption="OK"/>
-          <Column alignment={'center'} dataField="pendienteCarGroup" caption="Pendiente"/>
+          <Column alignment={'center'} caption="Fiat CarGroup" >
+          <Column alignment={'center'} dataField="t_okCarGroup" cssClass={styles.columnGreen} caption="OK"/>
+          <Column alignment={'center'} dataField="t_pendienteCarGroup" cssClass={styles.columnGreen} caption="Pendiente"/>
           </Column>
 
           <Column alignment={'center'} caption="VW Luxcar">
-          <Column alignment={'center'} dataField="t_ok_Luxcar" caption="OK"/>
-          <Column alignment={'center'} dataField="t_pendiente_Luxcar" caption="Pendiente"/>
+          <Column alignment={'center'} dataField="t_ok_Luxcar" cssClass={styles.columnOrange} caption="OK"/>
+          <Column alignment={'center'} dataField="t_pendiente_Luxcar" cssClass={styles.columnOrange} caption="Pendiente"/>
           </Column>
 
           <Column alignment={'center'} caption="Peugeot Alizze">
-          <Column alignment={'center'} dataField="t_ok_Alizze" caption="OK"/>
-          <Column alignment={'center'} dataField="t_pendiente_Alizze" caption="Pendiente"/>
+          <Column alignment={'center'} dataField="t_ok_Alizze" cssClass={styles.columnRed} caption="OK"/>
+          <Column alignment={'center'} dataField="t_pendiente_Alizze" cssClass={styles.columnRed} caption="Pendiente"/>
           </Column>
 
           <Column alignment={'center'} caption="Jeep Detroit">
-          <Column alignment={'center'} dataField="t_ok_Detroit" caption="OK"/>
-          <Column alignment={'center'} dataField="t_pendiente_Detroit" caption="Pendiente"/>
+          <Column alignment={'center'} dataField="t_ok_Detroit" cssClass={styles.columnViolet} caption="OK"/>
+          <Column alignment={'center'} dataField="t_pendiente_Detroit" cssClass={styles.columnViolet} caption="Pendiente"/>
           </Column>
 
           <Column alignment={'center'} caption="Fiat Autonet">
-          <Column alignment={'center'} dataField="t_ok_Autonet" caption="OK"/>
-          <Column alignment={'center'} dataField="t_pendiente_Autonet" caption="Pendiente"/>
+          <Column alignment={'center'} dataField="t_ok_Autonet"  cssClass={styles.columnYellow}  caption="OK"/>
+          <Column alignment={'center'} dataField="t_pendiente_Autonet" cssClass={styles.columnYellow} caption="Pendiente"/>
           </Column>
 
           <Column alignment={'center'} caption="Citroen Elysees">
-          <Column alignment={'center'} dataField="t_ok_Elysees" caption="OK"/>
-          <Column alignment={'center'} dataField="t_pendiente_Elysees" caption="Pendiente"/>
+          <Column alignment={'center'} dataField="t_ok_Elysees" cssClass={styles.columnGreen} caption="OK"/>
+          <Column alignment={'center'} dataField="t_pendiente_Elysees" cssClass={styles.columnGreen} caption="Pendiente"/>
+          </Column>
+
+          <Column caption="Total"  alignment={'center'}>
+            <Column alignment={'center'} dataField="Total" cssClass={styles.columnLightblue} calculateCellValue={getTotal} caption="Total"/>
           </Column>
 
           <Summary>
@@ -117,7 +136,7 @@ const ReporteZonal = () => {
             displayFormat="{0}"/>
             
             <GroupItem          
-            column="pendienteCarGroup"
+            column="t_pendienteCarGroup"
             summaryType="sum"
             showInGroupFooter={true} 
             displayFormat="{0}"/>
@@ -180,6 +199,102 @@ const ReporteZonal = () => {
 
             <GroupItem          
             column="t_pendiente_Elysees"
+            summaryType="sum"
+            showInGroupFooter={true} 
+            displayFormat="{0}"/>
+
+
+            <GroupItem          
+            column="Total"
+            summaryType="sum"
+            showInGroupFooter={true} 
+            displayFormat="{0}"/>
+            
+
+            <TotalItem          
+            column="t_objetivo"
+            summaryType="sum"
+            showInGroupFooter={true} 
+            displayFormat="{0}"/>
+
+
+            <TotalItem          
+            column="t_okCarGroup"
+            summaryType="sum"
+            showInGroupFooter={true} 
+            displayFormat="{0}"/>
+            
+            <TotalItem          
+            column="t_pendienteCarGroup"
+            summaryType="sum"
+            showInGroupFooter={true} 
+            displayFormat="{0}"/>
+
+            <TotalItem          
+            column="t_ok_Luxcar"
+            summaryType="sum"
+            showInGroupFooter={true} 
+            displayFormat="{0}"/>
+
+            <TotalItem          
+            column="t_pendiente_Luxcar"
+            summaryType="sum"
+            showInGroupFooter={true} 
+            displayFormat="{0}"/>
+
+            <TotalItem          
+            column="t_ok_Alizze"
+            summaryType="sum"
+            showInGroupFooter={true} 
+            displayFormat="{0}"/>
+
+            <TotalItem          
+            column="t_pendiente_Alizze"
+            summaryType="sum"
+            showInGroupFooter={true} 
+            displayFormat="{0}"/>
+
+
+            <TotalItem          
+            column="t_ok_Detroit"
+            summaryType="sum"
+            showInGroupFooter={true} 
+            displayFormat="{0}"/>
+
+            <TotalItem          
+            column="t_pendiente_Detroit"
+            summaryType="sum"
+            showInGroupFooter={true} 
+            displayFormat="{0}"/>
+
+
+            <TotalItem          
+            column="t_ok_Autonet"
+            summaryType="sum"
+            showInGroupFooter={true} 
+            displayFormat="{0}"/>
+
+            <TotalItem          
+            column="t_pendiente_Autonet"
+            summaryType="sum"
+            showInGroupFooter={true} 
+            displayFormat="{0}"/>
+
+            <TotalItem          
+            column="t_ok_Elysees"
+            summaryType="sum"
+            showInGroupFooter={true} 
+            displayFormat="{0}"/>
+
+            <TotalItem          
+            column="t_pendiente_Elysees"
+            summaryType="sum"
+            showInGroupFooter={true} 
+            displayFormat="{0}"/>
+
+
+            <TotalItem          
+            column="Total"
             summaryType="sum"
             showInGroupFooter={true} 
             displayFormat="{0}"/>
