@@ -31,6 +31,7 @@ import Error552 from './pages/Error552';
 import Detalle from './components/Reportes/Ventas/EstadisticoPreSol/TableDetalle/Detalle';
 import PreSolGrid from './components/Reportes/Ventas/EstadisticoPreSol/PreSolGrid';
 import ReporteZonal from './components/Reportes/Micro/ReporteZonal';
+import TableDetallesZonal from './components/Reportes/Micro/TableDetallesZonal';
 function App() {
   const {user, toggle} = useSelector(
     (state) => state.login)
@@ -114,6 +115,7 @@ function App() {
           <Route path='/reportes/preSol/ProdYCS/:fechaD/:fechaH/:codMarca/:codSup' element={<Detalle title={'Produccion + Cruce Scoring'}/>}/>
           <Route path='/reportes/preSol/MP/:fechaD/:fechaH/:codMarca/:codSup' element={<Detalle title={'Mesa de Planes'}/>}/>
           <Route path='/reportes/Micro/Zonal' element={<ReporteZonal/>}/>
+          <Route path='/reportes/Micro/Zonal/:empresa/:gerente/:clasificacion' element={<TableDetallesZonal/>}/>
         </Routes> 
         </div>
        

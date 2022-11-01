@@ -1,4 +1,15 @@
 import { configureStore } from "@reduxjs/toolkit"
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
 import loginReducer from './reducers/Login/loginSlice'
 import gerentesReducer from './reducers/ConfigDatosGenerales/Gerentes/gerentesSlice'
 import usuariosReducer from './reducers/ConfigDatosGenerales/Usuarios/UsuariosSlice'
@@ -15,6 +26,13 @@ import listaReducer from './reducers/ConfigDatosGenerales/ListasPrecios/ListaSli
 import PreSolVentasReducer from './reducers/Reportes/Ventas/PreSolSlice'
 import ReporteZonalReducer from './reducers/Reportes/Micro/ZonalSlice'
 
+const persistConfig = {
+  key: 'root',
+  version: 1,
+  storage,
+}
+
+const ReporteZonalPersisted = persistReducer(persistConfig, ReporteZonalReducer)
 
 const reducer = combineReducers({
   login: loginReducer,
@@ -30,11 +48,19 @@ const reducer = combineReducers({
   oficiales: oficialesReducer,
   puntosDeVenta: puntosReducer,
   PreSolVentas: PreSolVentasReducer,
-  ReporteZonal: ReporteZonalReducer
+  ReporteZonal: ReporteZonalPersisted
 })
 
 
 
 export const store = configureStore({
-  reducer: reducer
+  reducer: reducer,
+  middleware: (getDefaultMiddleware) =>
+  getDefaultMiddleware({
+    serializableCheck: {
+      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+    },
+  })
 })
+
+export let persistor = persistStore(store)

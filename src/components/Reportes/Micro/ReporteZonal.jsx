@@ -28,6 +28,10 @@ const ReporteZonal = () => {
     locale(navigator.language || navigator.languages)
   }, [])
 
+/*   useEffect(() => {
+    setDataFiltered(data[0].filter(e =>))
+  }, [data]) */
+
 
   const getTotal = (data) => {
    const values = Object.values(data).slice(7,18)
@@ -48,6 +52,110 @@ const ReporteZonal = () => {
    }  
     }
 
+  const onCellClick = (e) => {
+    console.log(e, e.rowType, e.column.dataField)
+    if(e.rowType === 'groupFooter'){
+      if(e.column.dataField === 't_okCarGroup'){
+        window.open(`/reportes/Micro/Zonal/8/${e.data.items[0].t_nombreGerente}/1`, '_blank')  
+      }
+      
+     if(e.column.dataField === 't_pendienteCarGroup'){
+        window.open(`/reportes/Micro/Zonal/8/${e.data.items[0].t_nombreGerente}/2`, '_blank') 
+      }
+
+      if(e.column.dataField === 't_ok_Luxcar'){
+        window.open(`/reportes/Micro/Zonal/13/${e.data.items[0].t_nombreGerente}/1`, '_blank')  
+      }
+
+      if(e.column.dataField === 't_pendiente_Luxcar'){
+        window.open(`/reportes/Micro/Zonal/13/${e.data.items[0].t_nombreGerente}/2`, '_blank')  
+      }
+
+      if(e.column.dataField === 't_ok_Alizze'){
+        window.open(`/reportes/Micro/Zonal/14/${e.data.items[0].t_nombreGerente}/1`, '_blank')  
+      }
+
+      if(e.column.dataField === 't_pendiente_Alizze'){
+        window.open(`/reportes/Micro/Zonal/14/${e.data.items[0].t_nombreGerente}/2`, '_blank')  
+      }
+
+      if(e.column.dataField === 't_ok_Detroit'){
+        window.open(`/reportes/Micro/Zonal/9/${e.data.items[0].t_nombreGerente}/1`, '_blank')  
+      }
+
+      if(e.column.dataField === 't_pendiente_Detroit'){
+        window.open(`/reportes/Micro/Zonal/9/${e.data.items[0].t_nombreGerente}/2`, '_blank')  
+      }
+
+      
+      if(e.column.dataField === 't_ok_Autonet'){
+        window.open(`/reportes/Micro/Zonal/3/${e.data.items[0].t_nombreGerente}/1`, '_blank')  
+      }
+
+      if(e.column.dataField === 't_pendiente_Autonet'){
+        window.open(`/reportes/Micro/Zonal/3/${e.data.items[0].t_nombreGerente}/2`, '_blank')  
+      }
+
+      if(e.column.dataField === 't_ok_Elysees'){
+        window.open(`/reportes/Micro/Zonal/15/${e.data.items[0].t_nombreGerente}/1`, '_blank')  
+      }
+
+      if(e.column.dataField === 't_pendiente_Elysees'){
+        window.open(`/reportes/Micro/Zonal/15/${e.data.items[0].t_nombreGerente}/2`, '_blank')  
+      }
+    }else if(e.rowType === 'totalFooter'){
+
+      if(e.column.dataField === 't_okCarGroup'){
+        window.open(`/reportes/Micro/Zonal/8/todos/1`, '_blank')  
+      }
+      
+     if(e.column.dataField === 't_pendienteCarGroup'){
+        window.open(`/reportes/Micro/Zonal/8/todos/2`, '_blank') 
+      }
+
+      if(e.column.dataField === 't_ok_Luxcar'){
+        window.open(`/reportes/Micro/Zonal/13/todos/1`, '_blank')  
+      }
+
+      if(e.column.dataField === 't_pendiente_Luxcar'){
+        window.open(`/reportes/Micro/Zonal/13/todos/2`, '_blank')  
+      }
+
+      if(e.column.dataField === 't_ok_Alizze'){
+        window.open(`/reportes/Micro/Zonal/14/todos/1`, '_blank')  
+      }
+
+      if(e.column.dataField === 't_pendiente_Alizze'){
+        window.open(`/reportes/Micro/Zonal/14/todos/2`, '_blank')  
+      }
+
+      if(e.column.dataField === 't_ok_Detroit'){
+        window.open(`/reportes/Micro/Zonal/9/todos/1`, '_blank')  
+      }
+
+      if(e.column.dataField === 't_pendiente_Detroit'){
+        window.open(`/reportes/Micro/Zonal/9/todos/2`, '_blank')  
+      }
+
+      
+      if(e.column.dataField === 't_ok_Autonet'){
+        window.open(`/reportes/Micro/Zonal/3/todos/1`, '_blank')  
+      }
+
+      if(e.column.dataField === 't_pendiente_Autonet'){
+        window.open(`/reportes/Micro/Zonal/3/todos/2`, '_blank')  
+      }
+
+      if(e.column.dataField === 't_ok_Elysees'){
+        window.open(`/reportes/Micro/Zonal/15/todos/1`, '_blank')  
+      }
+
+      if(e.column.dataField === 't_pendiente_Elysees'){
+        window.open(`/reportes/Micro/Zonal/15/todos/2`, '_blank')  
+      }
+    }
+    }
+  
 
 
   return (
@@ -73,6 +181,7 @@ const ReporteZonal = () => {
         }
         <DataGrid
         onCellPrepared={onCellPrepared}
+        onCellClick={onCellClick}
         style={{fontSize: '10px'}}
         height={450}
         columnAutoWidth={true}
@@ -86,7 +195,7 @@ const ReporteZonal = () => {
           <Column 
           dataField="t_nombreSupervisor"
           caption="Supervisor"
-          width={200}
+          width={180}
          
          
           />
