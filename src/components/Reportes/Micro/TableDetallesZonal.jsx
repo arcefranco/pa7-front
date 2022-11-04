@@ -82,7 +82,7 @@ const onCellPrepared = (e) => {
         onCellPrepared={onCellPrepared}
         dataSource={dataFiltered ? dataFiltered : null}
         style={{fontSize: '10px'}}
-        height={450}
+        className={styles.dataGridDetail}
         columnAutoWidth={true}
         paging={false}
         >
