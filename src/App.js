@@ -32,6 +32,8 @@ import Detalle from './components/Reportes/Ventas/EstadisticoPreSol/TableDetalle
 import PreSolGrid from './components/Reportes/Ventas/EstadisticoPreSol/PreSolGrid';
 import ReporteZonal from './components/Reportes/Micro/ReporteZonal';
 import TableDetallesZonal from './components/Reportes/Micro/TableDetallesZonal';
+import ReportTemplate from './components/Reportes/Micro/ReportTemplate';
+
 function App() {
   const {user, toggle} = useSelector(
     (state) => state.login)
@@ -116,6 +118,7 @@ function App() {
           <Route path='/reportes/preSol/MP/:fechaD/:fechaH/:codMarca/:codSup' element={<Detalle title={'Mesa de Planes'}/>}/>
           <Route path='/reportes/Micro/Zonal' element={<ReporteZonal/>}/>
           <Route path='/reportes/Micro/Zonal/:empresa/:gerente/:clasificacion' element={<TableDetallesZonal/>}/>
+          <Route path='/reportTemplate' element={<ReportTemplate/>}/>
         </Routes> 
         </div>
        

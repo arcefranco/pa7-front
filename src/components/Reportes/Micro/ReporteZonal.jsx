@@ -6,13 +6,16 @@ import TitlePrimary from '../../../styled-components/h/TitlePrimary';
 import { ReturnLogo } from '../../../helpers/ReturnLogo';
 import styles from './ReporteZonal.module.css'
 import ReportesForm from '../ReportesForm'
+
 import DataGrid, {
   Column,
   Summary,
   TotalItem,
   GroupItem,
-  Scrolling
+  Scrolling,
+  Export
 } from 'devextreme-react/data-grid';
+import { exportDataGrid } from 'devextreme/excel_exporter';
 import es from 'devextreme/localization/messages/es.json'
 import { loadMessages, locale } from "devextreme/localization";
 
@@ -155,7 +158,7 @@ const ReporteZonal = () => {
       }
     }
     }
-  
+
 
 
   return (
@@ -183,10 +186,12 @@ const ReporteZonal = () => {
         onCellPrepared={onCellPrepared}
         onCellClick={onCellClick}
         style={{fontSize: '10px'}}
-        height={450}
+        className={styles.dataGrid}
         columnAutoWidth={true}
         paging={false}
         dataSource={data ? Object.values(data[0]) : null}>
+
+
 
         <Scrolling useNative={false} scrollByContent={true} /* scrollByThumb={true} */ mode="standard" />
 

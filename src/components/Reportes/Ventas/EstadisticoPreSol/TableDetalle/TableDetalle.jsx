@@ -76,9 +76,8 @@ return (
     <div>
         <DataGrid
         dataSource={array ? array : null}
-        height={500}
         onCellPrepared={onCellPrepared}
-        className={styles.dataGrid}
+        className={styles.dataGridDetail}
         style={{fontSize: '10px'}}
         paging={false}
         columnAutoWidth={true}
