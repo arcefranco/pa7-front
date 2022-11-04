@@ -7,6 +7,7 @@ import { errorsHandling } from '../../errorsHandling'
 
 const initialState = {
     reporteSelected: [],
+    reporteZonal: [],
     isError: false,
     isSuccess: false,
     isLoading: false,
@@ -32,6 +33,8 @@ export const getReporte = createAsyncThunk('micro/reporteZonal', async (reporteD
   })
 
 
+
+
   export const reporteZonaSlice = createSlice({
     name: 'Reporte Zonal',
     initialState,
@@ -54,6 +57,8 @@ export const getReporte = createAsyncThunk('micro/reporteZonal', async (reporteD
             state.isLoading = false
             state.isSuccess = true
             state.reporteSelected = action.payload
+            state.reporteZonal = action.payload.data[0]
+            
         }) 
           .addCase(getReporte.rejected, (state, action) => {
             state.isLoading = false

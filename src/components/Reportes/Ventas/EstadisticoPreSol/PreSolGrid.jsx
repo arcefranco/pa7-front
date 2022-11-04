@@ -6,15 +6,19 @@ import TitlePrimary from "../../../../styled-components/h/TitlePrimary";
 import { ReturnLogo } from "../../../../helpers/ReturnLogo";
 import { getPreSol } from "../../../../reducers/Reportes/Ventas/PreSolSlice";
 import 'devextreme/dist/css/dx.light.css';
+import { exportDataGrid } from 'devextreme/pdf_exporter';
 import { useNavigate } from "react-router-dom";
-import es from 'devextreme/localization/messages/es.json'
+import JsPDF from 'jspdf';
+import excelCustomizeConfig from "./excelCustomizeConfig";
+import es from 'devextreme/localization/messages/es.json';
 import { loadMessages, locale } from "devextreme/localization";
 import DataGrid, {
   Column,
   Summary,
   TotalItem,
   GroupItem,
-  Scrolling
+  Scrolling,
+  Export
 } from 'devextreme-react/data-grid';
 import ReportesForm from "../../ReportesForm";
 
@@ -22,7 +26,8 @@ import ReportesForm from "../../ReportesForm";
 const PreSolGrid = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { empresaReal, codigoMarca } = useSelector(state => state.login.user)
+   const lastPoint = { x: 0, y: 0 };
+  const { empresaReal, codigoMarca, username } = useSelector(state => state.login.user)
   const { data } = useSelector(state => state.PreSolVentas.preSolSelected)
   const { isLoading } = useSelector(state => state.PreSolVentas)
   const {fechaD, fechaH} = useSelector(state => state.PreSolVentas.paramsDetalles)
@@ -30,12 +35,7 @@ const PreSolGrid = () => {
   const [totalSupervisoresFilter, setTotalSupervisoresFilter] = useState([])
   
   useEffect(() => {
-    loadMessages({
-      "es": {
-
-        "dxNumberBox-noDataText": "Sin datos"
-      }
-    })
+    loadMessages(es)
     locale(navigator.language || navigator.languages)
   }, [])
 
@@ -63,17 +63,21 @@ const PreSolGrid = () => {
   }
   
   const renderGridCell = (data) => {
-    if (data.value === null) return '0'
+    if (data.value === null) return '0' 
     else return data.value
   }
 
-  const renderDate = (data) => {
-    return data.text?.slice(0,10).split('-').reverse().join('/')
+  const renderDateAlta = (data) => {
+
+    return data.FechaAltaVendedor?.slice(0,10).split('-').reverse().join('/') 
+  }
+  const renderDateBaja = (data) => {
+
+    return data.FechaBajaVendedor?.slice(0,10).split('-').reverse().join('/') 
   }
 
 
-
-
+  const exportFormats = ['pdf', 'xlsx'];
 
 
 const getProm = (data) => {
@@ -82,14 +86,17 @@ const getProm = (data) => {
 
 
   const EsMicro = (data) => {
-    if (data.displayValue === 0) return 'Equipos Propios'
-    else return 'Micro Emprendedores'
+
+   if (data.EsMiniEmprendedor === 0) return 'Equipos Propios'
+    else return 'Micro Emprendedores' 
   }
 
-  const onCellPrepared2 = (e) => {
+  const onCellPrepared = (e) => {
     if (e.rowType === 'totalFooter') {
       e.cellElement.style.backgroundColor = '#4b5866ad' 
     }else if (e.rowType === 'groupFooter'){
+
+      
       e.cellElement.style.backgroundColor = '#4b586678' 
     }
     if(e.rowType === 'header') {  
@@ -99,7 +106,6 @@ const getProm = (data) => {
     }
 
   const helperOnCellPreprared = (e, url) => {
-    console.log('aca')
     let arr = [];
     if (e.row.data.items[0].hasOwnProperty('key')) {
       e.row.data.items.map(e => {
@@ -115,6 +121,14 @@ const getProm = (data) => {
     } else {
       window.open(`/reportes/preSol/${url}/${fechaD.split('-').join("")}/${fechaH.split('-').join("")}/${codigoMarca}/[${e.row.data.items[0].CodSucursal}]`, '_blank')
     }
+  }
+
+  const generatePDF = () => {
+
+    const report = new JsPDF('landscape');
+    report.html(document.querySelector('.dx-datagrid')).then(() => {
+        report.save('report.pdf');
+    });
   }
 
   const helperOnCellGroup = (e, url) => {
@@ -134,7 +148,7 @@ const getProm = (data) => {
   }
     
 
-  const onCellPrepared = (e) => {
+  const onCellClick = (e) => {
 
   
   if(e.rowType === 'groupFooter' && e.column.dataField === 'Ingresadas' && e.key.length > 1){
@@ -225,10 +239,124 @@ const getProm = (data) => {
 
   }
 
-  
 
 
+  const onExporting = React.useCallback((e) => {
 
+    if (e.format === 'xlsx')  return excelCustomizeConfig(e)
+    const doc = new JsPDF('landscape');
+
+    exportDataGrid({
+      jsPDFDocument: doc,
+
+      columnWidths: [38, 16, 16, 9, 9, 9, 9, 9, 8,8,8,8,8,8,8,8,8,8,8,10,10,10,10,11,9],
+      component: e.component,
+      margin: {
+        top: 30,
+        bottom: 15
+      },
+      topLeft:  { x: 15, y: 0 },
+      repeatHeaders: true,
+      customDrawCell({ rect }) {
+        if (lastPoint.x < rect.x + rect.w) {
+          lastPoint.x = rect.x + rect.w;
+        }
+        if (lastPoint.y < rect.y + rect.h) {
+          lastPoint.y = rect.y + rect.h;
+        }
+      },
+      customizeCell: function({gridCell, pdfCell}) {
+
+
+        if(gridCell.rowType === 'header'){
+          pdfCell.horizontalAlign = 'center'
+          pdfCell.font = {  size: 7 };
+          if(pdfCell.text === 'Objetivo'){
+            pdfCell.text = 'Obj.'
+          }if(pdfCell.text === 'Cruce Scoring'){
+            pdfCell.text = 'CSC'
+          }if(pdfCell.text === 'Producción'){
+            pdfCell.text = 'Prod.'
+          }if(pdfCell.text === 'Ingresadas'){
+            pdfCell.text = 'ING.'
+          }if(pdfCell.text === 'Ventas MP'){
+            pdfCell.text = 'MP.'
+          }if(pdfCell.text === 'Ingresadas'){
+            pdfCell.text = 'ING.'
+          }if(pdfCell.text === 'Sub Total 1' || pdfCell.text === 'Sub Total 2'){
+            pdfCell.text = 'SBT'
+          }if(pdfCell.text === 'Anul.3+7'){
+            pdfCell.text = '3+7'
+          }if(pdfCell.text === 'Anul.Rechaz'){
+            pdfCell.text = 'Rechz'
+          }
+        
+        }else if(gridCell.rowType === 'groupFooter'){
+          pdfCell.backgroundColor = '#808080'
+          pdfCell.textColor = '#ffffff'
+        }else if(gridCell.rowType === 'totalFooter'){
+          pdfCell.backgroundColor = '#4b586678'
+          pdfCell.textColor = '#ffffff'
+        }else{
+          pdfCell.font = {  size: 7 };
+        }
+
+        if(gridCell.rowType === 'data'){
+          if(gridCell.column.dataField === 'Ingresadas'){
+            pdfCell.backgroundColor = '#BF40BF'
+            pdfCell.textColor = '#ffffff'
+          }
+          if(gridCell.column.dataField === 'Produccion'){
+            pdfCell.backgroundColor = '#097969'
+            pdfCell.textColor = '#ffffff'
+          }
+          if(gridCell.column.dataField === 'SubTotal1'){
+            pdfCell.backgroundColor = '#FDDA0D'
+            pdfCell.textColor = '#ffffff'
+          }
+          if(gridCell.column.dataField === 'SubTotal2'){
+            pdfCell.backgroundColor = '#F28C28'
+            pdfCell.textColor = '#ffffff'
+          }
+        }
+        
+    } ,
+    
+      indent: 0,
+
+    }).then(() => {
+       const pages = doc.getNumberOfPages()
+       let date = new Date()
+       let day = date.getDate()
+       let month = date.getMonth() + 1
+       let year = date.getFullYear()
+       doc.setHeaderFunction('hola')
+      const header = 'LISTADO ESTADISTICO DE PRESOLICITUDES INGRESADAS';
+      const pageWidth = doc.internal.pageSize.getWidth();
+      doc.setFontSize(9);
+      const headerWidth = doc.getTextDimensions(header).w;
+        for(let i = 0; i<=pages; i++){
+          doc.setPage(i)
+          doc.text(header, (pageWidth - headerWidth) / 2, 10);
+          doc.text(`Período: ${fechaD.split('-').reverse().join('/')} - ${fechaH.split('-').reverse().join('/')}`, 15,  20)
+          doc.text(`${empresaReal}`, (pageWidth - 40),  20)
+          doc.line(15,  25, (pageWidth - 20),  25, 'F')
+        }
+
+      
+
+      const footer = 'www.wikipedia.org';
+      doc.setFontSize(9);
+      doc.setTextColor('#000');
+      const footerWidth = doc.getTextDimensions(footer).w;
+      for(let i = 0; i<pages; i++){
+        doc.setPage(i)
+        doc.text(`PB: ${username} -  ${day}/${month}/${year} ${date.toLocaleTimeString()}`, 15, 200);
+        doc.text(`Pagina ${i === 0 ? pages : i} de ${pages}`, (pageWidth - 40), 200);
+      }
+      doc.save(`Reporte_PreSol_${fechaD}_${fechaH}.pdf`);
+    });
+  }); 
   return (
     <>
     
@@ -241,25 +369,28 @@ const getProm = (data) => {
        
       </BiggerTitleLogo>
 
-
  <ReportesForm dispatchFunc={getPreSol}/>
+
+
+
       {
   isLoading && <div className={styles.loadingGrid}>Cargando...</div>
 }
 
       <DataGrid
         dataSource={data ? data : null}
-
+        onExporting={onExporting}
         className={styles.dataGrid}
         style={{fontSize: '10px'}}
         paging={false}
-        onCellClick={onCellPrepared}
-        onCellPrepared={onCellPrepared2}
+        onCellClick={onCellClick}
+        onCellPrepared={onCellPrepared}
         
         >
 
+        <Export enabled={true} formats={exportFormats} allowExportSelectedData={false} />
         <Scrolling useNative={false} scrollByContent={true} mode="standard" />
-          
+         
         <Column
           dataField='NombreZona'
           visible={false}
@@ -272,8 +403,9 @@ const getProm = (data) => {
           groupIndex={1}
           visible={false}
           defaultVisible={false}
-          groupCellRender={EsMicro}
-          caption="Es micro"
+/*          groupCellRender={EsMicro}  */
+         calculateGroupValue={EsMicro}
+          caption=""
           dataType="number"
         />
         <Column
@@ -292,20 +424,20 @@ const getProm = (data) => {
           <Column 
             dataField="NomVendedor"
             caption="Vendedor"
-            dataType="date"
+            dataType="string"
             cssClass={styles.vendedorColumn}
             width={100}
           /> 
 
           <Column
             dataField="FechaAltaVendedor"
-            cellRender={renderDate}
+            calculateCellValue={renderDateAlta}
             caption="Fecha Alta"
             dataType="string"
             width={75}
           />
 
-          <Column dataField="FechaBajaVendedor" caption="Fecha Baja" dataType="string" cellRender={renderDate} width={75} />
+          <Column dataField="FechaBajaVendedor" caption="Fecha Baja" dataType="string"  calculateCellValue={renderDateBaja}  width={75} />
           <Column dataField="Ingresadas" caption="Ingresadas" cssClass={styles.columnIng} dataType="number" cellRender={renderGridCell}/>
           <Column dataField="VentasMP" dataType="number" cellRender={renderGridCell} width={85} />
           <Column dataField="Crucescoring" caption="Cruce Scoring" dataType="number" cellRender={renderGridCell} />
@@ -337,7 +469,7 @@ const getProm = (data) => {
         </Column>
 
         <Column  cssClass={styles.title}>
-          <Column dataField="GB" dataType="number" calculateCellValue={calculateGB} />
+          <Column dataField="GB" dataType="number" /* allowExporting={false}  */calculateCellValue={calculateGB} />
         </Column>
 
 
@@ -346,9 +478,11 @@ const getProm = (data) => {
 
           <GroupItem
             column="Ingresadas"
-            summaryType="sum"
+            summaryType="sum" 
+            skipEmptyValues={true}
             showInGroupFooter={true} 
-            displayFormat="{0}"     
+            displayFormat="{0}"
+          
           />
 
           <GroupItem
@@ -416,6 +550,7 @@ const getProm = (data) => {
           <GroupItem
             column="SubTotal1"
             summaryType="sum"
+            valueFormat="#"
             showInGroupFooter={true}
             displayFormat="{0}"
           />
@@ -438,6 +573,7 @@ const getProm = (data) => {
             showInGroupFooter={true}
             summaryType="sum"
             displayFormat="{0}"
+            
           />
 
           <GroupItem

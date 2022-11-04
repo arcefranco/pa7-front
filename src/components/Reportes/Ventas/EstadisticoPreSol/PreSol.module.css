@@ -17,6 +17,36 @@
     align-items: center;
 
 }
+.formContainer{
+    display: flex;
+    align-items: center;
+    column-gap: 2rem;
+    place-content: center;
+}
+
+.exportButtons{
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+}
+
+
+.exportButton{
+    border: none;
+    background-color: #545e65;
+    color: white;
+    border-radius: 3px;
+    padding: 4px;
+    font-size: 13px;
+    
+}
+
+.exportButton:hover{
+    background-color: #545e65ab;
+}
+.dataGridDetail{
+    height: calc(100vh - 92.8px);
+}
 .vendedorColumn{
     font-size: 9px;
 }
