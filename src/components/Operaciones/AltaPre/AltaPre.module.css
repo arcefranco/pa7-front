@@ -1,0 +1,101 @@
+.wholeForm{
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    font-size: 10px;
+    max-width: 70rem;
+    min-width: 70rem;
+    box-shadow: 1px 1px 4px 1px #00000038;
+    border-radius: 5px;
+    padding: 1rem;
+}
+
+.section{
+    text-align: center;
+
+    background: #0000000a;
+    border-radius: 3px;
+    padding: 0.5rem;
+}
+
+.formTitleContainer{
+    padding: 0.5rem;
+
+    background: #808080db;
+    color: white;
+}
+
+.input{
+    display: flex;
+    flex-direction: row;
+    justify-self: flex-start;
+    align-self: center;
+    width: -webkit-fill-available;
+
+    height: 1rem;
+    margin-top: 1rem;
+    margin-bottom: .5rem;
+    font-size: 11px;
+    align-items: center;
+}
+
+.inputCheck{
+    font-size: 12px;
+}
+
+ .input input{
+    width: -webkit-fill-available; 
+
+  height: 20px;
+}
+.input select {
+    width: -webkit-fill-available; 
+  height: 20px;
+} 
+ .input span{
+    padding-right: 5px;    
+    min-width: 6rem;
+} 
+.inputCheck span{
+    padding-right: 5px;    
+    min-width: 6rem;
+} 
+.col1{
+    display: grid;
+    row-gap: 0.5rem;
+}
+.col2{
+    display: grid;
+    row-gap: 0.3rem;
+}
+
+
+.inputSection2{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 5rem;
+    padding: 5px;
+    font-size: 14px;
+}
+
+.inputSection3{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 5px;
+    font-size: 14px;
+}
+
+
+.inputSection4{
+    display: grid;
+    grid-template-columns: 50% 25% 12.5% 12.5%;
+    padding: 5px;
+    font-size: 14px;
+}
+
+
+.inputSection7{
+    display: grid;
+    grid-template-columns: 20% 17.5% 6.25% 6.25% 12.5% 17.5% 20%;
+    padding: 5px;
+    font-size: 14px;
+}
