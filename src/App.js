@@ -33,6 +33,7 @@ import PreSolGrid from './components/Reportes/Ventas/EstadisticoPreSol/PreSolGri
 import ReporteZonal from './components/Reportes/Micro/ReporteZonal';
 import TableDetallesZonal from './components/Reportes/Micro/TableDetallesZonal';
 import ReportTemplate from './components/Reportes/Micro/ReportTemplate';
+import AltaPre from './components/Operaciones/AltaPre/AltaPre';
 
 function App() {
   const {user, toggle} = useSelector(
@@ -119,6 +120,7 @@ function App() {
           <Route path='/reportes/Micro/Zonal' element={<ReporteZonal/>}/>
           <Route path='/reportes/Micro/Zonal/:empresa/:gerente/:clasificacion' element={<TableDetallesZonal/>}/>
           <Route path='/reportTemplate' element={<ReportTemplate/>}/>
+          <Route path='/operaciones/altaPre' element={<AltaPre/>}/>
         </Routes> 
         </div>
        

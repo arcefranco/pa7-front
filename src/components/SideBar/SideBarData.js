@@ -13,7 +13,7 @@ export const SidebarData = [
     cName: 'nav-text',
     options: 
     [
-      {title: 'Altas Pre Solicitudes', rol:'1.2.1', cName:'subMenuL2', path:'/'},
+      {title: 'Altas Pre Solicitudes', rol:'1.2.1', cName:'subMenuL2', path:'/operaciones/altaPre'},
       {title: 'Actualizaciones Pre Solicitudes', rol:'1.2.2', cName:'subMenuL2' , path:'/'},
       {title: 'Actualizacion Operaciones', rol:'1.2.3', cName:'subMenuL2' , path:'/'},
       {title: 'Alta Cartera', rol:'1.2.4', cName:'subMenuL2' , path:'/'},
