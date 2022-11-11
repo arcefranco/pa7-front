@@ -25,6 +25,7 @@ import estructuraReducer from './reducers/ConfigDatosGenerales/Estructura/Estruc
 import listaReducer from './reducers/ConfigDatosGenerales/ListasPrecios/ListaSlice'
 import PreSolVentasReducer from './reducers/Reportes/Ventas/PreSolSlice'
 import ReporteZonalReducer from './reducers/Reportes/Micro/ZonalSlice'
+import AltaPreReducer from './reducers/Operaciones/altaPre/altaPreSlice'
 
 const persistConfig = {
   key: 'root',
@@ -48,7 +49,8 @@ const reducer = combineReducers({
   oficiales: oficialesReducer,
   puntosDeVenta: puntosReducer,
   PreSolVentas: PreSolVentasReducer,
-  ReporteZonal: ReporteZonalPersisted
+  ReporteZonal: ReporteZonalPersisted,
+  AltaPre: AltaPreReducer
 })
 
 

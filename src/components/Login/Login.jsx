@@ -23,6 +23,7 @@ export const Login = () => {
         password: '',
         codigoMarca:'',
         marca:'',
+        codigoEmpresa: ''
     })
 
     React.useEffect(() => {
@@ -73,32 +74,48 @@ export const Login = () => {
     const onSubmit = (e) => {
         e.preventDefault()
         switch(input.empresaReal){
-          case "Car Group S.A.":
-          case "Gestión Financiera S.A.":
-          case "AutoNet S.A":
+          case "Car Group S.A.":          
           setInput(input.codigoMarca = 2,
+            input.codigoEmpresa = 8,
             input.marca = "FIAT")
-          break;
+            break;
+          case "Gestión Financiera S.A.":
+          setInput(input.codigoMarca = 2,
+            input.codigoEmpresa = 1,
+            input.codigoEmpresa = 8,
+            input.marca = "FIAT")
+            break;
+          case "AutoNet S.A":
+            setInput(input.codigoMarca = 2,
+              input.codigoEmpresa = 3,
+              input.codigoEmpresa = 8,
+              input.marca = "FIAT")
+              break;
           case "Alizze S.A.":
           setInput(input.codigoMarca = 11,
+            input.codigoEmpresa = 14,
             input.marca = "PEUGEOT")
-          break;
+            break;
           case "Gestión Financiera Luxcar":
           setInput(input.codigoMarca = 10,
+            input.codigoEmpresa = 14, 
             input.marca = "VOLKSWAGEN")
-          break;
+            break;
           case "Autos del Plata S.A.":
           setInput(input.codigoMarca = 6,
+            input.codigoEmpresa = 7,
             input.marca = "CHERY")
-          break;
+            break;
           case "Detroit S.A.":
           setInput(input.codigoMarca = 7,
+            input.codigoEmpresa = 9,
             input.marca = "JEEP")
-          break;
+            break;
           case "Elysees S.A.":
           setInput(input.codigoMarca = 12,
+            input.codigoEmpresa = 15,
             input.marca = "CITROEN")
-          break;  
+            break;
         }
         console.log(input)
         dispatch(login(input))
