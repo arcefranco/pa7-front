@@ -19,6 +19,8 @@ const AltaPre = () => {
     const [modelosFiltered, setModelosFiltered] = useState([])
     const [interesesFiltered, setInteresesFiltered] = useState([])
     const [tarjetasFiltered, setTarjetasFiltered] = useState([])
+    const [error, setError] = useState({})
+    const [date, setDate] = useState(new Date())
 
     const [input, setInput] = useState({
       Solicitud: '',
@@ -88,6 +90,8 @@ const AltaPre = () => {
       }
       
       setInput(newForm)
+/*       const errors = validateForm(newForm);
+      setError(errors); */
   }
   const handleCheckChange = (e) => {
     const { name} = e.target;
@@ -112,25 +116,36 @@ const handleCheckPrecio = (e) => {
 
 }
 
-const onClick = (e) => {
-  if(!input.Solicitud.length){
-    alert('Debe completar el numero de solicitud')
-  }
-  if(!input.Modelo.length){
-    alert('Debe elegir un Modelo')
-  }
-  if(!input.TipoPlan.length){
-    alert('Debe elegir un Tipo Plan')
-  }
-  if(!input.CondIva.length){
-    alert('Debe seleccionar la condición ante el IVA')
-  }
+const onBlurRequired = (e) => {
+  let nameTarget = e.target.name
+  if(!e.target.value){
+  setError({...error, [nameTarget]: "Campo Requerido"})
+}else{
+  setError({...error, [nameTarget]: ""})
+}
 }
 
+
 const onBlurSolicitud = () => {
-  dispatch(verifySolicitud({solicitud: input.Solicitud}))
-  dispatch(verifySolicitudStatus({solicitud: input.Solicitud, codMarca: codigoMarca}))
+  if(!input.Solicitud) { 
+    setError({...error, "Solicitud": "Debe completar el numero de solicitud"}) 
+  }
+  else{
+    dispatch(verifySolicitud({solicitud: input.Solicitud}))
+    dispatch(verifySolicitudStatus({solicitud: input.Solicitud, codMarca: codigoMarca}))
+
+  }
   
+}
+
+const onBlurNacimiento = () => {
+    if(input.Nacimiento > `${date.getUTCFullYear()-18}-${date.getUTCMonth()+1}-${date.getUTCDate()}` || !input.Nacimiento) {
+      setInput({...input, "Nacimiento":""})
+      setError({...error, "Nacimiento": 'El Cliente debe ser mayor de 18 años'})
+    }else{
+      setError({})
+    }
+
 }
 
 const onBlurFecha = () => {
@@ -141,28 +156,48 @@ const onBlurFecha = () => {
 }
 
 const onBlurDoc = () => {
-if(!input.Documento.length) {
-  alert('Falta Tipo Documento')
+if(!input.Documento.length || !input.DocumentoNro.length) {
+  /* alert('Falta Tipo Documento') */
+  setError({...error, "Documento": "Debe completar los datos del documento"})
   setInput({...input, "DocumentoNro": ""})
+}else{
+  setError({})
+  dispatch(verifyDoc({documento: input.Documento, documentoNro: input.DocumentoNro}))
+
 }
-dispatch(verifyDoc({documento: input.Documento, documentoNro: input.DocumentoNro}))
 }
 
 const onBlurEmail = () => {
-  if(input.EmailLaboral.length ){
+  if(input.EmailLaboral.length){
     if(!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(input.EmailLaboral)){
-      alert('Email invalido')
+      setError({...error, "EmailLaboral": 'Email invalido'})
       setInput({...input, "EmailLaboral": ""})
+    }else{
+      setError({...error, "EmailLaboral": ""})
     }
-    }else if(input.EmailParticular.length ){
+    }
+    else if(input.EmailParticular.length){
       if(!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(input.EmailParticular)){
-        alert('Email invalido')
+        setError({...error, "EmailParticular": 'Email invalido'})
         setInput({...input, "EmailParticular": ""})
+      }else{
+        setError({...error, "EmailLaboral": ""})
       }
       
     }
-    
-  
+    else if(!input.EmailLaboral && !input.EmailParticular){
+      setError({...error, "EmailLaboral": 'Debe ingresar al menos un email'})
+    }
+
+}
+
+const onBlurTelef = (e) => {
+  let nameTarget = e.target.name
+  if(e.target.value && e.target.value.length < 8){
+  setError({...error, [nameTarget]: "Debe tener al menos 8 digitos"})
+  }else{
+    setError({...error, [nameTarget]: ""})
+  }
 }
 
 const onBlurRecibo1 = () => {
@@ -170,6 +205,9 @@ const onBlurRecibo1 = () => {
     let difference = 4 - input.nroRecibo.length
     let zeros = "0".repeat(difference)
     setInput({...input, "nroRecibo": zeros + input.nroRecibo})
+    setError({...error, "nroRecibo": ""})
+  }else{
+    setError({...error, "nroRecibo": "Campo Requerido"})
   }
 }
 
@@ -178,6 +216,9 @@ const onBlurRecibo2 = () => {
     let difference = 8 - input.nroRecibo2.length 
     let zeros = "0".repeat(difference)
     setInput({...input, "nroRecibo2": zeros + input.nroRecibo2})
+    setError({...error, "nroRecibo2": ""})
+  }else{
+    setError({...error, "nroRecibo2": "Campo Requerido"})
   }
 }
 
@@ -344,7 +385,10 @@ const onBlurCantPagos = () => {
               <div className={styles.inputSection3}> 
                   <div className={styles.input}>
                   <span>Nro Solicitud </span>
+                  <div className={styles.containerError}>
                   <input name='Solicitud' onBlur={onBlurSolicitud} onChange={handleChange} value={input.Solicitud} type="text" />
+                  {error.Solicitud && <div className={styles.error}>{error.Solicitud}</div>}
+                  </div>
                   </div>
 
                   <div className={styles.input}>
@@ -354,8 +398,10 @@ const onBlurCantPagos = () => {
 
                   <div className={styles.input}>
                   <span>Tipo Plan </span>
-                  <select  onChange={handleChange} value={input.TipoPlan} name="TipoPlan" id="">
-                    <option value="*">---</option>
+                  <div className={styles.containerError}>
+
+                  <select onBlur={onBlurRequired}  onChange={handleChange} value={input.TipoPlan} name="TipoPlan" id="">
+                    <option value="">---</option>
                     <option value={1}>100%</option>
                     <option value={2}>70/30</option>
                     <option value={3}>60/40</option>
@@ -363,19 +409,25 @@ const onBlurCantPagos = () => {
                     <option value={5}>80/20</option>
                     <option value={6}>90/10</option>
                   </select>
+                  {error.TipoPlan && <div className={styles.error}>{error.TipoPlan}</div>}
+                  </div>
                   </div>
 
               </div>
               <div className={styles.inputSection2}>
               <div className={styles.input}>
                   <span>Modelo </span>
-                  <select onChange={handleChange} value={input.Modelo} name="Modelo" id="">
-                    <option value="*">---</option>
+                  <div className={styles.containerError}>
+                  <select onChange={handleChange} onBlur={onBlurRequired} value={input.Modelo} name="Modelo" id="">
+                    <option value="">---</option>
                     {
                       modelosFiltered.length && modelosFiltered.map(e => 
                         <option value={e.Codigo}>{e.Nombre}</option>)
                     }
                   </select>
+                  {error.Modelo && <div className={styles.error}>{error.Modelo}</div>}
+
+                  </div>
                   </div>
                   <div className={styles.input}>
                   <span>Valor Cuota Term. </span>
@@ -395,8 +447,9 @@ const onBlurCantPagos = () => {
                     <div className={styles.col1} style={{display: 'grid', gridTemplateColumns:'1fr 1fr'}}>
               <div className={styles.input}>
                 <span>Documento</span>
+                <div className={styles.containerError}>
                     <select name="Documento" onChange={handleChange} value={input.Documento} id="">
-                      <option value="*">---</option>
+                      <option value="">---</option>
                       <option value={1}>DNI</option>
                       <option value={2}>LE</option>
                       <option value={3}>LC</option>
@@ -404,20 +457,28 @@ const onBlurCantPagos = () => {
                       <option value={5}>PAS</option>
                       <option value={6}>CUIT</option>
                     </select>
+                    {error.Documento && <div className={styles.error}>{error.Documento}</div>}
+                </div>
               </div>              
               <div className={styles.input}>
                     <span>Numero</span>
+                    <div className={styles.containerError}>
                     <input type="text" onBlur={onBlurDoc} name='DocumentoNro'  value={input.DocumentoNro} onChange={handleChange} />
+                    {error.Documento && <div className={styles.error}>{error.Documento}</div>}
+                    </div>
               </div>              
                     </div>
                     <div className={styles.col2} style={{display: 'grid', gridTemplateColumns:'1fr 1fr'}}>
               <div className={styles.input}>
                   <span>Fecha de Nacimiento </span>
+                  <div className={styles.containerError}>
                   {
                     input.Documento !== '6' ?
-                  <input name='Nacimiento' onChange={handleChange} value={input.Nacimiento} type="date" /> :
+                  <input name='Nacimiento' onBlur={onBlurNacimiento} onChange={handleChange} value={input.Nacimiento} type="date" max={`${date.getUTCFullYear()-18}-${date.getUTCMonth()+1}-${date.getUTCDate()}`} /> :
                   <input name='Nacimiento' disabled type="date" /> 
                   }
+                  {error.Nacimiento && <div className={styles.error}>{error.Nacimiento}</div>}
+                  </div>
               </div>
               <div className={styles.input}>
                     <span>No tiene Email</span>
@@ -430,30 +491,43 @@ const onBlurCantPagos = () => {
                 <div className={styles.col1}>
                     <div className={styles.input}>
                         <span>Apellido</span>
-                        <input type="text" name='Apellido' value={input.Apellido} onChange={handleChange}/>
+                        <div className={styles.containerError}>
+                        <input type="text" name='Apellido' onBlur={onBlurRequired} value={input.Apellido} onChange={handleChange}/>
+                        {error.Apellido && <div className={styles.error}>{error.Apellido}</div>}
+                        </div>
                     </div>
                     <div className={styles.input}>
                         <span>Nombre</span>
-                        <input type="text" name='Nombre' value={input.Nombre} onChange={handleChange}/>
+                        <div className={styles.containerError}>
+
+                        <input type="text" name='Nombre' onBlur={onBlurRequired}  value={input.Nombre} onChange={handleChange}/>
+                        {error.Nombre && <div className={styles.error}>{error.Nombre}</div>}
+                        </div>
                     </div>
 
                 </div>
                 <div className={styles.col2}>
                     <div className={styles.input}>
                         <span>Email Particular</span>
+                        <div className={styles.containerError}>
                         {
                           input.tieneEmail === 0 ? 
                           <input name="EmailParticular" onBlur={onBlurEmail} value={input.EmailParticular} onChange={handleChange}/> :
                           <input type="text" disabled/>
                         }
+                        {error.EmailLaboral && <div className={styles.error}>{error.EmailLaboral}</div>}
+                        </div>
                     </div>
                     <div className={styles.input}>
                         <span>Email Laboral</span>
+                        <div className={styles.containerError}>
                         {
                            input.tieneEmail === 0 ? 
                            <input name="EmailLaboral"  onBlur={onBlurEmail} value={input.EmailLaboral} onChange={handleChange}/> : 
                            <input type="text" disabled/>
                         }
+                        {error.EmailLaboral && <div className={styles.error}>{error.EmailLaboral}</div>}  
+                        </div>
                     </div>
 
                 </div>
@@ -462,11 +536,17 @@ const onBlurCantPagos = () => {
                 <div className={styles.col1} style={{ display: 'grid', gridTemplateColumns: '.5fr .5fr'}}>
                     <div className={styles.input}>
                         <span>Calle</span>
-                        <input name="Calle"  value={input.Calle} onChange={handleChange}/>
+                        <div className={styles.containerError}>
+                        <input name="Calle" onBlur={onBlurRequired}  value={input.Calle} onChange={handleChange}/>
+                        {error.Calle && <div className={styles.error}>{error.Calle}</div>}  
+                        </div>
                     </div>
                     <div className={styles.input}>
                         <span>Numero</span>
-                        <input name="Numero"   value={input.Numero} onChange={handleChange}/>
+                        <div className={styles.containerError}>
+                        <input type="number" name="Numero" onBlur={onBlurRequired}  value={input.Numero} onChange={handleChange}/>
+                        {error.Numero && <div className={styles.error}>{error.Numero}</div>} 
+                        </div>
                     </div>
 
                     <div className={styles.input}>
@@ -483,7 +563,10 @@ const onBlurCantPagos = () => {
 
                     <div className={styles.input}>
                         <span>Cod. Postal</span>
-                        <input type="number" name="CodPostal"   value={input.CodPostal} onChange={handleChange}/>
+                        <div className={styles.containerError}>
+                        <input type="number" name="CodPostal"  onBlur={onBlurRequired} value={input.CodPostal} onChange={handleChange}/>
+                        {error.CodPostal && <div className={styles.error}>{error.CodPostal}</div>}  
+                        </div>
                     </div>
                     <div className={styles.input}>
                         <span>Localidad</span>
@@ -499,23 +582,37 @@ const onBlurCantPagos = () => {
               <div className={styles.inputSection2}> 
               <div className={styles.input}>
                 <span>Telef. Particular</span>
-                <input type="number" name='TelefParticular' value={input.TelefParticular} onChange={handleChange}/>
+                <div className={styles.containerError}>
+                <input type="number" name='TelefParticular' onBlur={onBlurTelef} value={input.TelefParticular} onChange={handleChange}/>
+                {error.TelefParticular && <div className={styles.error}>{error.TelefParticular}</div>} 
+                </div>
               </div>
               <div className={styles.input}>
                 <span>Telef. Celular</span>
-                <input type="number" name='TelefCelular' value={input.TelefCelular} onChange={handleChange}/>
+                <div className={styles.containerError}>
+                <input type="number" name='TelefCelular' onBlur={onBlurTelef} value={input.TelefCelular} onChange={handleChange}/>
+                {error.TelefCelular && <div className={styles.error}>{error.TelefCelular}</div>} 
+                </div>
               </div>
               </div>
+              
               <div className={styles.inputSection2}> 
               <div className={styles.input}>
                 <span>Telef. Laboral</span>
-                <input type="number" name='TelefLaboral' value={input.TelefLaboral} onChange={handleChange}/>
+                <div className={styles.containerError}>
+                <input type="number" name='TelefLaboral' onBlur={onBlurTelef} value={input.TelefLaboral} onChange={handleChange}/>
+                {error.TelefLaboral && <div className={styles.error}>{error.TelefLaboral}</div>} 
+                </div>
               </div>
               <div className={styles.input}>
                 <span>Telef. Familiar</span>
-                <input type="number" name='TelefFamiliar' value={input.TelefFamiliar} onChange={handleChange}/>
+                <div className={styles.containerError}>
+                <input type="number" name='TelefFamiliar' onBlur={onBlurTelef} value={input.TelefFamiliar} onChange={handleChange}/>
+                {error.TelefFamiliar && <div className={styles.error}>{error.TelefFamiliar}</div>}
+                </div>
               </div>
-             </div>       
+             </div>  
+             {error.Telef && <div className={styles.error}>{error.Telef}</div>}      
               <div className={styles.inputSection2}>
                 <div className={styles.col1}>
 
@@ -525,14 +622,17 @@ const onBlurCantPagos = () => {
                   </div>
                   <div className={styles.input}>
                     <span>Cond. Iva</span>
-                    <select name="CondIva" id="" value={input.CondIva} onChange={handleChange}>
-                      <option value="*">---</option>
+                    <div className={styles.containerError}>
+                    <select name="CondIva" id="" value={input.CondIva} onBlur={onBlurRequired} onChange={handleChange}>
+                      <option value="">---</option>
                       <option value={1}>RESPONSABLE INSCRIPTO</option>
                       <option value={2}>RESPONSABLE NO INSCRIPTO</option>
                       <option value={3}>EXENTO</option>
                       <option value={4}>RESPONSABLE MONOTRIBUTO</option>
                       <option value={5}>CONSUMIDOR FINAL</option>
                     </select>
+                    {error.CondIva && <div className={styles.error}>{error.CondIva}</div>}
+                    </div>
                   </div>
                 </div>
                 <div className={styles.col2}>
@@ -562,9 +662,18 @@ const onBlurCantPagos = () => {
                       <div className={styles.inputSection2} style={{columnGap: '5px'}}>
                           <div className={styles.input}> 
                             <span>Nro Recibo</span> 
-                            <input type="text" onBlur={onBlurRecibo1} minLength={4} size={4} maxLength={4} value={input.nroRecibo} name="nroRecibo" onChange={handleChange} />
+                            <div className={styles.containerError}>
+                            <input type="text" onBlur={onBlurRecibo1} minLength={4}  maxLength={4} value={input.nroRecibo} name="nroRecibo" onChange={handleChange} />                        
+                            {error.nroRecibo2 && <div className={styles.error}>{error.nroRecibo2}</div>} 
+                            </div>
                           </div>
-                          <div className={styles.input}><input type="text" onBlur={onBlurRecibo2} size={8} value={input.nroRecibo2} name="nroRecibo2" onChange={handleChange}/></div>
+                          <div className={styles.input}>
+                            <div className={styles.containerError}>
+                            <input type="text" onBlur={onBlurRecibo2}  value={input.nroRecibo2} name="nroRecibo2" onChange={handleChange}/>
+                            {error.nroRecibo && <div className={styles.error}>{error.nroRecibo}</div>}  
+                          
+                            </div>
+                          </div>
                       </div>  
                      </div>
               </div>
@@ -580,24 +689,30 @@ const onBlurCantPagos = () => {
                     </div>
                     <div className={styles.input}>
                         <span>Forma Pago</span>
-                        <select name="FormaDePago" value={input.FormaDePago} onChange={handleChange} id="">
-                          <option value="*">---</option>
+                        <div className={styles.containerError}>
+                        <select name="FormaDePago" value={input.FormaDePago} onBlur={onBlurRequired} onChange={handleChange} id="">
+                          <option value="">---</option>
                           {
                             formasPago.status && formasPago.data.map(e => <option key={e.Codigo} value={e.Codigo}>{e.Codigo}-{e.Nombre}</option>)
                           }
                         </select>
+                        {error.FormaPago && <div className={styles.error}>{error.FormaPago}</div>}
+                        </div>
                     </div>
               </div>
 
               <div className={styles.inputSection2}>
                     <div className={styles.input}>
                           <span>Vendedor</span>
+                          <div className={styles.containerError}>
                           <select name="Vendedor" value={input.Vendedor} onChange={handleChange} id="">
-                            <option value="*">---</option>
+                            <option value="">---</option>
                             {
                             vendedores.status && vendedores.data.map(e => <option key={e.Codigo} value={e.Codigo}>{e.Codigo}-{e.Nombre}</option>)
                             }
                           </select>
+                          {error.Vendedor && <div className={styles.error}>{error.Vendedor}</div>}  
+                          </div>
                     </div>
                     <div>
                       <div className={styles.inputSection2} style={{columnGap: '3rem'}}>
@@ -683,32 +798,43 @@ const onBlurCantPagos = () => {
                             }
                           </select>
 
-                      </div>
-                      <div className={styles.inputSection2} style={{columnGap: '0'}}>
+                      </div> 
+
+                          <div className={styles.inputSection2} style={{columnGap: '0'}}>
                             <div className={styles.input}>
                               <span>Tarjeta</span>
+                              {
+                                formasPago.status && formasPago.data.find(e => e.Codigo === parseInt(input.FormaDePago))?.EsTarjeta === 1 ? 
                               <select name="Tarjeta" value={input.Tarjeta} onChange={handleChange} id="" style={{width: '9rem'}}>
                                 <option value="*">---</option>
                                 {
                                   tarjetasFiltered.length && tarjetasFiltered.map(e => <option value={e.Codigo}>{e.Nombre}</option>)
                                 } 
-                              </select>
+                              </select> : <select disabled></select>
+                              }
                             </div>
                             <div className={styles.input}>
                               <span>Nro Tarjeta</span>
-                              <input type="text" name='nroTarjeta' value={input.nroTarjeta} onChange={handleChange} />
+                              {
+                                formasPago.status && formasPago.data.find(e => e.Codigo === parseInt(input.FormaDePago))?.EsTarjeta === 1 ? 
+                                <input type="text" name='nroTarjeta' value={input.nroTarjeta} onChange={handleChange} /> : 
+                                <input type="text" disabled />
+                              }
                             </div>
                       </div>
               </div>
               <div className={styles.inputSection2}>
                       <div className={styles.input}>
                             <span>Origen Suscripción</span>
+                            <div className={styles.containerError}>
                             <select name="origenSuscripcion" value={input.origenSuscripcion} onChange={handleChange} id="">
-                            <option value="*">---</option>
+                            <option value="">---</option>
                             {
                             origen.status && origen.data.map(e => <option key={e.Codigo} value={e.Codigo}>{e.Codigo}-{e.Descripcion}</option>)
                             }
                           </select>
+                          {error.origenSuscripcion && <div className={styles.error}>{error.origenSuscripcion}</div>} 
+                            </div>
 
                       </div>
                       <div className={styles.inputSection2} style={{columnGap: '0'}}>
@@ -774,7 +900,11 @@ const onBlurCantPagos = () => {
             </div>
 
             </div>
-              <button onClick={onClick}>Aceptar</button>
+            {
+              Object.keys(error).length ? 
+              <button disabled>Aceptar</button> :
+              <button>Aceptar</button> 
+            }
           </div>
         
     </div>
