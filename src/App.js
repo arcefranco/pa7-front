@@ -64,12 +64,11 @@ function App() {
           width: '100%',
           position: 'absolute',
           paddingLeft: '5em',
-          overflow:'hidden',
-          
-       
-          
-          
+          overflow:'hidden',          
         }}>
+          <div style={{backgroundColor: 'red', width: '100%', heigth: '2rem', textAlignLast: 'center', color:'white'}}>
+            <h4>Servidor de desarrollo</h4>
+          </div>
           <div style={{
          width: '100%',
          opacity: 0.5,
