@@ -267,7 +267,7 @@ font-weight:400
       overflow-x: hidden;
       display: flex;
       flex-direction: column;
-      place-content: space-between;
+/*       place-content: space-between; */
     
   }
   .sidebar:hover{
