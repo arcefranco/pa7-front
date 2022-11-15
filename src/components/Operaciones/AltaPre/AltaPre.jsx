@@ -133,6 +133,7 @@ const onBlurSolicitud = () => {
   else{
     dispatch(verifySolicitud({solicitud: input.Solicitud}))
     dispatch(verifySolicitudStatus({solicitud: input.Solicitud, codMarca: codigoMarca}))
+    setError({...error, "Solicitud": ""}) 
 
   }
   
@@ -201,23 +202,29 @@ const onBlurTelef = (e) => {
 }
 
 const onBlurRecibo1 = () => {
-  if(input.nroRecibo.length && input.nroRecibo.length < 4){
-    let difference = 4 - input.nroRecibo.length
-    let zeros = "0".repeat(difference)
-    setInput({...input, "nroRecibo": zeros + input.nroRecibo})
-    setError({...error, "nroRecibo": ""})
+  if(input.nroRecibo.length){
+    if(input.nroRecibo.length < 4){
+      let difference = 4 - input.nroRecibo.length
+      let zeros = "0".repeat(difference)
+      setInput({...input, "nroRecibo": zeros + input.nroRecibo})
+      setError({...error, "nroRecibo": ""})
+    }
   }else{
     setError({...error, "nroRecibo": "Campo Requerido"})
   }
 }
 
 const onBlurRecibo2 = () => {
-  if(input.nroRecibo2.length && input.nroRecibo2.length < 8){
-    let difference = 8 - input.nroRecibo2.length 
-    let zeros = "0".repeat(difference)
-    setInput({...input, "nroRecibo2": zeros + input.nroRecibo2})
-    setError({...error, "nroRecibo2": ""})
-  }else{
+  if(input.nroRecibo2.length){
+    if(input.nroRecibo2.length < 8){
+      let difference = 8 - input.nroRecibo2.length 
+      let zeros = "0".repeat(difference)  
+      setInput({...input, "nroRecibo2": zeros + input.nroRecibo2})
+      setError({...error, "nroRecibo2": ""})
+    }
+  }
+
+  else{
     setError({...error, "nroRecibo2": "Campo Requerido"})
   }
 }
@@ -277,8 +284,10 @@ const onBlurCantPagos = () => {
     useEffect(() => {
 
       if(input.TipoPlan !== '*' && modelos.status === true){
-        setModelosFiltered(modelos.data.filter(e => e.TipoPlan === parseInt(input.TipoPlan) && e.Marca === codigoMarca))
+        setInput({...input, "TotalCuota": "", "ValorCuotaTerm": ""})
+        setModelosFiltered(modelos.data.filter(e => e.TipoPlan === parseInt(input.TipoPlan) && e.Marca === codigoMarca && e.Activo === 1 && e.CuotaTerminal !== null))
       }else{
+        setInput({...input, "TotalCuota": "", "ValorCuotaTerm": ""})
         setModelosFiltered([])
       }
       
@@ -664,13 +673,13 @@ const onBlurCantPagos = () => {
                             <span>Nro Recibo</span> 
                             <div className={styles.containerError}>
                             <input type="text" onBlur={onBlurRecibo1} minLength={4}  maxLength={4} value={input.nroRecibo} name="nroRecibo" onChange={handleChange} />                        
-                            {error.nroRecibo2 && <div className={styles.error}>{error.nroRecibo2}</div>} 
+                           {error.nroRecibo && <div className={styles.error}>{error.nroRecibo}</div>}
                             </div>
                           </div>
                           <div className={styles.input}>
                             <div className={styles.containerError}>
                             <input type="text" onBlur={onBlurRecibo2}  value={input.nroRecibo2} name="nroRecibo2" onChange={handleChange}/>
-                            {error.nroRecibo && <div className={styles.error}>{error.nroRecibo}</div>}  
+                            {error.nroRecibo2 && <div className={styles.error}>{error.nroRecibo2}</div>}
                           
                             </div>
                           </div>
