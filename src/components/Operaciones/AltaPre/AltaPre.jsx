@@ -383,7 +383,7 @@ const onBlurCantPagos = () => {
               <span>{empresaReal}</span>
               <ReturnLogo empresa={empresaReal}/>
             </div>
-            <TitlePrimary style={{textAlign: 'start'}}>Alta de Pre-Solicitudes ({marca})</TitlePrimary>
+            <TitlePrimary style={{textAlign: 'start'}}>Alta de Pre-Solicitudes prueba({marca})</TitlePrimary>
           </BiggerTitleLogo>
 
           <div className={styles.wholeForm}>
