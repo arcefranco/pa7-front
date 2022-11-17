@@ -67,7 +67,7 @@ function App() {
           overflow:'hidden',          
         }}>
           <div style={{backgroundColor: 'red', width: '100%', heigth: '2rem', textAlignLast: 'center', color:'white'}}>
-            <h4>Servidor de desarrollo</h4>
+            <h4 style={{margin: '0'}}>Servidor de desarrollo</h4>
           </div>
           <div style={{
          width: '100%',
