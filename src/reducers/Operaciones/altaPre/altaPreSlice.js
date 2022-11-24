@@ -22,6 +22,7 @@ const initialState = {
     modeloValorCuota: '',
     modeloPrecios: [],
     solicitudesDoc: [],
+    altaPreStatus: [],
     isError: false,
     isSuccess: false,
     isLoading: false,
@@ -268,6 +269,21 @@ export const getModelos = createAsyncThunk('Operaciones/AltaPre/modelos', async 
     }
   })
 
+  export const altaPre = createAsyncThunk('Operaciones/AltaPre/altaPre', async (documentoData, thunkAPI) => {
+    try {
+      
+      const data = await altaPreService.altaPre(documentoData)
+
+      return data
+    } catch (error) {
+
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+  })
+
 
   export const altaPreSlice = createSlice({
     name: 'altaPre',
@@ -290,6 +306,10 @@ export const getModelos = createAsyncThunk('Operaciones/AltaPre/modelos', async 
         state.tarjetas = []
         state.origen = []     
       },
+
+      resetStatus: (state) => {
+        state.altaPreStatus = []
+      }
       
     },
 
@@ -511,8 +531,21 @@ export const getModelos = createAsyncThunk('Operaciones/AltaPre/modelos', async 
         state.isError = true
         state.solicitudesDoc = action.payload
       })
+      .addCase(altaPre.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(altaPre.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.altaPreStatus = action.payload
+      }) 
+      .addCase(altaPre.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.altaPreStatus = action.payload
+      })
     }
 })
 
-export const { reset } = altaPreSlice.actions
+export const { reset, resetStatus } = altaPreSlice.actions
 export default altaPreSlice.reducer
