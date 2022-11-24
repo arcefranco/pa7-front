@@ -23,7 +23,8 @@ export const Login = () => {
         password: '',
         codigoMarca:'',
         marca:'',
-        codigoEmpresa: ''
+        codigoEmpresa: '',
+        empresaContabiliza: ''
     })
 
     React.useEffect(() => {
@@ -77,44 +78,50 @@ export const Login = () => {
           case "Car Group S.A.":          
           setInput(input.codigoMarca = 2,
             input.codigoEmpresa = 8,
-            input.marca = "FIAT")
+            input.marca = "FIAT",
+            input.empresaContabiliza = false)
             break;
           case "Gestión Financiera S.A.":
           setInput(input.codigoMarca = 2,
             input.codigoEmpresa = 1,
-            input.codigoEmpresa = 8,
-            input.marca = "FIAT")
+            input.marca = "FIAT",
+            input.empresaContabiliza = true)
             break;
           case "AutoNet S.A":
             setInput(input.codigoMarca = 2,
               input.codigoEmpresa = 3,
-              input.codigoEmpresa = 8,
-              input.marca = "FIAT")
+              input.marca = "FIAT",
+              input.empresaContabiliza = false)
               break;
           case "Alizze S.A.":
           setInput(input.codigoMarca = 11,
             input.codigoEmpresa = 14,
-            input.marca = "PEUGEOT")
+            input.marca = "PEUGEOT",
+            input.empresaContabiliza = false)
             break;
           case "Gestión Financiera Luxcar":
           setInput(input.codigoMarca = 10,
             input.codigoEmpresa = 14, 
-            input.marca = "VOLKSWAGEN")
+            input.marca = "VOLKSWAGEN",
+            input.empresaContabiliza = true)
             break;
           case "Autos del Plata S.A.":
           setInput(input.codigoMarca = 6,
             input.codigoEmpresa = 7,
-            input.marca = "CHERY")
+            input.marca = "CHERY",
+            input.empresaContabiliza = false)
             break;
           case "Detroit S.A.":
           setInput(input.codigoMarca = 7,
             input.codigoEmpresa = 9,
-            input.marca = "JEEP")
+            input.marca = "JEEP",
+            input.empresaContabiliza = false)
             break;
           case "Elysees S.A.":
           setInput(input.codigoMarca = 12,
             input.codigoEmpresa = 15,
-            input.marca = "CITROEN")
+            input.marca = "CITROEN",
+            input.empresaContabiliza = true)
             break;
         }
         console.log(input)
@@ -140,12 +147,12 @@ export const Login = () => {
          <div style={{position:'relative', margin: '1rem'}}>
           <select className={styles.input} id="select" name="empresaReal" value={input.empresaReal} onChange={handleChange} required>
                 <option value="" >-Elegir empresa-</option>
-                <option id="pa7" value="Car Group S.A.">Car Group S.A.</option>
+                <option id="pa7_cg" value="Car Group S.A.">Car Group S.A.</option>
                 <option id="pa7" value="Gestión Financiera S.A.">Gestion Financiera S.A.</option>
                 <option id="pa7" value="AutoNet S.A.">AutoNet S.A</option>
                 <option id="pa7" value="Autos del Plata S.A.">Autos del Plata S.A.</option>
                 <option id="pa7" value="Detroit S.A.">Detroit S.A.</option>
-                <option id="pa7" value="Elysees S.A.">Elysees S.A.</option>
+                <option id="pa7_elysees" value="Elysees S.A.">Elysees S.A.</option>
                 <option id="pa7" value="Gestión Financiera Luxcar">Gestión Financiera Luxcar</option>
                 <option id="pa7" value="Alizze S.A.">Alizze S.A.</option>
           </select>

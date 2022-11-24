@@ -100,6 +100,12 @@ const verifyDoc = async(documentoData) => {
     return response.data
 }
 
+const altaPre = async(data) => { 
+    const headers = getHeaderToken()
+    const response = await axios.post(process.env.REACT_APP_HOST + 'Operaciones/AltaPre/altaPre', data, headers).catch((error) => errorsHandling(error))
+    return response.data
+}
+
 const altaPreService = {
     getModelos,
     getSucursales,
@@ -116,7 +122,8 @@ const altaPreService = {
     verifySolicitudStatus,
     getModeloValorCuota,
     getModeloPrecio,
-    verifyDoc
+    verifyDoc,
+    altaPre
 
 }
 

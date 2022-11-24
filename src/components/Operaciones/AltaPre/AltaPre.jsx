@@ -6,23 +6,31 @@ import { ReturnLogo } from '../../../helpers/ReturnLogo';
 import ButtonPrimary from "../../../styled-components/buttons/ButtonPrimary";
 import { getFromasPago, getIntereses, getModeloPrecio, getModelos, getModeloValorCuota, getOficialCanje, getOrigenSuscripcion, 
   getPuntosVenta, getSucursales, getSupervisores, getTarjetas, getTeamLeaders, getVendedores, 
-  reset, verifyDoc, verifySolicitud, verifySolicitudStatus } from '../../../reducers/Operaciones/altaPre/altaPreSlice';
+  reset, verifyDoc, verifySolicitud, verifySolicitudStatus, altaPre, resetStatus } from '../../../reducers/Operaciones/altaPre/altaPreSlice';
 import styles from './AltaPre.module.css';
 import isAfterToday from '../../../helpers/isAfterToday';
+import ModalStatus from '../../ModalStatus';
 
 const AltaPre = () => {
     const dispatch = useDispatch()
     const { empresaReal, marca, codigoMarca, codigoEmpresa } = useSelector(state => state.login.user)
     const { modelos, sucursales, formasPago, vendedores, 
       puntosventa, oficialesCanje, supervisores, teamleaders, intereses, tarjetas, origen, verifyResult, verifyStatus, 
-      modeloValorCuota, modeloPrecios, solicitudesDoc } = useSelector(state => state.AltaPre)
+      modeloValorCuota, modeloPrecios, solicitudesDoc, altaPreStatus } = useSelector(state => state.AltaPre)
     const [modelosFiltered, setModelosFiltered] = useState([])
+    const [vendedorSelected, setVendedorSelected] = useState([])
+    const [teamLeaderSelected, setTeamLeaderSelected] = useState('')
+    const [supervisorSelected, setSupervisorSelected] = useState('')
     const [interesesFiltered, setInteresesFiltered] = useState([])
     const [tarjetasFiltered, setTarjetasFiltered] = useState([])
+    const [isTarjeta, setIsTarjeta] = useState(false)
     const [error, setError] = useState({})
     const [date, setDate] = useState(new Date())
+    const [modal, setModal] = useState(true)
 
     const [input, setInput] = useState({
+      codigoMarca: codigoMarca,
+      codEmpresa: codigoEmpresa,
       Solicitud: '',
       FechaAlta: '',
       TipoPlan: '',
@@ -30,6 +38,7 @@ const AltaPre = () => {
       ValorCuotaTerm: '',
       Documento: '',
       DocumentoNro: '',
+      CUIL: '',
       Nacimiento: '',
       tieneEmail: 0,
       Apellido: '',
@@ -56,6 +65,7 @@ const AltaPre = () => {
       nroRecibo2: '',
       Sucursal: '',
       FormaDePago: '',
+      cuentaContable: '',
       CantPagos: '',
       Vendedor: '',
       FechaCheque: '',
@@ -90,8 +100,6 @@ const AltaPre = () => {
       }
       
       setInput(newForm)
-/*       const errors = validateForm(newForm);
-      setError(errors); */
   }
   const handleCheckChange = (e) => {
     const { name} = e.target;
@@ -153,6 +161,8 @@ const onBlurFecha = () => {
 
   if(isAfterToday(input.FechaAlta)){
     alert('Está ingresando una fecha posterior a la actual. Corrijalo si se trata de un error.')
+  }else{
+    setError({...error, "FechaAlta": ""})
   }
 }
 
@@ -179,15 +189,12 @@ const onBlurEmail = () => {
     }
     else if(input.EmailParticular.length){
       if(!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(input.EmailParticular)){
-        setError({...error, "EmailParticular": 'Email invalido'})
+        
         setInput({...input, "EmailParticular": ""})
       }else{
-        setError({...error, "EmailLaboral": ""})
+        setError({...error, "EmailParticular": ""})
       }
       
-    }
-    else if(!input.EmailLaboral && !input.EmailParticular){
-      setError({...error, "EmailLaboral": 'Debe ingresar al menos un email'})
     }
 
 }
@@ -197,6 +204,23 @@ const onBlurTelef = (e) => {
   if(e.target.value && e.target.value.length < 8){
   setError({...error, [nameTarget]: "Debe tener al menos 8 digitos"})
   }else{
+    setError({...error, [nameTarget]: ""})
+  }
+}
+
+const onBlurTelefUltimo = (e) => {
+  let nameTarget = e.target.name
+  const telefCargados = []
+  if(input.TelefParticular) telefCargados.push(input.TelefParticular)
+  if(input.TelefCelular) telefCargados.push(input.TelefCelular)
+  if(input.TelefFamiliar) telefCargados.push(input.TelefFamiliar)
+  if(input.TelefLaboral) telefCargados.push(input.TelefLaboral)
+  console.log(telefCargados)
+  if(e.target.value && e.target.value.length < 8){
+  setError({...error, [nameTarget]: "Debe tener al menos 8 digitos"})
+  }
+  
+  else{
     setError({...error, [nameTarget]: ""})
   }
 }
@@ -230,14 +254,213 @@ const onBlurRecibo2 = () => {
 }
 
 const onBlurCantPagos = () => {
-  if(!input.Importe.length){
-    alert('Falta importe')
-    setInput({...input, "CantPagos": ""})
-  }else{
-    setInput({...input, "Interes": (input.Importe * input.CantPagos)/100, "importeAbonado": parseInt(input.Importe) + (input.Importe * input.CantPagos)/100})
+  if(input.Importe.length && interesesFiltered.length){
+      if(parseInt(input.CantPagos) !== 1){
+        const interesSelected = interesesFiltered.find(e => e.Cantidad === parseInt(input.CantPagos))?.Interes
+        setInput({...input, "Interes": (input.Importe * parseInt(interesSelected))/100, "importeAbonado": parseInt(input.Importe) + (input.Importe * parseInt(interesSelected))/100})
+        setError({...error, "Importe": ""})
+      }else{
+        setInput({...input, "Interes": 0, "importeAbonado": input.Importe})
+      }
+  }
+  else if(input.Importe.length && !interesesFiltered.length){
+    setInput({...input, "importeAbonado": parseInt(input.Importe)})
   }
 
 }
+
+const onBlurFormaDePago = (e) => {
+setInput({...input, "Importe": 0, "CantPagos": 0, "importeAbonado": 0})
+
+if(!e.target.value) setError({...error, "FormaDePago": "Campo requerido"})
+else setError({...error, "FormaDePago": ""})
+}
+
+
+const onBlurTarjeta = (e) => {
+  if(isTarjeta){
+    let nameTarget = e.target.name
+    if(!e.target.value){
+    setError({...error, [nameTarget]: "Campo Requerido"})
+  }else{
+    setError({...error, [nameTarget]: ""})
+  }
+  }
+}
+
+const onClick = () => {
+  const telefCargados = []
+  const emailsCargados = []
+  if(input.TelefParticular) telefCargados.push(input.TelefParticular)
+  if(input.TelefCelular) telefCargados.push(input.TelefCelular)
+  if(input.TelefFamiliar) telefCargados.push(input.TelefFamiliar)
+  if(input.TelefLaboral) telefCargados.push(input.TelefLaboral)
+  if(input.EmailLaboral) emailsCargados.push(input.EmailLaboral)
+  if(input.EmailParticular) emailsCargados.push(input.EmailParticular)
+  const duplicates = telefCargados.filter((item, index) => telefCargados.indexOf(item) !== index)
+  if(!input.Solicitud){
+    setError({...error, "Solicitud": "Debe ingresar numero de solicitud"})
+    return
+  }
+  if(!input.FechaAlta){
+    setError({...error, "FechaAlta": "Debe ingresar una fecha"})
+    return
+  }
+  if(!input.TipoPlan){
+    setError({...error, "TipoPlan": "Debe ingresar un tipo de plan"})
+    return
+  }
+  if(!input.Modelo){
+    setError({...error, "Modelo": "Debe elegir un modelo"})
+    return
+  }
+  if(!input.Documento.length || !input.DocumentoNro.length) {
+    setError({...error, "Documento": "Debe completar los datos del documento"})
+    return
+  }
+  if(input.Nacimiento > `${date.getUTCFullYear()-18}-${date.getUTCMonth()+1}-${date.getUTCDate()}` || !input.Nacimiento){
+    setError({...error, "Nacimiento": 'El Cliente debe ser mayor de 18 años'})
+    return
+  }
+  if(!input.Apellido){
+    setError({...error, "Apellido": 'Campo Requerido'})
+    return
+  }
+  if(!input.Nombre){
+    setError({...error, "Nombre": 'Campo Requerido'})
+    return
+  }
+  if(!emailsCargados.length && input.tieneEmail === 0){
+    alert('Debe haber al menos 1 email')
+    return
+  }
+  if(!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(input.EmailParticular) && input.EmailParticular){
+    setError({...error, "EmailParticular": 'Email invalido'})
+    return
+  }
+  if(!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(input.EmailLaboral) && input.EmailLaboral){
+    setError({...error, "EmailLaboral": 'Email invalido'})
+    return
+  }
+  if(!input.Calle.length){
+    setError({...error, "Calle": 'Campo Requerido'})
+    return
+  }
+  if(!input.Numero){
+    setError({...error, "Numero": 'Campo Requerido'})
+    return
+  }
+  if(!input.CodPostal){
+    setError({...error, "CodPostal": 'Campo Requerido'})
+    return
+  }
+  if(!input.Localidad.length){
+    setError({...error, "Localidad": 'Campo Requerido'})
+    return
+  }
+  if(!input.Provincia){
+    setError({...error, "Provincia": 'Campo Requerido'})
+    return
+  }
+  if(telefCargados.length < 2) {
+    alert('Debe haber al menos 2(dos) teléfonos')
+    return
+  }
+  if(duplicates.length){
+    alert('No puede haber dos teléfonos iguales')
+    return
+  }
+  if(!input.CondIva.length){
+    setError({...error, "CondIva": 'Campo Requerido'})
+    return
+  }
+  if(!input.nroRecibo2.length){
+    setError({...error, "nroRecibo2": "Campo Requerido"})
+    return
+  }
+  if(!input.nroRecibo.length){
+    setError({...error, "nroRecibo": "Campo Requerido"})
+    return
+  }
+  if(!input.Sucursal.length){
+    setError({...error, "Sucursal": "Campo Requerido"})
+    return
+  }
+  if(!input.FormaDePago.length){
+    setError({...error, "FormaDePago": "Campo Requerido"})
+    return
+  }
+  if(!input.Vendedor){
+    setError({...error, "Vendedor": 'Campo Requerido'})
+    return
+  }
+  if(!input.Importe.length){
+    setError({...error, "Importe": "Falta importe"})
+    return
+  }
+
+  if(!input.FechaCancelacionSaldo){
+    setError({...error, "FechaCancelacionSaldo": 'Campo Requerido'})
+    return
+  }
+  if(isTarjeta && !input.Tarjeta){
+    setError({...error, "Tarjeta": 'Campo Requerido'})
+    return
+  }
+  if(isTarjeta && !input.nroCupon){
+    setError({...error, "nroCupon": 'Campo Requerido'})
+    return
+  }
+  if(isTarjeta && !input.nroTarjeta){
+    setError({...error, "nroTarjeta": 'Campo Requerido'})
+    return
+  }
+  if(isTarjeta && !input.fechaCupon){
+    setError({...error, "fechaCupon": 'Campo Requerido'})
+    return
+  }
+  if(isTarjeta && !input.lote){
+    setError({...error, "lote": 'Campo Requerido'})
+    return
+  }
+
+  if(!input.puntoVenta){
+    setError({...error, "puntoVenta": 'Campo Requerido'})
+    return
+  }
+  if(!input.origenSuscripcion){
+    setError({...error, "origenSuscripcion": 'Campo Requerido'})
+    return
+  }
+  else{
+  const sumErrors = Object.values(error).reduce(
+    (accumulator, currentValue) => accumulator + currentValue.length,
+    0
+  );
+  if(sumErrors === 0) {
+    dispatch(altaPre(input)) 
+  }
+    
+  } 
+}
+
+useEffect(() => { //Manejar actualizaciones de vendedores (ABM) y su inUpdate
+  setModal(true)
+
+  function resetModal () {
+      dispatch(resetStatus())
+      setModal(false)
+  }
+ 
+
+   if(altaPreStatus && Object.keys(altaPreStatus).length){ 
+      setTimeout(resetModal, 5000)
+      
+  } 
+
+
+}, [altaPreStatus]) 
+
 
     useEffect(() => {
 
@@ -320,30 +543,39 @@ const onBlurCantPagos = () => {
     useEffect(() => {
       if(parseInt(input.importeAbonado) > parseInt(input.TotalCuota)){
         alert('El valor abonado no puede ser superior al importe total de la cuota')
+        setInput({...input, "Importe": 0, "CantPagos": "", "importeAbonado": 0})
       }
 
     }, [input.importeAbonado])
- 
+
     useEffect(() => {
-      if(input.Vendedor !== '*'){
-
-        const vendedorSelected = vendedores.status && vendedores.data.find(e => e.Codigo === parseInt(input.Vendedor))
-        const supervisoresSelected = input.Vendedor && supervisores?.data.find(e => e.Codigo === vendedorSelected.Sucursal) 
-        const teamLeaderSelected = input.Vendedor && teamleaders?.data.find(e => e.Codigo === vendedorSelected.TeamLeader) 
-        if(input.Vendedor.length){
-  
-          setInput({...input, "TeamLeader": `${teamLeaderSelected.Codigo} - ${teamLeaderSelected.Nombre}`, "Supervisor": `${supervisoresSelected.Codigo} - ${supervisoresSelected.Nombre}`})
-        }
-      }else{
-        setInput({...input, "TeamLeader": "", "Supervisor": ""})
+      if(vendedores.status && input.Vendedor){
+        setVendedorSelected(vendedores.data.find(e => e.Codigo === parseInt(input.Vendedor)))
       }
-
     }, [input.Vendedor])
+
+    useEffect(() => {
+      setTeamLeaderSelected(teamleaders.data?.find(e => e.Codigo === vendedorSelected?.TeamLeader))
+    }, [vendedorSelected])
+
+    useEffect(() => {
+      setSupervisorSelected(supervisores.data?.find(e => e.Codigo === teamLeaderSelected?.Sucursal))
+
+    }, [teamLeaderSelected])
+    
+    useEffect(() => {
+      
+      setInput({...input, "TeamLeader": teamLeaderSelected?.Codigo, "Supervisor": supervisorSelected?.Codigo,
+      "Vendedor": parseInt(input.Vendedor)})
+
+    }, [supervisorSelected])
+ 
+ 
 
     useEffect(() => {
 
       if(solicitudesDoc.docStatus?.length){
-        alert('El cliente posee la siguiente(s) operacion(es) ' + `${solicitudesDoc.docStatus.map(e => {return `Solicitud: ${e.Solicitud} Empresa: ${e.Empresa}`})}`)
+        alert('El cliente posee la(s) siguiente(s) operacion(es) ' + `${solicitudesDoc.docStatus.map(e => {return `Solicitud: ${e.Solicitud} Empresa: ${e.Empresa}`})}`)
       }
 
       if(solicitudesDoc.suscriptor?.length){
@@ -360,9 +592,12 @@ const onBlurCantPagos = () => {
     
     useEffect(() => {
 
+      setInput({...input, "Importe": 0, "CantPagos": 0, "importeAbonado": 0})
+
       if(input.FormaDePago !== '*' && intereses.status) {
 
           setInteresesFiltered(intereses.data.filter(e => e.MedioCobro === parseInt(input.FormaDePago)))
+          setInput({...input, "cuentaContable": formasPago.data?.find(e => e.Codigo === parseInt(input.FormaDePago))?.CuentaContable})
       }
     }, [input.FormaDePago])
 
@@ -370,20 +605,38 @@ const onBlurCantPagos = () => {
     useEffect(() => {
 
       if(tarjetas.status){
-        setTarjetasFiltered(tarjetas.data.filter(e => e.CodEmpresa === codigoEmpresa && e.EsTarjeta === 1))
+        setTarjetasFiltered(tarjetas.data.filter(e => e.EsTarjeta === 1))
       }
 
     }, [tarjetas])
 
+    useEffect(() => {
+      if(tarjetasFiltered.find(e => e.Codigo === parseInt(input.FormaDePago))) setIsTarjeta(true)
+      else {
+      setIsTarjeta(false) 
+      setError({...error, "Tarjeta":"", "fechaCupon": "", "nroCupon": "", "lote": "", "nroTarjeta": ""})
+      setInput({...input, "Tarjeta":"", "fechaCupon": "", "nroCupon": "", "lote": "", "nroTarjeta": ""})
+      }
+    }, [input.FormaDePago])
+
+    
 
   return (
     <div style={{ textAlign: '-webkit-center'}}>
+                  {
+
+        (Object.keys(altaPreStatus).length && modal) && Object.keys(altaPreStatus).includes('status') ? 
+        <ModalStatus message={altaPreStatus?.message} status={altaPreStatus?.status}/> :
+
+        null
+
+                }
         <BiggerTitleLogo>
             <div>
               <span>{empresaReal}</span>
               <ReturnLogo empresa={empresaReal}/>
             </div>
-            <TitlePrimary style={{textAlign: 'start'}}>Alta de Pre-Solicitudes prueba({marca})</TitlePrimary>
+            <TitlePrimary style={{textAlign: 'start'}}>Alta de Pre-Solicitudes({marca})</TitlePrimary>
           </BiggerTitleLogo>
 
           <div className={styles.wholeForm}>
@@ -402,7 +655,10 @@ const onBlurCantPagos = () => {
 
                   <div className={styles.input}>
                   <span>Fecha Alta </span>
+                  <div className={styles.containerError}>
                   <input name='FechaAlta' onBlur={onBlurFecha} onChange={handleChange} value={input.FechaAlta} type="date" />
+                  {error.FechaAlta && <div className={styles.error}>{error.FechaAlta}</div>}
+                  </div>
                   </div>
 
                   <div className={styles.input}>
@@ -453,10 +709,10 @@ const onBlurCantPagos = () => {
                   <h5 style={{margin: '0'}}>Datos del Suscriptor</h5>
               </div>
               <div className={styles.inputSection2}>
-                    <div className={styles.col1} style={{display: 'grid', gridTemplateColumns:'1fr 1fr'}}>
-              <div className={styles.input}>
-                <span>Documento</span>
-                <div className={styles.containerError}>
+                <div className={styles.col1} style={{display: 'grid', gridTemplateColumns:'1fr 1fr'}}>
+                  <div className={styles.input}>
+                  <span>Documento</span>
+                  <div className={styles.containerError}>
                     <select name="Documento" onChange={handleChange} value={input.Documento} id="">
                       <option value="">---</option>
                       <option value={1}>DNI</option>
@@ -466,7 +722,6 @@ const onBlurCantPagos = () => {
                       <option value={5}>PAS</option>
                       <option value={6}>CUIT</option>
                     </select>
-                    {error.Documento && <div className={styles.error}>{error.Documento}</div>}
                 </div>
               </div>              
               <div className={styles.input}>
@@ -475,8 +730,17 @@ const onBlurCantPagos = () => {
                     <input type="text" onBlur={onBlurDoc} name='DocumentoNro'  value={input.DocumentoNro} onChange={handleChange} />
                     {error.Documento && <div className={styles.error}>{error.Documento}</div>}
                     </div>
-              </div>              
+              </div>
+              {
+                codigoEmpresa === 14 ? 
+              <div className={styles.input}>
+                    <span>CUIL</span>
+                    <div className={styles.containerError}>
+                    <input type="text"  name='CUIL'  value={input.CUIL} onChange={handleChange} />
                     </div>
+              </div>      : null            
+              }
+                  </div>
                     <div className={styles.col2} style={{display: 'grid', gridTemplateColumns:'1fr 1fr'}}>
               <div className={styles.input}>
                   <span>Fecha de Nacimiento </span>
@@ -579,11 +843,17 @@ const onBlurCantPagos = () => {
                     </div>
                     <div className={styles.input}>
                         <span>Localidad</span>
-                        <input name="Localidad" value={input.Localidad} onChange={handleChange}/>
+                        <div className={styles.containerError}>
+                        <input name="Localidad" onBlur={onBlurRequired} value={input.Localidad} onChange={handleChange}/>
+                        {error.Localidad && <div className={styles.error}>{error.Localidad}</div>}  
+                        </div>
                     </div>
                     <div className={styles.input}>
                         <span>Provincia</span>
-                        <input name="Provincia"   value={input.Provincia} onChange={handleChange}/>
+                        <div className={styles.containerError}>
+                        <input name="Provincia"   value={input.Provincia} onBlur={onBlurRequired} onChange={handleChange}/>
+                        {error.Provincia && <div className={styles.error}>{error.Provincia}</div>}  
+                        </div>
                     </div>
 
                 </div>
@@ -616,7 +886,7 @@ const onBlurCantPagos = () => {
               <div className={styles.input}>
                 <span>Telef. Familiar</span>
                 <div className={styles.containerError}>
-                <input type="number" name='TelefFamiliar' onBlur={onBlurTelef} value={input.TelefFamiliar} onChange={handleChange}/>
+                <input type="number" name='TelefFamiliar' onBlur={onBlurTelefUltimo} value={input.TelefFamiliar} onChange={handleChange}/>
                 {error.TelefFamiliar && <div className={styles.error}>{error.TelefFamiliar}</div>}
                 </div>
               </div>
@@ -689,23 +959,26 @@ const onBlurCantPagos = () => {
               <div className={styles.inputSection2}>
                     <div className={styles.input}>
                       <span>Sucursal</span>
-                      <select name="Sucursal" value={input.Sucursal} onChange={handleChange} id="">
+                      <div className={styles.containerError}>
+                      <select name="Sucursal" value={input.Sucursal} onBlur={onBlurRequired} onChange={handleChange} id="">
                         <option value="*">---</option>
                         {
                           sucursales.status && sucursales.data.map(e => <option key={e.Codigo} value={e.Codigo}>{e.Codigo}-{e.Nombre}</option>)
                         }
                       </select>
+                      {error.Sucursal && <div className={styles.error}>{error.Sucursal}</div>}
+                      </div>
                     </div>
                     <div className={styles.input}>
                         <span>Forma Pago</span>
                         <div className={styles.containerError}>
-                        <select name="FormaDePago" value={input.FormaDePago} onBlur={onBlurRequired} onChange={handleChange} id="">
+                        <select name="FormaDePago" value={input.FormaDePago} onBlur={onBlurFormaDePago} onChange={handleChange} id="">
                           <option value="">---</option>
                           {
                             formasPago.status && formasPago.data.map(e => <option key={e.Codigo} value={e.Codigo}>{e.Codigo}-{e.Nombre}</option>)
                           }
                         </select>
-                        {error.FormaPago && <div className={styles.error}>{error.FormaPago}</div>}
+                        {error.FormaDePago && <div className={styles.error}>{error.FormaDePago}</div>}
                         </div>
                     </div>
               </div>
@@ -714,7 +987,7 @@ const onBlurCantPagos = () => {
                     <div className={styles.input}>
                           <span>Vendedor</span>
                           <div className={styles.containerError}>
-                          <select name="Vendedor" value={input.Vendedor} onChange={handleChange} id="">
+                          <select name="Vendedor" value={input.Vendedor} onBlur={onBlurRequired} onChange={handleChange} id="">
                             <option value="">---</option>
                             {
                             vendedores.status && vendedores.data.map(e => <option key={e.Codigo} value={e.Codigo}>{e.Codigo}-{e.Nombre}</option>)
@@ -731,7 +1004,10 @@ const onBlurCantPagos = () => {
                             </div>
                             <div className={styles.input}>
                               <span>Fecha Estim. Canc. Saldo</span>
-                              <input type="date" name="FechaCancelacionSaldo" value={input.FechaCancelacionSaldo} onChange={handleChange}/>
+                              <div className={styles.containerError}>
+                              <input type="date" name="FechaCancelacionSaldo" onBlur={onBlurRequired} value={input.FechaCancelacionSaldo} onChange={handleChange}/>
+                              {error.FechaCancelacionSaldo && <div className={styles.error}>{error.FechaCancelacionSaldo}</div>}  
+                              </div>
                             </div>
                       </div>
 
@@ -741,18 +1017,21 @@ const onBlurCantPagos = () => {
                   <div className={styles.inputSection2} style={{columnGap: '0'}}>
                       <div className={styles.input}>
                             <span>Team Leader</span>
-                            <input type="text" name='TeamLeader' value={input.TeamLeader}/>
+                            <b><span>{teamLeaderSelected?.Nombre}</span></b>
                       </div>
                       <div className={styles.input}>
                             <span>Supervisor</span>
-                            <input type="text" value={input.Supervisor}/>
+                            <b><span>{supervisorSelected?.Nombre}</span></b> 
                       </div>     
                   </div>
                   <div className={styles.inputSection2} style={{columnGap: '0rem'}}>
 
                     <div className={styles.input}>
                           <span>Importe</span>
-                          <input type="number" name='Importe' value={input.Importe} onChange={handleChange} />
+                          <div className={styles.containerError}>
+                          <input type="number" name='Importe' onBlur={onBlurCantPagos} value={input.Importe} onChange={handleChange} />
+                          {error.Importe && <div className={styles.error}>{error.Importe}</div>} 
+                          </div>
                     </div>
                     <div className={styles.input}>
                             <span>Cant. Pagos</span>
@@ -760,10 +1039,10 @@ const onBlurCantPagos = () => {
                               <option value="*">---</option>
                               {
                                 formasPago.status && formasPago.data.find(e => e.Codigo === parseInt(input.FormaDePago))?.EsTarjeta === 1 ? 
-                                <option value={0}>1 pago sin interés</option> : null
+                                <option value={1}>1 pago sin interés</option> : null
                               }
                               {
-                                interesesFiltered.length && interesesFiltered.map(e => <option value={e.Interes}>{`${e.Cantidad} pagos - ${e.Interes}% interés`}</option>)
+                                interesesFiltered.length && interesesFiltered.map(e => <option value={e.Cantidad}>{`${e.Cantidad} pagos - ${e.Interes}% interés`}</option>)
                               }
                             </select>
                     </div>      
@@ -776,22 +1055,25 @@ const onBlurCantPagos = () => {
                       
                       <div className={styles.input}>
                             <span>Puntos de Venta</span>
-                            <select name="puntoVenta" value={input.puntoVenta} onChange={handleChange} id="">
+                            <div className={styles.containerError}>
+                            <select name="puntoVenta" value={input.puntoVenta} onBlur={onBlurRequired} onChange={handleChange} id="">
                             <option value="*">---</option>
                             {
                             puntosventa.status && puntosventa.data.map(e => <option key={e.Codigo} value={e.Codigo}>{e.Codigo}-{e.Nombre}</option>)
                             }
                           </select>
+                          {error.puntoVenta && <div className={styles.error}>{error.puntoVenta}</div>}
+                          </div>
 
                       </div>
                       <div className={styles.inputSection2} style={{columnGap: '0'}}>
                             <div className={styles.input}>
                               <span>Importe Abonado</span>
-                              <input type="text" name="importeAbonado" value={input.importeAbonado} onChange={handleChange}  />
+                              <input type="number" name="importeAbonado" value={input.importeAbonado} onChange={handleChange}  />
                             </div>
                             <div className={styles.input}>
                               <span>Interés</span>
-                              <input type="text" name="Interes" value={input.Interes} onChange={handleChange} />
+                              <input type="number" name="Interes" value={input.Interes} onChange={handleChange} />
                             </div>
 
                       </div>
@@ -801,7 +1083,7 @@ const onBlurCantPagos = () => {
                       <div className={styles.input}>
                             <span>Oficial Plan Canje</span>
                             <select name="OficialCanje" value={input.OficialCanje} onChange={handleChange} id="">
-                            <option value="*">---</option>
+                            <option value="">---</option>
                             {
                             oficialesCanje.status && oficialesCanje.data.map(e => <option key={e.Codigo} value={e.Codigo}>{e.Codigo}-{e.Nombre}</option>)
                             }
@@ -812,23 +1094,29 @@ const onBlurCantPagos = () => {
                           <div className={styles.inputSection2} style={{columnGap: '0'}}>
                             <div className={styles.input}>
                               <span>Tarjeta</span>
+                              <div className={styles.containerError}>
                               {
                                 formasPago.status && formasPago.data.find(e => e.Codigo === parseInt(input.FormaDePago))?.EsTarjeta === 1 ? 
-                              <select name="Tarjeta" value={input.Tarjeta} onChange={handleChange} id="" style={{width: '9rem'}}>
+                              <select name="Tarjeta" value={input.Tarjeta} onBlur={onBlurTarjeta} onChange={handleChange} id="" style={{width: '9rem'}}>
                                 <option value="*">---</option>
                                 {
                                   tarjetasFiltered.length && tarjetasFiltered.map(e => <option value={e.Codigo}>{e.Nombre}</option>)
                                 } 
                               </select> : <select disabled></select>
                               }
+                              {error.Tarjeta && <div className={styles.error}>{error.Tarjeta}</div>}
+                              </div>
                             </div>
                             <div className={styles.input}>
                               <span>Nro Tarjeta</span>
+                              <div className={styles.containerError}>
                               {
                                 formasPago.status && formasPago.data.find(e => e.Codigo === parseInt(input.FormaDePago))?.EsTarjeta === 1 ? 
-                                <input type="text" name='nroTarjeta' value={input.nroTarjeta} onChange={handleChange} /> : 
+                                <input type="text" name='nroTarjeta' value={input.nroTarjeta} onBlur={onBlurTarjeta} onChange={handleChange} /> : 
                                 <input type="text" disabled />
                               }
+                              {error.nroTarjeta && <div className={styles.error}>{error.nroTarjeta}</div>}
+                              </div>
                             </div>
                       </div>
               </div>
@@ -836,7 +1124,7 @@ const onBlurCantPagos = () => {
                       <div className={styles.input}>
                             <span>Origen Suscripción</span>
                             <div className={styles.containerError}>
-                            <select name="origenSuscripcion" value={input.origenSuscripcion} onChange={handleChange} id="">
+                            <select name="origenSuscripcion" value={input.origenSuscripcion} onBlur={onBlurRequired} onChange={handleChange} id="">
                             <option value="">---</option>
                             {
                             origen.status && origen.data.map(e => <option key={e.Codigo} value={e.Codigo}>{e.Codigo}-{e.Descripcion}</option>)
@@ -849,11 +1137,17 @@ const onBlurCantPagos = () => {
                       <div className={styles.inputSection2} style={{columnGap: '0'}}>
                             <div className={styles.input}>
                               <span>Fecha Cupón</span>
-                              <input type="date" name="fechaCupon" value={input.FechaCupon} onChange={handleChange} />
+                              <div className={styles.containerError}>
+                              <input type="date" name="fechaCupon" value={input.fechaCupon} onBlur={onBlurTarjeta} onChange={handleChange} />
+                              {error.fechaCupon && <div className={styles.error}>{error.fechaCupon}</div>} 
+                              </div>
                             </div>
                             <div className={styles.input}>
                               <span>Nro Cupón</span>
-                              <input type="text" name="nroCupon" value={input.nroCupon} onChange={handleChange}/>
+                              <div className={styles.containerError}>
+                              <input type="text" name="nroCupon" value={input.nroCupon} onBlur={onBlurTarjeta} onChange={handleChange}/>
+                              {error.nroCupon && <div className={styles.error}>{error.nroCupon}</div>} 
+                              </div>
                             </div>
                       </div>
             </div>
@@ -895,7 +1189,10 @@ const onBlurCantPagos = () => {
 
               <div className={styles.input}>
                 <span>Lote</span>
-                <input type="text" name='lote' value={input.lote} onChange={handleChange} />
+                <div className={styles.containerError}>
+                <input type="text" name='lote' value={input.lote} onBlur={onBlurTarjeta} onChange={handleChange} />
+                {error.lote && <div className={styles.error}>{error.lote}</div>}
+                </div>
               </div>
               <div style={{
                 display: 'flex',
@@ -909,11 +1206,8 @@ const onBlurCantPagos = () => {
             </div>
 
             </div>
-            {
-              Object.keys(error).length ? 
-              <button disabled>Aceptar</button> :
-              <button>Aceptar</button> 
-            }
+              <button onClick={onClick}>Aceptar</button> 
+
           </div>
         
     </div>
