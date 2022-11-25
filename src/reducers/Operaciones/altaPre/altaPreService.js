@@ -16,7 +16,7 @@ const getSucursales = async() => {
     return response.data
 }
 
-const getFromasPago = async() => {
+const getFormasPago = async() => {
     const headers = getHeaderToken()
     const response = await axios.get(process.env.REACT_APP_HOST + 'Operaciones/AltaPre/formaspago', headers).catch((error) => errorsHandling(error))
     return response.data
@@ -109,7 +109,7 @@ const altaPre = async(data) => {
 const altaPreService = {
     getModelos,
     getSucursales,
-    getFromasPago,
+    getFormasPago,
     getVendedores,
     getPuntosVenta,
     getOficialCanje,

@@ -59,10 +59,10 @@ export const getModelos = createAsyncThunk('Operaciones/AltaPre/modelos', async 
     }
   })
 
-  export const getFromasPago = createAsyncThunk('Operaciones/AltaPre/formaspago', async (thunkAPI) => {
+  export const getFormasPago = createAsyncThunk('Operaciones/AltaPre/formaspago', async (thunkAPI) => {
     try {
       
-      const data = await altaPreService.getFromasPago()
+      const data = await altaPreService.getFormasPago()
 
       return data
     } catch (error) {
@@ -341,15 +341,15 @@ export const getModelos = createAsyncThunk('Operaciones/AltaPre/modelos', async 
           state.isError = true
           state.sucursales = action.payload
       })
-      .addCase(getFromasPago.pending, (state) => {
+      .addCase(getFormasPago.pending, (state) => {
         state.isLoading = true
     })
-      .addCase(getFromasPago.fulfilled, (state, action) => {
+      .addCase(getFormasPago.fulfilled, (state, action) => {
         state.isLoading = false
         state.isSuccess = true
         state.formasPago = action.payload
     }) 
-      .addCase(getFromasPago.rejected, (state, action) => {
+      .addCase(getFormasPago.rejected, (state, action) => {
         state.isLoading = false
         state.isError = true
         state.formasPago = action.payload

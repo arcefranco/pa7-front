@@ -3,8 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import BiggerTitleLogo from '../../../styled-components/containers/BiggerTitleLogo';
 import TitlePrimary from '../../../styled-components/h/TitlePrimary';
 import { ReturnLogo } from '../../../helpers/ReturnLogo';
-import ButtonPrimary from "../../../styled-components/buttons/ButtonPrimary";
-import { getFromasPago, getIntereses, getModeloPrecio, getModelos, getModeloValorCuota, getOficialCanje, getOrigenSuscripcion, 
+import { getFormasPago, getIntereses, getModeloPrecio, getModelos, getModeloValorCuota, getOficialCanje, getOrigenSuscripcion, 
   getPuntosVenta, getSucursales, getSupervisores, getTarjetas, getTeamLeaders, getVendedores, 
   reset, verifyDoc, verifySolicitud, verifySolicitudStatus, altaPre, resetStatus } from '../../../reducers/Operaciones/altaPre/altaPreSlice';
 import styles from './AltaPre.module.css';
@@ -22,7 +21,6 @@ const AltaPre = () => {
     const [teamLeaderSelected, setTeamLeaderSelected] = useState('')
     const [supervisorSelected, setSupervisorSelected] = useState('')
     const [interesesFiltered, setInteresesFiltered] = useState([])
-    const [tarjetasFiltered, setTarjetasFiltered] = useState([])
     const [isTarjeta, setIsTarjeta] = useState(false)
     const [error, setError] = useState({})
     const [date, setDate] = useState(new Date())
@@ -168,7 +166,6 @@ const onBlurFecha = () => {
 
 const onBlurDoc = () => {
 if(!input.Documento.length || !input.DocumentoNro.length) {
-  /* alert('Falta Tipo Documento') */
   setError({...error, "Documento": "Debe completar los datos del documento"})
   setInput({...input, "DocumentoNro": ""})
 }else{
@@ -467,7 +464,7 @@ useEffect(() => { //Manejar actualizaciones de vendedores (ABM) y su inUpdate
       Promise.all([
         dispatch(getModelos()), 
         dispatch(getSucursales()), 
-        dispatch(getFromasPago()), 
+        dispatch(getFormasPago()), 
         dispatch(getVendedores()),
         dispatch(getPuntosVenta()),
         dispatch(getOficialCanje()),
@@ -602,16 +599,9 @@ useEffect(() => { //Manejar actualizaciones de vendedores (ABM) y su inUpdate
     }, [input.FormaDePago])
 
 
-    useEffect(() => {
-
-      if(tarjetas.status){
-        setTarjetasFiltered(tarjetas.data.filter(e => e.EsTarjeta === 1))
-      }
-
-    }, [tarjetas])
 
     useEffect(() => {
-      if(tarjetasFiltered.find(e => e.Codigo === parseInt(input.FormaDePago))) setIsTarjeta(true)
+      if(formasPago.data?.find(e => e.Codigo === parseInt(input.FormaDePago))?.EsTarjeta === 1) setIsTarjeta(true)
       else {
       setIsTarjeta(false) 
       setError({...error, "Tarjeta":"", "fechaCupon": "", "nroCupon": "", "lote": "", "nroTarjeta": ""})
@@ -1040,7 +1030,7 @@ useEffect(() => { //Manejar actualizaciones de vendedores (ABM) y su inUpdate
                               {
                                 formasPago.status && formasPago.data.find(e => e.Codigo === parseInt(input.FormaDePago))?.EsTarjeta === 1 ? 
                                 <option value={1}>1 pago sin interés</option> : null
-                              }
+                              } 
                               {
                                 interesesFiltered.length && interesesFiltered.map(e => <option value={e.Cantidad}>{`${e.Cantidad} pagos - ${e.Interes}% interés`}</option>)
                               }
@@ -1100,7 +1090,7 @@ useEffect(() => { //Manejar actualizaciones de vendedores (ABM) y su inUpdate
                               <select name="Tarjeta" value={input.Tarjeta} onBlur={onBlurTarjeta} onChange={handleChange} id="" style={{width: '9rem'}}>
                                 <option value="*">---</option>
                                 {
-                                  tarjetasFiltered.length && tarjetasFiltered.map(e => <option value={e.Codigo}>{e.Nombre}</option>)
+                                  tarjetas.data.length && tarjetas.data.map(e => <option value={e.Codigo}>{e.Nombre}</option>)
                                 } 
                               </select> : <select disabled></select>
                               }
@@ -1206,7 +1196,7 @@ useEffect(() => { //Manejar actualizaciones de vendedores (ABM) y su inUpdate
             </div>
 
             </div>
-              <button onClick={onClick}>Aceptar</button> 
+              <button className={styles.submitButton} onClick={onClick}>Aceptar</button> 
 
           </div>
         
