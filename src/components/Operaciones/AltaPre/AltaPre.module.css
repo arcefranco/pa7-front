@@ -121,3 +121,16 @@
     align-self: center;
     align-items: center;
 }
+
+.submitButton{
+    margin-top: 1rem;
+    border: none;
+    padding: 0.5rem;
+    border-radius: 2px;
+    background-color: #3c8dbc;
+    color: white;
+}
+
+.submitButton:hover{
+    background-color: #1971a4
+}
