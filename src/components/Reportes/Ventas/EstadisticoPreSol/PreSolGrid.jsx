@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import BiggerTitleLogo from "../../../../styled-components/containers/BiggerTitleLogo";
 import TitlePrimary from "../../../../styled-components/h/TitlePrimary";
 import { ReturnLogo } from "../../../../helpers/ReturnLogo";
-import { getPreSol } from "../../../../reducers/Reportes/Ventas/PreSolSlice";
+import { getPreSol, reset } from "../../../../reducers/Reportes/Ventas/PreSolSlice";
 import 'devextreme/dist/css/dx.light.css';
 import { exportDataGrid } from 'devextreme/pdf_exporter';
 import { useNavigate } from "react-router-dom";
@@ -37,6 +37,10 @@ const PreSolGrid = () => {
   useEffect(() => {
     loadMessages(es)
     locale(navigator.language || navigator.languages)
+
+    return () => {
+      dispatch(reset())
+    }
   }, [])
 
   useEffect(() => {

@@ -161,7 +161,12 @@ export const getPreSol = createAsyncThunk('preSolSelected', async (preSolData, t
         state.isLoading = false
         state.isSuccess = false
         state.isError = false
-        state.message = ''       
+        state.message = ''
+        state.preSolSelected = []
+        state.preSolEP = []
+        state.preSolME = []
+        state.preSolDetalle = []
+        state.paramsDetalles = []       
       },
       
     },
