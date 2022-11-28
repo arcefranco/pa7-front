@@ -17,6 +17,7 @@ const initialState = {
     intereses: [],
     tarjetas: [],
     origen: [],
+    fechaMinimaCont: [],
     verifyResult: '',
     verifyStatus: '',
     modeloValorCuota: '',
@@ -194,6 +195,21 @@ export const getModelos = createAsyncThunk('Operaciones/AltaPre/modelos', async 
     }
   })
 
+  export const getFechaMinimaCont = createAsyncThunk('Operaciones/AltaPre/fechaCont', async (marca, thunkAPI) => {
+    try {
+      
+      const data = await altaPreService.getFechaMinimaCont(marca)
+
+      return data
+    } catch (error) {
+
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+  })
+
   export const verifySolicitud = createAsyncThunk('Operaciones/AltaPre/verify', async (solicitud, thunkAPI) => {
     try {
       
@@ -304,7 +320,8 @@ export const getModelos = createAsyncThunk('Operaciones/AltaPre/modelos', async 
         state.supervisores = []
         state.intereses = []
         state.tarjetas = []
-        state.origen = []     
+        state.origen = []
+        state.fechaMinimaCont = []     
       },
 
       resetStatus: (state) => {
@@ -461,6 +478,20 @@ export const getModelos = createAsyncThunk('Operaciones/AltaPre/modelos', async 
         state.isLoading = false
         state.isError = true
         state.origen = action.payload
+      })
+
+      .addCase(getFechaMinimaCont.pending, (state) => {
+        state.isLoading = true
+      })
+      .addCase(getFechaMinimaCont.fulfilled, (state, action) => {
+        state.isLoading = false
+        state.isSuccess = true
+        state.fechaMinimaCont = action.payload.ValorSTR
+      }) 
+      .addCase(getFechaMinimaCont.rejected, (state, action) => {
+        state.isLoading = false
+        state.isError = true
+        state.fechaMinimaCont = action.payload
       })
 
       .addCase(verifySolicitud.pending, (state) => {
