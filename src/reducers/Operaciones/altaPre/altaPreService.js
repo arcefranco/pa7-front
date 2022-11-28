@@ -70,6 +70,12 @@ const getOrigenSuscripcion = async() => {
     return response.data
 }
 
+const getFechaMinimaCont = async(marca) => {
+    const headers = getHeaderToken()
+    const response = await axios.post(process.env.REACT_APP_HOST + 'Operaciones/AltaPre/fechaCont', marca, headers).catch((error) => errorsHandling(error))
+    return response.data
+}
+
 const verifySolicitud = async(solicitud) => {
     const headers = getHeaderToken()
     const response = await axios.post(process.env.REACT_APP_HOST + 'Operaciones/AltaPre/verify', solicitud, headers).catch((error) => errorsHandling(error))
@@ -102,7 +108,7 @@ const verifyDoc = async(documentoData) => {
 
 const altaPre = async(data) => { 
     const headers = getHeaderToken()
-    const response = await axios.post(process.env.REACT_APP_HOST + 'Operaciones/AltaPre/altaPre', data, headers).catch((error) => errorsHandling(error))
+    const response = await axios.post(process.env.REACT_APP_HOST + 'Operaciones/AltaPre/altaPre', data, headers)/* .catch((error) => errorsHandling(error)) */
     return response.data
 }
 
@@ -118,6 +124,7 @@ const altaPreService = {
     getIntereses,
     getTarjetas,
     getOrigenSuscripcion,
+    getFechaMinimaCont,
     verifySolicitud,
     verifySolicitudStatus,
     getModeloValorCuota,

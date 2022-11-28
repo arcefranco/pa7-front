@@ -61,7 +61,7 @@ const onCellPrepared = (e) => {
  useEffect(() => {
   if(data){
     if(gerente !== 'todos'){
-      console.log('entro acá')
+ 
       setDataFiltered(Object.values(data[1]).filter(e => e.CodigoEmpresa === parseInt(empresa)).filter(f => f.NombreGerente.toUpperCase() === gerente.toUpperCase()).filter(c => c.Clasificacion === clasificacion)) 
     }else{
       setDataFiltered(Object.values(data[1]).filter(e => e.CodigoEmpresa === parseInt(empresa)).filter(c => c.Clasificacion === clasificacion)) 

@@ -43,7 +43,9 @@ export const getReporte = createAsyncThunk('micro/reporteZonal', async (reporteD
         state.isLoading = false
         state.isSuccess = false
         state.isError = false
-        state.message = ''       
+        state.message = ''
+        state.reporteSelected = []
+        state.reporteZonal = []       
       },
       
     },

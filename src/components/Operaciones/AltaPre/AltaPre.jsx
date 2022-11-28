@@ -4,7 +4,7 @@ import BiggerTitleLogo from '../../../styled-components/containers/BiggerTitleLo
 import TitlePrimary from '../../../styled-components/h/TitlePrimary';
 import { ReturnLogo } from '../../../helpers/ReturnLogo';
 import { getFormasPago, getIntereses, getModeloPrecio, getModelos, getModeloValorCuota, getOficialCanje, getOrigenSuscripcion, 
-  getPuntosVenta, getSucursales, getSupervisores, getTarjetas, getTeamLeaders, getVendedores, 
+  getPuntosVenta, getSucursales, getSupervisores, getTarjetas, getTeamLeaders, getVendedores, getFechaMinimaCont,
   reset, verifyDoc, verifySolicitud, verifySolicitudStatus, altaPre, resetStatus } from '../../../reducers/Operaciones/altaPre/altaPreSlice';
 import styles from './AltaPre.module.css';
 import isAfterToday from '../../../helpers/isAfterToday';
@@ -14,7 +14,7 @@ const AltaPre = () => {
     const dispatch = useDispatch()
     const { empresaReal, marca, codigoMarca, codigoEmpresa } = useSelector(state => state.login.user)
     const { modelos, sucursales, formasPago, vendedores, 
-      puntosventa, oficialesCanje, supervisores, teamleaders, intereses, tarjetas, origen, verifyResult, verifyStatus, 
+      puntosventa, oficialesCanje, supervisores, teamleaders, intereses, tarjetas, origen, fechaMinimaCont, verifyResult, verifyStatus, 
       modeloValorCuota, modeloPrecios, solicitudesDoc, altaPreStatus } = useSelector(state => state.AltaPre)
     const [modelosFiltered, setModelosFiltered] = useState([])
     const [vendedorSelected, setVendedorSelected] = useState([])
@@ -29,6 +29,7 @@ const AltaPre = () => {
     const [input, setInput] = useState({
       codigoMarca: codigoMarca,
       codEmpresa: codigoEmpresa,
+      empresaNombre: empresaReal,
       Solicitud: '',
       FechaAlta: '',
       TipoPlan: '',
@@ -57,7 +58,7 @@ const AltaPre = () => {
       Ocupacion: '',
       CondIva: '',
       ContactoAD: '',
-      Precio: 0,
+      Precio: 'A',
       TotalCuota: '',
       nroRecibo: '',
       nroRecibo2: '',
@@ -111,12 +112,12 @@ const handleCheckPrecio = (e) => {
   if(e.target.value === '1'){
     setInput({
       ...input,
-      "Precio": 1
+      "Precio": 'B'
     })
   }else{
     setInput({
       ...input,
-      "Precio": 0
+      "Precio": 'A'
     })
   }
 
@@ -158,8 +159,16 @@ const onBlurNacimiento = () => {
 const onBlurFecha = () => {
 
   if(isAfterToday(input.FechaAlta)){
-    alert('Está ingresando una fecha posterior a la actual. Corrijalo si se trata de un error.')
-  }else{
+    setError({...error, "FechaAlta": "Está ingresando una fecha posterior a la actual"})
+ 
+    setInput({...input, "FechaAlta": ""})
+  }else if(input.FechaAlta < `${fechaMinimaCont.slice(0,4)}-${fechaMinimaCont.slice(4,6)}-${fechaMinimaCont.slice(6,fechaMinimaCont.length)}`){
+    setError({...error, "FechaAlta": "Esta ingresando una fecha anterior a la fecha minima de contabilización"})
+
+    setInput({...input, "FechaAlta": ""})
+  }
+  
+  else{
     setError({...error, "FechaAlta": ""})
   }
 }
@@ -270,7 +279,10 @@ const onBlurFormaDePago = (e) => {
 setInput({...input, "Importe": 0, "CantPagos": 0, "importeAbonado": 0})
 
 if(!e.target.value) setError({...error, "FormaDePago": "Campo requerido"})
-else setError({...error, "FormaDePago": ""})
+else{
+  setInput({...input, "cuentaContable": formasPago.status && formasPago.data.find(e => e.Codigo === parseInt(input.FormaDePago)).CuentaContable})
+   setError({...error, "FormaDePago": ""})
+  }
 }
 
 
@@ -472,7 +484,8 @@ useEffect(() => { //Manejar actualizaciones de vendedores (ABM) y su inUpdate
         dispatch(getSupervisores()),
         dispatch(getIntereses()),
         dispatch(getTarjetas()),
-        dispatch(getOrigenSuscripcion())
+        dispatch(getOrigenSuscripcion()),
+        dispatch(getFechaMinimaCont({marca: codigoMarca}))
       
       ])
       
@@ -528,10 +541,10 @@ useEffect(() => { //Manejar actualizaciones de vendedores (ABM) y su inUpdate
     }, [modeloValorCuota])
 
     useEffect(() => {
-      if(input.Precio === 0 && Object.keys(modeloPrecios).length){
+      if(input.Precio === 'A' && Object.keys(modeloPrecios).length){
         setInput({...input, "TotalCuota": modeloPrecios.PrecioA.CuotaACobrar})
       }
-      if(input.Precio === 1 && Object.keys(modeloPrecios).length){
+      if(input.Precio === 'B' && Object.keys(modeloPrecios).length){
         setInput({...input, "TotalCuota": modeloPrecios.PrecioB.CuotaACobrar})
       }
 
@@ -591,10 +604,10 @@ useEffect(() => { //Manejar actualizaciones de vendedores (ABM) y su inUpdate
 
       setInput({...input, "Importe": 0, "CantPagos": 0, "importeAbonado": 0})
 
-      if(input.FormaDePago !== '*' && intereses.status) {
+      if(input.FormaDePago  && intereses.status) {
 
           setInteresesFiltered(intereses.data.filter(e => e.MedioCobro === parseInt(input.FormaDePago)))
-          setInput({...input, "cuentaContable": formasPago.data?.find(e => e.Codigo === parseInt(input.FormaDePago))?.CuentaContable})
+          
       }
     }, [input.FormaDePago])
 
@@ -1180,7 +1193,7 @@ useEffect(() => { //Manejar actualizaciones de vendedores (ABM) y su inUpdate
               <div className={styles.input}>
                 <span>Lote</span>
                 <div className={styles.containerError}>
-                <input type="text" name='lote' value={input.lote} onBlur={onBlurTarjeta} onChange={handleChange} />
+                <input type="number" name='lote' value={input.lote} onBlur={onBlurTarjeta} onChange={handleChange} />
                 {error.lote && <div className={styles.error}>{error.lote}</div>}
                 </div>
               </div>
