@@ -34,6 +34,8 @@ import ReporteZonal from './components/Reportes/Micro/ReporteZonal';
 import TableDetallesZonal from './components/Reportes/Micro/TableDetallesZonal';
 import ReportTemplate from './components/Reportes/Micro/ReportTemplate';
 import AltaPre from './components/Operaciones/AltaPre/AltaPre';
+import ActualPreScreen from './components/Operaciones/ActualizacionPre/ActualPreScreen';
+import ActualForm from './components/Operaciones/ActualizacionPre/ActualForm';
 
 function App() {
   const {user, toggle} = useSelector(
@@ -120,6 +122,8 @@ function App() {
           <Route path='/reportes/Micro/Zonal/:empresa/:gerente/:clasificacion' element={<TableDetallesZonal/>}/>
           <Route path='/reportTemplate' element={<ReportTemplate/>}/>
           <Route path='/operaciones/altaPre' element={<AltaPre/>}/>
+          <Route path='/operaciones/actualizacionPre' element={<ActualPreScreen/>}/>
+          <Route path='/operaciones/actualizacionPre/:codigoMarca/:Numero' element={<ActualForm/>}/>
         </Routes> 
         </div>
        
