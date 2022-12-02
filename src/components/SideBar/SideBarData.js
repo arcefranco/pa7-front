@@ -14,8 +14,8 @@ export const SidebarData = [
     options: 
     [
       {title: 'Altas Pre Solicitudes', rol:'1.2.1', cName:'subMenuL2', path:'/operaciones/altaPre'},
-      /* {title: 'Actualizaciones Pre Solicitudes', rol:'1.2.2', cName:'subMenuL2' , path:'/'},
-      {title: 'Actualizacion Operaciones', rol:'1.2.3', cName:'subMenuL2' , path:'/'},
+      {title: 'Actualizaciones Pre Solicitudes', rol:'1.2.2', cName:'subMenuL2' , path:'/operaciones/actualizacionPre'},
+     /* {title: 'Actualizacion Operaciones', rol:'1.2.3', cName:'subMenuL2' , path:'/'},
       {title: 'Alta Cartera', rol:'1.2.4', cName:'subMenuL2' , path:'/'},
       {title: 'AAPE', rol:'1.2.5', cName:'subMenuL2' , path:'/'}, */
     /*   {title: 'Scoring', rol:'1.2.6', cName:'subMenuL2', 

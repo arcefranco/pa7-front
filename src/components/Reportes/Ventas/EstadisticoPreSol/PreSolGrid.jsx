@@ -349,10 +349,8 @@ const getProm = (data) => {
 
       
 
-      const footer = 'www.wikipedia.org';
       doc.setFontSize(9);
       doc.setTextColor('#000');
-      const footerWidth = doc.getTextDimensions(footer).w;
       for(let i = 0; i<pages; i++){
         doc.setPage(i)
         doc.text(`PB: ${username} -  ${day}/${month}/${year} ${date.toLocaleTimeString()}`, 15, 200);
