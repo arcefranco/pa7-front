@@ -6,7 +6,7 @@ import * as BsIcons from 'react-icons/bs'
 
 
 
-const FormaPagoItem = ({FechaSenia, ImpoSenia, Interes, NomFormaPago, CodFormaDePago, NroRecibo, FechaCheque}) => {
+const FormaPagoItem = ({FechaSenia, ImpoSenia, Interes, NomFormaPago, CodFormaDePago, NroRecibo, FechaCheque, isReadOnly}) => {
 
     const [inEdit, setInEdit] = useState(false)
     const {formasPago} = useSelector(state => state.ActualPre)
@@ -32,7 +32,7 @@ const FormaPagoItem = ({FechaSenia, ImpoSenia, Interes, NomFormaPago, CodFormaDe
 
   return (
     <tr>
-    <td style={{width: '1rem'}}><button className={styles.submitButton} onClick={() => setInEdit(!inEdit)}><BsIcons.BsPencilFill/></button></td>
+    <td style={{width: '1rem'}}><button className={styles.submitButton} disabled={isReadOnly} onClick={() => setInEdit(!inEdit)}><BsIcons.BsPencilFill/></button></td>
     <td>{inEdit ? <input type="date" value={inputPago.Fecha} onChange={handlePago} name="Fecha"/> : FechaSenia?.slice(0,10).split('-').reverse().join('/')}</td>
     <td>{inEdit ? <input type="text" value={inputPago.Importe} size={5} onChange={handlePago} name="Importe"/> : ImpoSenia}</td>
     <td>{inEdit ? <input type="text" value={inputPago.Interes} size={5} onChange={handlePago} name="Interes"/> : Interes}</td>

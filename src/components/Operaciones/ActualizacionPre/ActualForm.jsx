@@ -1085,6 +1085,7 @@ const ActualForm = () => {
                                         NroRecibo={e.NroRecibo}
                                         CodFormaDePago={e.CodFormaPago}
                                         FechaCheque={e.FechaCheque}
+                                        isReadOnly={isReadOnly}
                                         />)
                                 }
                                 {
