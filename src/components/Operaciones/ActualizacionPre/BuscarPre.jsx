@@ -4,6 +4,7 @@ import {useNavigate} from 'react-router-dom'
 import {useDispatch, useSelector} from 'react-redux'
 import { getPreOperaciones } from '../../../reducers/Operaciones/actualPre/actualPreSlice'  
 import styles from './ActualPre.module.css'
+import { useEffect } from 'react'
 
 
 
@@ -39,6 +40,12 @@ const BuscarPre = () => {
             input.Apellido, Documento: 
             input.Documento}))
     }
+
+    useEffect(() => {
+
+        solicitudes?.length === 1 && navigate(`/operaciones/actualizacionPre/${codigoMarca}/${solicitudes[0]?.Numero}`)
+
+    }, [solicitudes])
 
   
 
