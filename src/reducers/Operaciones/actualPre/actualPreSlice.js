@@ -12,6 +12,8 @@ const initialState = {
     oficialesScoring: [],
     origen: [],
     puntos: [],
+    parametros: [],
+    formasPago: [],
     isError: false,
     isSuccess: false,
     isLoading: false,
@@ -148,6 +150,41 @@ export const getPreOperaciones = createAsyncThunk('Operaciones/ActualPre/getPreO
 
   })
 
+  
+  export const getParametros = createAsyncThunk('Operaciones/ActualPre/parametros', async (thunkAPI) => {
+    try {
+      
+      const data = await actualPreService.getParametros()
+
+      return data
+    } catch (error) {
+
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+
+  })
+
+  export const getFormasPago = createAsyncThunk('Operaciones/ActualPre/formasPago', async (thunkAPI) => {
+    try {
+      
+      const data = await actualPreService.getFormasPago()
+
+      return data
+    } catch (error) {
+
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+
+  })
+
+
+
   export const actualPreSlice = createSlice({
     name: 'actualPre',
     initialState,
@@ -267,6 +304,32 @@ export const getPreOperaciones = createAsyncThunk('Operaciones/ActualPre/getPreO
             state.isLoading = false
             state.isError = true
             state.puntos = action.payload
+          })
+          .addCase(getParametros.pending, (state) => {
+            state.isLoading = true
+          })
+          .addCase(getParametros.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.isSuccess = true
+            state.parametros = action.payload
+          })
+          .addCase(getParametros.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            state.parametros = action.payload
+          })
+          .addCase(getFormasPago.pending, (state) => {
+            state.isLoading = true
+          })
+          .addCase(getFormasPago.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.isSuccess = true
+            state.formasPago = action.payload
+          })
+          .addCase(getFormasPago.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            state.formasPago = action.payload
           })
     }
 })

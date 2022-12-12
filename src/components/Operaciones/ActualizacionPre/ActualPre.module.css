@@ -108,6 +108,13 @@
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr;
 }
+.formSection4x3{
+    display: grid;
+    column-gap: 2rem;
+    row-gap: 1rem;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+}
 
 .formSection2x4{
     display: grid;
@@ -144,14 +151,7 @@
     grid-template-columns: 1fr 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr 1fr;
 }
-.formSection2x1{
-    display: grid;
-    column-gap: 2rem;
-    row-gap: 1rem;
-    margin-top: 1rem;
-    grid-template-columns: 1fr 1fr;
-    grid-template-rows: 1fr;
-}
+
 .formSection2x1{
     display: grid;
     column-gap: 2rem;
@@ -237,10 +237,29 @@
     color: white;
 }
 
+.submitButton:disabled{
+    background-color: gray;
+}
+
+.checkboxAnulada:checked{
+ accent-color: red;
+}
+
+.formItem{
+    font-size: 12px;
+}
+.formItem input{
+    width: 100%;
+}
+
+.formItem select{
+    width: 100%;
+}
 
 
-@media screen and (max-width: 1100px) {
-    .formSection4x2{
+
+@media screen and (max-width: 1170px) {
+    .formSection4x3{
       grid-template-columns: 1fr;
     }
     .formSection1x2{
@@ -249,4 +268,13 @@
     .formSection4x4{
         grid-template-columns: 1fr;
       }
+  }
+
+  @media screen and (max-width: 800px) {
+    .section .formItem input{
+        width: inherit;
+    }
+    .section .formItem select{
+        width: inherit;
+    }
   }
