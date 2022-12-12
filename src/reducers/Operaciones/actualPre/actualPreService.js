@@ -50,6 +50,18 @@ const getPuntosVenta = async() => {
     return response.data
 }
 
+const getParametros = async() => {
+    const headers = getHeaderToken()
+    const response = await axios.get(process.env.REACT_APP_HOST + 'Operaciones/ActualPre/parametros', headers).catch((error) => errorsHandling(error))
+    return response.data
+}
+
+const getFormasPago = async() => {
+    const headers = getHeaderToken()
+    const response = await axios.get(process.env.REACT_APP_HOST + 'Operaciones/ActualPre/formasPago', headers).catch((error) => errorsHandling(error))
+    return response.data
+}
+
 
 const actualPreService = {
     getPreOperaciones,
@@ -59,7 +71,9 @@ const actualPreService = {
     getOficialesPC,
     getOficialesScoring,
     getOrigenSuscripcion,
-    getPuntosVenta
+    getPuntosVenta,
+    getParametros,
+    getFormasPago
 }
 
 export default actualPreService

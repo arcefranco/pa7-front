@@ -9,20 +9,33 @@ import TitlePrimary from '../../../styled-components/h/TitlePrimary'
 import { useParams } from 'react-router-dom'
 import TableContainer from '../../../styled-components/tables/TableContainer'
 import { getDatosPreSol, getModelos, getOficialesMora, getOficialesScoring, getOficialesPC,
-getOrigenSuscripcion, reset, 
+getOrigenSuscripcion, reset, getParametros, getFormasPago, 
 getPuntosVenta} from '../../../reducers/Operaciones/actualPre/actualPreSlice'
+import * as BsIcons from 'react-icons/bs'
+import FormaPagoItem from './FormaPagoItem'
 
 
 
 const ActualForm = () => {
     const dispatch = useDispatch()
     const {empresaReal, marca} = useSelector(state => state.login.user)
-    const {modelos, datosOp, oficialesMora, oficialesPC, oficialesScoring, origen, puntos} = useSelector(state => state.ActualPre)
-    const {codigoVendedor, codigoSucursal, codigoGerente, codigoTeamLeader} = useSelector(state => state.login.user)
+    const {modelos, datosOp, oficialesMora, oficialesPC, oficialesScoring, origen, puntos, parametros, formasPago} = useSelector(state => state.ActualPre)
+    const {codigoVendedor, codigoSucursal, codigoGerente, codigoTeamLeader, roles, PAwebHookAnura, usaWebHookAnura} = useSelector(state => state.login.user)
     const {codigoMarca, Numero} = useParams()
+    const [perfil, setPerfil] = useState('')
+    const [valorCuotaEnabled, setValorCuotaEnabled] = useState(false)
     const [totalImpAbonado, setTotalImpAbonado] = useState(0)
+    const [isDisabled, setIsDisabled] = useState(false)
+    const [verificaNroSol, setVerificaNroSol] = useState(false)
+    const [poseeAnura, setPoseeAnura] = useState(false)
+    const [tipoDoc, setTipoDoc] = useState(false)
+    const [btnConformar, setBtnConformar] = useState(false)
+    const [debAutScoring, setDebAutoScoring] = useState(true)
+    const [puedeModificarScoring, setPuedeModificarScoring] = useState(false)
+    const [isReadOnly, setIsReadOnly] = useState(false)
     const [input, setInput] = useState({
         Solicitud:'',
+        Bonificacion: '',
         FechaAlta:'',
         FechaCrucescoring:'',
         CodModelo:'',
@@ -82,6 +95,17 @@ const ActualForm = () => {
         DomicilioOcupacion: '',
         EntregaUsadoRetiro: ''
     })
+    const [nuevoPago, setNuevoPago] = useState(false) 
+    const [inputNuevoPago, setInputNuevoPago] = useState({
+        Fecha: '',
+        Importe: '',
+        Interes: '',
+        ImpAbonado: '',
+        FormaDePago: '',
+        NroRecibo: '',
+        FechaVto: ''
+    })
+
 
     const handleChange = (e) => {
                 
@@ -95,6 +119,17 @@ const ActualForm = () => {
           }
           
           setInput(newForm)
+      }
+
+    const handleNuevoPago = (e) => {
+                
+        const {name , value} = e.target
+
+        const newForm = {...input,
+            [name]: value,
+          }
+          
+          setInputNuevoPago(newForm)
       }
       const handleCheckChange = (e) => {
         const { name} = e.target;
@@ -112,13 +147,16 @@ const ActualForm = () => {
             dispatch(getOficialesPC()),
             dispatch(getOficialesScoring()),
             dispatch(getOrigenSuscripcion()),
-            dispatch(getPuntosVenta())
+            dispatch(getPuntosVenta()),
+            dispatch(getFormasPago()),
+            dispatch(getParametros())
         ])
         return () => {
             dispatch(reset())
             setInput({
                 Numero: '',
                 Solicitud:'',
+                Bonificacion: '',
                 FechaAlta:'',
                 FechaCrucescoring:'',
                 CodModelo:'',
@@ -182,14 +220,42 @@ const ActualForm = () => {
     }, [])
 
     useEffect(() => {
+        if(parametros.status){
+            if(parametros.data.soli === 1){
+                setVerificaNroSol(true)
+            }
+
+            if(parametros.data.sanu === 1){
+                setPoseeAnura(true)
+                if(PAwebHookAnura === 1 && !usaWebHookAnura){
+                    alert("No está activado el evento para grabar llamadas para su usuario")
+                }
+            }
+        
+        }
+
+    }, [parametros])
+
+    useEffect(() => {
 
         if( datosOp.length && ( (codigoVendedor && codigoVendedor !== datosOp[0]?.Vendedor) || 
         (codigoTeamLeader && codigoTeamLeader !== datosOp[0].CodTL) || (codigoSucursal && codigoSucursal !== datosOp[0].CodSupervisor) )){
-            console.log(codigoVendedor, datosOp[0]?.Vendedor)
             alert('No tiene permiso para realizar esta acción')
             
         }else{
-            console.log(codigoVendedor, datosOp[0]?.Vendedor)
+            if(roles.find(e => e.rl_codigo === '1.2.2.0')) setIsDisabled(true) //ROL SOLO LECTURA
+            if(roles.find(e => e.rl_codigo === '1.2.2.8')) setPerfil('Op_Scoring')
+            if(roles.find(e => e.rl_codigo === '1.2.2.9')) setPerfil('Sup_Comercial')
+            if(roles.find(e => e.rl_codigo === '1.2.2.10')) setPerfil('Sup_Scoring')
+            if(datosOp[0]?.PasoAoperaciones === 1){
+                setIsReadOnly(true)
+                setTipoDoc(true)
+                setBtnConformar(true)
+            }
+            if(datosOp[0]?.EstadoPrescoring === 0){
+                setPuedeModificarScoring(true)
+            }
+
             setInput({
                 Numero: datosOp[0]?.Numero,
                 Solicitud: datosOp[0]?.Solicitud,
@@ -242,7 +308,7 @@ const ActualForm = () => {
                 Rec: datosOp[0]?.Rec,
                 TieneServicio: datosOp[0]?.TieneServicio,
                 AnuladaCliente: datosOp[0]?.AnuladaCliente,
-                FechaIngresoTerminal: datosOp[0]?.FechaIngresoTerminal,
+                FechaIngresoTerminal: datosOp[0]?.FechaIngresoTerminal?.slice(0,10),
                 ImporteTotalCuota: datosOp[0]?.ImporteTotalCuota,
                 CuotaACobrar: datosOp[0]?.CuotaACobrar,
                 ImporteTotalCuota: datosOp[0]?.ImporteTotalCuota,
@@ -259,6 +325,12 @@ const ActualForm = () => {
         }
     }, [datosOp[0]])
 
+    useEffect(() => {
+        if(perfil === 'Sup_Scoring'){
+            setDebAutoScoring(false)
+        }
+    }, [perfil])
+
   
 
 
@@ -273,24 +345,28 @@ const ActualForm = () => {
           </BiggerTitleLogo>
 
           <div>
+          <fieldset disabled={isDisabled}>
+
             <div className={styles.formSectionContainer}>
                 <h4>Datos Generales</h4>
-                <div className={styles.formSection4x2}>
+                <div className={styles.formSection4x3}>
                     <div className={styles.section}>
                     <div className={styles.formItem}>
                     <span>Codigo Interno</span>
-                    <input type="text" disabled value={input.Numero} />
+                   
+                        <input type="text" disabled value={input.Numero} />
+                    
 
                     </div>
                     </div>
                     <div className={styles.section} style={{columnGap:'1rem'}}>
                         <div className={styles.formItem}>
                         <span>Solicitud</span>
-                        <input type="text" disabled value={input.Solicitud} />
+                        <input type="text" disabled={isReadOnly} value={input.Solicitud} />
                         </div>
                         <div className={styles.formItem}>
                         <span>Fecha Alta</span>
-                        <input type="date" disabled value={input.FechaAlta?.slice(0,10)} />
+                        <input type="date" disabled={isReadOnly} value={input.FechaAlta?.slice(0,10)} />
                         </div>
                         
 
@@ -298,16 +374,21 @@ const ActualForm = () => {
                     </div>
 
                     <div className={styles.section} style={{ columnGap:'1rem'}}>
+    
                         <div className={styles.formItemCheck}>
-                            <input type="checkbox" size={2} checked={input.FechaIngresoTerminal ? true : false}/>
+                            <input type="checkbox" disabled={input.FechaIngresoTerminal ? false : true} size={2} 
+                            checked={input.FechaIngresoTerminal ? true : false}/>
                             <span>Ingresada en la terminal</span>
                         </div>
+
+
                         <div className={styles.formItemCheck}>
-                            <input type="checkbox" size={2} checked={input.AnuladaCliente === 1 ? true : false}/>
-                            <span>Anulada</span>
+                            <input type="checkbox" className={styles.checkboxAnulada} style={{color: 'red'}} size={2} disabled={isReadOnly} 
+                            checked={input.AnuladaCliente === 1 ? true : false}/>
+                            <span style={{color: input.AnuladaCliente === 1 && 'red'}}>Anulada</span>
                         </div>
                         <div className={styles.formItemCheck}>
-                            <input type="checkbox" size={2} checked={input.Crucescoring === 1 ? true : false}/>
+                            <input type="checkbox" disabled={input.AnuladaCliente === 1 ? false : isReadOnly} size={2} checked={input.Crucescoring === 1 ? true : false}/>
                             <span>Cruce Scoring</span>
                         </div>
                     </div>
@@ -315,13 +396,13 @@ const ActualForm = () => {
                     <div className={styles.section}>
                         <div className={styles.formItem}>
                             <span>Fecha</span>
-                            <input type="date" disabled value={input.FechaCrucescoring}/>
+                            <input type="date" disabled={isReadOnly} value={input.FechaCrucescoring}/>
                         </div>
                     </div>
                     <div className={styles.section}>
                         <div className={styles.formItem}>
                             <span>Modelo</span>
-                            <select style={{width: '12rem'}} disabled value={input.CodModelo} name="" id="">
+                            <select style={{width: '12rem'}} disabled={isReadOnly} value={input.CodModelo} name="" id="">
                                 <option>---</option>
                                 {
                                     modelos && modelos.map(e => <option value={e.Codigo}>{e.Nombre}</option>)
@@ -347,7 +428,7 @@ const ActualForm = () => {
                     <div className={styles.section}>
                         <div className={styles.formItem}>
                             <span>Cuota Terminal</span>
-                            <input type="text" disabled value={input.CuotaTerminal} />
+                            <input type="text" disabled={isReadOnly} value={input.CuotaTerminal} />
                         </div>
                     </div>
                     <div className={styles.section}>
@@ -356,13 +437,18 @@ const ActualForm = () => {
                             <h5 style={{color: 'red', alignSelf: 'center'}}>Sin Conformar</h5>
                         }
                     </div>
+                    <div className={styles.formItem}>
+                        <span>Fecha Ingresada Terminal</span>
+                        <input type="date" value={input.FechaIngresoTerminal}/>
+                    </div>
                 </div>
                 <h4>Datos del suscriptor</h4>
                 <div className={styles.formSection4x4}>
                     <div className={styles.section} style={{columnGap: '0.5rem'}}>
                         <div className={styles.formItem}>
                             <span>Documento</span>
-                            <select name="Documento" style={{height: '1.6rem'}} disabled value={input.TipoDocumento} id="">
+                            <select name="Documento" style={{height: '1.6rem'}} disabled={btnConformar} 
+                            value={input.TipoDocumento} id="">
                                 <option value="">---</option>
                                 <option value={1}>DNI</option>
                                 <option value={2}>LE</option>
@@ -400,7 +486,7 @@ const ActualForm = () => {
                             <input disabled type="text" value={input.ImporteReciboX}/>
                         </div>
                         <div className={styles.formItemCheck}>
-                            <input type="checkbox" />
+                            <input type="checkbox" checked={(!datosOp[0]?.EmailLaboral && !datosOp[0]?.EmailParticular) ? true : false }/>
                             <span>No tiene Email</span>
                         </div>
 
@@ -408,25 +494,27 @@ const ActualForm = () => {
                     <div className={styles.section}>
                         <div className={styles.formItem}>
                             <span>Apellido</span>
-                            <input disabled value={input.Apellido} type="text" />
+                            <input disabled={isReadOnly} value={input.Apellido} type="text" />
                         </div>
                     </div>
                     <div className={styles.section}>
                         <div className={styles.formItem}>
                             <span>Nombre</span>
-                            <input value={input.Nombres} disabled type="text" />
+                            <input value={input.Nombres} disabled={isReadOnly} type="text" />
                         </div>
                     </div>
                     <div className={styles.section}>
                         <div className={styles.formItem}>
                             <span>Email Particular</span>
-                            <input name='EmailParticular' value={input.EmailParticular} onChange={handleChange} type="text" />
+                            <input name='EmailParticular' disabled={(!datosOp[0]?.EmailLaboral && !datosOp[0]?.EmailParticular) ? true : false} value={input.EmailParticular} onChange={handleChange} type="text" />
                         </div>
                     </div>
                     <div className={styles.section}>
                         <div className={styles.formItem}>
                             <span>Email Laboral</span>
-                            <input name='EmailLaboral' value={input.EmailLaboral} onChange={handleChange} type="text" />
+                            
+                                <input name='EmailLaboral' disabled={(!datosOp[0]?.EmailLaboral && !datosOp[0]?.EmailParticular) ? true : false} value={input.EmailLaboral} onChange={handleChange} type="text" />
+                            
                         </div>
                     </div>
                     <div className={styles.section}>
@@ -472,7 +560,7 @@ const ActualForm = () => {
                             <div style={{display: 'flex', justifyContent: 'space-between'}}>
 
                             <input type="text" value={input.TelefParticular} name="TelefParticular" onChange={handleChange}/>
-                            <button className={styles.submitButton}>Llamar</button>
+                            <button className={styles.submitButton} style={{marginLeft:'1rem'}}>Llamar</button>
                             </div>
                         </div>
                     </div>
@@ -482,7 +570,7 @@ const ActualForm = () => {
                             <div style={{display: 'flex', justifyContent: 'space-between'}}>
 
                             <input type="text" value={input.TelefCelular} name="TelefCelular" onChange={handleChange}/>
-                            <button className={styles.submitButton}>Llamar</button>
+                            <button className={styles.submitButton} style={{marginLeft:'1rem'}}>Llamar</button>
                             </div>
                         </div>
                     </div>
@@ -492,7 +580,7 @@ const ActualForm = () => {
                             <div style={{display: 'flex', justifyContent: 'space-between'}}>
 
                             <input type="text" value={input.TelefLaboral} name="TelefLaboral" onChange={handleChange}/>
-                            <button className={styles.submitButton}>Llamar</button>
+                            <button className={styles.submitButton} style={{marginLeft:'1rem'}}>Llamar</button>
                             </div>
                         </div>
                     </div>
@@ -502,7 +590,7 @@ const ActualForm = () => {
                             <div style={{display: 'flex', justifyContent: 'space-between'}}>
 
                             <input type="text" value={input.TelefFamiliar} name="TelefFamiliar" onChange={handleChange}/>
-                            <button className={styles.submitButton}>Llamar</button>
+                            <button className={styles.submitButton} style={{marginLeft:'1rem'}}>Llamar</button>
                             </div>
                         </div>
                     </div>
@@ -513,7 +601,7 @@ const ActualForm = () => {
                             <span>Ocupación</span>
                             <div style={{display: 'flex'}}>
 
-                            <input type="text" style={{width: '100%'}} value={input.Ocupacion} 
+                            <input type="text"  value={input.Ocupacion} 
                             name="Ocupacion" onChange={handleChange}/>
                             
                             </div>
@@ -524,7 +612,7 @@ const ActualForm = () => {
                             <span>Contacto AD</span>
                             <div style={{display: 'flex'}}>
 
-                            <input type="text" style={{width: '100%'}} value={input.DomicilioOcupacion} 
+                            <input type="text"  value={input.DomicilioOcupacion} 
                             name="DomicilioOcupacion" onChange={handleChange}/>
                             
                             </div>
@@ -540,8 +628,8 @@ const ActualForm = () => {
                                 <span>Sucursal</span>
                                 <div style={{display: 'flex'}}>
 
-                                <input type="text" style={{width: '100%'}} value={input.NombreSucReal} 
-                                name="Sucursal" disabled />
+                                <input type="text"  value={input.NombreSucReal} 
+                                name="Sucursal" disabled={isReadOnly} />
                             
                                 </div>
                                 </div>                               
@@ -551,8 +639,8 @@ const ActualForm = () => {
                                 <span>Vendedor</span>
                                 <div style={{display: 'flex'}}>
 
-                                <input type="text" style={{width: '100%'}} value={input.NomVendedor} 
-                                name="Vendedor" disabled/>
+                                <input type="text"  value={input.NomVendedor} 
+                                name="Vendedor" disabled={isReadOnly}/>
                             
                                 </div>
                                 </div>                               
@@ -563,12 +651,12 @@ const ActualForm = () => {
                                 <div style={{display: 'flex'}}>
                                 {
                                     input.OficialMora ? 
-                                    <select style={{width: '100%'}}  name="OficialMora" id="" value={input.OficialMora} disabled>
+                                    <select   name="OficialMora" id="" value={input.OficialMora} disabled>
                                         {
                                             oficialesMora && oficialesMora.map(e => <option value={e.Codigo}>{e.Nombre}</option>)
                                         }
                                     </select> :                                    
-                                    <select style={{width: '100%'}} name="OficialMora" id="" value={input.OficialMora} onChange={handleChange}>
+                                    <select  name="OficialMora" id="" value={input.OficialMora} onChange={handleChange}>
                                         <option value="">---</option>
                                         {
                                             oficialesMora && oficialesMora.map(e => <option value={e.Codigo}>{e.Nombre}</option>)
@@ -585,7 +673,7 @@ const ActualForm = () => {
                                 <span>Team Leader</span>
                                 <div style={{display: 'flex'}}>
 
-                                <input type="text" style={{width: '100%'}} value={input.NomTL} 
+                                <input type="text"  value={input.NomTL} 
                                 name="TeamLeader" disabled/>
                             
                                 </div>
@@ -598,12 +686,12 @@ const ActualForm = () => {
 
                                 {
                                     input.OficialScoring ? 
-                                    <select style={{width: '100%'}} name="OficialScoring" id="" value={input.OficialScoring} disabled>
+                                    <select  name="OficialScoring" id="" value={input.OficialScoring} disabled>
                                         {
                                             oficialesScoring && oficialesScoring.map(e => <option value={e.Codigo}>{e.Nombre}</option>)
                                         }
                                     </select> :                                    
-                                    <select style={{width: '100%'}} name="OficialScoring" id="" value={input.OficialScoring} onChange={handleChange}>
+                                    <select  name="OficialScoring" id="" value={input.OficialScoring} onChange={handleChange}>
                                         <option value="">---</option>
                                         {
                                             oficialesScoring && oficialesScoring.map(e => <option value={e.Codigo}>{e.Nombre}</option>)
@@ -620,7 +708,7 @@ const ActualForm = () => {
                                 <span>Supervisor</span>
                                 <div style={{display: 'flex'}}>
 
-                                <input type="text" style={{width: '100%'}} value={input.NombreSupervisor} 
+                                <input type="text"  value={input.NombreSupervisor} 
                                 name="Supervisor" disabled/>
                             
                                 </div>
@@ -633,14 +721,14 @@ const ActualForm = () => {
 
                                 {
                                     input.OficialPC ? 
-                                    <select style={{width: '100%'}} name="OficialPC" id="" value={input.OficialPC} disabled>
+                                    <select  name="OficialPC" id="" value={input.OficialPC} disabled={isReadOnly}>
                                         <option>---</option>
                                         {
                                             oficialesPC && oficialesPC.map(e => <option value={e.Codigo}>{e.Nombre}</option>)
                                         }
                                     </select> :                                    
                                     
-                                    <select style={{width: '100%'}} name="OficialPC" id="" value={input.OficialPC} onChange={handleChange}>
+                                    <select  name="OficialPC" id="" value={input.OficialPC} onChange={handleChange}>
                                         <option>---</option>
                                         {
                                             oficialesPC && oficialesPC.map(e => <option value={e.Codigo}>{e.Nombre}</option>)
@@ -659,14 +747,15 @@ const ActualForm = () => {
 
                                 {
                                    input.origensuscripcion ? 
-                                    <select style={{width: '100%'}} name="origensuscripcion" id="" value={input.origensuscripcion} disabled>
+                                    <select  name="origensuscripcion" id="" disabled={isReadOnly} 
+                                    value={input.origensuscripcion}>
                                         <option value="">---</option>
                                         {
                                             origen && origen.map(e => <option value={e.Codigo}>{e.Descripcion}</option>)
                                         }
                                     </select> :                                    
                                     
-                                    <select style={{width: '100%'}} name="origensuscripcion" id="" value={input.origensuscripcion} onChange={handleChange}>
+                                    <select  name="origensuscripcion" id="" value={input.origensuscripcion} onChange={handleChange}>
                                         <option value="">---</option>
                                         {
                                             origen && origen.map(e => <option value={e.Codigo}>{e.Descripcion}</option>)
@@ -682,7 +771,7 @@ const ActualForm = () => {
                                <div className={styles.section}>
                                     <div className={styles.formItem}>
                                         <span>Punto de Venta</span>
-                                        <select name="CodPuntoVenta" value={input.CodPuntoVenta} id="">
+                                        <select name="CodPuntoVenta" disabled={isReadOnly} value={input.CodPuntoVenta} id="">
                                             <option value="">---</option>
                                             {
                                                 puntos && puntos.map(e => <option value={e.Codigo}>{e.Nombre}</option>)
@@ -701,13 +790,17 @@ const ActualForm = () => {
                                     <div className={styles.formSection1x2} style={{columnGap: '5.5rem'}}>
                                         <div className={styles.formItemCheck} style={{flexDirection: 'row', alignSelf: 'center', 
                                         fontSize: '12px', alignItems: 'center'}}>
-                                            <input type="checkbox" checked={input.TieneDNI === 1 ? true : false}/>
-                                            <span>DNI</span>
+                                            <input type="checkbox" disabled={isReadOnly} 
+                                            style={{accentColor: input.TieneDNI === 1 && 'green'}}
+                                            checked={input.TieneDNI === 1 ? true : false}/>
+                                            <span style={{color: input.TieneDNI === 1 && 'green'}}>DNI</span>
                                         </div>
                                         <div className={styles.formItemCheck} style={{flexDirection: 'row', alignSelf: 'center', 
                                         fontSize: '12px', alignItems: 'center'}}>
-                                            <input type="checkbox" checked={input.TieneServicio === 1 ? true : false}/>
-                                            <span>Mail</span>
+                                            <input type="checkbox" disabled={isReadOnly} 
+                                            style={{accentColor: input.TieneServicio === 1 && 'green'}}
+                                            checked={input.TieneServicio === 1 ? true : false}/>
+                                            <span style={{color: input.TieneServicio === 1 && 'green'}}>Mail</span>
                                         </div>
                                     </div>
                                 </div> 
@@ -715,12 +808,14 @@ const ActualForm = () => {
                                     <div className={styles.formSection1x2}>
                                         <div className={styles.formItemCheck} style={{flexDirection: 'row', alignSelf: 'center', 
                                         fontSize: '12px', alignItems: 'center'}}>
-                                            <input type="checkbox" checked={input.TieneAnexos === 1 ? true : false}/>
-                                            <span>Anexos</span>
+                                            <input type="checkbox" disabled={isReadOnly}
+                                            style={{accentColor: input.TieneAnexos === 1 && 'green'}} 
+                                            checked={input.TieneAnexos === 1 ? true : false}/>
+                                            <span style={{color: input.TieneAnexos=== 1 && 'green'}}>Anexos</span>
                                         </div>
                                         <div className={styles.formItemCheck} style={{flexDirection: 'row', alignSelf: 'center', 
                                         fontSize: '12px', alignItems: 'center'}}>
-                                            <input type="checkbox" checked={input.DebitoAutomaticoscoring === 1 ? true : false}/>
+                                            <input type="checkbox" disabled={perfil === 'Sup_Scoring' ? debAutScoring : isReadOnly} checked={input.DebitoAutomaticoscoring === 1 ? true : false}/>
                                             <span>Déb. Aut. Scoring</span>
                                         </div>
                                     </div>
@@ -729,12 +824,7 @@ const ActualForm = () => {
                                     <div className={styles.formSection1x2}>
                                         <div className={styles.formItemCheck} style={{flexDirection: 'row', alignSelf: 'center', 
                                         fontSize: '12px', alignItems: 'center'}}>
-                                            <input type="checkbox" checked={input.PromoEspecial === 1 ? true : false}/>
-                                            <span>Promo Especial</span>
-                                        </div>
-                                        <div className={styles.formItemCheck} style={{flexDirection: 'row', alignSelf: 'center', 
-                                        fontSize: '12px', alignItems: 'center'}}>
-                                            <input type="checkbox" checked={input.PlanSubite === 1 ? true : false}/>
+                                            <input type="checkbox" disabled={isReadOnly} checked={input.PlanSubite === 1 ? true : false}/>
                                             <span>Plan Subite</span>
                                         </div>
                                     </div>
@@ -743,15 +833,15 @@ const ActualForm = () => {
                                     <div className={styles.formSection1x2} style={{columnGap: '0rem'}}>
                                         <div className={styles.formItemCheck} style={{flexDirection: 'row', alignSelf: 'center', 
                                         fontSize: '12px', alignItems: 'center'}}>
-                                            <input type="checkbox" checked={input.Rec === 1 ? true : false}/>
+                                            <input type="checkbox" disabled={isReadOnly} checked={input.Rec === 1 ? true : false}/>
                                             <span>Rec</span>
                                         </div>
                                         <div className={styles.formItem}>
                                             <span>Transf.</span>
                                             <div style={{display: 'flex'}}>
 
-                                            <input type="text" /* style={{width: '100%'}} */ value={input.NombreSupervisor} 
-                                            name="Supervisor" disabled/>
+                                            <input type="text" disabled={isReadOnly} value={input.NombreSupervisor} 
+                                            name="Supervisor"/>
                             
                                             </div>
                                         </div> 
@@ -765,32 +855,68 @@ const ActualForm = () => {
                                                     input.Numero ?  /* pregunta por si se cargo el input en caso de que no esté autorizado */
                                                     <input type="text" value={datosOp.reduce((total, array) => 
                                                     (parseInt(array.ImpoSenia) * isNaN(parseInt(array.Interes)) ? 0 : parseInt(array.Interes)/100) + parseInt(array.ImpoSenia) + total,0)}  
-                                                    style={{width: '100%'}} 
-                                                    name="impAbonado" disabled/>
+                                                     
+                                                    name="impAbonado" disabled={isReadOnly}/>
                                                     :
-                                                    <input type="text" disabled style={{width: '100%'}}/>
+                                                    <input type="text" disabled />
                                                 }
                             
                                             </div>
                                         </div>
                                 </div>
                                 <div className={styles.section}>
+                                    <div className={styles.formSection1x2}>
                                         <div className={styles.formItem}>
                                             <span>Valor Cuota</span>
                                             <div style={{display: 'flex'}}>
 
-                                            <input type="text" value={input.CuotaACobrar} style={{width: '100%'}} 
-                                            name="CuotaACobrar" disabled/>
+                                                
+                                                <input type="text" value={input.CuotaACobrar}  
+                                                name="CuotaACobrar" disabled={valorCuotaEnabled}/>  
+                                                
+
+                                            {
+                                                roles && roles.find(e => e.rl_codigo === "1.2.2.12") ? 
+                                            <button className={styles.submitButton} 
+                                            onClick={() => setValorCuotaEnabled(!valorCuotaEnabled)}
+                                            style={{width:'2rem'}}>
+                                                <BsIcons.BsPencilFill/>
+                                            </button> :                                            
+                                            <button className={styles.submitButton} disabled={isReadOnly}
+                                            onClick={() => setValorCuotaEnabled(!valorCuotaEnabled)}
+                                            style={{width:'2rem'}}>
+                                                <BsIcons.BsPencilFill/>
+                                            </button> 
+                                            
+                                            }
                             
                                             </div>
                                         </div>
+                                        {
+                                            roles && roles.find(e => e.rl_codigo === "1.2.2.13") ? 
+                                            <div className={styles.formItem}>
+                                                <span>Bonificación</span>
+                                                <div style={{display: 'flex'}}>
+
+                                                <input type="text" value={input.Bonificacion} disabled={isReadOnly} 
+                                                 
+                                                name="Bonificacion"/>
+                                
+                                                </div>
+                                            </div>
+                                            : 
+                                            null
+                                        }
+
+
+                                    </div>
                                 </div>
                                 <div className={styles.section}>
                                         <div className={styles.formItem}>
                                             <span>Importe Total Cuota</span>
                                             <div style={{display: 'flex'}}>
 
-                                            <input type="text" value={input.ImporteTotalCuota}  style={{width: '100%'}} 
+                                            <input type="text" value={input.ImporteTotalCuota}   
                                             name="ImporteTotalCuota" disabled/>
                             
                                             </div>
@@ -801,22 +927,22 @@ const ActualForm = () => {
                                             <span>Fecha Estimada Canc. Saldo</span>
                                             <div style={{display: 'flex'}}>
 
-                                            <input type="date" value={input.FechaEstimCancelacion?.slice(0,10)} style={{width: '100%'}} 
-                                            name="FechaEstimCancelacion" disabled/>
+                                            <input type="date" value={input.FechaEstimCancelacion?.slice(0,10)}  
+                                            name="FechaEstimCancelacion" disabled={isReadOnly}/>
                             
                                             </div>
                                         </div>
                                 </div>
                                 <div className={styles.section}>
                                         <div className={styles.formItem} style={{alignSelf: 'center'}}>     
-                                        <button className={styles.submitButton}>Scoring (PENDIENTE)</button>
+                                        <button className={styles.submitButton}>Scoring {datosOp[0]?.Completoscoring === 1 ? '(COMPLETO)' : '(PENDIENTE)'}</button>
                                         </div>
                                 </div>
                                 <div className={styles.section}>
                                         <div className={styles.formItem}>
                                             <span>Entrega Usado</span>
                                             <div style={{display: 'flex'}}>
-                                            <select style={{width: '100%'}} name="EntregaUsadoRetiro" value={input.EntregaUsadoRetiro} 
+                                            <select  name="EntregaUsadoRetiro" value={input.EntregaUsadoRetiro} 
                                             onChange={handleChange} id="">
                                                 <option value={0}>---</option>
                                                 <option value={1}>Si</option>
@@ -841,10 +967,11 @@ const ActualForm = () => {
                                 <div className={styles.formSection1x2}>
                                     <div className={styles.formItem}>
                                     <span>Fecha</span>
-                                    <input type="date" value={input.FechaPrescoring} onChange={handleChange}/>
+                                    <input type="date" value={input.FechaPrescoring} disabled={isReadOnly} onChange={handleChange}/>
                                     </div>
                                 
                                     <div style={{fontSize: '13px'}}>
+                                        <fieldset disabled={isReadOnly}>
                                         <div>
                                         <div style={{display: 'flex'}}>
                                             <input type="radio" name='EstadoPrescoring' value={0} 
@@ -863,6 +990,11 @@ const ActualForm = () => {
                                         </div>
 
                                         </div>
+
+                                        </fieldset>
+
+                                        <fieldset disabled={isReadOnly}>
+
                                         <div>
                                         <div style={{display: 'flex'}}>
                                             <input type="radio" name='EstadoPrescoring' value={4} 
@@ -881,6 +1013,7 @@ const ActualForm = () => {
                                         </div>
 
                                         </div>
+                                        </fieldset>
                                     </div>
                                 </div>
                             </div>
@@ -893,9 +1026,10 @@ const ActualForm = () => {
                                 <div className={styles.formSection1x2}>
                                     <div className={styles.formItem}>
                                     <span>Fecha</span>
-                                    <input type="date" value={input.FechaIngresoExtraNet?.slice(0,10)} onChange={handleChange}/>
+                                    <input type="date" disabled={isReadOnly} 
+                                    value={input.FechaIngresoExtraNet?.slice(0,10)} onChange={handleChange}/>
                                     </div>
-                                
+                                    <fieldset disabled={isReadOnly}>
                                     <div style={{fontSize: '13px'}}>
                                         <div>
                                         <div style={{display: 'flex'}}>
@@ -921,6 +1055,8 @@ const ActualForm = () => {
 
                                         </div>
                                     </div>
+
+                                    </fieldset>
                                 </div>
                             </div>
                             {
@@ -929,6 +1065,7 @@ const ActualForm = () => {
                             <table>
                             <span><b>Señas y pagos posteriores</b></span>
                                 <tr>
+                                    <td></td>
                                     <td><b>Fecha</b> </td>
                                     <td><b>Importe</b> </td>
                                     <td><b>Interés</b> </td>
@@ -936,18 +1073,41 @@ const ActualForm = () => {
                                     <td><b>Forma de Pago</b> </td>
                                     <td><b>Recibo Nº</b> </td>
                                     <td><b>F. Vto.</b> </td>
+                                    <td></td>
                                 </tr>
                                 {
                                     datosOp  && datosOp.map(e => 
+                                        <FormaPagoItem 
+                                        FechaSenia={e.FechaSenia} 
+                                        ImpoSenia={e.ImpoSenia}
+                                        Interes={e.Interes}
+                                        NomFormaPago={e.NomFormaPago}
+                                        NroRecibo={e.NroRecibo}
+                                        CodFormaDePago={e.CodFormaPago}
+                                        FechaCheque={e.FechaCheque}
+                                        isReadOnly={isReadOnly}
+                                        />)
+                                }
+                                {
+                                    nuevoPago &&
                                     <tr>
-                                        <td>{e.FechaSenia?.slice(0,10).split('-').reverse().join('/')}</td>
-                                        <td>{e.ImpoSenia}</td>
-                                        <td>{e.Interes}</td>
-                                        <td>{isNaN((parseInt(e.ImpoSenia)) ? 0 : parseInt(e.ImpoSenia) * isNaN(parseInt(e.Interes)) ? 0 : parseInt(e.Interes)/100) + isNaN(parseInt(e.ImpoSenia)) ? 0 : parseInt(e.ImpoSenia)}</td>
-                                        <td>{e.NomFormaPago}</td>
-                                        <td>{e.NroRecibo}</td>
-                                        <td>{e.FechaCheque?.slice(0,10).split('-').reverse().join('/')}</td>
-                                    </tr>)
+                                    <td><input type="date" value={inputNuevoPago.Fecha} onChange={handleNuevoPago} name="Fecha"/></td>
+                                    <td><input type="text" value={inputNuevoPago.Importe} size={5} onChange={handleNuevoPago} name="Importe"/></td>
+                                    <td><input type="text" value={inputNuevoPago.Interes} size={5} onChange={handleNuevoPago} name="Interes"/></td>
+                                    <td><input type="text" value={inputNuevoPago.ImpAbonado} size={5} onChange={handleNuevoPago} name="ImpAbonado"/></td>
+                                    <td>
+                                        <select name="FormaDePago" 
+                                        style={{width: '7rem'}}
+                                         value={inputNuevoPago.FormaDePago} onChange={handleNuevoPago} id="">
+                                            <option value="">---</option>
+                                            {
+                                                formasPago.status && formasPago.data.map(e => <option value={e.Codigo}>{e.Nombre}</option>)
+                                            }
+                                        </select>
+                                    </td>
+                                    <td><input type="text" value={inputNuevoPago.NroRecibo} size={12} name="NroRecibo" onChange={handleNuevoPago}/></td>
+                                    <td><input type="date" value={inputNuevoPago.FechaVto} name="FechaVto" onChange={handleNuevoPago} /></td>
+                                    </tr>
                                 }
                                 {
                                     <tr style={{
@@ -961,14 +1121,17 @@ const ActualForm = () => {
                                         <td></td>
                                         <td></td>
                                         <td></td>
+                                        <td></td>
+                                        <td></td>
                                     </tr>
                                 }
 
+
                             </table>
                             <div className={styles.buttonContainer}>
-                            <button className={styles.submitButton}>Nuevo</button>
-                            <button className={styles.submitButton}>Modificar</button>
-                            <button className={styles.submitButton}>Eliminar</button>
+                            <button className={styles.submitButton} onClick={() => setNuevoPago(!nuevoPago)} 
+                            disabled={isReadOnly}>Nuevo</button>
+                            <button className={styles.submitButton} disabled={isReadOnly}>Eliminar</button>
                             </div>
                             </TableContainer> : 
                             <span style={{justifySelf: 'center'}}>No disponible</span>
@@ -985,10 +1148,22 @@ const ActualForm = () => {
                                 <button className={styles.submitButton}>Buscar</button>
                                 <button className={styles.submitButton}>Observaciones/Llamadas</button>
                                 <button className={styles.submitButton}>Ver Fecha y Usuario de Alta</button>
-                                <button className={styles.submitButton}>Conformar Operación</button>
+                                <button className={styles.submitButton} disabled={
+                                    input.AnuladaCliente === 1 ||
+                                    input.TieneDNI === 0 ||
+                                    input.TieneAnexos === 0 ||
+                                    input.EstadoPrescoring !== 2 ||
+                                    !input.FechaPrescoring ||
+                                    input.Estadoscoring !== 2 ||
+                                    parseInt(input.ImporteTotalCuota) !== totalImpAbonado 
+                                    
+                                    ? true : btnConformar
+                                    
+                                    }>
+                                    Conformar Operación</button>
                             </div>
             </div>
-
+            </fieldset>
           </div>
     </div>
   )
