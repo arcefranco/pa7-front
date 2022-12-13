@@ -62,6 +62,24 @@ const getFormasPago = async() => {
     return response.data
 }
 
+const getTarjetas = async() => {
+    const headers = getHeaderToken()
+    const response = await axios.get(process.env.REACT_APP_HOST + 'Operaciones/ActualPre/tarjetas', headers).catch((error) => errorsHandling(error))
+    return response.data
+}
+
+const getIntereses = async() => {
+    const headers = getHeaderToken()
+    const response = await axios.get(process.env.REACT_APP_HOST + 'Operaciones/ActualPre/intereses', headers).catch((error) => errorsHandling(error))
+    return response.data
+}
+
+const pagoSenia = async(data) => {
+    const headers = getHeaderToken()
+    const response = await axios.post(process.env.REACT_APP_HOST + 'Operaciones/ActualPre/pagoSenia', data, headers).catch((error) => errorsHandling(error))
+    return response.data
+}
+
 
 const actualPreService = {
     getPreOperaciones,
@@ -73,7 +91,10 @@ const actualPreService = {
     getOrigenSuscripcion,
     getPuntosVenta,
     getParametros,
-    getFormasPago
+    getFormasPago,
+    getTarjetas,
+    getIntereses,
+    pagoSenia
 }
 
 export default actualPreService

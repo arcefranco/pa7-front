@@ -178,7 +178,7 @@
 }
 .formSection1x2{
     display: grid;
-    column-gap: 2rem;
+    column-gap: 1rem;
     row-gap: 1rem;
     margin-top: 1rem;
     grid-template-columns: 1fr 1fr;
@@ -258,7 +258,7 @@
 
 
 
-@media screen and (max-width: 1170px) {
+@media screen and (max-width: 1270px) {
     .formSection4x3{
       grid-template-columns: 1fr;
     }

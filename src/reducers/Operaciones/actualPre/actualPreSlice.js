@@ -14,6 +14,9 @@ const initialState = {
     puntos: [],
     parametros: [],
     formasPago: [],
+    tarjetas: [],
+    intereses: [],
+    seniaStatus: '',
     isError: false,
     isSuccess: false,
     isLoading: false,
@@ -183,6 +186,54 @@ export const getPreOperaciones = createAsyncThunk('Operaciones/ActualPre/getPreO
 
   })
 
+  export const getTarjetas = createAsyncThunk('Operaciones/ActualPre/tarjetas', async (thunkAPI) => {
+    try {
+      
+      const data = await actualPreService.getTarjetas()
+
+      return data
+    } catch (error) {
+
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+
+  })
+
+  export const getIntereses = createAsyncThunk('Operaciones/ActualPre/intereses', async (thunkAPI) => {
+    try {
+      
+      const data = await actualPreService.getIntereses()
+
+      return data
+    } catch (error) {
+
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+
+  })
+
+  export const pagoSenia = createAsyncThunk('Operaciones/ActualPre/pagoSenia', async (datos, thunkAPI) => {
+    try {
+      
+      const data = await actualPreService.pagoSenia(datos)
+
+      return data
+    } catch (error) {
+
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+
+  })
+
 
 
   export const actualPreSlice = createSlice({
@@ -330,6 +381,45 @@ export const getPreOperaciones = createAsyncThunk('Operaciones/ActualPre/getPreO
             state.isLoading = false
             state.isError = true
             state.formasPago = action.payload
+          })
+          .addCase(getTarjetas.pending, (state) => {
+            state.isLoading = true
+          })
+          .addCase(getTarjetas.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.isSuccess = true
+            state.tarjetas = action.payload
+          })
+          .addCase(getTarjetas.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            state.tarjetas = action.payload
+          })
+          .addCase(getIntereses.pending, (state) => {
+            state.isLoading = true
+          })
+          .addCase(getIntereses.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.isSuccess = true
+            state.intereses = action.payload
+          })
+          .addCase(getIntereses.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            state.intereses = action.payload
+          })
+          .addCase(pagoSenia.pending, (state) => {
+            state.isLoading = true
+          })
+          .addCase(pagoSenia.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.isSuccess = true
+            state.seniaStatus = action.payload
+          })
+          .addCase(pagoSenia.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            state.seniaStatus = action.payload
           })
     }
 })
