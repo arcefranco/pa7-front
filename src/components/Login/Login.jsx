@@ -101,7 +101,7 @@ export const Login = () => {
             break;
           case "Gestión Financiera Luxcar":
           setInput(input.codigoMarca = 10,
-            input.codigoEmpresa = 14, 
+            input.codigoEmpresa = 13, 
             input.marca = "VOLKSWAGEN",
             input.empresaContabiliza = true)
             break;

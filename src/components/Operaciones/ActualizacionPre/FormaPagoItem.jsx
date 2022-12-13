@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styles from './ActualPre.module.css'
 import { useState } from 'react'
 import { useSelector } from 'react-redux'
@@ -10,12 +10,14 @@ const FormaPagoItem = ({FechaSenia, ImpoSenia, Interes, NomFormaPago, CodFormaDe
 
     const [inEdit, setInEdit] = useState(false)
     const {formasPago} = useSelector(state => state.ActualPre)
+
     const [inputPago, setInputPago] = useState({
         Fecha: FechaSenia?.slice(0,10),
         Importe: ImpoSenia,
         Interes: Interes,
         ImpAbonado: isNaN((parseInt(ImpoSenia)) ? 0 : parseInt(ImpoSenia) * isNaN(parseInt(Interes)) ? 0 : parseInt(Interes)/100) + isNaN(parseInt(ImpoSenia)) ? 0 : parseInt(ImpoSenia),
         FormaDePago: CodFormaDePago,
+
         NroRecibo: NroRecibo,
         FechaVto: FechaCheque?.slice(0,10)
     })
@@ -29,6 +31,8 @@ const FormaPagoItem = ({FechaSenia, ImpoSenia, Interes, NomFormaPago, CodFormaDe
           
           setInputPago(newForm)
       }
+
+
 
   return (
     <tr>

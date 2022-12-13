@@ -9,8 +9,9 @@ import TitlePrimary from '../../../styled-components/h/TitlePrimary'
 import { useParams } from 'react-router-dom'
 import TableContainer from '../../../styled-components/tables/TableContainer'
 import { getDatosPreSol, getModelos, getOficialesMora, getOficialesScoring, getOficialesPC,
-getOrigenSuscripcion, reset, getParametros, getFormasPago, 
-getPuntosVenta} from '../../../reducers/Operaciones/actualPre/actualPreSlice'
+getOrigenSuscripcion, reset, getParametros, getFormasPago, getTarjetas, getIntereses,
+getPuntosVenta,
+pagoSenia} from '../../../reducers/Operaciones/actualPre/actualPreSlice'
 import * as BsIcons from 'react-icons/bs'
 import FormaPagoItem from './FormaPagoItem'
 
@@ -19,8 +20,10 @@ import FormaPagoItem from './FormaPagoItem'
 const ActualForm = () => {
     const dispatch = useDispatch()
     const {empresaReal, marca} = useSelector(state => state.login.user)
-    const {modelos, datosOp, oficialesMora, oficialesPC, oficialesScoring, origen, puntos, parametros, formasPago} = useSelector(state => state.ActualPre)
-    const {codigoVendedor, codigoSucursal, codigoGerente, codigoTeamLeader, roles, PAwebHookAnura, usaWebHookAnura} = useSelector(state => state.login.user)
+    const {modelos, datosOp, oficialesMora, oficialesPC, oficialesScoring, origen, 
+        puntos, parametros, formasPago, tarjetas, intereses} = useSelector(state => state.ActualPre)
+    const {codigoVendedor, codigoSucursal, codigoGerente, codigoTeamLeader, roles, 
+        PAwebHookAnura, usaWebHookAnura,  codigoEmpresa} = useSelector(state => state.login.user)
     const {codigoMarca, Numero} = useParams()
     const [perfil, setPerfil] = useState('')
     const [valorCuotaEnabled, setValorCuotaEnabled] = useState(false)
@@ -32,6 +35,8 @@ const ActualForm = () => {
     const [btnConformar, setBtnConformar] = useState(false)
     const [debAutScoring, setDebAutoScoring] = useState(true)
     const [puedeModificarScoring, setPuedeModificarScoring] = useState(false)
+    const [esTarjeta, setEsTarjeta]  = useState(false)
+    const [interesesFiltered, setInteresesFiltered] = useState([])
     const [isReadOnly, setIsReadOnly] = useState(false)
     const [input, setInput] = useState({
         Solicitud:'',
@@ -97,13 +102,27 @@ const ActualForm = () => {
     })
     const [nuevoPago, setNuevoPago] = useState(false) 
     const [inputNuevoPago, setInputNuevoPago] = useState({
+        accion: 'A',
+        codEmpresa: codigoEmpresa,
+        codigoMarca: parseInt(codigoMarca),
+        ValorCuota: '',
+        impTotalAbonado: '',
+        Numero: '',
+        Solicitud: '',
         Fecha: '',
         Importe: '',
         Interes: '',
         ImpAbonado: '',
         FormaDePago: '',
         NroRecibo: '',
-        FechaVto: ''
+        FechaVto: '',
+        Tarjeta: '',
+        NroTarjeta: '',
+        NroCupon: '',
+        FechaCupon: '',
+        Lote: '',
+        CantPagos: '',
+        cuentaContable: ''
     })
 
 
@@ -125,19 +144,57 @@ const ActualForm = () => {
                 
         const {name , value} = e.target
 
-        const newForm = {...input,
+        const newForm = {...inputNuevoPago,
             [name]: value,
           }
           
           setInputNuevoPago(newForm)
       }
-      const handleCheckChange = (e) => {
-        const { name} = e.target;
-        var value = e.target.checked
-        value = e.target.checked? 1 : 0
-        const newForm = { ...input, [name]: value };
-        setInput(newForm);
-    };
+
+      const handleSubmitNuevoPago = () => {
+        if(esTarjeta){
+            if(!inputNuevoPago.Tarjeta || !inputNuevoPago.NroTarjeta || 
+                !inputNuevoPago.NroCupon || !inputNuevoPago.FechaCupon ||
+                !inputNuevoPago.Lote || !inputNuevoPago.CantPagos){
+                    alert('Completar campos correspondientes a la tarjeta')
+                    return
+                }
+        }
+        if(!inputNuevoPago.Fecha || !inputNuevoPago.Importe || !inputNuevoPago.ImpAbonado 
+        || !inputNuevoPago.FormaDePago || !inputNuevoPago.NroRecibo){
+            alert('Faltan completar campos')
+            return
+        }else{
+            dispatch(pagoSenia(inputNuevoPago))
+        }
+      }
+
+      const onBlurCantPagos = () => {
+        if(inputNuevoPago.Importe.length && interesesFiltered.length){
+            if(parseInt(inputNuevoPago.CantPagos) !== 1){
+              const interesSelected = parseInt(interesesFiltered.find(e => e.Cantidad === parseInt(inputNuevoPago.CantPagos))?.Interes)
+              setInputNuevoPago({...inputNuevoPago, "Interes": (parseInt(inputNuevoPago.Importe) * parseInt(interesSelected))/100, "ImpAbonado": parseInt(inputNuevoPago.Importe) + (inputNuevoPago.Importe * parseInt(interesSelected))/100})
+            }else{
+              setInputNuevoPago({...inputNuevoPago, "Interes": 0, "ImpAbonado": inputNuevoPago.Importe})
+            }
+        }
+        else if(inputNuevoPago.Importe.length && !interesesFiltered.length){
+          setInputNuevoPago({...inputNuevoPago, "ImpAbonado": parseInt(inputNuevoPago.Importe)})
+        }
+      
+      }
+
+      
+      const onBlurFormaDePago = (e) => {
+
+        
+
+        setInputNuevoPago({...inputNuevoPago, "cuentaContable": formasPago.status && formasPago.data.find(e => e.Codigo === parseInt(inputNuevoPago.FormaDePago)).CuentaContable})
+
+        
+      }
+
+
 
     useEffect(() => { //Primero busco los datos de la operacion
         Promise.all([
@@ -149,7 +206,9 @@ const ActualForm = () => {
             dispatch(getOrigenSuscripcion()),
             dispatch(getPuntosVenta()),
             dispatch(getFormasPago()),
-            dispatch(getParametros())
+            dispatch(getParametros()),
+            dispatch(getTarjetas()),
+            dispatch(getIntereses())
         ])
         return () => {
             dispatch(reset())
@@ -322,6 +381,14 @@ const ActualForm = () => {
             isNaN((parseInt(array.ImpoSenia)) ? 0 : parseInt(array.ImpoSenia) * isNaN(parseInt(array.Interes)) ? 0 : 
             parseInt(array.Interes)/100) + isNaN(parseInt(array.ImpoSenia)) ? 0 : parseInt(array.ImpoSenia)  + total,0))
 
+            setInputNuevoPago({
+                ...inputNuevoPago,
+                Numero: datosOp[0]?.Numero,
+                Solicitud: datosOp[0]?.Solicitud,
+                ValorCuota: parseInt(datosOp[0]?.ImporteTotalCuota),
+                impTotalAbonado: totalImpAbonado
+            })
+
         }
     }, [datosOp[0]])
 
@@ -330,6 +397,49 @@ const ActualForm = () => {
             setDebAutoScoring(false)
         }
     }, [perfil])
+
+    useEffect(() => {
+        if(formasPago.data?.find(e => e.Codigo === parseInt(inputNuevoPago.FormaDePago))?.EsTarjeta === 1 ){
+            
+            setEsTarjeta(true) 
+        }else{
+
+            setEsTarjeta(false)
+
+        }
+
+        
+      if(inputNuevoPago.FormaDePago  && intereses.status) {
+
+        setInteresesFiltered(intereses.data.filter(e => e.MedioCobro === parseInt(inputNuevoPago.FormaDePago)))
+        
+    }
+
+    setInputNuevoPago({
+        ...inputNuevoPago,
+        Interes: '',
+        ImpAbonado: ''
+    })
+
+
+    }, [inputNuevoPago.FormaDePago])
+
+    useEffect(() => {
+        if(!esTarjeta){
+            setInputNuevoPago({
+                ...inputNuevoPago,
+                Tarjeta: '',
+                NroTarjeta: '',
+                NroCupon: '',
+                FechaCupon: '',
+                Lote: '',
+                CantPagos: ''
+            })
+        }
+
+
+
+    }, [esTarjeta])
 
   
 
@@ -500,7 +610,7 @@ const ActualForm = () => {
                     <div className={styles.section}>
                         <div className={styles.formItem}>
                             <span>Nombre</span>
-                            <input value={input.Nombres} disabled={isReadOnly} type="text" />
+                            <input value={input.Nombres} name="Nombres" onChange={handleChange} disabled={isReadOnly} type="text" />
                         </div>
                     </div>
                     <div className={styles.section}>
@@ -1062,7 +1172,7 @@ const ActualForm = () => {
                             {
                                 input.Numero ?  /* pregunta por si se cargo el input en caso de que no esté autorizado */
                             <TableContainer> 
-                            <table>
+                            <table style={{fontSize: '14px'}}>
                             <span><b>Señas y pagos posteriores</b></span>
                                 <tr>
                                     <td></td>
@@ -1091,13 +1201,16 @@ const ActualForm = () => {
                                 {
                                     nuevoPago &&
                                     <tr>
+                                    <td></td>
                                     <td><input type="date" value={inputNuevoPago.Fecha} onChange={handleNuevoPago} name="Fecha"/></td>
                                     <td><input type="text" value={inputNuevoPago.Importe} size={5} onChange={handleNuevoPago} name="Importe"/></td>
-                                    <td><input type="text" value={inputNuevoPago.Interes} size={5} onChange={handleNuevoPago} name="Interes"/></td>
+                                    <td><input type="text" value={inputNuevoPago.Interes} disabled={esTarjeta ? false : true} readOnly
+                                    size={5} onChange={handleNuevoPago} name="Interes"/></td>
                                     <td><input type="text" value={inputNuevoPago.ImpAbonado} size={5} onChange={handleNuevoPago} name="ImpAbonado"/></td>
                                     <td>
                                         <select name="FormaDePago" 
                                         style={{width: '7rem'}}
+                                        onBlur={onBlurFormaDePago}
                                          value={inputNuevoPago.FormaDePago} onChange={handleNuevoPago} id="">
                                             <option value="">---</option>
                                             {
@@ -1107,18 +1220,55 @@ const ActualForm = () => {
                                     </td>
                                     <td><input type="text" value={inputNuevoPago.NroRecibo} size={12} name="NroRecibo" onChange={handleNuevoPago}/></td>
                                     <td><input type="date" value={inputNuevoPago.FechaVto} name="FechaVto" onChange={handleNuevoPago} /></td>
+                                    <td><button className={styles.submitButton} onClick={handleSubmitNuevoPago}>Guardar</button></td>
                                     </tr>
                                 }
+                                {
+                                    esTarjeta && nuevoPago &&
+                                    <tr>
+                                    <td><b>Tarjeta</b> </td>
+                                    <td><b>Nro Tarjeta</b> </td>
+                                    <td><b>Cupon</b> </td>
+                                    <td><b>Fecha Cupon</b> </td>
+                                    <td><b>Lote</b> </td>
+                                    <td><b>Cant Pagos</b> </td>
+                                </tr>
+                                }
+                                {
+                                    esTarjeta && nuevoPago &&
+                                    <tr>
+                                    <td>
+                                        <select name="Tarjeta" onChange={handleNuevoPago} value={inputNuevoPago.Tarjeta} id="">
+                                    <option value="">---</option>
+                                    {
+                                        tarjetas.data.length && tarjetas.data.map(e => <option value={e.Codigo}>{e.Nombre}</option>)
+                                    } </select> 
+                                    </td>
+                                    <td><input type="text" name='NroTarjeta' onChange={handleNuevoPago} value={inputNuevoPago.NroTarjeta} size={12} /> </td>
+                                    <td><input type="text" name='NroCupon' onChange={handleNuevoPago} value={inputNuevoPago.NroCupon} size={5} /> </td>
+                                    <td><input type="date" name='FechaCupon' onChange={handleNuevoPago} value={inputNuevoPago.FechaCupon} /> </td>
+                                    <td><input type="text" size={5} name='Lote' onChange={handleNuevoPago} value={inputNuevoPago.Lote} /> </td>
+                                    <td>
+                                        <select name="CantPagos" onChange={handleNuevoPago} onBlur={onBlurCantPagos} value={inputNuevoPago.CantPagos} id="">
+                                        <option value="">---</option>
+                                        <option value={1}>1 pago sin interés</option>
+                                    {
+                                        interesesFiltered.length && interesesFiltered.map(e => 
+                                            <option value={e.Cantidad}>{`${e.Cantidad} pagos - ${e.Interes}% interés`}</option>)
+                                    }   </select> </td>
+                                </tr>
+                                }
+
                                 {
                                     <tr style={{
                                         background: '#0000005c',
                                         color: 'white'
                                     }}>
                                         <td>TOTAL</td>
+                                        <td></td>
                                         <td>{datosOp.reduce((total, array) => isNaN(parseInt(array.ImpoSenia)) ? 0 :  parseInt(array.ImpoSenia) + total,0)}</td>
                                         <td>{datosOp.reduce((total, array) => isNaN(parseInt(array.Interes)) ? 0 : parseInt(array.Interes) + total,0)}</td>
                                         <td>{datosOp.reduce((total, array) => isNaN((parseInt(array.ImpoSenia)) ? 0 : parseInt(array.ImpoSenia) * isNaN(parseInt(array.Interes)) ? 0 : parseInt(array.Interes)/100) + isNaN(parseInt(array.ImpoSenia)) ? 0 : parseInt(array.ImpoSenia)  + total,0)}</td>
-                                        <td></td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
