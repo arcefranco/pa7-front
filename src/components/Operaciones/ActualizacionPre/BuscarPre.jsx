@@ -88,7 +88,7 @@ const BuscarPre = () => {
                 display: 'flex',
                 flexDirection: 'column',
                 background: 'white',
-                height:  '15rem' 
+                maxHeight:  '10rem' 
           }}>
 
                 <table style={{
