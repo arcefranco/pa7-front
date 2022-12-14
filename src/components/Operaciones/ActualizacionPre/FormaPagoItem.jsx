@@ -39,8 +39,6 @@ const FormaPagoItem = ({FechaSenia, ImpoSenia, Interes, NomFormaPago, CodFormaDe
     <td style={{width: '1rem'}}><button className={styles.submitButton} disabled={isReadOnly} onClick={() => setInEdit(!inEdit)}><BsIcons.BsPencilFill/></button></td>
     <td>{inEdit ? <input type="date" value={inputPago.Fecha} onChange={handlePago} name="Fecha"/> : FechaSenia?.slice(0,10).split('-').reverse().join('/')}</td>
     <td>{inEdit ? <input type="text" value={inputPago.Importe} size={5} onChange={handlePago} name="Importe"/> : ImpoSenia}</td>
-    <td>{inEdit ? <input type="text" value={inputPago.Interes} size={5} onChange={handlePago} name="Interes"/> : Interes}</td>
-    <td>{inEdit ? <input type="text" value={inputPago.ImpAbonado} size={5} onChange={handlePago} name="ImpAbonado"/> : isNaN((parseInt(ImpoSenia)) ? 0 : parseInt(ImpoSenia) * isNaN(parseInt(Interes)) ? 0 : parseInt(Interes)/100) + isNaN(parseInt(ImpoSenia)) ? 0 : parseInt(ImpoSenia)}</td>
     <td>{inEdit ? 
     <select name="FormaDePago" 
     style={{width: '7rem'}}
@@ -53,6 +51,8 @@ const FormaPagoItem = ({FechaSenia, ImpoSenia, Interes, NomFormaPago, CodFormaDe
     : 
     NomFormaPago
     }</td>
+    <td>{inEdit ? <input type="text" value={inputPago.Interes} size={5} onChange={handlePago} name="Interes"/> : Interes}</td>
+    <td>{inEdit ? <input type="text" value={inputPago.ImpAbonado} size={5} onChange={handlePago} name="ImpAbonado"/> : isNaN((parseInt(ImpoSenia)) ? 0 : parseInt(ImpoSenia) * isNaN(parseInt(Interes)) ? 0 : parseInt(Interes)/100) + isNaN(parseInt(ImpoSenia)) ? 0 : parseInt(ImpoSenia)}</td>
     <td>{inEdit ? <input type="text" value={inputPago.NroRecibo} size={12} name="NroRecibo" onChange={handlePago}/> :  NroRecibo}</td>
     <td>{inEdit ? <input type="date" value={inputPago.FechaVto} name="FechaVto" onChange={handlePago} /> : FechaCheque?.slice(0,10).split('-').reverse().join('/')}</td>
     <td>{inEdit ? <button className={styles.submitButton}>Modificar</button> : <button className={styles.submitButton} disabled>Modificar</button>}</td>

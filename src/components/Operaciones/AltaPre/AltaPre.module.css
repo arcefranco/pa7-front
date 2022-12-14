@@ -86,6 +86,15 @@
     font-size: 14px;
 }
 
+.inputSection2Tarjeta{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    column-gap: 5rem;
+    padding: 5px;
+    font-size: 14px;
+}
+
 .inputSection3{
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -133,4 +142,15 @@
 
 .submitButton:hover{
     background-color: #1971a4
+}
+
+.divTarjetas{
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
+    padding: 1.5rem;
+}
+
+.fieldSet{
+    box-shadow: 1px 1px 4px 1px #00000038;
 }

@@ -6,6 +6,7 @@ import actualPreService from './actualPreService'
 const initialState = {
     solicitudes: [],
     datosOp: [],
+    senias: [],
     modelos: [],
     oficialesMora: [],
     oficialesPC: [],
@@ -234,6 +235,22 @@ export const getPreOperaciones = createAsyncThunk('Operaciones/ActualPre/getPreO
 
   })
 
+  export const getSenias = createAsyncThunk('Operaciones/ActualPre/getSenias', async (datos, thunkAPI) => {
+    try {
+      
+      const data = await actualPreService.getSenias(datos)
+
+      return data
+    } catch (error) {
+
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+
+  })
+
 
 
   export const actualPreSlice = createSlice({
@@ -420,6 +437,19 @@ export const getPreOperaciones = createAsyncThunk('Operaciones/ActualPre/getPreO
             state.isLoading = false
             state.isError = true
             state.seniaStatus = action.payload
+          })
+          .addCase(getSenias.pending, (state) => {
+            state.isLoading = true
+          })
+          .addCase(getSenias.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.isSuccess = true
+            state.senias = action.payload
+          })
+          .addCase(getSenias.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            state.senias = action.payload
           })
     }
 })

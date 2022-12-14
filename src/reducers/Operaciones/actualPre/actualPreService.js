@@ -80,6 +80,12 @@ const pagoSenia = async(data) => {
     return response.data
 }
 
+const getSenias = async(data) => {
+    const headers = getHeaderToken()
+    const response = await axios.post(process.env.REACT_APP_HOST + 'Operaciones/ActualPre/datosOp', data, headers).catch((error) => errorsHandling(error))
+    return response.data
+} 
+
 
 const actualPreService = {
     getPreOperaciones,
@@ -94,7 +100,8 @@ const actualPreService = {
     getFormasPago,
     getTarjetas,
     getIntereses,
-    pagoSenia
+    pagoSenia,
+    getSenias
 }
 
 export default actualPreService
