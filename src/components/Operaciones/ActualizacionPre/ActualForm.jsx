@@ -10,10 +10,11 @@ import { useParams } from 'react-router-dom'
 import TableContainer from '../../../styled-components/tables/TableContainer'
 import { getDatosPreSol, getModelos, getOficialesMora, getOficialesScoring, getOficialesPC,
 getOrigenSuscripcion, reset, getParametros, getFormasPago, getTarjetas, getIntereses,
-getPuntosVenta,
+getPuntosVenta, getSenias,
 pagoSenia} from '../../../reducers/Operaciones/actualPre/actualPreSlice'
 import * as BsIcons from 'react-icons/bs'
 import FormaPagoItem from './FormaPagoItem'
+import Swal from 'sweetalert2';
 
 
 
@@ -21,7 +22,7 @@ const ActualForm = () => {
     const dispatch = useDispatch()
     const {empresaReal, marca} = useSelector(state => state.login.user)
     const {modelos, datosOp, oficialesMora, oficialesPC, oficialesScoring, origen, 
-        puntos, parametros, formasPago, tarjetas, intereses} = useSelector(state => state.ActualPre)
+        puntos, parametros, formasPago, tarjetas, intereses, seniaStatus, senias} = useSelector(state => state.ActualPre)
     const {codigoVendedor, codigoSucursal, codigoGerente, codigoTeamLeader, roles, 
         PAwebHookAnura, usaWebHookAnura,  codigoEmpresa} = useSelector(state => state.login.user)
     const {codigoMarca, Numero} = useParams()
@@ -104,7 +105,7 @@ const ActualForm = () => {
     const [inputNuevoPago, setInputNuevoPago] = useState({
         accion: 'A',
         codEmpresa: codigoEmpresa,
-        codigoMarca: parseInt(codigoMarca),
+        codigoMarca: parseFloat(codigoMarca),
         ValorCuota: '',
         impTotalAbonado: '',
         Numero: '',
@@ -130,8 +131,8 @@ const ActualForm = () => {
                 
         const {name , value} = e.target
         let valueFormatted;
-        if(name === 'Estadoscoring') valueFormatted = parseInt(value)
-        else if(name === 'EstadoPrescoring') valueFormatted = parseInt(value)
+        if(name === 'Estadoscoring') valueFormatted = parseFloat(value)
+        else if(name === 'EstadoPrescoring') valueFormatted = parseFloat(value)
         else valueFormatted = value
         const newForm = {...input,
             [name]: valueFormatted,
@@ -171,15 +172,15 @@ const ActualForm = () => {
 
       const onBlurCantPagos = () => {
         if(inputNuevoPago.Importe.length && interesesFiltered.length){
-            if(parseInt(inputNuevoPago.CantPagos) !== 1){
-              const interesSelected = parseInt(interesesFiltered.find(e => e.Cantidad === parseInt(inputNuevoPago.CantPagos))?.Interes)
-              setInputNuevoPago({...inputNuevoPago, "Interes": (parseInt(inputNuevoPago.Importe) * parseInt(interesSelected))/100, "ImpAbonado": parseInt(inputNuevoPago.Importe) + (inputNuevoPago.Importe * parseInt(interesSelected))/100})
+            if(parseFloat(inputNuevoPago.CantPagos) !== 1){
+              const interesSelected = parseFloat(interesesFiltered.find(e => e.Cantidad === parseFloat(inputNuevoPago.CantPagos))?.Interes)
+              setInputNuevoPago({...inputNuevoPago, "Interes": (parseFloat(inputNuevoPago.Importe) * parseFloat(interesSelected))/100, "ImpAbonado": parseFloat(inputNuevoPago.Importe) + (inputNuevoPago.Importe * parseFloat(interesSelected))/100})
             }else{
               setInputNuevoPago({...inputNuevoPago, "Interes": 0, "ImpAbonado": inputNuevoPago.Importe})
             }
         }
         else if(inputNuevoPago.Importe.length && !interesesFiltered.length){
-          setInputNuevoPago({...inputNuevoPago, "ImpAbonado": parseInt(inputNuevoPago.Importe)})
+          setInputNuevoPago({...inputNuevoPago, "ImpAbonado": parseFloat(inputNuevoPago.Importe)})
         }
       
       }
@@ -187,9 +188,11 @@ const ActualForm = () => {
       
       const onBlurFormaDePago = (e) => {
 
-        
 
-        setInputNuevoPago({...inputNuevoPago, "cuentaContable": formasPago.status && formasPago.data.find(e => e.Codigo === parseInt(inputNuevoPago.FormaDePago)).CuentaContable})
+        setInputNuevoPago({...inputNuevoPago, 
+            "cuentaContable": formasPago.status && formasPago.data?.find(e => e.Codigo === parseFloat(inputNuevoPago.FormaDePago)).CuentaContable, 
+            "Interes": formasPago.status && formasPago.data?.find(e => e.Codigo === parseFloat(inputNuevoPago.FormaDePago)).EsTarjeta === 1 ? "" : 0, 
+            "ImpAbonado": formasPago.status && formasPago.data?.find(e => e.Codigo === parseFloat(inputNuevoPago.FormaDePago)).EsTarjeta === 1 ? "" : inputNuevoPago.Importe})
 
         
       }
@@ -198,7 +201,8 @@ const ActualForm = () => {
 
     useEffect(() => { //Primero busco los datos de la operacion
         Promise.all([
-            dispatch(getDatosPreSol({codigoMarca: codigoMarca, Numero: Numero})), 
+            dispatch(getDatosPreSol({codigoMarca: codigoMarca, Numero: Numero})),
+            dispatch(getSenias({codigoMarca: codigoMarca, Numero: Numero})), 
             dispatch(getModelos()),
             dispatch(getOficialesMora()),
             dispatch(getOficialesPC()),
@@ -321,7 +325,7 @@ const ActualForm = () => {
                 FechaAlta: datosOp[0]?.FechaAlta,
                 FechaCrucescoring: datosOp[0]?.FechaCrucescoring,
                 CodModelo: datosOp[0]?.CodModelo,
-                CuotaTerminal: datosOp[0]?.CuotaTerminal,
+                CuotaTerminal: datosOp[0]?.ValorCuotaTerminalPRE,
                 PasoAOperaciones: datosOp[0]?.PasoAoperaciones,
                 TipoDocumento: datosOp[0]?.TipoDocumento,
                 NroDocumento: datosOp[0]?.NroDocumento,
@@ -378,14 +382,14 @@ const ActualForm = () => {
                 EntregaUsadoRetiro: datosOp[0]?.EntregaUsadoRetiro
             })
             setTotalImpAbonado(datosOp.reduce((total, array) => 
-            isNaN((parseInt(array.ImpoSenia)) ? 0 : parseInt(array.ImpoSenia) * isNaN(parseInt(array.Interes)) ? 0 : 
-            parseInt(array.Interes)/100) + isNaN(parseInt(array.ImpoSenia)) ? 0 : parseInt(array.ImpoSenia)  + total,0))
+            isNaN((parseFloat(array.ImpoSenia)) ? 0 : parseFloat(array.ImpoSenia) * isNaN(parseFloat(array.Interes)) ? 0 : 
+            parseFloat(array.Interes)/100) + isNaN(parseFloat(array.ImpoSenia)) ? 0 : parseFloat(array.ImpoSenia)  + total,0))
 
             setInputNuevoPago({
                 ...inputNuevoPago,
                 Numero: datosOp[0]?.Numero,
                 Solicitud: datosOp[0]?.Solicitud,
-                ValorCuota: parseInt(datosOp[0]?.ImporteTotalCuota),
+                ValorCuota: parseFloat(datosOp[0]?.ImporteTotalCuota),
                 impTotalAbonado: totalImpAbonado
             })
 
@@ -399,7 +403,7 @@ const ActualForm = () => {
     }, [perfil])
 
     useEffect(() => {
-        if(formasPago.data?.find(e => e.Codigo === parseInt(inputNuevoPago.FormaDePago))?.EsTarjeta === 1 ){
+        if(formasPago.data?.find(e => e.Codigo === parseFloat(inputNuevoPago.FormaDePago))?.EsTarjeta === 1 ){
             
             setEsTarjeta(true) 
         }else{
@@ -411,7 +415,7 @@ const ActualForm = () => {
         
       if(inputNuevoPago.FormaDePago  && intereses.status) {
 
-        setInteresesFiltered(intereses.data.filter(e => e.MedioCobro === parseInt(inputNuevoPago.FormaDePago)))
+        setInteresesFiltered(intereses.data.filter(e => e.MedioCobro === parseFloat(inputNuevoPago.FormaDePago)))
         
     }
 
@@ -440,6 +444,25 @@ const ActualForm = () => {
 
 
     }, [esTarjeta])
+
+    useEffect(() => {
+        setNuevoPago(false)
+        if(Object.keys(seniaStatus).includes('status')){
+          if(seniaStatus.status){
+            Swal.fire({
+              icon: 'success',
+              title: seniaStatus.data,
+            }).then(() => {
+                dispatch(getSenias({codigoMarca: codigoMarca, Numero: Numero}))
+            })
+          }else{
+            Swal.fire({
+              icon: 'error',
+              title: seniaStatus.data,
+            })
+          }
+        }
+      }, [seniaStatus])
 
   
 
@@ -515,7 +538,7 @@ const ActualForm = () => {
                             <select style={{width: '12rem'}} disabled={isReadOnly} value={input.CodModelo} name="" id="">
                                 <option>---</option>
                                 {
-                                    modelos && modelos.map(e => <option value={e.Codigo}>{e.Nombre}</option>)
+                                    modelos.length && modelos.map(e => <option value={e.Codigo}>{e.Nombre}</option>)
                                 }
                             </select>
                         </div>
@@ -732,7 +755,7 @@ const ActualForm = () => {
                 <h4>Datos de la operación</h4>
                 <div className={styles.formSection1x1}>
                     <div className={styles.formSection1x2}>
-                        <div className={styles.formSection2x10}> 
+                        <div className={styles.formSection2x8}> 
                             <div className={styles.section}>
                                 <div className={styles.formItem}>
                                 <span>Sucursal</span>
@@ -763,13 +786,13 @@ const ActualForm = () => {
                                     input.OficialMora ? 
                                     <select   name="OficialMora" id="" value={input.OficialMora} disabled>
                                         {
-                                            oficialesMora && oficialesMora.map(e => <option value={e.Codigo}>{e.Nombre}</option>)
+                                            oficialesMora.length && oficialesMora.map(e => <option value={e.Codigo}>{e.Nombre}</option>)
                                         }
                                     </select> :                                    
                                     <select  name="OficialMora" id="" value={input.OficialMora} onChange={handleChange}>
                                         <option value="">---</option>
                                         {
-                                            oficialesMora && oficialesMora.map(e => <option value={e.Codigo}>{e.Nombre}</option>)
+                                            oficialesMora.length && oficialesMora.map(e => <option value={e.Codigo}>{e.Nombre}</option>)
                                         }
                                     </select>  
                                     
@@ -798,13 +821,13 @@ const ActualForm = () => {
                                     input.OficialScoring ? 
                                     <select  name="OficialScoring" id="" value={input.OficialScoring} disabled>
                                         {
-                                            oficialesScoring && oficialesScoring.map(e => <option value={e.Codigo}>{e.Nombre}</option>)
+                                            oficialesScoring.length && oficialesScoring.map(e => <option value={e.Codigo}>{e.Nombre}</option>)
                                         }
                                     </select> :                                    
                                     <select  name="OficialScoring" id="" value={input.OficialScoring} onChange={handleChange}>
                                         <option value="">---</option>
                                         {
-                                            oficialesScoring && oficialesScoring.map(e => <option value={e.Codigo}>{e.Nombre}</option>)
+                                            oficialesScoring.length && oficialesScoring.map(e => <option value={e.Codigo}>{e.Nombre}</option>)
                                         }
                                     </select>  
                                     
@@ -834,14 +857,14 @@ const ActualForm = () => {
                                     <select  name="OficialPC" id="" value={input.OficialPC} disabled={isReadOnly}>
                                         <option>---</option>
                                         {
-                                            oficialesPC && oficialesPC.map(e => <option value={e.Codigo}>{e.Nombre}</option>)
+                                            oficialesPC.length && oficialesPC.map(e => <option value={e.Codigo}>{e.Nombre}</option>)
                                         }
                                     </select> :                                    
                                     
                                     <select  name="OficialPC" id="" value={input.OficialPC} onChange={handleChange}>
                                         <option>---</option>
                                         {
-                                            oficialesPC && oficialesPC.map(e => <option value={e.Codigo}>{e.Nombre}</option>)
+                                            oficialesPC.length && oficialesPC.map(e => <option value={e.Codigo}>{e.Nombre}</option>)
                                         }
                                     </select> 
                                     
@@ -861,14 +884,14 @@ const ActualForm = () => {
                                     value={input.origensuscripcion}>
                                         <option value="">---</option>
                                         {
-                                            origen && origen.map(e => <option value={e.Codigo}>{e.Descripcion}</option>)
+                                            origen.length && origen.map(e => <option value={e.Codigo}>{e.Descripcion}</option>)
                                         }
                                     </select> :                                    
                                     
                                     <select  name="origensuscripcion" id="" value={input.origensuscripcion} onChange={handleChange}>
                                         <option value="">---</option>
                                         {
-                                            origen && origen.map(e => <option value={e.Codigo}>{e.Descripcion}</option>)
+                                            origen.length && origen.map(e => <option value={e.Codigo}>{e.Descripcion}</option>)
                                         }
                                     </select> 
                                     
@@ -884,18 +907,22 @@ const ActualForm = () => {
                                         <select name="CodPuntoVenta" disabled={isReadOnly} value={input.CodPuntoVenta} id="">
                                             <option value="">---</option>
                                             {
-                                                puntos && puntos.map(e => <option value={e.Codigo}>{e.Nombre}</option>)
+                                                puntos.length && puntos.map(e => <option value={e.Codigo}>{e.Nombre}</option>)
                                             }
                                         </select>
                                     </div>
                                 </div>
-                                <div className={styles.section}>
-                                    <div className={styles.formItemCheck} style={{flexDirection: 'row', alignSelf: 'center', 
-                                    fontSize: '12px', alignItems: 'center'}}>
-                                        <input type="checkbox" checked={input.DebitoAutomatico === 1 ? true : false}/>
-                                        <span>Déb. Aut.</span>
-                                    </div>
-                                </div>
+                                <div className={styles.formItem}>
+                                            <span>Transf.</span>
+                                            <div style={{display: 'flex'}}>
+
+                                            <input type="text" disabled={isReadOnly} value={input.NombreSupervisor} 
+                                            name="Supervisor"/>
+                            
+                                            </div>
+                                </div> 
+                                 
+
                                 <div className={styles.section}>
                                     <div className={styles.formSection1x2} style={{columnGap: '5.5rem'}}>
                                         <div className={styles.formItemCheck} style={{flexDirection: 'row', alignSelf: 'center', 
@@ -931,51 +958,56 @@ const ActualForm = () => {
                                     </div>
                                 </div> 
                                 <div className={styles.section}>
-                                    <div className={styles.formSection1x2}>
+                                    <div className={styles.formSection1x2} style={{columnGap: '3rem'}}>
                                         <div className={styles.formItemCheck} style={{flexDirection: 'row', alignSelf: 'center', 
                                         fontSize: '12px', alignItems: 'center'}}>
                                             <input type="checkbox" disabled={isReadOnly} checked={input.PlanSubite === 1 ? true : false}/>
                                             <span>Plan Subite</span>
                                         </div>
-                                    </div>
-                                </div>
-                                <div className={styles.section}>
-                                    <div className={styles.formSection1x2} style={{columnGap: '0rem'}}>
                                         <div className={styles.formItemCheck} style={{flexDirection: 'row', alignSelf: 'center', 
                                         fontSize: '12px', alignItems: 'center'}}>
                                             <input type="checkbox" disabled={isReadOnly} checked={input.Rec === 1 ? true : false}/>
                                             <span>Rec</span>
                                         </div>
-                                        <div className={styles.formItem}>
-                                            <span>Transf.</span>
-                                            <div style={{display: 'flex'}}>
-
-                                            <input type="text" disabled={isReadOnly} value={input.NombreSupervisor} 
-                                            name="Supervisor"/>
-                            
-                                            </div>
-                                        </div> 
                                     </div>
                                 </div>
                                 <div className={styles.section}>
+                                    <div className={styles.formSection1x2} style={{columnGap: '0rem'}}>
+
+                                 <div className={styles.section}>
+                                    <div className={styles.formItemCheck} style={{flexDirection: 'row', alignSelf: 'center', 
+                                    fontSize: '12px', alignItems: 'center'}}>
+                                        <input type="checkbox" checked={input.DebitoAutomatico === 1 ? true : false}/>
+                                        <span>Déb. Aut.</span>
+                                    </div>
+                                </div> 
+
+                                    </div>
+                                </div>
+                            
+                                <div className={styles.section}>
+                                        <div className={styles.formItem} style={{alignSelf: 'center'}}>     
+                                        <button className={styles.submitButton}>Scoring {datosOp[0]?.Completoscoring === 1 ? '(COMPLETO)' : '(PENDIENTE)'}</button>
+                                        </div>
+                                </div>
+
+                                <div className={styles.section}>
                                         <div className={styles.formItem}>
-                                            <span>Importe Abonado</span>
+                                            <span>Entrega Usado</span>
                                             <div style={{display: 'flex'}}>
-                                                {
-                                                    input.Numero ?  /* pregunta por si se cargo el input en caso de que no esté autorizado */
-                                                    <input type="text" value={datosOp.reduce((total, array) => 
-                                                    (parseInt(array.ImpoSenia) * isNaN(parseInt(array.Interes)) ? 0 : parseInt(array.Interes)/100) + parseInt(array.ImpoSenia) + total,0)}  
-                                                     
-                                                    name="impAbonado" disabled={isReadOnly}/>
-                                                    :
-                                                    <input type="text" disabled />
-                                                }
+                                            <select  name="EntregaUsadoRetiro" value={input.EntregaUsadoRetiro} 
+                                            onChange={handleChange} id="">
+                                                <option value={0}>---</option>
+                                                <option value={1}>Si</option>
+                                                <option value={2}>No</option>
+                                                <option value={3}>Llave x Llave</option>
+                                            </select>
                             
                                             </div>
                                         </div>
                                 </div>
                                 <div className={styles.section}>
-                                    <div className={styles.formSection1x2}>
+                                    <div className={styles.formSection1x2} style={{margin: 0}}>
                                         <div className={styles.formItem}>
                                             <span>Valor Cuota</span>
                                             <div style={{display: 'flex'}}>
@@ -1023,17 +1055,6 @@ const ActualForm = () => {
                                 </div>
                                 <div className={styles.section}>
                                         <div className={styles.formItem}>
-                                            <span>Importe Total Cuota</span>
-                                            <div style={{display: 'flex'}}>
-
-                                            <input type="text" value={input.ImporteTotalCuota}   
-                                            name="ImporteTotalCuota" disabled/>
-                            
-                                            </div>
-                                        </div>
-                                </div>
-                                <div className={styles.section}>
-                                        <div className={styles.formItem}>
                                             <span>Fecha Estimada Canc. Saldo</span>
                                             <div style={{display: 'flex'}}>
 
@@ -1043,30 +1064,38 @@ const ActualForm = () => {
                                             </div>
                                         </div>
                                 </div>
+
                                 <div className={styles.section}>
-                                        <div className={styles.formItem} style={{alignSelf: 'center'}}>     
-                                        <button className={styles.submitButton}>Scoring {datosOp[0]?.Completoscoring === 1 ? '(COMPLETO)' : '(PENDIENTE)'}</button>
+                                        <div className={styles.formItem}>
+                                            <span>Importe Abonado</span>
+                                            <div style={{display: 'flex'}}>
+                                                {
+                                                    input.Numero ?  /* pregunta por si se cargo el input en caso de que no esté autorizado */
+                                                    <input type="text" value={datosOp.reduce((total, array) => 
+                                                    (parseFloat(array.ImpoSenia) * isNaN(parseFloat(array.Interes)) ? 0 : parseFloat(array.Interes)/100) + parseFloat(array.ImpoSenia) + total,0)}  
+                                                     
+                                                    name="impAbonado" disabled={isReadOnly}/>
+                                                    :
+                                                    <input type="text" disabled />
+                                                }
+                            
+                                            </div>
                                         </div>
                                 </div>
                                 <div className={styles.section}>
                                         <div className={styles.formItem}>
-                                            <span>Entrega Usado</span>
+                                            <span>Importe Total Cuota</span>
                                             <div style={{display: 'flex'}}>
-                                            <select  name="EntregaUsadoRetiro" value={input.EntregaUsadoRetiro} 
-                                            onChange={handleChange} id="">
-                                                <option value={0}>---</option>
-                                                <option value={1}>Si</option>
-                                                <option value={2}>No</option>
-                                                <option value={3}>Llave x Llave</option>
-                                            </select>
+
+                                            <input type="text" value={input.ImporteTotalCuota}   
+                                            name="ImporteTotalCuota" disabled/>
                             
                                             </div>
                                         </div>
-                                </div>          
-                            
+                                </div>
                         </div>
                       
-                        <div className={styles.formSection3x1}>  
+                        <div className={styles.formSection2x1}>  
                        
                             <div className={styles.sectionScoring} style={{
                                     flexDirection: 'column',
@@ -1169,24 +1198,30 @@ const ActualForm = () => {
                                     </fieldset>
                                 </div>
                             </div>
+
+
+                        </div>
+
+                    </div>                         
+                </div>
                             {
                                 input.Numero ?  /* pregunta por si se cargo el input en caso de que no esté autorizado */
                             <TableContainer> 
-                            <table style={{fontSize: '14px'}}>
+                            <table style={{fontSize: '14px', marginTop: '2rem'}}>
                             <span><b>Señas y pagos posteriores</b></span>
                                 <tr>
                                     <td></td>
                                     <td><b>Fecha</b> </td>
                                     <td><b>Importe</b> </td>
+                                    <td><b>Forma de Pago</b> </td>
                                     <td><b>Interés</b> </td>
                                     <td><b>Imp. Abonado</b> </td>
-                                    <td><b>Forma de Pago</b> </td>
                                     <td><b>Recibo Nº</b> </td>
                                     <td><b>F. Vto.</b> </td>
                                     <td></td>
                                 </tr>
                                 {
-                                    datosOp  && datosOp.map(e => 
+                                    senias  && senias.map(e => 
                                         <FormaPagoItem 
                                         FechaSenia={e.FechaSenia} 
                                         ImpoSenia={e.ImpoSenia}
@@ -1204,9 +1239,6 @@ const ActualForm = () => {
                                     <td></td>
                                     <td><input type="date" value={inputNuevoPago.Fecha} onChange={handleNuevoPago} name="Fecha"/></td>
                                     <td><input type="text" value={inputNuevoPago.Importe} size={5} onChange={handleNuevoPago} name="Importe"/></td>
-                                    <td><input type="text" value={inputNuevoPago.Interes} disabled={esTarjeta ? false : true} readOnly
-                                    size={5} onChange={handleNuevoPago} name="Interes"/></td>
-                                    <td><input type="text" value={inputNuevoPago.ImpAbonado} size={5} onChange={handleNuevoPago} name="ImpAbonado"/></td>
                                     <td>
                                         <select name="FormaDePago" 
                                         style={{width: '7rem'}}
@@ -1218,6 +1250,9 @@ const ActualForm = () => {
                                             }
                                         </select>
                                     </td>
+                                    <td><input type="text" value={inputNuevoPago.Interes} disabled 
+                                    size={5} onChange={handleNuevoPago} name="Interes"/></td>
+                                    <td><input type="text" value={inputNuevoPago.ImpAbonado} disabled size={5} onChange={handleNuevoPago} name="ImpAbonado"/></td>
                                     <td><input type="text" value={inputNuevoPago.NroRecibo} size={12} name="NroRecibo" onChange={handleNuevoPago}/></td>
                                     <td><input type="date" value={inputNuevoPago.FechaVto} name="FechaVto" onChange={handleNuevoPago} /></td>
                                     <td><button className={styles.submitButton} onClick={handleSubmitNuevoPago}>Guardar</button></td>
@@ -1266,9 +1301,9 @@ const ActualForm = () => {
                                     }}>
                                         <td>TOTAL</td>
                                         <td></td>
-                                        <td>{datosOp.reduce((total, array) => isNaN(parseInt(array.ImpoSenia)) ? 0 :  parseInt(array.ImpoSenia) + total,0)}</td>
-                                        <td>{datosOp.reduce((total, array) => isNaN(parseInt(array.Interes)) ? 0 : parseInt(array.Interes) + total,0)}</td>
-                                        <td>{datosOp.reduce((total, array) => isNaN((parseInt(array.ImpoSenia)) ? 0 : parseInt(array.ImpoSenia) * isNaN(parseInt(array.Interes)) ? 0 : parseInt(array.Interes)/100) + isNaN(parseInt(array.ImpoSenia)) ? 0 : parseInt(array.ImpoSenia)  + total,0)}</td>
+                                        <td>{datosOp.reduce((total, array) => isNaN(parseFloat(array.ImpoSenia)) ? 0 :  parseFloat(array.ImpoSenia) + total,0)}</td>
+                                        <td>{datosOp.reduce((total, array) => isNaN(parseFloat(array.Interes)) ? 0 : parseFloat(array.Interes) + total,0)}</td>
+                                        <td>{datosOp.reduce((total, array) => isNaN((parseFloat(array.ImpoSenia)) ? 0 : parseFloat(array.ImpoSenia) * isNaN(parseFloat(array.Interes)) ? 0 : parseFloat(array.Interes)/100) + isNaN(parseFloat(array.ImpoSenia)) ? 0 : parseFloat(array.ImpoSenia)  + total,0)}</td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
@@ -1280,17 +1315,12 @@ const ActualForm = () => {
                             </table>
                             <div className={styles.buttonContainer}>
                             <button className={styles.submitButton} onClick={() => setNuevoPago(!nuevoPago)} 
-                            disabled={isReadOnly}>Nuevo</button>
+                            disabled={(totalImpAbonado - input.CuotaACobrar) === 0 ? true : isReadOnly}>Nuevo</button>
                             <button className={styles.submitButton} disabled={isReadOnly}>Eliminar</button>
                             </div>
                             </TableContainer> : 
                             <span style={{justifySelf: 'center'}}>No disponible</span>
                             }
-
-                        </div>
-
-                    </div>                         
-                </div>
                         
 
                             <div className={styles.buttonContainer2}>
@@ -1305,7 +1335,7 @@ const ActualForm = () => {
                                     input.EstadoPrescoring !== 2 ||
                                     !input.FechaPrescoring ||
                                     input.Estadoscoring !== 2 ||
-                                    parseInt(input.ImporteTotalCuota) !== totalImpAbonado 
+                                    parseFloat(input.ImporteTotalCuota) !== totalImpAbonado 
                                     
                                     ? true : btnConformar
                                     

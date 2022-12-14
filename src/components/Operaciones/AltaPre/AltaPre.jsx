@@ -9,6 +9,7 @@ import { getFormasPago, getIntereses, getModeloPrecio, getModelos, getModeloValo
 import styles from './AltaPre.module.css';
 import isAfterToday from '../../../helpers/isAfterToday';
 import ModalStatus from '../../ModalStatus';
+import Swal from 'sweetalert2';
 
 const AltaPre = () => {
     const dispatch = useDispatch()
@@ -181,6 +182,7 @@ if(!input.Documento.length || !input.DocumentoNro.length) {
   setError({})
   dispatch(verifyDoc({documento: input.Documento, documentoNro: input.DocumentoNro}))
 
+
 }
 }
 
@@ -261,16 +263,16 @@ const onBlurRecibo2 = () => {
 
 const onBlurCantPagos = () => {
   if(input.Importe.length && interesesFiltered.length){
-      if(parseInt(input.CantPagos) !== 1){
-        const interesSelected = interesesFiltered.find(e => e.Cantidad === parseInt(input.CantPagos))?.Interes
-        setInput({...input, "Interes": (input.Importe * parseInt(interesSelected))/100, "importeAbonado": parseInt(input.Importe) + (input.Importe * parseInt(interesSelected))/100})
+      if(parseFloat(input.CantPagos) !== 1){
+        const interesSelected = interesesFiltered.find(e => e.Cantidad === parseFloat(input.CantPagos))?.Interes
+        setInput({...input, "Interes": (input.Importe * parseFloat(interesSelected))/100, "importeAbonado": parseFloat(input.Importe) + (input.Importe * parseFloat(interesSelected))/100})
         setError({...error, "Importe": ""})
       }else{
         setInput({...input, "Interes": 0, "importeAbonado": input.Importe})
       }
   }
   else if(input.Importe.length && !interesesFiltered.length){
-    setInput({...input, "importeAbonado": parseInt(input.Importe)})
+    setInput({...input, "importeAbonado": parseFloat(input.Importe)})
   }
 
 }
@@ -280,7 +282,7 @@ setInput({...input, "Importe": 0, "CantPagos": 0, "importeAbonado": 0})
 
 if(!e.target.value) setError({...error, "FormaDePago": "Campo requerido"})
 else{
-  setInput({...input, "cuentaContable": formasPago.status && formasPago.data.find(e => e.Codigo === parseInt(input.FormaDePago)).CuentaContable})
+  setInput({...input, "cuentaContable": formasPago.status && formasPago.data.find(e => e.Codigo === parseFloat(input.FormaDePago)).CuentaContable})
    setError({...error, "FormaDePago": ""})
   }
 }
@@ -408,10 +410,7 @@ const onClick = () => {
     return
   }
 
-  if(!input.FechaCancelacionSaldo){
-    setError({...error, "FechaCancelacionSaldo": 'Campo Requerido'})
-    return
-  }
+
   if(isTarjeta && !input.Tarjeta){
     setError({...error, "Tarjeta": 'Campo Requerido'})
     return
@@ -518,7 +517,7 @@ useEffect(() => { //Manejar actualizaciones de vendedores (ABM) y su inUpdate
 
       if(input.TipoPlan !== '*' && modelos.status === true){
         setInput({...input, "TotalCuota": "", "ValorCuotaTerm": ""})
-        setModelosFiltered(modelos.data.filter(e => e.TipoPlan === parseInt(input.TipoPlan) && e.Marca === codigoMarca && e.Activo === 1 && e.CuotaTerminal !== null))
+        setModelosFiltered(modelos.data.filter(e => e.TipoPlan === parseFloat(input.TipoPlan) && e.Marca === codigoMarca && e.Activo === 1 && e.CuotaTerminal !== null))
       }else{
         setInput({...input, "TotalCuota": "", "ValorCuotaTerm": ""})
         setModelosFiltered([])
@@ -541,26 +540,33 @@ useEffect(() => { //Manejar actualizaciones de vendedores (ABM) y su inUpdate
     }, [modeloValorCuota])
 
     useEffect(() => {
-      if(input.Precio === 'A' && Object.keys(modeloPrecios).length){
-        setInput({...input, "TotalCuota": modeloPrecios.PrecioA.CuotaACobrar})
-      }
       if(input.Precio === 'B' && Object.keys(modeloPrecios).length){
         setInput({...input, "TotalCuota": modeloPrecios.PrecioB.CuotaACobrar})
+      }else{ 
+        if(Object.keys(modeloPrecios).length){
+
+          setInput({...input, "TotalCuota": modeloPrecios.PrecioA.CuotaACobrar})
+        }
       }
 
     }, [modeloPrecios, input.Precio])
 
     useEffect(() => {
-      if(parseInt(input.importeAbonado) > parseInt(input.TotalCuota)){
+      if(parseFloat(input.importeAbonado) > parseFloat(input.TotalCuota)){
         alert('El valor abonado no puede ser superior al importe total de la cuota')
         setInput({...input, "Importe": 0, "CantPagos": "", "importeAbonado": 0})
+      }else if(parseFloat(input.importeAbonado) < parseFloat(input.TotalCuota)){
+        setError({...error, "FechaCancelacionSaldo": 'Campo Requerido'})
+      }
+      else if(parseFloat(input.importeAbonado) === parseFloat(input.TotalCuota)){
+        setError({...error, "FechaCancelacionSaldo": ""})
       }
 
     }, [input.importeAbonado])
 
     useEffect(() => {
       if(vendedores.status && input.Vendedor){
-        setVendedorSelected(vendedores.data.find(e => e.Codigo === parseInt(input.Vendedor)))
+        setVendedorSelected(vendedores.data.find(e => e.Codigo === parseFloat(input.Vendedor)))
       }
     }, [input.Vendedor])
 
@@ -576,7 +582,7 @@ useEffect(() => { //Manejar actualizaciones de vendedores (ABM) y su inUpdate
     useEffect(() => {
       
       setInput({...input, "TeamLeader": teamLeaderSelected?.Codigo, "Supervisor": supervisorSelected?.Codigo,
-      "Vendedor": parseInt(input.Vendedor)})
+      "Vendedor": parseFloat(input.Vendedor)})
 
     }, [supervisorSelected])
  
@@ -585,18 +591,28 @@ useEffect(() => { //Manejar actualizaciones de vendedores (ABM) y su inUpdate
     useEffect(() => {
 
       if(solicitudesDoc.docStatus?.length){
-        alert('El cliente posee la(s) siguiente(s) operacion(es) ' + `${solicitudesDoc.docStatus.map(e => {return `Solicitud: ${e.Solicitud} Empresa: ${e.Empresa}`})}`)
+
+        let suscriptor = solicitudesDoc.suscriptor[0]
+        Swal.fire({
+          icon: 'success',
+          title: 'El cliente posee la(s) siguiente(s) operacion(es) ' + `${solicitudesDoc.docStatus.map(e => {return `Solicitud: ${e.Solicitud} Empresa: ${e.Empresa}`})}`,
+          showConfirmButton: true
+        }).then((result) => {
+          if (result.isConfirmed) {
+            setInput({...input, "Nacimiento": suscriptor.FechaNac.slice(0,10), "Nombre": suscriptor.Nombres, "Apellido": suscriptor.Apellido, "EmailLaboral": suscriptor.EmailLaboral, 
+            "EmailParticular": suscriptor.EmailLaboral, "Calle": suscriptor.Domicilio, "Numero": suscriptor.NumeroCalle, "Piso": suscriptor.Piso,
+            "Dto": suscriptor.Dto, "CodPostal": suscriptor.CodPostal, "Localidad": suscriptor.Localidad, "Provincia": suscriptor.Provincia,
+            "TelefParticular": suscriptor.Telefonos, "TelefCelular": suscriptor.Telefonos2, "TelefLaboral": suscriptor.Telefonos3, 
+            "TelefFamiliar": suscriptor.Telefonos4, "Ocupacion": suscriptor.Ocupacion
+            })
+
+          }
+        })
+
       }
 
-      if(solicitudesDoc.suscriptor?.length){
-          let suscriptor = solicitudesDoc.suscriptor[0]
-        setInput({...input, "Nombre": suscriptor.Nombres, "Apellido": suscriptor.Apellido, "EmailLaboral": suscriptor.EmailLaboral, 
-      "EmailParticular": suscriptor.EmailLaboral, "Calle": suscriptor.Domicilio, "Numero": suscriptor.NumeroCalle, "Piso": suscriptor.Piso,
-      "Dto": suscriptor.Dto, "CodPostal": suscriptor.CodPostal, "Localidad": suscriptor.Localidad, "Provincia": suscriptor.Provincia,
-      "TelefParticular": suscriptor.Telefonos, "TelefCelular": suscriptor.Telefonos2, "TelefLaboral": suscriptor.Telefonos3, 
-      "TelefFamiliar": suscriptor.Telefonos4, "Ocupacion": suscriptor.Ocupacion
-      })
-      }
+  
+      
 
     }, [solicitudesDoc])
     
@@ -606,7 +622,7 @@ useEffect(() => { //Manejar actualizaciones de vendedores (ABM) y su inUpdate
 
       if(input.FormaDePago  && intereses.status) {
 
-          setInteresesFiltered(intereses.data.filter(e => e.MedioCobro === parseInt(input.FormaDePago)))
+          setInteresesFiltered(intereses.data.filter(e => e.MedioCobro === parseFloat(input.FormaDePago)))
           
       }
     }, [input.FormaDePago])
@@ -614,7 +630,7 @@ useEffect(() => { //Manejar actualizaciones de vendedores (ABM) y su inUpdate
 
 
     useEffect(() => {
-      if(formasPago.data?.find(e => e.Codigo === parseInt(input.FormaDePago))?.EsTarjeta === 1) setIsTarjeta(true)
+      if(formasPago.data?.find(e => e.Codigo === parseFloat(input.FormaDePago))?.EsTarjeta === 1) setIsTarjeta(true)
       else {
       setIsTarjeta(false) 
       setError({...error, "Tarjeta":"", "fechaCupon": "", "nroCupon": "", "lote": "", "nroTarjeta": ""})
@@ -622,18 +638,27 @@ useEffect(() => { //Manejar actualizaciones de vendedores (ABM) y su inUpdate
       }
     }, [input.FormaDePago])
 
+    useEffect(() => {
+      if(Object.keys(altaPreStatus).includes('status')){
+        if(altaPreStatus.status){
+          Swal.fire({
+            icon: 'success',
+            title: altaPreStatus.message,
+          })
+        }else{
+          Swal.fire({
+            icon: 'error',
+            title: altaPreStatus.message,
+          })
+        }
+      }
+    }, [altaPreStatus])
+
     
 
   return (
     <div style={{ textAlign: '-webkit-center'}}>
-                  {
 
-        (Object.keys(altaPreStatus).length && modal) && Object.keys(altaPreStatus).includes('status') ? 
-        <ModalStatus message={altaPreStatus?.message} status={altaPreStatus?.status}/> :
-
-        null
-
-                }
         <BiggerTitleLogo>
             <div>
               <span>{empresaReal}</span>
@@ -730,7 +755,7 @@ useEffect(() => { //Manejar actualizaciones de vendedores (ABM) y su inUpdate
               <div className={styles.input}>
                     <span>Numero</span>
                     <div className={styles.containerError}>
-                    <input type="text" onBlur={onBlurDoc} name='DocumentoNro'  value={input.DocumentoNro} onChange={handleChange} />
+                    <input type="text" onBlur={onBlurDoc} name='DocumentoNro' id='DocumentoNro'  value={input.DocumentoNro} onChange={handleChange} />
                     {error.Documento && <div className={styles.error}>{error.Documento}</div>}
                     </div>
               </div>
@@ -931,47 +956,37 @@ useEffect(() => { //Manejar actualizaciones de vendedores (ABM) y su inUpdate
               <div className={styles.formTitleContainer}>
                     <h5 style={{margin: '0'}}>Datos de la operación</h5>
               </div>
-              <div className={styles.inputSection2}>
+              <div className={styles.inputSection2} style={{marginTop: '2rem'}}>
                     <div className={styles.inputSection2} style={{alignContent: 'center'}}>
                         <div><input type="radio" value={0} defaultChecked onChange={handleCheckPrecio} name="Precio" /> Precio A</div>
                         <div><input type="radio" value={1} onChange={handleCheckPrecio}  name="Precio" /> Precio B</div>
                     </div>
-                    <div className={styles.inputSection2} style={{columnGap: '0'}}>
+                    <div style={{columnGap: '0'}}>
                       <div className={styles.input}>
                         <span>Importe Total Cuota</span> <input type="text" value={input.TotalCuota} name="TotalCuota" onChange={handleChange} />
                       </div>
                    
-                      <div className={styles.inputSection2} style={{columnGap: '5px'}}>
-                          <div className={styles.input}> 
+                    
+
+                  
+                     </div>
+              </div>
+              <div className={styles.inputSection2}>
+              <div className={styles.input}> 
                             <span>Nro Recibo</span> 
                             <div className={styles.containerError}>
-                            <input type="text" onBlur={onBlurRecibo1} minLength={4}  maxLength={4} value={input.nroRecibo} name="nroRecibo" onChange={handleChange} />                        
+                            <input type="text" onBlur={onBlurRecibo1} minLength={4}  maxLength={4} value={input.nroRecibo} 
+                            name="nroRecibo" onChange={handleChange}  style={{marginRight: '1rem'}}/>                        
                            {error.nroRecibo && <div className={styles.error}>{error.nroRecibo}</div>}
                             </div>
-                          </div>
-                          <div className={styles.input}>
+                          <div>
                             <div className={styles.containerError}>
                             <input type="text" onBlur={onBlurRecibo2}  value={input.nroRecibo2} name="nroRecibo2" onChange={handleChange}/>
                             {error.nroRecibo2 && <div className={styles.error}>{error.nroRecibo2}</div>}
                           
                             </div>
                           </div>
-                      </div>  
-                     </div>
-              </div>
-              <div className={styles.inputSection2}>
-                    <div className={styles.input}>
-                      <span>Sucursal</span>
-                      <div className={styles.containerError}>
-                      <select name="Sucursal" value={input.Sucursal} onBlur={onBlurRequired} onChange={handleChange} id="">
-                        <option value="*">---</option>
-                        {
-                          sucursales.status && sucursales.data.map(e => <option key={e.Codigo} value={e.Codigo}>{e.Codigo}-{e.Nombre}</option>)
-                        }
-                      </select>
-                      {error.Sucursal && <div className={styles.error}>{error.Sucursal}</div>}
-                      </div>
-                    </div>
+                          </div>
                     <div className={styles.input}>
                         <span>Forma Pago</span>
                         <div className={styles.containerError}>
@@ -1017,16 +1032,19 @@ useEffect(() => { //Manejar actualizaciones de vendedores (ABM) y su inUpdate
                     </div>
               </div>
               <div className={styles.inputSection2}>
-                  <div className={styles.inputSection2} style={{columnGap: '0'}}>
-                      <div className={styles.input}>
-                            <span>Team Leader</span>
-                            <b><span>{teamLeaderSelected?.Nombre}</span></b>
+              <div className={styles.input}>
+                      <span>Sucursal</span>
+                      <div className={styles.containerError}>
+                      <select name="Sucursal" value={input.Sucursal} onBlur={onBlurRequired} onChange={handleChange} id="">
+                        <option value="*">---</option>
+                        {
+                          sucursales.status && sucursales.data.map(e => <option key={e.Codigo} value={e.Codigo}>{e.Codigo}-{e.Nombre}</option>)
+                        }
+                      </select>
+                      {error.Sucursal && <div className={styles.error}>{error.Sucursal}</div>}
                       </div>
-                      <div className={styles.input}>
-                            <span>Supervisor</span>
-                            <b><span>{supervisorSelected?.Nombre}</span></b> 
-                      </div>     
-                  </div>
+                    </div>
+
                   <div className={styles.inputSection2} style={{columnGap: '0rem'}}>
 
                     <div className={styles.input}>
@@ -1036,26 +1054,33 @@ useEffect(() => { //Manejar actualizaciones de vendedores (ABM) y su inUpdate
                           {error.Importe && <div className={styles.error}>{error.Importe}</div>} 
                           </div>
                     </div>
-                    <div className={styles.input}>
-                            <span>Cant. Pagos</span>
-                            <select name="CantPagos" onBlur={onBlurCantPagos} value={input.CantPagos} onChange={handleChange} id="">
-                              <option value="*">---</option>
-                              {
-                                formasPago.status && formasPago.data.find(e => e.Codigo === parseInt(input.FormaDePago))?.EsTarjeta === 1 ? 
-                                <option value={1}>1 pago sin interés</option> : null
-                              } 
-                              {
-                                interesesFiltered.length && interesesFiltered.map(e => <option value={e.Cantidad}>{`${e.Cantidad} pagos - ${e.Interes}% interés`}</option>)
-                              }
-                            </select>
-                    </div>      
+                   <div className={styles.input}>
+                              <span>Imp Abonado</span>
+                              <input type="number" name="importeAbonado" disabled value={input.importeAbonado} onChange={handleChange}  />
+                            </div> 
+    
 
                   </div>
 
               </div>
 
-              <div className={styles.inputSection2}>
-                      
+              <div className={styles.inputSection2} style={{marginTop:'2rem'}}>
+                      <fieldset style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            rowGap: '2rem'
+                            
+                      }}>
+                      <div className={styles.inputSection2} style={{columnGap: '0'}}>
+                      <div className={styles.input}>
+                            <span>Team Leader</span>
+                            <b><span>{teamLeaderSelected?.Nombre}</span></b>
+                      </div>
+                      <div className={styles.input}>
+                            <span>Supervisor</span>
+                            <b><span>{supervisorSelected?.Nombre}</span></b> 
+                      </div>     
+                  </div>
                       <div className={styles.input}>
                             <span>Puntos de Venta</span>
                             <div className={styles.containerError}>
@@ -1069,61 +1094,6 @@ useEffect(() => { //Manejar actualizaciones de vendedores (ABM) y su inUpdate
                           </div>
 
                       </div>
-                      <div className={styles.inputSection2} style={{columnGap: '0'}}>
-                            <div className={styles.input}>
-                              <span>Importe Abonado</span>
-                              <input type="number" name="importeAbonado" value={input.importeAbonado} onChange={handleChange}  />
-                            </div>
-                            <div className={styles.input}>
-                              <span>Interés</span>
-                              <input type="number" name="Interes" value={input.Interes} onChange={handleChange} />
-                            </div>
-
-                      </div>
-
-              </div>
-            <div className={styles.inputSection2}>
-                      <div className={styles.input}>
-                            <span>Oficial Plan Canje</span>
-                            <select name="OficialCanje" value={input.OficialCanje} onChange={handleChange} id="">
-                            <option value="">---</option>
-                            {
-                            oficialesCanje.status && oficialesCanje.data.map(e => <option key={e.Codigo} value={e.Codigo}>{e.Codigo}-{e.Nombre}</option>)
-                            }
-                          </select>
-
-                      </div> 
-
-                          <div className={styles.inputSection2} style={{columnGap: '0'}}>
-                            <div className={styles.input}>
-                              <span>Tarjeta</span>
-                              <div className={styles.containerError}>
-                              {
-                                formasPago.status && formasPago.data.find(e => e.Codigo === parseInt(input.FormaDePago))?.EsTarjeta === 1 ? 
-                              <select name="Tarjeta" value={input.Tarjeta} onBlur={onBlurTarjeta} onChange={handleChange} id="" style={{width: '9rem'}}>
-                                <option value="*">---</option>
-                                {
-                                  tarjetas.data.length && tarjetas.data.map(e => <option value={e.Codigo}>{e.Nombre}</option>)
-                                } 
-                              </select> : <select disabled></select>
-                              }
-                              {error.Tarjeta && <div className={styles.error}>{error.Tarjeta}</div>}
-                              </div>
-                            </div>
-                            <div className={styles.input}>
-                              <span>Nro Tarjeta</span>
-                              <div className={styles.containerError}>
-                              {
-                                formasPago.status && formasPago.data.find(e => e.Codigo === parseInt(input.FormaDePago))?.EsTarjeta === 1 ? 
-                                <input type="text" name='nroTarjeta' value={input.nroTarjeta} onBlur={onBlurTarjeta} onChange={handleChange} /> : 
-                                <input type="text" disabled />
-                              }
-                              {error.nroTarjeta && <div className={styles.error}>{error.nroTarjeta}</div>}
-                              </div>
-                            </div>
-                      </div>
-              </div>
-              <div className={styles.inputSection2}>
                       <div className={styles.input}>
                             <span>Origen Suscripción</span>
                             <div className={styles.containerError}>
@@ -1137,6 +1107,68 @@ useEffect(() => { //Manejar actualizaciones de vendedores (ABM) y su inUpdate
                             </div>
 
                       </div>
+
+                      <div className={styles.input}>
+                            <span>Oficial Plan Canje</span>
+                            <select name="OficialCanje" value={input.OficialCanje} onChange={handleChange} id="">
+                            <option value="">---</option>
+                            {
+                            oficialesCanje.status && oficialesCanje.data.map(e => <option key={e.Codigo} value={e.Codigo}>{e.Codigo}-{e.Nombre}</option>)
+                            }
+                          </select>
+
+                      </div> 
+
+                      </fieldset>
+
+                      <fieldset className={styles.fieldSet} disabled={ formasPago.status && formasPago.data.find(e => e.Codigo === parseFloat(input.FormaDePago))?.EsTarjeta === 1 ? false : true}>
+                    <div className={styles.divTarjetas} style={{columnGap: '0'}}>
+                        <div className={styles.inputSection2} style={{columnGap: '0'}}>
+                            <div className={styles.input}>
+                              <span>Tarjeta</span>
+                              <div className={styles.containerError}>
+
+                              <select name="Tarjeta" value={input.Tarjeta} onBlur={onBlurTarjeta} onChange={handleChange} id="">
+                                <option value="*">---</option>
+                                {
+                                  tarjetas?.data?.length && tarjetas.data.map(e => <option value={e.Codigo}>{e.Nombre}</option>)
+                                } 
+                              </select> 
+                              
+                              {error.Tarjeta && <div className={styles.error}>{error.Tarjeta}</div>}
+                              </div>
+                            </div>
+                            <div className={styles.input}>
+                              <span>Nro Tarjeta</span>
+                              <div className={styles.containerError}>
+                             
+                                <input type="text" name='nroTarjeta' value={input.nroTarjeta} onBlur={onBlurTarjeta} onChange={handleChange} /> 
+
+                              
+                              {error.nroTarjeta && <div className={styles.error}>{error.nroTarjeta}</div>}
+                              </div>
+                            </div>
+                      </div>
+                      <div className={styles.input}>
+                            <span>Cant. Pagos</span>
+                            <select style={{
+                                  maxWidth: '118px'
+                            }} name="CantPagos" onBlur={onBlurCantPagos} value={input.CantPagos} onChange={handleChange} id="">
+                              <option value="*">---</option>
+                              {
+                                formasPago.status && formasPago.data.find(e => e.Codigo === parseFloat(input.FormaDePago))?.EsTarjeta === 1 ? 
+                                <option value={1}>1 pago sin interés</option> : null
+                              } 
+                              {
+                                interesesFiltered.length && interesesFiltered.map(e => <option value={e.Cantidad}>{`${e.Cantidad} pagos - ${e.Interes}% interés`}</option>)
+                              }
+                            </select>
+                        <div className={styles.input}>
+                              <span>Interés</span>
+                              <input disabled type="number" name="Interes" value={input.Interes} onChange={handleChange} />
+                        </div>
+                        </div>   
+
                       <div className={styles.inputSection2} style={{columnGap: '0'}}>
                             <div className={styles.input}>
                               <span>Fecha Cupón</span>
@@ -1153,10 +1185,42 @@ useEffect(() => { //Manejar actualizaciones de vendedores (ABM) y su inUpdate
                               </div>
                             </div>
                       </div>
-            </div>
 
-            <div className={styles.inputSection2}>
-                   <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr'}}>
+                      <div className={styles.input}>
+                      <span>Lote</span>
+                      <div className={styles.containerError}>
+                      <input type="number" name='lote' value={input.lote} onBlur={onBlurTarjeta} onChange={handleChange} />
+                      {error.lote && <div className={styles.error}>{error.lote}</div>}
+                      </div>
+                    </div> 
+
+                      </div>
+                      </fieldset>
+
+              </div>
+
+
+
+
+
+            <div className={styles.inputSection2} style={{marginTop:'4rem', marginBottom:'1rem'}}>
+
+
+              <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr'}}>
+                   <div className={styles.inputCheck}>
+                      <span>Anexos</span>
+                      <input type="checkbox" name='Anexos' onChange={handleCheckChange} />
+                    </div>
+                    <div className={styles.inputCheck}>
+                      <span>Promo Especial</span>
+                      <input type="checkbox" name='promoEspecial' onChange={handleCheckChange} />
+                    </div>
+                    <div className={styles.inputCheck}>
+                      <span>Plan Subite Pide Auto</span>
+                      <input type="checkbox" name='planSubite' onChange={handleCheckChange} />
+                    </div>
+             
+
                     <div className={styles.inputCheck}>
                       <span>Deb. Autom.</span>
                       <input type="checkbox" name='debAutom' onChange={handleCheckChange} />
@@ -1170,40 +1234,19 @@ useEffect(() => { //Manejar actualizaciones de vendedores (ABM) y su inUpdate
                       <input type="checkbox" name='Mail' onChange={handleCheckChange}/>
                     </div>
               
-                   </div>
-                   <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr 1fr'}}>
-                   <div className={styles.inputCheck}>
-                      <span>Anexos</span>
-                      <input type="checkbox" name='Anexos' onChange={handleCheckChange} />
-                    </div>
-                    <div className={styles.inputCheck}>
-                      <span>Promo Especial</span>
-                      <input type="checkbox" name='promoEspecial' onChange={handleCheckChange} />
-                    </div>
-                    <div className={styles.inputCheck}>
-                      <span>Plan Subite Pide Auto</span>
-                      <input type="checkbox" name='planSubite' onChange={handleCheckChange} />
-                    </div>
+                   
+
+      
+         
                     
-                    </div>         
-            </div>
-
-            <div className={styles.inputSection2} style={{marginTop:'2rem', marginBottom:'1rem'}}>
-
-              <div className={styles.input}>
-                <span>Lote</span>
-                <div className={styles.containerError}>
-                <input type="number" name='lote' value={input.lote} onBlur={onBlurTarjeta} onChange={handleChange} />
-                {error.lote && <div className={styles.error}>{error.lote}</div>}
-                </div>
-              </div>
+                </div>   
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-around'
               }}>
                 <span>Observaciones: </span>
-                <textarea name="observaciones" value={input.observaciones} onChange={handleChange} id="" cols="30" rows="2"></textarea>
+                <textarea name="observaciones" value={input.observaciones} onChange={handleChange} id="" cols="45" rows="4"></textarea>
               </div>
 
             </div>
