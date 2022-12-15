@@ -272,6 +272,9 @@
     place-content: space-around;
 }
 
+.nuevoPagoTr input[type=number]{
+    text-align-last: right;
+}
 
 
 @media screen and (max-width: 1270px) {

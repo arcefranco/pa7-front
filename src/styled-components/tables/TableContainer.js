@@ -36,7 +36,9 @@ position: relative;
 
     td {
       margin: -.5em;
-      padding: -.5em;
+      padding: 0 17px 7px;
+    
+      
       // padding-top: -.5em;
       // padding-bottom: -.5em;
       border-bottom: 0px solid black;

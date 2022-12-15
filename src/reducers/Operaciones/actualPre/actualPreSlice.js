@@ -235,6 +235,38 @@ export const getPreOperaciones = createAsyncThunk('Operaciones/ActualPre/getPreO
 
   })
 
+  export const deletePago = createAsyncThunk('Operaciones/ActualPre/deletePago', async (datos, thunkAPI) => {
+    try {
+      
+      const data = await actualPreService.deletePago(datos)
+
+      return data
+    } catch (error) {
+
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+
+  })
+
+  export const updatePago = createAsyncThunk('Operaciones/ActualPre/updatePago', async (datos, thunkAPI) => {
+    try {
+      
+      const data = await actualPreService.updatePago(datos)
+
+      return data
+    } catch (error) {
+
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString()
+      return thunkAPI.rejectWithValue(error.response.data)
+    }
+
+  })
+
   export const getSenias = createAsyncThunk('Operaciones/ActualPre/getSenias', async (datos, thunkAPI) => {
     try {
       
@@ -434,6 +466,33 @@ export const getPreOperaciones = createAsyncThunk('Operaciones/ActualPre/getPreO
             state.seniaStatus = action.payload
           })
           .addCase(pagoSenia.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            state.seniaStatus = action.payload
+          })
+          .addCase(deletePago.pending, (state) => {
+            state.isLoading = true
+          })
+          .addCase(deletePago.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.isSuccess = true
+            state.seniaStatus = action.payload
+          })
+          .addCase(deletePago.rejected, (state, action) => {
+            state.isLoading = false
+            state.isError = true
+            state.seniaStatus = action.payload
+          })
+
+          .addCase(updatePago.pending, (state) => {
+            state.isLoading = true
+          })
+          .addCase(updatePago.fulfilled, (state, action) => {
+            state.isLoading = false
+            state.isSuccess = true
+            state.seniaStatus = action.payload
+          })
+          .addCase(updatePago.rejected, (state, action) => {
             state.isLoading = false
             state.isError = true
             state.seniaStatus = action.payload

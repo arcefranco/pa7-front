@@ -10,8 +10,7 @@ import { useParams } from 'react-router-dom'
 import TableContainer from '../../../styled-components/tables/TableContainer'
 import { getDatosPreSol, getModelos, getOficialesMora, getOficialesScoring, getOficialesPC,
 getOrigenSuscripcion, reset, getParametros, getFormasPago, getTarjetas, getIntereses,
-getPuntosVenta, getSenias,
-pagoSenia} from '../../../reducers/Operaciones/actualPre/actualPreSlice'
+getPuntosVenta, getSenias, pagoSenia} from '../../../reducers/Operaciones/actualPre/actualPreSlice'
 import * as BsIcons from 'react-icons/bs'
 import FormaPagoItem from './FormaPagoItem'
 import Swal from 'sweetalert2';
@@ -381,9 +380,7 @@ const ActualForm = () => {
                 DomicilioOcupacion: datosOp[0]?.DomicilioOcupacion,
                 EntregaUsadoRetiro: datosOp[0]?.EntregaUsadoRetiro
             })
-            setTotalImpAbonado(datosOp.reduce((total, array) => 
-            isNaN((parseFloat(array.ImpoSenia)) ? 0 : parseFloat(array.ImpoSenia) * isNaN(parseFloat(array.Interes)) ? 0 : 
-            parseFloat(array.Interes)/100) + isNaN(parseFloat(array.ImpoSenia)) ? 0 : parseFloat(array.ImpoSenia)  + total,0))
+
 
             setInputNuevoPago({
                 ...inputNuevoPago,
@@ -395,6 +392,12 @@ const ActualForm = () => {
 
         }
     }, [datosOp[0]])
+
+    useEffect(() => {
+        setTotalImpAbonado(senias.reduce((total, array) => 
+        isNaN((parseFloat(array.ImpoSenia)) ? 0 : parseFloat(array.ImpoSenia) * isNaN(parseFloat(array.Interes)) ? 0 : 
+        parseFloat(array.Interes)/100) + isNaN(parseFloat(array.ImpoSenia)) ? 0 : parseFloat(array.ImpoSenia)  + total,0))
+    }, [senias])
 
     useEffect(() => {
         if(perfil === 'Sup_Scoring'){
@@ -447,7 +450,7 @@ const ActualForm = () => {
 
     useEffect(() => {
         setNuevoPago(false)
-        if(Object.keys(seniaStatus).includes('status')){
+        if(typeof seniaStatus === 'object' && Object.keys(seniaStatus).includes('status')){
           if(seniaStatus.status){
             Swal.fire({
               icon: 'success',
@@ -462,6 +465,7 @@ const ActualForm = () => {
             })
           }
         }
+
       }, [seniaStatus])
 
   
@@ -474,7 +478,7 @@ const ActualForm = () => {
               <span>{empresaReal}</span>
               <ReturnLogo empresa={empresaReal}/>
             </div>
-            <TitlePrimary style={{textAlign: 'start'}}>Actualizacion de Pre-Solicitudes ({marca})</TitlePrimary>
+            <TitlePrimary style={{textAlign: 'start'}}>Actualización de Pre-Solicitudes ({marca})</TitlePrimary>
           </BiggerTitleLogo>
 
           <div>
@@ -485,7 +489,7 @@ const ActualForm = () => {
                 <div className={styles.formSection4x3}>
                     <div className={styles.section}>
                     <div className={styles.formItem}>
-                    <span>Codigo Interno</span>
+                    <span>Código Interno</span>
                    
                         <input type="text" disabled value={input.Numero} />
                     
@@ -561,7 +565,7 @@ const ActualForm = () => {
                     <div className={styles.section}>
                         <div className={styles.formItem}>
                             <span>Cuota Terminal</span>
-                            <input type="text" disabled={isReadOnly} value={input.CuotaTerminal} />
+                            <input type="text" style={{textAlignLast: 'right'}} disabled={isReadOnly} value={input.CuotaTerminal} />
                         </div>
                     </div>
                     <div className={styles.section}>
@@ -592,7 +596,7 @@ const ActualForm = () => {
                             </select>
                         </div>
                         <div className={styles.formItem}>
-                            <span>Numero</span>
+                            <span>Número</span>
                             <input value={input.NroDocumento} disabled type="text" />
                         </div>
                     </div>
@@ -616,7 +620,7 @@ const ActualForm = () => {
                     <div className={styles.section} style={{columnGap: '.5rem'}}>
                         <div className={styles.formItem}>
                             <span>Importe</span>
-                            <input disabled type="text" value={input.ImporteReciboX}/>
+                            <input disabled type="text" style={{textAlignLast: 'right'}} value={input.ImporteReciboX}/>
                         </div>
                         <div className={styles.formItemCheck}>
                             <input type="checkbox" checked={(!datosOp[0]?.EmailLaboral && !datosOp[0]?.EmailParticular) ? true : false }/>
@@ -658,7 +662,7 @@ const ActualForm = () => {
                     </div>
                     <div className={styles.section} style={{columnGap: '.5rem'}}>
                         <div className={styles.formItem}>
-                            <span>Numero</span>
+                            <span>Número</span>
                             <input size={8} type="text" value={input.NumeroCalle} name="NumeroCalle" onChange={handleChange}/>
                         </div>
                         <div className={styles.formItem}>
@@ -1013,7 +1017,7 @@ const ActualForm = () => {
                                             <div style={{display: 'flex'}}>
 
                                                 
-                                                <input type="text" value={input.CuotaACobrar}  
+                                                <input type="text" style={{textAlignLast: 'right'}} value={input.CuotaACobrar}  
                                                 name="CuotaACobrar" disabled={valorCuotaEnabled}/>  
                                                 
 
@@ -1071,7 +1075,7 @@ const ActualForm = () => {
                                             <div style={{display: 'flex'}}>
                                                 {
                                                     input.Numero ?  /* pregunta por si se cargo el input en caso de que no esté autorizado */
-                                                    <input type="text" value={datosOp.reduce((total, array) => 
+                                                    <input type="text" style={{textAlignLast: 'right'}} value={senias.reduce((total, array) => 
                                                     (parseFloat(array.ImpoSenia) * isNaN(parseFloat(array.Interes)) ? 0 : parseFloat(array.Interes)/100) + parseFloat(array.ImpoSenia) + total,0)}  
                                                      
                                                     name="impAbonado" disabled={isReadOnly}/>
@@ -1087,7 +1091,7 @@ const ActualForm = () => {
                                             <span>Importe Total Cuota</span>
                                             <div style={{display: 'flex'}}>
 
-                                            <input type="text" value={input.ImporteTotalCuota}   
+                                            <input type="text" style={{textAlignLast: 'right'}} value={input.ImporteTotalCuota}   
                                             name="ImporteTotalCuota" disabled/>
                             
                                             </div>
@@ -1206,8 +1210,8 @@ const ActualForm = () => {
                 </div>
                             {
                                 input.Numero ?  /* pregunta por si se cargo el input en caso de que no esté autorizado */
-                            <TableContainer> 
-                            <table style={{fontSize: '14px', marginTop: '2rem'}}>
+                            <TableContainer style={{display:'block', overflow: 'auto'}}> 
+                            <table style={{display: 'block', overflowX: 'auto',overflowY: 'auto', fontSize: '15px', marginTop: '2rem'}}>
                             <span><b>Señas y pagos posteriores</b></span>
                                 <tr>
                                     <td></td>
@@ -1218,11 +1222,26 @@ const ActualForm = () => {
                                     <td><b>Imp. Abonado</b> </td>
                                     <td><b>Recibo Nº</b> </td>
                                     <td><b>F. Vto.</b> </td>
+                                    <td><b>Tarjeta</b> </td>
+                                    <td><b>Nro Tarjeta</b> </td>
+                                    <td><b>Cupon</b> </td>
+                                    <td><b>Fecha Cupon</b> </td>
+                                    <td><b>Lote</b> </td>
+                                    <td><b>Cant Pagos</b> </td>
+                                    <td></td>
                                     <td></td>
                                 </tr>
                                 {
-                                    senias  && senias.map(e => 
+                                    senias && senias.map(e => 
                                         <FormaPagoItem 
+                                        ID={e.ID}
+                                        CuotaACobrar={e.CuotaACobrar}
+                                        Tarjeta={e.CodTarjeta}
+                                        NroTarjeta={e.NroTarjeta}
+                                        Cupon={e.NroCupon}
+                                        FechaCupon={e.FechaCupon}
+                                        Lote={e.Lote}
+                                        CantPagos={e.Cantpagos}
                                         FechaSenia={e.FechaSenia} 
                                         ImpoSenia={e.ImpoSenia}
                                         Interes={e.Interes}
@@ -1301,13 +1320,21 @@ const ActualForm = () => {
                                     }}>
                                         <td>TOTAL</td>
                                         <td></td>
-                                        <td>{datosOp.reduce((total, array) => isNaN(parseFloat(array.ImpoSenia)) ? 0 :  parseFloat(array.ImpoSenia) + total,0)}</td>
-                                        <td>{datosOp.reduce((total, array) => isNaN(parseFloat(array.Interes)) ? 0 : parseFloat(array.Interes) + total,0)}</td>
-                                        <td>{datosOp.reduce((total, array) => isNaN((parseFloat(array.ImpoSenia)) ? 0 : parseFloat(array.ImpoSenia) * isNaN(parseFloat(array.Interes)) ? 0 : parseFloat(array.Interes)/100) + isNaN(parseFloat(array.ImpoSenia)) ? 0 : parseFloat(array.ImpoSenia)  + total,0)}</td>
+                                        <td>{senias.reduce((total, array) => isNaN(parseFloat(array.ImpoSenia)) ? 0 :  parseFloat(array.ImpoSenia) + total,0)}</td>
+                                        <td></td>
+                                        <td>{senias.reduce((total, array) => isNaN(parseFloat(array.Interes)) ? 0 : parseFloat(array.Interes) + total,0)}</td>
+                                        <td>{senias.reduce((total, array) => isNaN((parseFloat(array.ImpoSenia)) ? 0 : parseFloat(array.ImpoSenia) * isNaN(parseFloat(array.Interes)) ? 0 : parseFloat(array.Interes)/100) + isNaN(parseFloat(array.ImpoSenia)) ? 0 : parseFloat(array.ImpoSenia)  + total,0)}</td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
                                         <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        
                                     </tr>
                                 }
 
@@ -1316,7 +1343,6 @@ const ActualForm = () => {
                             <div className={styles.buttonContainer}>
                             <button className={styles.submitButton} onClick={() => setNuevoPago(!nuevoPago)} 
                             disabled={(totalImpAbonado - input.CuotaACobrar) === 0 ? true : isReadOnly}>Nuevo</button>
-                            <button className={styles.submitButton} disabled={isReadOnly}>Eliminar</button>
                             </div>
                             </TableContainer> : 
                             <span style={{justifySelf: 'center'}}>No disponible</span>
