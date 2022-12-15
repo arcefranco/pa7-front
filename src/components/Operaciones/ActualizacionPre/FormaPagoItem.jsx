@@ -97,7 +97,7 @@ const FormaPagoItem = ({FechaSenia, ImpoSenia, Interes, NomFormaPago,
           "CantPagos": ""
         })
 
-        if(formasPago.status && formasPago.data.find(e => e.Codigo === inputPago.FormaDePago)?.EsTarjeta !== 1){
+        if(formasPago.status && formasPago.data.find(e => e.Codigo === parseFloat(inputPago.FormaDePago))?.EsTarjeta !== 1){
             setInputPago({...inputPago, 
                 "Interes": 0, 
                 "ImpAbonado": inputPago.Importe})
@@ -139,7 +139,7 @@ const FormaPagoItem = ({FechaSenia, ImpoSenia, Interes, NomFormaPago,
       useEffect(() => {
         if(intereses.status){
 
-          setInteresesFiltered(intereses?.data.filter(e => e.MedioCobro === parseFloat(inputPago.FormaDePago)))
+          setInteresesFiltered(intereses.data?.filter(e => e.MedioCobro === parseFloat(inputPago.FormaDePago)))
         }
 
 
@@ -199,7 +199,7 @@ const FormaPagoItem = ({FechaSenia, ImpoSenia, Interes, NomFormaPago,
     <td>{inEdit ? <input type="number" value={inputPago.NroCupon} size={5} onChange={handlePago} name="NroCupon"/> : Cupon}</td>
     <td>{inEdit ? <input type="date" value={FechaCupon?.slice(0,10)} onChange={handlePago} name="FechaCupon"/> : FechaCupon?.slice(0,10).split('-').reverse().join('/')}</td>
     <td>{inEdit ? <input type="number" value={inputPago.Lote} size={5} onChange={handlePago} name="Lote"/> : Lote}</td>
-    <td>{inEdit && formasPago.status && formasPago.data.find(e => e.Codigo === inputPago.FormaDePago)?.EsTarjeta === 1  ? 
+    <td>{inEdit && formasPago.status && formasPago.data.find(e => e.Codigo === parseInt(inputPago.FormaDePago))?.EsTarjeta === 1  ? 
     
                     <select name="CantPagos" onChange={handlePago}  onBlur={onBlurCantPagos}  value={inputPago.CantPagos} id="">
                                         <option value="">---</option>

@@ -676,7 +676,7 @@ const ActualForm = () => {
                     </div>
                     <div className={styles.section} style={{columnGap: '.5rem'}}>
                         <div className={styles.formItem}>
-                            <span>Cod. Postal</span>
+                            <span>Cód. Postal</span>
                             <input size={5} type="text" value={input.CodPostal} name="CodPostal" onChange={handleChange}/>
                         </div>
                         <div className={styles.formItem}>
@@ -1274,43 +1274,24 @@ const ActualForm = () => {
                                     <td><input type="text" value={inputNuevoPago.ImpAbonado} disabled size={5} onChange={handleNuevoPago} name="ImpAbonado"/></td>
                                     <td><input type="text" value={inputNuevoPago.NroRecibo} size={12} name="NroRecibo" onChange={handleNuevoPago}/></td>
                                     <td><input type="date" value={inputNuevoPago.FechaVto} name="FechaVto" onChange={handleNuevoPago} /></td>
-                                    <td><button className={styles.submitButton} onClick={handleSubmitNuevoPago}>Guardar</button></td>
-                                    </tr>
-                                }
-                                {
-                                    esTarjeta && nuevoPago &&
-                                    <tr>
-                                    <td><b>Tarjeta</b> </td>
-                                    <td><b>Nro Tarjeta</b> </td>
-                                    <td><b>Cupon</b> </td>
-                                    <td><b>Fecha Cupon</b> </td>
-                                    <td><b>Lote</b> </td>
-                                    <td><b>Cant Pagos</b> </td>
-                                </tr>
-                                }
-                                {
-                                    esTarjeta && nuevoPago &&
-                                    <tr>
-                                    <td>
-                                        <select name="Tarjeta" onChange={handleNuevoPago} value={inputNuevoPago.Tarjeta} id="">
+                                    <td>{esTarjeta && <select name="Tarjeta" onChange={handleNuevoPago} value={inputNuevoPago.Tarjeta} id="">
                                     <option value="">---</option>
                                     {
                                         tarjetas.data.length && tarjetas.data.map(e => <option value={e.Codigo}>{e.Nombre}</option>)
-                                    } </select> 
-                                    </td>
-                                    <td><input type="text" name='NroTarjeta' onChange={handleNuevoPago} value={inputNuevoPago.NroTarjeta} size={12} /> </td>
-                                    <td><input type="text" name='NroCupon' onChange={handleNuevoPago} value={inputNuevoPago.NroCupon} size={5} /> </td>
-                                    <td><input type="date" name='FechaCupon' onChange={handleNuevoPago} value={inputNuevoPago.FechaCupon} /> </td>
-                                    <td><input type="text" size={5} name='Lote' onChange={handleNuevoPago} value={inputNuevoPago.Lote} /> </td>
-                                    <td>
-                                        <select name="CantPagos" onChange={handleNuevoPago} onBlur={onBlurCantPagos} value={inputNuevoPago.CantPagos} id="">
+                                    } </select>}</td>
+                                    <td>{esTarjeta && <input type="text" name='NroTarjeta' onChange={handleNuevoPago} value={inputNuevoPago.NroTarjeta} size={12} /> }</td>
+                                    <td>{esTarjeta && <input type="text" name='NroCupon' onChange={handleNuevoPago} value={inputNuevoPago.NroCupon} size={5} /> }</td>
+                                    <td>{esTarjeta && <input type="date" name='FechaCupon' onChange={handleNuevoPago} value={inputNuevoPago.FechaCupon} /> }</td>
+                                    <td>{esTarjeta && <input type="text" size={5} name='Lote' onChange={handleNuevoPago} value={inputNuevoPago.Lote} /> }</td>
+                                    <td>{esTarjeta && <select name="CantPagos" onChange={handleNuevoPago} onBlur={onBlurCantPagos} value={inputNuevoPago.CantPagos} id="">
                                         <option value="">---</option>
                                         <option value={1}>1 pago sin interés</option>
                                     {
                                         interesesFiltered.length && interesesFiltered.map(e => 
                                             <option value={e.Cantidad}>{`${e.Cantidad} pagos - ${e.Interes}% interés`}</option>)
-                                    }   </select> </td>
-                                </tr>
+                                        }   </select>}</td>
+                                    <td><button className={styles.submitButton} onClick={handleSubmitNuevoPago}>Guardar</button></td>
+                                    </tr>
                                 }
 
                                 {
