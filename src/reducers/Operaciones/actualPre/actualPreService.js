@@ -80,6 +80,18 @@ const pagoSenia = async(data) => {
     return response.data
 }
 
+const deletePago = async(data) => {
+    const headers = getHeaderToken()
+    const response = await axios.post(process.env.REACT_APP_HOST + 'Operaciones/ActualPre/deletePago', data, headers).catch((error) => errorsHandling(error))
+    return response.data
+}
+
+const updatePago = async(data) => {
+    const headers = getHeaderToken()
+    const response = await axios.post(process.env.REACT_APP_HOST + 'Operaciones/ActualPre/updatePago', data, headers).catch((error) => errorsHandling(error))
+    return response.data
+}
+
 const getSenias = async(data) => {
     const headers = getHeaderToken()
     const response = await axios.post(process.env.REACT_APP_HOST + 'Operaciones/ActualPre/datosOp', data, headers).catch((error) => errorsHandling(error))
@@ -101,7 +113,9 @@ const actualPreService = {
     getTarjetas,
     getIntereses,
     pagoSenia,
-    getSenias
+    getSenias,
+    updatePago,
+    deletePago
 }
 
 export default actualPreService
