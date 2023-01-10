@@ -440,7 +440,7 @@ const getProm = (data) => {
           />
 
           <Column dataField="FechaBajaVendedor" caption="Fecha Baja" dataType="string"  calculateCellValue={renderDateBaja}  width={75} />
-          <Column dataField="Ingresadas" caption="Ingresadas" cssClass={styles.columnIng} dataType="number" cellRender={renderGridCell}/>
+          <Column dataField="Ingresadas" caption="Ingresadas" cssClass={styles.columnIng} dataType="number" defaultSortOrder="asc" cellRender={renderGridCell}/>
           <Column dataField="VentasMP" dataType="number" cellRender={renderGridCell} width={85} />
           <Column dataField="Crucescoring" caption="Cruce Scoring" dataType="number" cellRender={renderGridCell} />
           <Column dataField="Objetivo" dataType="number" cellRender={renderGridCell}   />

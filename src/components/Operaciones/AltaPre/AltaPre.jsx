@@ -753,7 +753,7 @@ useEffect(() => { //Manejar actualizaciones de vendedores (ABM) y su inUpdate
                 </div>
               </div>              
               <div className={styles.input}>
-                    <span>Numero</span>
+                    <span>Número</span>
                     <div className={styles.containerError}>
                     <input type="text" onBlur={onBlurDoc} name='DocumentoNro' id='DocumentoNro'  value={input.DocumentoNro} onChange={handleChange} />
                     {error.Documento && <div className={styles.error}>{error.Documento}</div>}
@@ -843,7 +843,7 @@ useEffect(() => { //Manejar actualizaciones de vendedores (ABM) y su inUpdate
                         </div>
                     </div>
                     <div className={styles.input}>
-                        <span>Numero</span>
+                        <span>Número</span>
                         <div className={styles.containerError}>
                         <input type="number" name="Numero" onBlur={onBlurRequired}  value={input.Numero} onChange={handleChange}/>
                         {error.Numero && <div className={styles.error}>{error.Numero}</div>} 
@@ -863,7 +863,7 @@ useEffect(() => { //Manejar actualizaciones de vendedores (ABM) y su inUpdate
                 <div className={styles.col2} style={{ display: 'grid', gridTemplateColumns: '.5fr .5fr'}}>
 
                     <div className={styles.input}>
-                        <span>Cod. Postal</span>
+                        <span>Cód. Postal</span>
                         <div className={styles.containerError}>
                         <input type="number" name="CodPostal"  onBlur={onBlurRequired} value={input.CodPostal} onChange={handleChange}/>
                         {error.CodPostal && <div className={styles.error}>{error.CodPostal}</div>}  
@@ -888,14 +888,14 @@ useEffect(() => { //Manejar actualizaciones de vendedores (ABM) y su inUpdate
               </div>
               <div className={styles.inputSection2}> 
               <div className={styles.input}>
-                <span>Telef. Particular</span>
+                <span>Teléf. Particular</span>
                 <div className={styles.containerError}>
                 <input type="number" name='TelefParticular' onBlur={onBlurTelef} value={input.TelefParticular} onChange={handleChange}/>
                 {error.TelefParticular && <div className={styles.error}>{error.TelefParticular}</div>} 
                 </div>
               </div>
               <div className={styles.input}>
-                <span>Telef. Celular</span>
+                <span>Teléf. Celular</span>
                 <div className={styles.containerError}>
                 <input type="number" name='TelefCelular' onBlur={onBlurTelef} value={input.TelefCelular} onChange={handleChange}/>
                 {error.TelefCelular && <div className={styles.error}>{error.TelefCelular}</div>} 
@@ -905,14 +905,14 @@ useEffect(() => { //Manejar actualizaciones de vendedores (ABM) y su inUpdate
               
               <div className={styles.inputSection2}> 
               <div className={styles.input}>
-                <span>Telef. Laboral</span>
+                <span>Teléf. Laboral</span>
                 <div className={styles.containerError}>
                 <input type="number" name='TelefLaboral' onBlur={onBlurTelef} value={input.TelefLaboral} onChange={handleChange}/>
                 {error.TelefLaboral && <div className={styles.error}>{error.TelefLaboral}</div>} 
                 </div>
               </div>
               <div className={styles.input}>
-                <span>Telef. Familiar</span>
+                <span>Teléf. Familiar</span>
                 <div className={styles.containerError}>
                 <input type="number" name='TelefFamiliar' onBlur={onBlurTelefUltimo} value={input.TelefFamiliar} onChange={handleChange}/>
                 {error.TelefFamiliar && <div className={styles.error}>{error.TelefFamiliar}</div>}
@@ -1222,7 +1222,7 @@ useEffect(() => { //Manejar actualizaciones de vendedores (ABM) y su inUpdate
              
 
                     <div className={styles.inputCheck}>
-                      <span>Deb. Autom.</span>
+                      <span>Déb. Autom.</span>
                       <input type="checkbox" name='debAutom' onChange={handleCheckChange} />
                     </div>
                     <div className={styles.inputCheck}>
