@@ -198,7 +198,7 @@ const ActualForm = () => {
 
 
 
-    useEffect(() => { //Primero busco los datos de la operacion
+    useEffect(() => { 
         Promise.all([
             dispatch(getDatosPreSol({codigoMarca: codigoMarca, Numero: Numero})),
             dispatch(getSenias({codigoMarca: codigoMarca, Numero: Numero})), 
