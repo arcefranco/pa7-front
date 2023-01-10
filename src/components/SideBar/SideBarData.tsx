@@ -1,34 +1,69 @@
-import React from 'react';
-import * as AiIcons from 'react-icons/ai';
-import * as IoIcons from 'react-icons/io';
-import {  BiMenu, BiLogOut, BiBus,BiListPlus, BiFile, BiTimeFive, BiPhoneCall,
-  BiIdCard, BiGroup, BiCog, BiLineChart, BiPrinter,
-   BiTachometer, BiLinkExternal, BiCart, BiCar, BiLock, BiChevronUp, BiChevronDown
- } from "react-icons/bi";
-export const SidebarData = [
+import React from "react";
+import * as AiIcons from "react-icons/ai";
+import * as IoIcons from "react-icons/io";
+import {
+  BiMenu,
+  BiLogOut,
+  BiBus,
+  BiListPlus,
+  BiFile,
+  BiTimeFive,
+  BiPhoneCall,
+  BiIdCard,
+  BiGroup,
+  BiCog,
+  BiLineChart,
+  BiPrinter,
+  BiTachometer,
+  BiLinkExternal,
+  BiCart,
+  BiCar,
+  BiLock,
+  BiChevronUp,
+  BiChevronDown,
+} from "react-icons/bi";
+export interface DataOfSidebar {
+  title: string;
+  icon?: JSX.Element;
+  cName: string;
+  options?: DataOfSidebar[];
+  path?: string;
+  rol?: string;
+  unique?: boolean;
+}
+export const SidebarData: DataOfSidebar[] = [
   {
-    title: 'Operaciones',
+    title: "Operaciones",
     icon: <BiListPlus />,
 
-    cName: 'nav-text',
-    options: 
-    [
-      {title: 'Altas Pre Solicitudes', rol:'1.2.1', cName:'subMenuL2', path:'/operaciones/altaPre'},
-      {title: 'Actualizaciones Pre Solicitudes', rol:'1.2.2', cName:'subMenuL2' , path:'/operaciones/actualizacionPre'},
-     /* {title: 'Actualizacion Operaciones', rol:'1.2.3', cName:'subMenuL2' , path:'/'},
+    cName: "nav-text",
+    options: [
+      {
+        title: "Altas Pre Solicitudes",
+        rol: "1.2.1",
+        cName: "subMenuL2",
+        path: "/operaciones/altaPre",
+      },
+      {
+        title: "Actualizaciones Pre Solicitudes",
+        rol: "1.2.2",
+        cName: "subMenuL2",
+        path: "/operaciones/actualizacionPre",
+      } /**ROL A REVISAR */ /*ROL A REVISAR*/ /* ROL A REVISAR */ /* ROL A REVISAR */,
+      /* {title: 'Actualizacion Operaciones', rol:'1.2.3', cName:'subMenuL2' , path:'/'},
       {title: 'Alta Cartera', rol:'1.2.4', cName:'subMenuL2' , path:'/'},
       {title: 'AAPE', rol:'1.2.5', cName:'subMenuL2' , path:'/'}, */
-    /*   {title: 'Scoring', rol:'1.2.6', cName:'subMenuL2', 
+      /*   {title: 'Scoring', rol:'1.2.6', cName:'subMenuL2', 
           options: [
           {title:'Scoring', rol: '1.2.6.1', cName:'subMenuL2' , path:'/'},
           {title:'Consultar Cotizador', rol: '1.2.6.4', cName:'subMenuL2' , path:'/'},
           {title:'Scoring Avanzado', rol: '1.2.6.3', cName:'subMenuL2' , path:'/'},
           ]}, */
-    /*   {title: 'Conciliacion Tarjetas', rol:'1.2.7', cName:'subMenuL2' , path:'/'},
+      /*   {title: 'Conciliacion Tarjetas', rol:'1.2.7', cName:'subMenuL2' , path:'/'},
       {title: 'Reporte Personalizado', rol:'1.2.8', cName:'subMenuL2' , path:'/'},
       {title: 'Excel Datos', rol:'1.2.9', cName:'subMenuL2' , path:'/'},
       {title: 'Buscar Operaciones', rol:'1.2.10', cName:'subMenuL2' , path:'/'}, */
-/*       {title: 'Importaciones', rol:'1.2.11', cName:'subMenuL2', 
+      /*       {title: 'Importaciones', rol:'1.2.11', cName:'subMenuL2', 
       options:[
         {title: 'Agrupamientos', rol: '1.2.11.1', cName:'subMenuL2' , path:'/'},
         {title: 'Cambios de Concesionaria', rol: '1.2.11.5', cName:'subMenuL2' , path:'/'},
@@ -37,33 +72,32 @@ export const SidebarData = [
         {title: 'Comision Vendedores', rol: '1.2.11.4', cName:'subMenuL2' , path:'/'},
         {title: 'Adjudicaciones', rol: '1.2.11.3', cName:'subMenuL2' , path:'/'},
         {title: 'Fecha Ingreso Regreso Gestoria', rol: '1.2.11.8', cName:'subMenuL2' , path:'/'}, */
-/*         {title: 'Cuotas Encuadre', rol: '1.2.11.1', cName:'subMenuL2' , path:'/'}, */ /**ROL A REVISAR */ 
-/*         {title: 'Rescindidos', rol: '1.2.11.2', cName:'subMenuL2' , path:'/'},
+      /*         {title: 'Cuotas Encuadre', rol: '1.2.11.1', cName:'subMenuL2' , path:'/'}, */
+      /*         {title: 'Rescindidos', rol: '1.2.11.2', cName:'subMenuL2' , path:'/'},
         {title: 'Cuotas', rol: '1.2.11.6', cName:'subMenuL2' , path:'/'},
         {title: 'Adjudicaciones Vencidas', rol: '1.2.11.1', cName:'subMenuL2' , path:'/'},
         {title: 'Mora tardía', rol: '1.2.11.1', cName:'subMenuL2' , path:'/'},
       ]}, */
-/*           {title: 'Control de solicitudes', rol:'1.2.12', cName:'subMenuL2' , path:'/'},
+      /*           {title: 'Control de solicitudes', rol:'1.2.12', cName:'subMenuL2' , path:'/'},
           {title: 'Control de Recibos', rol:'1.2.13', cName:'subMenuL2' , path:'/'},
           {title: 'Control Transferencias', rol:'1.2.14', cName:'subMenuL2' , path:'/'},
           {title: 'Impresion Recibos X', rol:'1.2.15', cName:'subMenuL2' , path:'/'}, */
-/*       {title: 'Reclamos', rol:'1.2.16', cName:'subMenuL2', path:'/'}, */
-/*       {title: 'Licitaciones', rol:'1.2.17', cName:'subMenuL2',
+      /*       {title: 'Reclamos', rol:'1.2.16', cName:'subMenuL2', path:'/'}, */
+      /*       {title: 'Licitaciones', rol:'1.2.17', cName:'subMenuL2',
       options: [
         {title: 'Licitaciones', rol:'1.2.17.1', cName:'subMenuL2', path:'/'},
         {title: 'Clientes en Cond. de Licitar', rol:'1.2.17.2', cName:'subMenuL2', path:'/'}, */
-/*         {title: 'Interesados en Licitar', rol:'1.2.17.1', cName:'subMenuL2', path:'/'},  *//*ROL A REVISAR*/
-/*         {title: 'Llave x llave', rol:'1.2.17.3', cName:'subMenuL2', path:'/'},
+      /*         {title: 'Interesados en Licitar', rol:'1.2.17.1', cName:'subMenuL2', path:'/'},  */
+      /*         {title: 'Llave x llave', rol:'1.2.17.3', cName:'subMenuL2', path:'/'},
         {title: 'Reintegro de Licitaciones', rol:'1.2.17.3', cName:'subMenuL2', path:'/'}, 
       ]}, */
-/*       {title: 'Llamados por operacion', rol:'1.2.7', cName:'subMenuL2' , path:'/'}, */ /* ROL A REVISAR */
-/*       {title: 'Reintegros', rol:'1.2.20', cName:'subMenuL2', path:'/'}, */ /* ROL A REVISAR */
-/*       {title: 'Rep Micro Emprendedores', rol:'1.2.20', cName:'subMenuL2', path:'/'},
+      /*       {title: 'Llamados por operacion', rol:'1.2.7', cName:'subMenuL2' , path:'/'}, */
+      /*       {title: 'Reintegros', rol:'1.2.20', cName:'subMenuL2', path:'/'}, */
+      /*       {title: 'Rep Micro Emprendedores', rol:'1.2.20', cName:'subMenuL2', path:'/'},
       {title: 'Reportes', rol:'1.2.21', cName:'subMenuL2', path:'/'}, */
-    
-    ]
+    ],
   },
-/*   {
+  /*   {
     title: 'Mesa de Planes',
     icon: <BiFile />,
     cName: 'nav-text',
@@ -79,7 +113,7 @@ export const SidebarData = [
   
     ]
   }, */
-/*   {
+  /*   {
     title: 'Mora',
     icon: <BiTimeFive />,
     cName: 'nav-text',
@@ -91,8 +125,8 @@ export const SidebarData = [
       {title: 'Cuadro Performance', rol:'1.4.4', cName:'subMenuL2', path:'/'},
       {title: 'Asignacion De Mora', rol:'1.4.5', cName:'subMenuL2', 
           options: [ */
-/*             {title: 'Mora temprana', rol: '1.4.5', cName:'subMenuL2', path:'/'} */ /**ROL A REVISAR */
-    /*       ]},
+  /*             {title: 'Mora temprana', rol: '1.4.5', cName:'subMenuL2', path:'/'} */ /**ROL A REVISAR */
+  /*       ]},
       {title: 'Mora Tecnica', rol:'1.4.6', cName:'subMenuL2', path:'/'},
       {title: 'Mora Tardía', rol:'1.4.6', cName:'subMenuL2', path:'/'},
       {title: 'Gestion Mora Temprana', rol:'1.4.7', cName:'subMenuL2', path:'/'},
@@ -106,7 +140,7 @@ export const SidebarData = [
     ], 
   }, */
 
-/*   {
+  /*   {
     title: 'Call Center',
     icon: <BiPhoneCall />,
     cName: 'nav-text',
@@ -121,7 +155,7 @@ export const SidebarData = [
       {title: 'Administracion SMS Enviados Y Recibidos Encuadre', rol:'1.5.8', cName:'subMenuL2', path:'/'}, 
   ],
   }, */
-/*   {
+  /*   {
     title: 'Personal',
     icon: <BiIdCard />,
     cName: 'nav-text',
@@ -133,7 +167,7 @@ export const SidebarData = [
     ]
 
   }, */
-/*   {
+  /*   {
     title: 'Emprendedores',
     icon: <BiGroup />,
     cName: 'nav-text',
@@ -142,47 +176,117 @@ export const SidebarData = [
       {title: 'Circulares', rol:'1.13.1', cName:'subMenuL2', path:'/'},
     ]
   }, */
-  
-  {
-    title: 'Configuración de Datos Generales',
-    icon: <BiCog />,
-    cName: 'nav-text',
-    options: 
-    [
 
-      {title: 'Vendedores', rol:'1.7.1',path:'/vendedores' , cName:'subMenuL2'},
-      {title: 'Team Leader', rol:'1.7.19', path:'/teamleaders', cName:'subMenuL2', },
-      {title: 'Supervisores', rol:'1.7.2', path:'/supervisores', cName:'subMenuL2'},
-      {title: 'Gerentes', rol:'1.7.18', path:'/gerentes', cName:'subMenuL2'},
-      {title: 'Estructura Comercial', rol:'1.7.20', cName:'subMenuL2', path:'/Estructura'},
-      {title: 'Modelos', rol:'1.7.6', cName:'subMenuL2', path:'/modelos'},
-/*       {title: 'Cambio Modelo', rol:'1.7.4', cName:'subMenuL2', path:'/'}, */
-      {title: 'Lista de Precios', rol:'1.7.7', cName:'subMenuL2', path:'/listasprecios'},
-      {title: 'Puntos de Venta', rol:'1.7.9', cName:'subMenuL2', path:'/puntosDeVenta'},
-      {title: 'Sucursales', rol:'1.7.3', cName:'subMenuL2', path:'/sucursales'},
-/*       {title: 'Objetivos X Marca', rol:'1.7.11', cName:'subMenuL2', path:'/'},
+  {
+    title: "Configuración de Datos Generales",
+    icon: <BiCog />,
+    cName: "nav-text",
+    options: [
+      {
+        title: "Vendedores",
+        rol: "1.7.1",
+        path: "/vendedores",
+        cName: "subMenuL2",
+      },
+      {
+        title: "Team Leader",
+        rol: "1.7.19",
+        path: "/teamleaders",
+        cName: "subMenuL2",
+      },
+      {
+        title: "Supervisores",
+        rol: "1.7.2",
+        path: "/supervisores",
+        cName: "subMenuL2",
+      },
+      {
+        title: "Gerentes",
+        rol: "1.7.18",
+        path: "/gerentes",
+        cName: "subMenuL2",
+      },
+      {
+        title: "Estructura Comercial",
+        rol: "1.7.20",
+        cName: "subMenuL2",
+        path: "/Estructura",
+      },
+      { title: "Modelos", rol: "1.7.6", cName: "subMenuL2", path: "/modelos" },
+      /*       {title: 'Cambio Modelo', rol:'1.7.4', cName:'subMenuL2', path:'/'}, */
+      {
+        title: "Lista de Precios",
+        rol: "1.7.7",
+        cName: "subMenuL2",
+        path: "/listasprecios",
+      },
+      {
+        title: "Puntos de Venta",
+        rol: "1.7.9",
+        cName: "subMenuL2",
+        path: "/puntosDeVenta",
+      },
+      {
+        title: "Sucursales",
+        rol: "1.7.3",
+        cName: "subMenuL2",
+        path: "/sucursales",
+      },
+      /*       {title: 'Objetivos X Marca', rol:'1.7.11', cName:'subMenuL2', path:'/'},
       {title: 'Objetivos Mora', rol:'1.7.12', cName:'subMenuL2', path:'/'},
       {title: 'Objetivos X Grupo Mora', rol:'1.7.13', cName:'subMenuL2', path:'/'},
       {title: 'Objetivos Altas Bajas Mesa de Planes', rol:'1.7.14', cName:'subMenuL2', path:'/'}, */
-      {title: 'Oficiales', rol:'1.7.8', cName:'subMenuL2', path:'/oficiales'},
-/*       {title: 'ABM Intereses', rol:'1.7.17', cName:'subMenuL2', path:'/'}, */
-      {title: 'Usuarios', rol:'1.7.16', cName:'subMenuL2',
-      options: [
-        {title: 'Administración de Permisos', rol: '1.7.16.1', cName:'subMenuL2', unique:true},
-        {title: 'Alta y Modificación de Roles', rol: '1.7.16.2', cName:'subMenuL2', 
-        
-        options:[
-          {title: 'Alta y Modificación de Roles', rol: '1.7.16.2', path:'/roles', cName:'subMenuL2'},
-          {title: 'Copiar Roles', rol: '1.7.16.2', path:'/copyRoles', cName:'subMenuL2'}
-        ]},
-        {title: 'Alta y Modificación de Usuarios', rol: '1.7.16.3', path: '/usuarios', cName:'subMenuL2'},
-      ]},
-/*       {title: 'Cambio de Contraseña', rol:'1.7.10', cName:'subMenuL2', path:'/'},
+      {
+        title: "Oficiales",
+        rol: "1.7.8",
+        cName: "subMenuL2",
+        path: "/oficiales",
+      },
+      /*       {title: 'ABM Intereses', rol:'1.7.17', cName:'subMenuL2', path:'/'}, */
+      {
+        title: "Usuarios",
+        rol: "1.7.16",
+        cName: "subMenuL2",
+        options: [
+          {
+            title: "Administración de Permisos",
+            rol: "1.7.16.1",
+            cName: "subMenuL2",
+            unique: true,
+          },
+          {
+            title: "Alta y Modificación de Roles",
+            rol: "1.7.16.2",
+            cName: "subMenuL2",
+
+            options: [
+              {
+                title: "Alta y Modificación de Roles",
+                rol: "1.7.16.2",
+                path: "/roles",
+                cName: "subMenuL2",
+              },
+              {
+                title: "Copiar Roles",
+                rol: "1.7.16.2",
+                path: "/copyRoles",
+                cName: "subMenuL2",
+              },
+            ],
+          },
+          {
+            title: "Alta y Modificación de Usuarios",
+            rol: "1.7.16.3",
+            path: "/usuarios",
+            cName: "subMenuL2",
+          },
+        ],
+      },
+      /*       {title: 'Cambio de Contraseña', rol:'1.7.10', cName:'subMenuL2', path:'/'},
       {title: 'Cambio De Contraseña Sueldos', rol:'1.7.5', cName:'subMenuL2', path:'/'},
       {title: 'Parametros', rol:'1.7.15', cName:'subMenuL2', path:'/'},
       {title: 'Entrega Asegurada', rol:'1.7.21', cName:'subMenuL2', path:'/'}, */
-    
-    ]
+    ],
   },
   /* {
     title: 'Contabilidad',
@@ -208,8 +312,8 @@ export const SidebarData = [
               {title: 'Administración de Clientes', rol: '1.8.4.7.1', cName:'subMenuL2'},
               {title: 'Medios de Pago', rol: '1.8.4.7.2', cName:'subMenuL2'},
               {title: 'Composición de Saldos', rol: '1.8.4.7.4', cName:'subMenuL2'}, */
-/*               {title: 'Importación de Clientes', rol: '1.8.4.7.1', cName:'subMenuL2'}, */ /*ROL A REVISAR */
- /*              {title: 'Cuenta Corriente', rol: '1.8.4.7.3', cName:'subMenuL2'},
+  /*               {title: 'Importación de Clientes', rol: '1.8.4.7.1', cName:'subMenuL2'}, */ /*ROL A REVISAR */
+  /*              {title: 'Cuenta Corriente', rol: '1.8.4.7.3', cName:'subMenuL2'},
               {title: 'Ver Recibos', rol: '1.8.4.7.5', cName:'subMenuL2'},
             ]},
           {title: 'Facturación', rol: '1.8.2.3', cName:'subMenuL2', 
@@ -266,15 +370,15 @@ export const SidebarData = [
         ]},
       {title: 'Presupuestos', rol:'1.8.8', cName:'subMenuL2',
         options:[ */
-/*           {title: 'Plan Cuentas Presupuesto ABM', rol: '1.8.8', cName:'subMenuL2', path:'/'},  *//*ROL A REVISAR */
-/*           {title: 'Presupuesto', rol: '1.8.8.1', cName:'subMenuL2', path:'/'},
+  /*           {title: 'Plan Cuentas Presupuesto ABM', rol: '1.8.8', cName:'subMenuL2', path:'/'},  */ /*ROL A REVISAR */
+  /*           {title: 'Presupuesto', rol: '1.8.8.1', cName:'subMenuL2', path:'/'},
           {title: 'ABM de Presupuesto', rol: '1.8.8.3', cName:'subMenuL2', path:'/'},
           {title: 'Promedio Presupuesto Real Ult 6 Meses', rol: '1.8.8.4', cName:'subMenuL2', path:'/'},
         ]},
       {title: 'Patentamientos Plan de Ahorro', rol:'1.8.9', cName:'subMenuL2',
         options:[ */
-/*           {title: 'Alta Gastos Entrega', rol: '1.8.9', cName:'subMenuL2'}, */ /**ROL A REVISAR */
-/*           {title: 'Movimientos', rol: '1.8.9.3', cName:'subMenuL2'},
+  /*           {title: 'Alta Gastos Entrega', rol: '1.8.9', cName:'subMenuL2'}, */ /**ROL A REVISAR */
+  /*           {title: 'Movimientos', rol: '1.8.9.3', cName:'subMenuL2'},
           {title: 'Cierre de Operaciones', rol: '1.8.9.5', cName:'subMenuL2'},
           {title: 'Autorización de Operaciones', rol: '1.8.9.6', cName:'subMenuL2'},
           {title: 'Conceptos E.C.', rol: '1.8.9.1', cName:'subMenuL2'},
@@ -298,29 +402,46 @@ export const SidebarData = [
     ]
   }, */
   {
-    title: 'Reportes',
+    title: "Reportes",
     icon: <BiPrinter />,
-    cName: 'nav-text',
-    options: 
-    [
- /*      {title: 'Ejecuta InterEmpresa', rol:'1.10.0', cName:'subMenuL2'},
+    cName: "nav-text",
+    options: [
+      /*      {title: 'Ejecuta InterEmpresa', rol:'1.10.0', cName:'subMenuL2'},
       {title: 'Administración de Planes', rol:'1.10.1', cName:'subMenuL2'}, */
-      {title: 'Ventas', rol:'1.10.2', cName:'subMenuL2',  
-        options:[
-        {title: 'Estadístico pre-solicitudes', rol:'1.12.1', cName:'subMenuL2', path:'/reportes/preSol'} /**ROL A REVISAR */
-      ]},
- /*      {title: 'Mora', rol:'1.10.3', cName:'subMenuL2'},
+      {
+        title: "Ventas",
+        rol: "1.10.2",
+        cName: "subMenuL2",
+        options: [
+          {
+            title: "Estadístico pre-solicitudes",
+            rol: "1.12.1",
+            cName: "subMenuL2",
+            path: "/reportes/preSol",
+          } /**ROL A REVISAR */,
+        ],
+      },
+      /*      {title: 'Mora', rol:'1.10.3', cName:'subMenuL2'},
       {title: 'Facturación', rol:'1.10.4', cName:'subMenuL2'},
       {title: 'Call Center', rol:'1.10.5', cName:'subMenuL2'},
       {title: 'Mesa de Planes', rol:'1.10.6', cName:'subMenuL2'},
       {title: 'Scoring', rol:'1.10.7', cName:'subMenuL2'},*/
-      {title: 'Micro Emprendedores', rol:'1.10.8', cName:'subMenuL2',
-        options:[
-          {title: 'Reporte Zonal', rol: '1.10.8', cName:'subMenuL2', path:'/reportes/Micro/Zonal'}
-        ]}, 
-    ]
+      {
+        title: "Micro Emprendedores",
+        rol: "1.10.8",
+        cName: "subMenuL2",
+        options: [
+          {
+            title: "Reporte Zonal",
+            rol: "1.10.8",
+            cName: "subMenuL2",
+            path: "/reportes/Micro/Zonal",
+          },
+        ],
+      },
+    ],
   },
- /*  {
+  /*  {
     title: 'Plan Subite Fiat',
     icon: <BiTachometer />,
     cName: 'nav-text',
@@ -336,7 +457,7 @@ export const SidebarData = [
       {title: 'Reporte de Asignaciones por Período', rol:'1.11.11', cName:'subMenuL2', path:'/'},
     ]
   }, */
- /*  {
+  /*  {
     title: 'Entregas Convencionales',
     icon: <BiLinkExternal />,
     cName: 'nav-text',
@@ -379,22 +500,22 @@ export const SidebarData = [
       {title: 'Egreso de Unidades', rol:'1.15.5', cName:'subMenuL2', path:'/'},
       {title: 'Ventas Interempresa', rol:'1.15.10', cName:'subMenuL2', path:'/'},
       {title: 'Listado De Ventas', rol:'1.15.8', cName:'subMenuL2', path:'/'}, */
-      /* {title: 'Envio de Mails', rol:'1.15.6', cName:'subMenuL2', path:'/'}, */
-/*       {title: 'Listado de Ventas Interempresa', rol:'1.15.9', cName:'subMenuL2', path:'/'}, */
-      /* {title: 'Imagenes', rol:'1.15.14', cName:'subMenuL2', path:'/'}, */
+  /* {title: 'Envio de Mails', rol:'1.15.6', cName:'subMenuL2', path:'/'}, */
+  /*       {title: 'Listado de Ventas Interempresa', rol:'1.15.9', cName:'subMenuL2', path:'/'}, */
+  /* {title: 'Imagenes', rol:'1.15.14', cName:'subMenuL2', path:'/'}, */
   /*     {title: 'Vendedores Usados', rol:'1.15.15', cName:'subMenuL2', path:'/'}, */
-      /* {title: 'Cargar PVS', rol:'1.15.12', cName:'subMenuL2', path:'/'}, */
-/*       {title: 'Control Precio Toma', rol:'1.15.17', cName:'subMenuL2', path:'/'},
+  /* {title: 'Cargar PVS', rol:'1.15.12', cName:'subMenuL2', path:'/'}, */
+  /*       {title: 'Control Precio Toma', rol:'1.15.17', cName:'subMenuL2', path:'/'},
       {title: 'Capital Vehiculos Usados', rol:'1.15.16', cName:'subMenuL2', path:'/'},
     ]
   }, */
-/*   {
+  /*   {
     title: 'Stock Vehículos Plan Ahorro',
     icon: <BiBus/>,
     cName: 'nav-text2',
     path: '/'
   }, */
-/*   {
+  /*   {
     title: 'Seguros',
     icon: <BiLock />,
     cName: 'nav-text2',
