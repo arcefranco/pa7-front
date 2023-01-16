@@ -5,6 +5,7 @@ import getHeaderDB from "../../../helpers/getHeaderDB";
 import { Supervisor } from "../../../types/ConfigDatosGenerales/Supervisor/Supervisor";
 import { ResponseStatus } from "../../../types/Generales/ResponseStatus";
 import { Zona } from "../../../types/ConfigDatosGenerales/Zonas/Zona";
+import { ServiceErrorHandler } from "../../../helpers/ServiceErrorHandler";
 
 const getSupervisores = async (): Promise<Supervisor[] | ResponseStatus> => {
   try {
@@ -20,11 +21,7 @@ const getSupervisores = async (): Promise<Supervisor[] | ResponseStatus> => {
       throw Error;
     }
   } catch (error: any | AxiosError) {
-    if (axios.isAxiosError(error)) {
-      return { status: false, message: error.message };
-    } else {
-      return { status: false, message: "Error al cargar supervisores" };
-    }
+    return ServiceErrorHandler(error);
   }
 };
 
@@ -61,7 +58,7 @@ const getAllGerentes = async (): Promise<Gerente[] | ResponseStatus> => {
     if (axios.isAxiosError(error)) {
       return { status: false, message: error.message };
     } else {
-      return { status: false, message: "Error al cargar supervisores" };
+      return { status: false, message: "Error al cargar gerentesS" };
     }
   }
 };
@@ -74,11 +71,7 @@ const getAllGerentesActivos = async (): Promise<Gerente[] | ResponseStatus> => {
     );
     return response?.data[0];
   } catch (error: any | AxiosError) {
-    if (axios.isAxiosError(error)) {
-      return { status: false, message: error.message };
-    } else {
-      return { status: false, message: "Error al cargar supervisores" };
-    }
+    return ServiceErrorHandler(error);
   }
 };
 const getAllZonas = async (): Promise<Zona[] | ResponseStatus> => {
@@ -94,11 +87,7 @@ const getAllZonas = async (): Promise<Zona[] | ResponseStatus> => {
       throw Error;
     }
   } catch (error: any | AxiosError) {
-    if (axios.isAxiosError(error)) {
-      return { status: false, message: error.message };
-    } else {
-      return { status: false, message: "Error al cargar las zonas" };
-    }
+    return ServiceErrorHandler(error);
   }
 };
 
@@ -113,11 +102,7 @@ const postSupervisores = async (form: Supervisor): Promise<ResponseStatus> => {
 
     return response?.data;
   } catch (error: any | AxiosError) {
-    if (axios.isAxiosError(error)) {
-      return { status: false, message: error.message };
-    } else {
-      return { status: false, message: "Error, comunicarse con sistemas" };
-    }
+    return ServiceErrorHandler(error);
   }
 };
 const updateSupervisores = async (
@@ -132,11 +117,7 @@ const updateSupervisores = async (
     );
     return response?.data;
   } catch (error: any | AxiosError) {
-    if (axios.isAxiosError(error)) {
-      return { status: false, message: error.message };
-    } else {
-      return { status: false, message: "Error, comunicarse con sistemas" };
-    }
+    return ServiceErrorHandler(error);
   }
 };
 
@@ -158,11 +139,7 @@ const deleteSupervisores = async (
     );
     return response?.data;
   } catch (error: any | AxiosError) {
-    if (axios.isAxiosError(error)) {
-      return { status: false, message: error.message };
-    } else {
-      return { status: false, message: "Error, comunicarse con sistemas" };
-    }
+    return ServiceErrorHandler(error);
   }
 };
 
