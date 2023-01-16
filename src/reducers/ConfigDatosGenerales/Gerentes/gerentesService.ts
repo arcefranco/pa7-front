@@ -1,8 +1,8 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { errorsHandling } from "../../errorsHandling";
 import getHeaderDB from "../../../helpers/getHeaderDB";
 import getHeaderToken from "../../../helpers/getHeaderTokenAndDB";
 import { ResponseStatus } from "../../../types/Generales/ResponseStatus";
+import { ServiceErrorHandler } from "../../../helpers/ServiceErrorHandler";
 
 const getGerentes = async (): Promise<Gerente[] | ResponseStatus> => {
   try {
@@ -17,11 +17,7 @@ const getGerentes = async (): Promise<Gerente[] | ResponseStatus> => {
       throw Error;
     }
   } catch (error: any | AxiosError) {
-    if (axios.isAxiosError(error)) {
-      return { status: false, message: error.message };
-    } else {
-      return { status: false, message: "Error, comunicarse con sistemas" };
-    }
+    return ServiceErrorHandler(error);
   }
 };
 
@@ -34,7 +30,6 @@ const getGerentesById = async (gerentesData) => {
       headers
     );
 
-    console.log(response);
     return response?.data;
   } catch (error: any | AxiosError) {
     if (axios.isAxiosError(error)) {
@@ -56,11 +51,7 @@ const endUpdate = async (gerenteData: EndUpdateParam) => {
 
     return response?.data;
   } catch (error: any | AxiosError) {
-    if (axios.isAxiosError(error)) {
-      return { status: false, message: JSON.stringify(error.message) };
-    } else {
-      return { status: false, message: "Error, comunicarse con sistemas" };
-    }
+    return ServiceErrorHandler(error);
   }
 };
 const beginUpdate = async (
@@ -76,15 +67,11 @@ const beginUpdate = async (
 
     return response.data;
   } catch (error: any | AxiosError) {
-    if (axios.isAxiosError(error)) {
-      return { status: false, message: JSON.stringify(error.message) };
-    } else {
-      return { status: false, message: "Error, comunicarse con sistemas" };
-    }
+    return ServiceErrorHandler(error);
   }
 };
 
-const postGerentes = async (form: Gerente) => {
+const postGerentes = async (form: Gerente): Promise<ResponseStatus> => {
   try {
     const headers = getHeaderToken();
     const response = await axios.post(
@@ -95,11 +82,7 @@ const postGerentes = async (form: Gerente) => {
 
     return response?.data;
   } catch (error: any | AxiosError) {
-    if (axios.isAxiosError(error)) {
-      return { status: false, message: error.message };
-    } else {
-      return { status: false, message: "Error, comunicarse con sistemas" };
-    }
+    return ServiceErrorHandler(error);
   }
 };
 const updateGerentes = async (form: Gerente) => {
@@ -112,11 +95,7 @@ const updateGerentes = async (form: Gerente) => {
     );
     return response.data;
   } catch (error: any | AxiosError) {
-    if (axios.isAxiosError(error)) {
-      return { status: false, message: error.message };
-    } else {
-      return { status: false, message: "Error, comunicarse con sistemas" };
-    }
+    return ServiceErrorHandler(error);
   }
 };
 
@@ -134,11 +113,7 @@ const deleteGerentes = async (gerentesData: EditGerente) => {
 
     return response.data;
   } catch (error: any | AxiosError) {
-    if (axios.isAxiosError(error)) {
-      return { status: false, message: error.message };
-    } else {
-      return { status: false, message: "Error, comunicarse con sistemas" };
-    }
+    return ServiceErrorHandler(error);
   }
 };
 

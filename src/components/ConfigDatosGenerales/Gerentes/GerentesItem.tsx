@@ -19,7 +19,7 @@ const GerentesItem = ({ Codigo, Nombre, Activo }) => {
     Activo: Activo,
   });
 
-  const { statusNuevoGerente } = useSelector(
+  const { statusNuevoGerente, isError } = useSelector(
     (state: RootState) => state.gerentes
   );
 
@@ -28,10 +28,7 @@ const GerentesItem = ({ Codigo, Nombre, Activo }) => {
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    if (
-      statusNuevoGerente &&
-      Object.keys(statusNuevoGerente)?.includes("status")
-    ) {
+    if (isError) {
       //esta mirando el estado de statusNuevoGerente (inUpdate) para inhabilitar la edicion mientras este en false
       setEdit(false);
     }
@@ -52,7 +49,7 @@ const GerentesItem = ({ Codigo, Nombre, Activo }) => {
     setItem(newForm);
   };
 
-  const handleSubmitUpdate = async (event) => {
+  const handleSubmitUpdate = async (event: React.FormEvent) => {
     event.preventDefault();
 
     dispatch(updateGerentes(item));

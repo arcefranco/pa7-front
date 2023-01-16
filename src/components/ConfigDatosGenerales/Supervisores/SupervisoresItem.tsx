@@ -33,7 +33,7 @@ const SupervisoresItem = ({
     Zona: Zona,
   });
   const [edit, setEdit] = useState(false);
-  const { statusNuevoSupervisor, gerentes, zonas } = useSelector(
+  const { statusNuevoSupervisor, gerentes, zonas, isError } = useSelector(
     (state: RootState) => state.supervisores
   );
   const dispatch = useDispatch<AppDispatch>();
@@ -91,7 +91,7 @@ const SupervisoresItem = ({
   };
 
   useEffect(() => {
-    if (statusNuevoSupervisor?.status === false) {
+    if (isError) {
       //esta mirando el estado de statusNuevoSupervisor (inUpdate) para inhabilitar la edicion mientras este en false
       setEdit(false);
     }
