@@ -33,12 +33,16 @@ export const getAllPuntosDeVenta = createAsyncThunk(
 export const beginUpdate = createAsyncThunk(
   "beginUpdate",
   async (puntoData: EndUpdateParam, thunkAPI): Promise<ResponseStatus> => {
-    const data: ResponseStatus = await puntosService.beginUpdate(puntoData);
+    try {
+      const data: ResponseStatus = await puntosService.beginUpdate(puntoData);
 
-    if (data.status || data.codigo !== null) {
-      return data;
-    } else {
-      throw data;
+      if (data.status || data.codigo !== null) {
+        return data;
+      } else {
+        throw data;
+      }
+    } catch (error) {
+      throw error;
     }
   }
 );
