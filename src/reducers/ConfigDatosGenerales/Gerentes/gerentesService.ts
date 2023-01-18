@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
+import { errorsHandling } from "../../errorsHandling";
 import getHeaderDB from "../../../helpers/getHeaderDB";
 import getHeaderToken from "../../../helpers/getHeaderTokenAndDB";
 import { ResponseStatus } from "../../../types/Generales/ResponseStatus";
@@ -54,20 +55,21 @@ const endUpdate = async (gerenteData: EndUpdateParam) => {
     return ServiceErrorHandler(error);
   }
 };
-const beginUpdate = async (
-  gerenteData: EndUpdateParam
-): Promise<ResponseStatus> => {
-  const headers = getHeaderToken();
+const beginUpdate = async (puntoData: EndUpdateParam) => {
   try {
-    const response: AxiosResponse<ResponseStatus> = await axios.post(
+    const headers = getHeaderToken();
+    const response: AxiosResponse = await axios.post(
       process.env.REACT_APP_HOST + "gerentes/beginUpdate",
-      gerenteData,
+      puntoData,
       headers
     );
-
-    return response.data;
-  } catch (error: any | AxiosError) {
-    return ServiceErrorHandler(error);
+    if (response.data.hasOwnProperty("codigo")) {
+      return response.data;
+    } else {
+      throw response.data;
+    }
+  } catch (error) {
+    return ServiceErrorHandler(error, "(Error al comenzar a editar)");
   }
 };
 
