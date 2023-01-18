@@ -91,7 +91,10 @@ const SupervisoresItem = ({
   };
 
   useEffect(() => {
-    if (isError) {
+    if (
+      !statusNuevoSupervisor?.hasOwnProperty("status") &&
+      !statusNuevoSupervisor?.hasOwnProperty("codigo")
+    ) {
       //esta mirando el estado de statusNuevoSupervisor (inUpdate) para inhabilitar la edicion mientras este en false
       setEdit(false);
     }

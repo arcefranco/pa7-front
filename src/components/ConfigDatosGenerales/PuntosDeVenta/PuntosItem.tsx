@@ -17,7 +17,9 @@ const PuntosItem = ({ Codigo, Nombre }) => {
     Nombre: Nombre,
   });
   const [edit, setEdit] = useState(false);
-  const { sucursales } = useSelector((state: RootState) => state);
+  const { sucursales, puntosDeVenta } = useSelector(
+    (state: RootState) => state
+  );
   const dispatch = useDispatch<AppDispatch>();
 
   const handleChange = (e) => {
@@ -57,15 +59,13 @@ const PuntosItem = ({ Codigo, Nombre }) => {
 
   useEffect(() => {
     if (
-      !sucursales?.sucursalStatus?.hasOwnProperty("status") &&
-      !sucursales?.sucursalStatus?.hasOwnProperty(
-        "codigo"
-      ) /* || sucursales.isError */
+      !puntosDeVenta?.puntoStatus?.hasOwnProperty("status") &&
+      !puntosDeVenta?.puntoStatus?.hasOwnProperty("codigo")
     ) {
-      //esta mirando el estado de sucursales?.sucursalStatus (inUpdate) para inhabilitar la edicion mientras este en false
+      //esta mirando el estado de puntosDeVenta?.puntoStatus (inUpdate) para inhabilitar la edicion mientras este en false
       setEdit(false);
     }
-  }, [sucursales?.sucursalStatus]);
+  }, [puntosDeVenta?.puntoStatus]);
   return (
     <tr>
       <td>

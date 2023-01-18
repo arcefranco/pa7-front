@@ -88,11 +88,18 @@ export const endUpdate = createAsyncThunk(
 
 export const beginUpdate = createAsyncThunk(
   "beginUpdate",
-  async (gerentesData: EndUpdateParam, thunkAPI) => {
+  async (gerentesData: EndUpdateParam): Promise<ResponseStatus> => {
     try {
-      const data = await gerentesService.beginUpdate(gerentesData);
-      return data;
-    } catch (error: any) {
+      const data: ResponseStatus = await gerentesService.beginUpdate(
+        gerentesData
+      );
+
+      if (data.status || data.codigo !== null) {
+        return data;
+      } else {
+        throw data;
+      }
+    } catch (error) {
       throw error;
     }
   }
@@ -133,16 +140,18 @@ export const gerentesSlice = createSlice({
 
     builder.addCase(beginUpdate.pending, (state) => {
       state.isLoading = true;
-      state.isSuccess = false;
-      state.isError = false;
     });
     builder.addCase(beginUpdate.fulfilled, (state, action) => {
       state.isLoading = false;
+      state.isError = false;
+      state.isSuccess = true;
       state.statusNuevoGerente = action.payload;
     });
     builder.addCase(beginUpdate.rejected, (state, action) => {
       state.isLoading = false;
-      state.statusNuevoGerente = action.payload as ResponseStatus;
+      state.isError = true;
+      state.isSuccess = false;
+      state.statusNuevoGerente = action.error as ResponseStatus;
     });
 
     builder.addCase(postGerentes.pending, (state) => {
