@@ -92,7 +92,11 @@ const Supervisores = () => {
       setModal(false);
     }
 
-    if (statusNuevoSupervisor && Object.keys(statusNuevoSupervisor).length) {
+    if (
+      statusNuevoSupervisor &&
+      Object.keys(statusNuevoSupervisor).length &&
+      !statusNuevoSupervisor.hasOwnProperty("codigo")
+    ) {
       setTimeout(resetModal, 5000);
     }
 
@@ -181,7 +185,7 @@ const Supervisores = () => {
       {modal &&
       statusNuevoSupervisor &&
       Object.keys(statusNuevoSupervisor).length &&
-      (isError || isSuccess) ? (
+      !statusNuevoSupervisor.codigo ? (
         <ModalStatus
           status={statusNuevoSupervisor?.status}
           message={statusNuevoSupervisor?.message}

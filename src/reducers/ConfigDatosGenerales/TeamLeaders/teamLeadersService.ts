@@ -23,15 +23,23 @@ const getTeamLeaders = async (): Promise<TeamLeader[] | ResponseStatus> => {
     return ServiceErrorHandler(error);
   }
 };
-const beginUpdate = async (sucursalesData: EndUpdateParam) => {
-  const headers = getHeaderToken();
-  const response: AxiosResponse = await axios.post(
-    process.env.REACT_APP_HOST + "teamleaders/beginUpdate",
-    sucursalesData,
-    headers
-  );
 
-  return response?.data;
+const beginUpdate = async (teamLeaderData: EndUpdateParam) => {
+  try {
+    const headers = getHeaderToken();
+    const response: AxiosResponse = await axios.post(
+      process.env.REACT_APP_HOST + "teamleaders/beginUpdate",
+      teamLeaderData,
+      headers
+    );
+    if (response.data.hasOwnProperty("codigo")) {
+      return response.data;
+    } else {
+      throw response.data;
+    }
+  } catch (error) {
+    return ServiceErrorHandler(error, "(Error al comenzar a editar)");
+  }
 };
 
 const endUpdate = async (gerenteData: EndUpdateParam) => {

@@ -165,7 +165,11 @@ const Vendedores = () => {
       setInEdit(statusNuevoVendedor?.codigo ? statusNuevoVendedor.codigo : "");
     }
 
-    if (statusNuevoVendedor && Object.keys(statusNuevoVendedor).length) {
+    if (
+      statusNuevoVendedor &&
+      Object.keys(statusNuevoVendedor).length &&
+      !statusNuevoVendedor.hasOwnProperty("codigo")
+    ) {
       setTimeout(resetModal, 5000);
     }
 
@@ -192,7 +196,8 @@ const Vendedores = () => {
     <div>
       {modal &&
       statusNuevoVendedor &&
-      Object.keys(statusNuevoVendedor).length ? (
+      Object.keys(statusNuevoVendedor).length &&
+      !statusNuevoVendedor?.codigo ? (
         <ModalStatus
           status={statusNuevoVendedor?.status}
           message={statusNuevoVendedor?.message}

@@ -68,7 +68,11 @@ const TeamLeaders = () => {
       setModal(false);
     }
 
-    if (statusNuevoTeamLeader && Object.keys(statusNuevoTeamLeader).length) {
+    if (
+      statusNuevoTeamLeader &&
+      Object.keys(statusNuevoTeamLeader).length &&
+      !statusNuevoTeamLeader.hasOwnProperty("codigo")
+    ) {
       setTimeout(resetModal, 5000);
     }
 
@@ -130,7 +134,8 @@ const TeamLeaders = () => {
     <div className={styles.container}>
       {modal &&
       statusNuevoTeamLeader &&
-      Object.keys(statusNuevoTeamLeader).length ? (
+      Object.keys(statusNuevoTeamLeader).length &&
+      !statusNuevoTeamLeader.codigo ? (
         <ModalStatus
           status={statusNuevoTeamLeader?.status}
           message={statusNuevoTeamLeader?.message}

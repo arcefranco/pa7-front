@@ -73,7 +73,11 @@ const PuntosDeVenta = () => {
       setModal(false);
     }
 
-    if (puntoStatus && Object.keys(puntoStatus).length) {
+    if (
+      puntoStatus &&
+      Object.keys(puntoStatus).length &&
+      !puntoStatus.hasOwnProperty("codigo")
+    ) {
       setTimeout(resetModal, 5000);
     }
 
@@ -139,7 +143,7 @@ const PuntosDeVenta = () => {
       {modal &&
       puntoStatus &&
       Object.keys(puntoStatus).length &&
-      !puntoStatus?.codigo ? (
+      !puntoStatus.codigo ? (
         <ModalStatus
           status={puntoStatus?.status}
           message={puntoStatus?.message}

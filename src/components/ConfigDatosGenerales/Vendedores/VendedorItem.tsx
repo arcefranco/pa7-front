@@ -41,8 +41,8 @@ const VendedorItem = ({
 
   useEffect(() => {
     if (
-      statusNuevoVendedor &&
-      Object.keys(statusNuevoVendedor)?.includes("status")
+      !statusNuevoVendedor?.hasOwnProperty("status") &&
+      !statusNuevoVendedor?.hasOwnProperty("codigo")
     ) {
       //esta mirando el estado de statusNuevoVendedor (inUpdate) para inhabilitar la edicion mientras este en false
       setEdit(false);

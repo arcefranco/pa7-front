@@ -43,14 +43,18 @@ export const getSupervisores = createAsyncThunk(
 export const beginUpdate = createAsyncThunk(
   "beginUpdate",
   async (supervisorData: EndUpdateParam): Promise<ResponseStatus> => {
-    const data: ResponseStatus = await supervisoresService.beginUpdate(
-      supervisorData
-    );
+    try {
+      const data: ResponseStatus = await supervisoresService.beginUpdate(
+        supervisorData
+      );
 
-    if (data.status) {
-      return data;
-    } else {
-      throw data;
+      if (data.status || data.codigo !== null) {
+        return data;
+      } else {
+        throw data;
+      }
+    } catch (error) {
+      throw error;
     }
   }
 );
@@ -163,6 +167,8 @@ export const supervisoresSlice = createSlice({
 
     resetStatus: (state) => {
       state.statusNuevoSupervisor = null;
+      state.isSuccess = false;
+      state.isError = false;
     },
   },
 

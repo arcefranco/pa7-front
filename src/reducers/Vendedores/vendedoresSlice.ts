@@ -70,14 +70,17 @@ export const endUpdate = createAsyncThunk(
 export const beginUpdate = createAsyncThunk(
   "beginUpdate",
   async (usuarioData: EndUpdateParam) => {
-    const data: ResponseStatus = await vendedoresService.beginUpdate(
-      usuarioData
-    );
-
-    if (data.status) {
-      return data;
-    } else {
-      throw data;
+    try {
+      const data: ResponseStatus = await vendedoresService.beginUpdate(
+        usuarioData
+      );
+      if (data.status || data.codigo !== null) {
+        return data;
+      } else {
+        throw data;
+      }
+    } catch (error) {
+      throw error;
     }
   }
 );

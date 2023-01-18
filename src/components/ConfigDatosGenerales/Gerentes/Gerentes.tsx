@@ -64,7 +64,7 @@ const Gerentes = () => {
   }, []);
 
   useEffect(() => {
-    if (gerentes) setGerentesFiltered(gerentes);
+    setGerentesFiltered(gerentes);
   }, [gerentes]);
 
   useEffect(() => {
@@ -117,7 +117,11 @@ const Gerentes = () => {
       setInEdit(statusNuevoGerente?.codigo ? statusNuevoGerente.codigo : "");
     }
 
-    if (statusNuevoGerente && Object.keys(statusNuevoGerente).length) {
+    if (
+      statusNuevoGerente &&
+      Object.keys(statusNuevoGerente).length &&
+      !statusNuevoGerente.hasOwnProperty("codigo")
+    ) {
       setTimeout(resetModal, 5000);
     }
 
@@ -142,7 +146,10 @@ const Gerentes = () => {
   };
   return (
     <div>
-      {statusNuevoGerente && modal && (isError || isSuccess) ? (
+      {statusNuevoGerente &&
+      modal &&
+      Object.keys(statusNuevoGerente).length &&
+      !statusNuevoGerente.codigo ? (
         <ModalStatus
           message={statusNuevoGerente?.message}
           status={isError ? false : true}

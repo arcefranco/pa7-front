@@ -41,13 +41,22 @@ const endUpdate = async (gerenteData: EndUpdateParam) => {
 };
 
 const beginUpdate = async (gerenteData: EndUpdateParam) => {
-  const headers = getHeaderToken();
-  const response: AxiosResponse = await axios.post(
-    process.env.REACT_APP_HOST + "vendedores/beginUpdate",
-    gerenteData,
-    headers
-  );
-  return response.data;
+  try {
+    const headers = getHeaderToken();
+    const response: AxiosResponse = await axios.post(
+      process.env.REACT_APP_HOST + "vendedores/beginUpdate",
+      gerenteData,
+      headers
+    );
+
+    if (response.data.hasOwnProperty("codigo")) {
+      return response.data;
+    } else {
+      throw response.data;
+    }
+  } catch (error) {
+    return ServiceErrorHandler(error, "(Error al comenzar a editar)");
+  }
 };
 const getAllTeamLeaders = async (): Promise<TeamLeader[] | ResponseStatus> => {
   try {
@@ -171,7 +180,7 @@ const getAllOficialesMoraActivos = async (): Promise<
     return ServiceErrorHandler(error);
   }
 };
-const postVendedores = async (form: Vendedor) => {
+const postVendedores = async (form: Vendedor): Promise<ResponseStatus> => {
   try {
     const headers = getHeaderToken();
     const response: AxiosResponse = await axios.post(

@@ -28,7 +28,10 @@ const GerentesItem = ({ Codigo, Nombre, Activo }) => {
   const dispatch = useDispatch<AppDispatch>();
 
   useEffect(() => {
-    if (isError) {
+    if (
+      !statusNuevoGerente?.hasOwnProperty("status") &&
+      !statusNuevoGerente?.hasOwnProperty("codigo")
+    ) {
       //esta mirando el estado de statusNuevoGerente (inUpdate) para inhabilitar la edicion mientras este en false
       setEdit(false);
     }

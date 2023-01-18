@@ -6,7 +6,7 @@ import { Supervisor } from "../../../types/ConfigDatosGenerales/Supervisor/Super
 import { ResponseStatus } from "../../../types/Generales/ResponseStatus";
 import { Zona } from "../../../types/ConfigDatosGenerales/Zonas/Zona";
 import { ServiceErrorHandler } from "../../../helpers/ServiceErrorHandler";
-
+import { AxiosResponse } from "axios";
 const getSupervisores = async (): Promise<Supervisor[] | ResponseStatus> => {
   try {
     const headers = getHeaderDB();
@@ -25,14 +25,22 @@ const getSupervisores = async (): Promise<Supervisor[] | ResponseStatus> => {
   }
 };
 
-const beginUpdate = async (supervisorData: EndUpdateParam) => {
-  const headers = getHeaderToken();
-  const response = await axios.post(
-    process.env.REACT_APP_HOST + "supervisores/beginUpdate",
-    supervisorData,
-    headers
-  );
-  return response?.data;
+const beginUpdate = async (puntoData: EndUpdateParam) => {
+  try {
+    const headers = getHeaderToken();
+    const response: AxiosResponse = await axios.post(
+      process.env.REACT_APP_HOST + "supervisores/beginUpdate",
+      puntoData,
+      headers
+    );
+    if (response.data.hasOwnProperty("codigo")) {
+      return response.data;
+    } else {
+      throw response.data;
+    }
+  } catch (error) {
+    return ServiceErrorHandler(error, "(Error al comenzar a editar)");
+  }
 };
 
 const endUpdate = async (gerenteData: EndUpdateParam) => {
