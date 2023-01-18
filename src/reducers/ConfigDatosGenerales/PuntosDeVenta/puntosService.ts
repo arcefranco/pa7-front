@@ -34,9 +34,13 @@ const beginUpdate = async (puntoData: EndUpdateParam) => {
       puntoData,
       headers
     );
-    return response.data;
+    if (response.data.hasOwnProperty("codigo")) {
+      return response.data;
+    } else {
+      throw response.data;
+    }
   } catch (error) {
-    return ServiceErrorHandler(error);
+    return ServiceErrorHandler(error, "(Error al comenzar a editar)");
   }
 };
 const createPuntoDeVenta = async (
