@@ -1,5 +1,5 @@
 interface Sucursal {
-  Codigo: number;
+  Codigo?: number;
   Nombre: string;
-  inUpdate: string;
+  inUpdate?: string;
 }
