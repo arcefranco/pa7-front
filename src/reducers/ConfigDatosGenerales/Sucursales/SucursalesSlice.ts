@@ -49,7 +49,7 @@ export const getAllTipoPlan = createAsyncThunk(
 
 export const deleteSucursal = createAsyncThunk(
   "sucursales/delete",
-  async (id): Promise<ResponseStatus> => {
+  async (id: EndUpdateParam): Promise<ResponseStatus> => {
     const data = await sucursalesService.deleteSucursal(id);
 
     if (data.status) {
@@ -89,6 +89,8 @@ export const endUpdate = createAsyncThunk(
   async (sucursalData: EndUpdateParam) => {
     const data = await sucursalesService.endUpdate(sucursalData);
 
+    console.log("data from slice: ", data);
+
     if (data.status) {
       return data;
     } else {
@@ -102,7 +104,7 @@ export const beginUpdate = createAsyncThunk(
   async (sucursalData: EndUpdateParam) => {
     const data = await sucursalesService.beginUpdate(sucursalData);
 
-    if (data.status) {
+    if (data.status || data.codigo !== null) {
       return data;
     } else {
       throw data;
@@ -165,6 +167,7 @@ export const sucursalesSlice = createSlice({
       .addCase(beginUpdate.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
+        state.isSuccess = false;
         state.sucursalStatus = action.error as ResponseStatus;
       })
       .addCase(deleteSucursal.pending, (state) => {
