@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit/dist";
 import { createAsyncThunk } from "@reduxjs/toolkit/dist";
 import { TipoPlan } from "../../../types/ConfigDatosGenerales/TipoPlan/TipoPlan";
 import { ResponseStatus } from "../../../types/Generales/ResponseStatus";
+import { beginUpdateFunction, endUpdateFunction } from "../../updateManager";
 import sucursalesService from "./SucursalesService";
 
 interface SucursalState extends ReduxState {
@@ -87,10 +88,7 @@ export const createSucursal = createAsyncThunk(
 export const endUpdate = createAsyncThunk(
   "endUpdate",
   async (sucursalData: EndUpdateParam) => {
-    const data = await sucursalesService.endUpdate(sucursalData);
-
-    console.log("data from slice: ", data);
-
+    const data = await endUpdateFunction(sucursalData, "sucursales/endUpdate");
     if (data.status) {
       return data;
     } else {
@@ -102,9 +100,12 @@ export const endUpdate = createAsyncThunk(
 export const beginUpdate = createAsyncThunk(
   "beginUpdate",
   async (sucursalData: EndUpdateParam) => {
-    const data = await sucursalesService.beginUpdate(sucursalData);
+    const data = await beginUpdateFunction(
+      sucursalData,
+      "sucursales/beginUpdate"
+    );
 
-    if (data.status || data.codigo !== null) {
+    if (data.codigo !== null) {
       return data;
     } else {
       throw data;
@@ -162,9 +163,25 @@ export const sucursalesSlice = createSlice({
       .addCase(beginUpdate.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
+        state.isError = false;
         state.sucursalStatus = action.payload;
       })
       .addCase(beginUpdate.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.sucursalStatus = action.error as ResponseStatus;
+      })
+      .addCase(endUpdate.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(endUpdate.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isError = false;
+        state.sucursalStatus = action.payload;
+      })
+      .addCase(endUpdate.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;

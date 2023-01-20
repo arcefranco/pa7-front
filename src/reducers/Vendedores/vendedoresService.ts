@@ -30,34 +30,6 @@ const getVendedores = async (): Promise<Vendedor[] | ResponseStatus> => {
   }
 };
 
-const endUpdate = async (gerenteData: EndUpdateParam) => {
-  const headers = getHeaderToken();
-  const response: AxiosResponse = await axios.post(
-    process.env.REACT_APP_HOST + "vendedores/endUpdate",
-    gerenteData,
-    headers
-  );
-  return response.data;
-};
-
-const beginUpdate = async (gerenteData: EndUpdateParam) => {
-  try {
-    const headers = getHeaderToken();
-    const response: AxiosResponse = await axios.post(
-      process.env.REACT_APP_HOST + "vendedores/beginUpdate",
-      gerenteData,
-      headers
-    );
-
-    if (response.data.hasOwnProperty("codigo")) {
-      return response.data;
-    } else {
-      throw response.data;
-    }
-  } catch (error) {
-    return ServiceErrorHandler(error, "(Error al comenzar a editar)");
-  }
-};
 const getAllTeamLeaders = async (): Promise<TeamLeader[] | ResponseStatus> => {
   try {
     const headers = getHeaderDB();
@@ -232,7 +204,6 @@ const deleteVendedores = async (vendedoresData: EndUpdateParam) => {
 const vendedoresService = {
   getVendedores,
   postVendedores,
-  beginUpdate,
   updateVendedores,
   deleteVendedores,
   getAllEscalas,
@@ -242,7 +213,6 @@ const vendedoresService = {
   getAllOficialesScoringActivos,
   getAllTeamLeaders,
   getAllTeamLeadersActivos,
-  endUpdate,
 };
 
 export default vendedoresService;
