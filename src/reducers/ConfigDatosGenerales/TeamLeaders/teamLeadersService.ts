@@ -24,33 +24,6 @@ const getTeamLeaders = async (): Promise<TeamLeader[] | ResponseStatus> => {
   }
 };
 
-const beginUpdate = async (teamLeaderData: EndUpdateParam) => {
-  try {
-    const headers = getHeaderToken();
-    const response: AxiosResponse = await axios.post(
-      process.env.REACT_APP_HOST + "teamleaders/beginUpdate",
-      teamLeaderData,
-      headers
-    );
-    if (response.data.hasOwnProperty("codigo")) {
-      return response.data;
-    } else {
-      throw response.data;
-    }
-  } catch (error) {
-    return ServiceErrorHandler(error, "(Error al comenzar a editar)");
-  }
-};
-
-const endUpdate = async (gerenteData: EndUpdateParam) => {
-  const headers = getHeaderToken();
-  const response: AxiosResponse = await axios.post(
-    process.env.REACT_APP_HOST + "teamleaders/endUpdate",
-    gerenteData,
-    headers
-  );
-  return response?.data;
-};
 const getAllSupervisores = async (): Promise<Supervisor[] | ResponseStatus> => {
   try {
     const headers = getHeaderDB();
@@ -146,10 +119,8 @@ const teamLeadersService = {
   postTeamLeaders,
   updateTeamLeaders,
   deleteTeamLeaders,
-  beginUpdate,
   getAllSupervisores,
   getAllSupervisoresActivos,
-  endUpdate,
 };
 
 export default teamLeadersService;
