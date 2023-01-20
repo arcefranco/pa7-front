@@ -3,6 +3,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit/dist";
 import { Supervisor } from "../../../types/ConfigDatosGenerales/Supervisor/Supervisor";
 import { TeamLeader } from "../../../types/ConfigDatosGenerales/TeamLeader/TeamLeader";
 import { ResponseStatus } from "../../../types/Generales/ResponseStatus";
+import { beginUpdateFunction, endUpdateFunction } from "../../updateManager";
 import teamLeadersService from "./teamLeadersService";
 
 interface TeamLeaderStatus extends ReduxState {
@@ -41,11 +42,12 @@ export const getTeamLeaders = createAsyncThunk(
 export const beginUpdate = createAsyncThunk(
   "beginUpdate",
   async (teamLeadersData: EndUpdateParam): Promise<ResponseStatus> => {
-    const data: ResponseStatus = await teamLeadersService.beginUpdate(
-      teamLeadersData
+    const data: ResponseStatus = await beginUpdateFunction(
+      teamLeadersData,
+      "teamleaders/beginUpdate"
     );
 
-    if (data.status) {
+    if (data.status || data.codigo !== null) {
       return data;
     } else {
       throw data;
@@ -122,8 +124,9 @@ export const deleteTeamLeaders = createAsyncThunk(
 export const endUpdate = createAsyncThunk(
   "endUpdate",
   async (teamLeadersData: EndUpdateParam): Promise<ResponseStatus> => {
-    const data: ResponseStatus = await teamLeadersService.endUpdate(
-      teamLeadersData
+    const data: ResponseStatus = await endUpdateFunction(
+      teamLeadersData,
+      "teamleaders/endUpdate"
     );
 
     if (data.status) {

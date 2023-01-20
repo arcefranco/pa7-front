@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit/dist";
 import { createAsyncThunk } from "@reduxjs/toolkit/dist";
 
 import { ResponseStatus } from "../../../types/Generales/ResponseStatus";
+import { beginUpdateFunction, endUpdateFunction } from "../../updateManager";
 import gerentesService from "./gerentesService";
 
 interface GerentesInitialState extends ReduxState {
@@ -75,7 +76,7 @@ export const endUpdate = createAsyncThunk(
   "endUpdate",
   async (gerentesData: EndUpdateParam, thunkAPI) => {
     try {
-      const data = await gerentesService.endUpdate(gerentesData);
+      const data = await endUpdateFunction(gerentesData, "gerentes/endUpdate");
       return data;
     } catch (error: any) {
       (error.response && error.response.data && error.response.data.message) ||
@@ -90,8 +91,9 @@ export const beginUpdate = createAsyncThunk(
   "beginUpdate",
   async (gerentesData: EndUpdateParam): Promise<ResponseStatus> => {
     try {
-      const data: ResponseStatus = await gerentesService.beginUpdate(
-        gerentesData
+      const data: ResponseStatus = await beginUpdateFunction(
+        gerentesData,
+        "gerentes/beginUpdate"
       );
 
       if (data.status || data.codigo !== null) {

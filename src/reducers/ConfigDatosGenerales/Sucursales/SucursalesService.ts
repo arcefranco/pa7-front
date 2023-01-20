@@ -4,40 +4,6 @@ import getHeaderDB from "../../../helpers/getHeaderDB";
 import { ServiceErrorHandler } from "../../../helpers/ServiceErrorHandler";
 import { ResponseStatus } from "../../../types/Generales/ResponseStatus";
 
-const endUpdate = async (sucursalData: EndUpdateParam) => {
-  try {
-    const headers = getHeaderToken();
-    const response = await axios.post(
-      process.env.REACT_APP_HOST + "sucursales/endUpdate",
-      sucursalData,
-      headers
-    );
-
-    return response?.data;
-  } catch (error: any | AxiosError) {
-    return ServiceErrorHandler(error);
-  }
-};
-
-const beginUpdate = async (sucursalesData) => {
-  try {
-    const headers = getHeaderToken();
-    const response = await axios.post(
-      process.env.REACT_APP_HOST + "sucursales/beginUpdate",
-      sucursalesData,
-      headers
-    );
-
-    if (response.data.hasOwnProperty("codigo")) {
-      return response.data;
-    } else {
-      throw response.data;
-    }
-  } catch (error) {
-    return ServiceErrorHandler(error, "(Error al comenzar a editar)");
-  }
-};
-
 const getAllSucursales = async () => {
   try {
     const headers = getHeaderDB();
@@ -128,8 +94,6 @@ const SucursalesService = {
   deleteSucursal,
   createSucursal,
   updateSucursal,
-  beginUpdate,
-  endUpdate,
   getAllTipoPlan,
 };
 

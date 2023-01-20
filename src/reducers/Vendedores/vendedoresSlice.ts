@@ -10,6 +10,7 @@ import { Escala } from "../../types/ConfigDatosGenerales/Vendedor/Escala";
 import { Vendedor } from "../../types/ConfigDatosGenerales/Vendedor/Vendedor";
 import { ResponseStatus } from "../../types/Generales/ResponseStatus";
 import vendedoresService from "./vendedoresService";
+import { beginUpdateFunction, endUpdateFunction } from "../updateManager";
 
 interface VendedorState extends ReduxState {
   vendedores: Vendedor[];
@@ -58,7 +59,10 @@ export const getVendedores = createAsyncThunk(
 export const endUpdate = createAsyncThunk(
   "endUpdate",
   async (usuarioData: EndUpdateParam) => {
-    const data: ResponseStatus = await vendedoresService.endUpdate(usuarioData);
+    const data: ResponseStatus = await endUpdateFunction(
+      usuarioData,
+      "vendedores/endUpdate"
+    );
     if (data.status) {
       return data;
     } else {
@@ -71,8 +75,9 @@ export const beginUpdate = createAsyncThunk(
   "beginUpdate",
   async (usuarioData: EndUpdateParam) => {
     try {
-      const data: ResponseStatus = await vendedoresService.beginUpdate(
-        usuarioData
+      const data: ResponseStatus = await beginUpdateFunction(
+        usuarioData,
+        "vendedores/beginUpdate"
       );
       if (data.status || data.codigo !== null) {
         return data;

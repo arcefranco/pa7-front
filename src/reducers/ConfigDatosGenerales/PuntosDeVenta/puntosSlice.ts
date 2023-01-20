@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit/dist";
 import { createAsyncThunk } from "@reduxjs/toolkit/dist";
 import { PuntoDeVenta } from "../../../types/ConfigDatosGenerales/PuntoDeVenta/PuntoDeVenta";
 import { ResponseStatus } from "../../../types/Generales/ResponseStatus";
+import { beginUpdateFunction, endUpdateFunction } from "../../updateManager";
 import puntosService from "./puntosService";
 
 interface PuntoInitialState extends ReduxState {
@@ -34,7 +35,10 @@ export const beginUpdate = createAsyncThunk(
   "beginUpdate",
   async (puntoData: EndUpdateParam, thunkAPI): Promise<ResponseStatus> => {
     try {
-      const data: ResponseStatus = await puntosService.beginUpdate(puntoData);
+      const data: ResponseStatus = await beginUpdateFunction(
+        puntoData,
+        "puntosDeVenta/beginUpdate"
+      );
 
       if (data.status || data.codigo !== null) {
         return data;
@@ -87,10 +91,10 @@ export const createPuntoDeVenta = createAsyncThunk(
 );
 
 export const endUpdate = createAsyncThunk(
-  "puntos/create",
+  "puntos/endUpdate",
   async (puntoData: EndUpdateParam) => {
-    const data = await puntosService.endUpdate(puntoData);
-    if (data.status) {
+    const data = await endUpdateFunction(puntoData, "puntosDeVenta/endUpdate");
+    if (data.codigo) {
       return data;
     } else {
       throw data;
@@ -110,6 +114,8 @@ export const puntosSlice = createSlice({
 
     resetStatus: (state) => {
       state.puntoStatus = null;
+      state.isSuccess = false;
+      state.isError = false;
     },
   },
 
@@ -133,12 +139,14 @@ export const puntosSlice = createSlice({
       })
       .addCase(beginUpdate.fulfilled, (state, action) => {
         state.isLoading = false;
+        state.isError = false;
         state.isSuccess = true;
         state.puntoStatus = action.payload;
       })
       .addCase(beginUpdate.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
+        state.isSuccess = false;
         state.puntoStatus = action.error as ResponseStatus;
       })
       .addCase(deletePuntoDeVenta.pending, (state) => {

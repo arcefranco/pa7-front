@@ -26,23 +26,7 @@ const getAllPuntosDeVenta = async (): Promise<
     return ServiceErrorHandler(error, "(puntos de venta)");
   }
 };
-const beginUpdate = async (puntoData: EndUpdateParam) => {
-  try {
-    const headers = getHeaderToken();
-    const response: AxiosResponse = await axios.post(
-      process.env.REACT_APP_HOST + "puntosDeVenta/beginUpdate",
-      puntoData,
-      headers
-    );
-    if (response.data.hasOwnProperty("codigo")) {
-      return response.data;
-    } else {
-      throw response.data;
-    }
-  } catch (error) {
-    return ServiceErrorHandler(error, "(Error al comenzar a editar)");
-  }
-};
+
 const createPuntoDeVenta = async (
   puntoData: PuntoDeVenta
 ): Promise<ResponseStatus> => {
@@ -91,27 +75,11 @@ const updatePuntoDeVenta = async (puntoData: PuntoDeVenta) => {
   }
 };
 
-const endUpdate = async (puntoData: EndUpdateParam) => {
-  try {
-    const headers = getHeaderToken();
-    const response: AxiosResponse = await axios.post(
-      process.env.REACT_APP_HOST + "puntosDeVenta/endUpdate",
-      puntoData,
-      headers
-    );
-    return response.data;
-  } catch (error) {
-    return ServiceErrorHandler(error);
-  }
-};
-
 const puntosService = {
   getAllPuntosDeVenta,
-  beginUpdate,
   deletePuntoDeVenta,
   updatePuntoDeVenta,
   createPuntoDeVenta,
-  endUpdate,
 };
 
 export default puntosService;

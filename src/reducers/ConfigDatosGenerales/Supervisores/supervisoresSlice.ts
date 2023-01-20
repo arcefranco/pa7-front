@@ -3,6 +3,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit/dist";
 import { Supervisor } from "../../../types/ConfigDatosGenerales/Supervisor/Supervisor";
 import { Zona } from "../../../types/ConfigDatosGenerales/Zonas/Zona";
 import { ResponseStatus } from "../../../types/Generales/ResponseStatus";
+import { beginUpdateFunction, endUpdateFunction } from "../../updateManager";
 import supervisoresService from "./supervisoresService";
 
 interface SupervisorState extends ReduxState {
@@ -44,8 +45,9 @@ export const beginUpdate = createAsyncThunk(
   "beginUpdate",
   async (supervisorData: EndUpdateParam): Promise<ResponseStatus> => {
     try {
-      const data: ResponseStatus = await supervisoresService.beginUpdate(
-        supervisorData
+      const data: ResponseStatus = await beginUpdateFunction(
+        supervisorData,
+        "supervisores/beginUpdate"
       );
 
       if (data.status || data.codigo !== null) {
@@ -141,9 +143,10 @@ export const deleteSupervisores = createAsyncThunk(
 );
 export const endUpdate = createAsyncThunk(
   "endUpdate",
-  async (gerentesData: EndUpdateParam): Promise<ResponseStatus> => {
-    const data: ResponseStatus = await supervisoresService.endUpdate(
-      gerentesData
+  async (supervisorData: EndUpdateParam): Promise<ResponseStatus> => {
+    const data: ResponseStatus = await endUpdateFunction(
+      supervisorData,
+      "supervisores/endUpdate"
     );
 
     if (data.status) {
