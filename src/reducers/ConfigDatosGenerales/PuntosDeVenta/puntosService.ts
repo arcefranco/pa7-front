@@ -3,28 +3,13 @@ import getHeaderToken from "../../../helpers/getHeaderTokenAndDB";
 import getHeaderDB from "../../../helpers/getHeaderDB";
 import { PuntoDeVenta } from "../../../types/ConfigDatosGenerales/PuntoDeVenta/PuntoDeVenta";
 import { ResponseStatus } from "../../../types/Generales/ResponseStatus";
-import { AxiosError } from "axios";
+import { getFunction } from "../../Axios/axiosFunctions";
 import { ServiceErrorHandler } from "../../../helpers/ServiceErrorHandler";
 
 const getAllPuntosDeVenta = async (): Promise<
   PuntoDeVenta[] | ResponseStatus
 > => {
-  try {
-    const headers = getHeaderDB();
-    const response: AxiosResponse = await axios.get(
-      process.env.REACT_APP_HOST + "puntosDeVenta",
-      headers
-    );
-
-    if (Array.isArray(response.data)) {
-      return response.data;
-    } else {
-      console.log(response.data);
-      throw Error(response.data);
-    }
-  } catch (error: any | AxiosError) {
-    return ServiceErrorHandler(error, "(puntos de venta)");
-  }
+  return getFunction("puntosDeVenta");
 };
 
 const createPuntoDeVenta = async (

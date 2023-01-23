@@ -72,10 +72,7 @@ const TeamLeadersItem = ({ Codigo, Nombre, Supervisor, Activo }) => {
   };
 
   useEffect(() => {
-    if (
-      !statusNuevoTeamLeader?.hasOwnProperty("status") &&
-      !statusNuevoTeamLeader?.hasOwnProperty("codigo")
-    ) {
+    if (!statusNuevoTeamLeader?.hasOwnProperty("codigo")) {
       //esta mirando el estado de sucursalStatus (inUpdate) para inhabilitar la edicion mientras este en false
       setEdit(false);
     }

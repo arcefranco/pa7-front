@@ -44,21 +44,20 @@ const initialState: VendedorState = {
 
 export const getVendedores = createAsyncThunk(
   "vendedores",
-  async (): Promise<Vendedor[] | ResponseStatus> => {
+  async (z, { rejectWithValue }) => {
     const data: Vendedor[] | ResponseStatus =
       await vendedoresService.getVendedores();
     if (Array.isArray(data)) {
       return data;
     } else {
-      console.log(data);
-      throw data;
+      return rejectWithValue(data);
     }
   }
 );
 
 export const endUpdate = createAsyncThunk(
   "endUpdate",
-  async (usuarioData: EndUpdateParam) => {
+  async (usuarioData: EndUpdateParam, { rejectWithValue }) => {
     const data: ResponseStatus = await endUpdateFunction(
       usuarioData,
       "vendedores/endUpdate"
@@ -66,147 +65,142 @@ export const endUpdate = createAsyncThunk(
     if (data.status) {
       return data;
     } else {
-      throw data;
+      return rejectWithValue(data);
     }
   }
 );
 
 export const beginUpdate = createAsyncThunk(
   "beginUpdate",
-  async (usuarioData: EndUpdateParam) => {
-    try {
-      const data: ResponseStatus = await beginUpdateFunction(
-        usuarioData,
-        "vendedores/beginUpdate"
-      );
-      if (data.status || data.codigo !== null) {
-        return data;
-      } else {
-        throw data;
-      }
-    } catch (error) {
-      throw error;
+  async (usuarioData: EndUpdateParam, { rejectWithValue }) => {
+    const data: ResponseStatus = await beginUpdateFunction(
+      usuarioData,
+      "vendedores/beginUpdate"
+    );
+    if (data.codigo) {
+      return data;
+    } else {
+      return rejectWithValue(data);
     }
   }
 );
 export const getAllEscalas = createAsyncThunk(
   "vendedores/escalas",
-  async (): Promise<Escala[] | ResponseStatus> => {
+  async (z, { rejectWithValue }) => {
     const data: Escala[] | ResponseStatus =
       await vendedoresService.getAllEscalas();
 
     if (Array.isArray(data)) {
       return data;
     } else {
-      throw data;
+      return rejectWithValue(data);
     }
   }
 );
 export const getAllTeamLeaders = createAsyncThunk(
   "vendedores/teamleader",
-  async (): Promise<TeamLeader[] | ResponseStatus> => {
+  async (z, { rejectWithValue }) => {
     const data = await vendedoresService.getAllTeamLeaders();
-
     if (Array.isArray(data)) {
       return data;
     } else {
-      throw data;
+      return rejectWithValue(data);
     }
   }
 );
 export const getAllTeamLeadersActivos = createAsyncThunk(
   "vendedores/teamleadersActivos",
-  async (): Promise<TeamLeader[] | ResponseStatus> => {
+  async (z, { rejectWithValue }) => {
     const data = await vendedoresService.getAllTeamLeadersActivos();
 
     if (Array.isArray(data)) {
       return data;
     } else {
-      throw data;
+      return rejectWithValue(data);
     }
   }
 );
 export const getAllOficialesScoring = createAsyncThunk(
   "vendedores/ofcialesScoring",
-  async (): Promise<OficialScoring[] | ResponseStatus> => {
+  async (z, { rejectWithValue }) => {
     const data = await vendedoresService.getAllOficialesScoring();
 
     if (Array.isArray(data)) {
       return data;
     } else {
-      throw data;
+      return rejectWithValue(data);
     }
   }
 );
 export const getAllOficialesMora = createAsyncThunk(
   "vendedores/oficialesMora",
-  async (): Promise<OficialMora[] | ResponseStatus> => {
+  async (z, { rejectWithValue }) => {
     const data: OficialMora[] | ResponseStatus =
       await vendedoresService.getAllOficialesMora();
 
     if (Array.isArray(data)) {
       return data;
     } else {
-      throw data;
+      return rejectWithValue(data);
     }
   }
 );
 export const getAllOficialesScoringActivos = createAsyncThunk(
   "vendedores/ofcialesScoringActivos",
-  async (): Promise<OficialScoring[] | ResponseStatus> => {
+  async (z, { rejectWithValue }) => {
     const data = await vendedoresService.getAllOficialesScoringActivos();
 
     if (Array.isArray(data)) {
       return data;
     } else {
-      throw data;
+      return rejectWithValue(data);
     }
   }
 );
 export const getAllOficialesMoraActivos = createAsyncThunk(
   "vendedores/oficialesMoraActivos",
-  async (): Promise<OficialMora[] | ResponseStatus> => {
+  async (z, { rejectWithValue }) => {
     const data = await vendedoresService.getAllOficialesMoraActivos();
 
     if (Array.isArray(data)) {
       return data;
     } else {
-      throw data;
+      return rejectWithValue(data);
     }
   }
 );
 export const postVendedores = createAsyncThunk(
   "postvendedores",
-  async (form: Vendedor): Promise<ResponseStatus> => {
+  async (form: Vendedor, { rejectWithValue }) => {
     const data: ResponseStatus = await vendedoresService.postVendedores(form);
     if (data.status) {
       return data;
     } else {
-      throw data;
+      return rejectWithValue(data);
     }
   }
 );
 
 export const updateVendedores = createAsyncThunk(
   "updatevendedores",
-  async (form: Vendedor): Promise<ResponseStatus> => {
+  async (form: Vendedor, { rejectWithValue }) => {
     const data: ResponseStatus = await vendedoresService.updateVendedores(form);
     if (data.status) {
       return data;
     } else {
-      throw data;
+      return rejectWithValue(data);
     }
   }
 );
 
 export const deleteVendedores = createAsyncThunk(
   "deletevendedores",
-  async (vendedoresData: EndUpdateParam): Promise<ResponseStatus> => {
+  async (vendedoresData: EndUpdateParam, { rejectWithValue }) => {
     const data = await vendedoresService.deleteVendedores(vendedoresData);
     if (data.status) {
       return data;
     } else {
-      throw data;
+      return rejectWithValue(data);
     }
   }
 );
@@ -239,7 +233,7 @@ export const vendedoresSlice = createSlice({
     builder.addCase(getVendedores.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
-      state.statusNuevoVendedor = action.error as ResponseStatus;
+      state.statusNuevoVendedor = action.payload as ResponseStatus;
     });
 
     builder.addCase(beginUpdate.pending, (state) => {
@@ -248,12 +242,25 @@ export const vendedoresSlice = createSlice({
     builder.addCase(beginUpdate.fulfilled, (state, action) => {
       state.isLoading = false;
       state.isSuccess = true;
-      state.statusNuevoVendedor = action.payload;
+      state.statusNuevoVendedor = action.payload as ResponseStatus;
     });
     builder.addCase(beginUpdate.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
-      state.statusNuevoVendedor = action.error as ResponseStatus;
+      state.statusNuevoVendedor = action.payload as ResponseStatus;
+    });
+    builder.addCase(endUpdate.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(endUpdate.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.statusNuevoVendedor = action.payload as ResponseStatus;
+    });
+    builder.addCase(endUpdate.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.statusNuevoVendedor = action.payload as ResponseStatus;
     });
     builder.addCase(getAllTeamLeaders.pending, (state) => {
       state.isLoading = true;
@@ -266,7 +273,7 @@ export const vendedoresSlice = createSlice({
     builder.addCase(getAllTeamLeaders.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
-      state.statusNuevoVendedor = action.error as ResponseStatus;
+      state.statusNuevoVendedor = action.payload as ResponseStatus;
     });
     builder.addCase(getAllTeamLeadersActivos.pending, (state) => {
       state.isLoading = true;
@@ -279,7 +286,7 @@ export const vendedoresSlice = createSlice({
     builder.addCase(getAllTeamLeadersActivos.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
-      state.statusNuevoVendedor = action.error as ResponseStatus;
+      state.statusNuevoVendedor = action.payload as ResponseStatus;
     });
     builder.addCase(getAllEscalas.pending, (state) => {
       state.isLoading = true;
@@ -292,7 +299,7 @@ export const vendedoresSlice = createSlice({
     builder.addCase(getAllEscalas.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
-      state.statusNuevoVendedor = action.error as ResponseStatus;
+      state.statusNuevoVendedor = action.payload as ResponseStatus;
     });
     builder.addCase(getAllOficialesScoring.pending, (state) => {
       state.isLoading = true;
@@ -306,7 +313,7 @@ export const vendedoresSlice = createSlice({
       state.isLoading = false;
       state.isError = true;
       state.isSuccess = false;
-      state.statusNuevoVendedor = action.error as ResponseStatus;
+      state.statusNuevoVendedor = action.payload as ResponseStatus;
     });
     builder.addCase(getAllOficialesMora.pending, (state) => {
       state.isLoading = true;
@@ -320,7 +327,7 @@ export const vendedoresSlice = createSlice({
       state.isLoading = false;
       state.isError = true;
       state.isSuccess = false;
-      state.statusNuevoVendedor = action.error as ResponseStatus;
+      state.statusNuevoVendedor = action.payload as ResponseStatus;
     });
     builder.addCase(getAllOficialesScoringActivos.pending, (state) => {
       state.isLoading = true;
@@ -336,7 +343,7 @@ export const vendedoresSlice = createSlice({
     builder.addCase(getAllOficialesScoringActivos.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
-      state.statusNuevoVendedor = action.error as ResponseStatus;
+      state.statusNuevoVendedor = action.payload as ResponseStatus;
     });
     builder.addCase(getAllOficialesMoraActivos.pending, (state) => {
       state.isLoading = true;
@@ -350,7 +357,7 @@ export const vendedoresSlice = createSlice({
       state.isLoading = false;
       state.isError = true;
       state.isSuccess = false;
-      state.statusNuevoVendedor = action.error as ResponseStatus;
+      state.statusNuevoVendedor = action.payload as ResponseStatus;
     });
     builder.addCase(postVendedores.pending, (state) => {
       state.isLoading = true;
@@ -364,7 +371,7 @@ export const vendedoresSlice = createSlice({
     builder.addCase(postVendedores.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
-      state.statusNuevoVendedor = action.error as ResponseStatus;
+      state.statusNuevoVendedor = action.payload as ResponseStatus;
     });
 
     builder.addCase(updateVendedores.pending, (state) => {
@@ -379,7 +386,7 @@ export const vendedoresSlice = createSlice({
     builder.addCase(updateVendedores.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
-      state.statusNuevoVendedor = action.error as ResponseStatus;
+      state.statusNuevoVendedor = action.payload as ResponseStatus;
     });
 
     builder.addCase(deleteVendedores.pending, (state) => {
@@ -394,7 +401,7 @@ export const vendedoresSlice = createSlice({
     builder.addCase(deleteVendedores.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
-      state.statusNuevoVendedor = action.error as ResponseStatus;
+      state.statusNuevoVendedor = action.payload as ResponseStatus;
     });
   },
 });

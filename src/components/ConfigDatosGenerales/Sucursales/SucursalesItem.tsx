@@ -58,10 +58,7 @@ const SucursalesItem = ({ Codigo, Nombre }) => {
   };
 
   useEffect(() => {
-    if (
-      !sucursalStatus?.hasOwnProperty("status") &&
-      !sucursalStatus?.hasOwnProperty("codigo")
-    ) {
+    if (!sucursalStatus?.hasOwnProperty("codigo")) {
       //esta mirando el estado de sucursalStatus (inUpdate) para inhabilitar la edicion mientras este en false
       setEdit(false);
     }
