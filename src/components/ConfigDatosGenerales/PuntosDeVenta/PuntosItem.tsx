@@ -58,10 +58,7 @@ const PuntosItem = ({ Codigo, Nombre }) => {
   };
 
   useEffect(() => {
-    if (
-      !puntosDeVenta?.puntoStatus?.hasOwnProperty("status") &&
-      !puntosDeVenta?.puntoStatus?.hasOwnProperty("codigo")
-    ) {
+    if (!puntosDeVenta?.puntoStatus?.hasOwnProperty("codigo")) {
       //esta mirando el estado de puntosDeVenta?.puntoStatus (inUpdate) para inhabilitar la edicion mientras este en false
       setEdit(false);
     }

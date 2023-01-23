@@ -25,35 +25,6 @@ const getSupervisores = async (): Promise<Supervisor[] | ResponseStatus> => {
   }
 };
 
-const beginUpdate = async (puntoData: EndUpdateParam) => {
-  try {
-    const headers = getHeaderToken();
-    const response: AxiosResponse = await axios.post(
-      process.env.REACT_APP_HOST + "supervisores/beginUpdate",
-      puntoData,
-      headers
-    );
-    if (response.data.hasOwnProperty("codigo")) {
-      return response.data;
-    } else {
-      throw response.data;
-    }
-  } catch (error) {
-    return ServiceErrorHandler(error, "(Error al comenzar a editar)");
-  }
-};
-
-const endUpdate = async (gerenteData: EndUpdateParam) => {
-  const headers = getHeaderToken();
-  const response = await axios.post(
-    process.env.REACT_APP_HOST + "supervisores/endUpdate",
-    gerenteData,
-    headers
-  );
-
-  return response?.data;
-};
-
 const getAllGerentes = async (): Promise<Gerente[] | ResponseStatus> => {
   try {
     const headers = getHeaderDB();
@@ -66,7 +37,7 @@ const getAllGerentes = async (): Promise<Gerente[] | ResponseStatus> => {
     if (axios.isAxiosError(error)) {
       return { status: false, message: error.message };
     } else {
-      return { status: false, message: "Error al cargar gerentesS" };
+      return { status: false, message: "Error al cargar gerentes" };
     }
   }
 };
@@ -156,11 +127,9 @@ const supervisoresService = {
   postSupervisores,
   updateSupervisores,
   deleteSupervisores,
-  beginUpdate,
   getAllGerentes,
   getAllGerentesActivos,
   getAllZonas,
-  endUpdate,
 };
 
 export default supervisoresService;

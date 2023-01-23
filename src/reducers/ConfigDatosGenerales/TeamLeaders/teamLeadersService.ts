@@ -5,62 +5,19 @@ import { Supervisor } from "../../../types/ConfigDatosGenerales/Supervisor/Super
 import { TeamLeader } from "../../../types/ConfigDatosGenerales/TeamLeader/TeamLeader";
 import { ResponseStatus } from "../../../types/Generales/ResponseStatus";
 import { ServiceErrorHandler } from "../../../helpers/ServiceErrorHandler";
+import { getFunction } from "../../Axios/axiosFunctions";
 
 const getTeamLeaders = async (): Promise<TeamLeader[] | ResponseStatus> => {
-  try {
-    const headers = getHeaderDB();
-    const response: AxiosResponse = await axios.get(
-      process.env.REACT_APP_HOST + "teamleaders",
-      headers
-    );
-
-    if (Array.isArray(response.data)) {
-      return response.data;
-    } else {
-      throw response.data;
-    }
-  } catch (error: any | AxiosError) {
-    return ServiceErrorHandler(error);
-  }
+  return getFunction("teamleaders");
 };
 
 const getAllSupervisores = async (): Promise<Supervisor[] | ResponseStatus> => {
-  try {
-    const headers = getHeaderDB();
-    const response: AxiosResponse = await axios.get(
-      process.env.REACT_APP_HOST + "supervisores",
-      headers
-    );
-    if (Array.isArray(response.data)) {
-      return response.data;
-    } else {
-      throw Error(response.data);
-    }
-  } catch (error: any | AxiosError) {
-    return ServiceErrorHandler(error);
-  }
+  return getFunction("supervisores");
 };
 const getAllSupervisoresActivos = async (): Promise<
   Supervisor[] | ResponseStatus
 > => {
-  try {
-    const headers = getHeaderDB();
-    const response: AxiosResponse = await axios.get(
-      process.env.REACT_APP_HOST + "supervisores/activos",
-      headers
-    );
-    if (Array.isArray(response.data)) {
-      return response.data;
-    } else {
-      throw Error;
-    }
-  } catch (error: any | AxiosError) {
-    if (axios.isAxiosError(error)) {
-      return { status: false, message: error.message };
-    } else {
-      return { status: false, message: "Error al cargar supervisores" };
-    }
-  }
+  return getFunction("supervisores/activos");
 };
 
 const postTeamLeaders = async (form: TeamLeader) => {

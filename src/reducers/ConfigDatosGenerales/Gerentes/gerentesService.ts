@@ -4,22 +4,9 @@ import getHeaderDB from "../../../helpers/getHeaderDB";
 import getHeaderToken from "../../../helpers/getHeaderTokenAndDB";
 import { ResponseStatus } from "../../../types/Generales/ResponseStatus";
 import { ServiceErrorHandler } from "../../../helpers/ServiceErrorHandler";
-
+import { getFunction } from "../../Axios/axiosFunctions";
 const getGerentes = async (): Promise<Gerente[] | ResponseStatus> => {
-  try {
-    const headers = getHeaderDB();
-    const response = await axios.get(
-      process.env.REACT_APP_HOST + "gerentes",
-      headers
-    );
-    if (Array.isArray(response.data[0])) {
-      return response.data[0];
-    } else {
-      throw Error;
-    }
-  } catch (error: any | AxiosError) {
-    return ServiceErrorHandler(error);
-  }
+  return getFunction("gerentes");
 };
 
 const getGerentesById = async (gerentesData) => {
