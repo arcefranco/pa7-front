@@ -3,23 +3,10 @@ import getHeaderToken from "../../../helpers/getHeaderTokenAndDB";
 import getHeaderDB from "../../../helpers/getHeaderDB";
 import { ServiceErrorHandler } from "../../../helpers/ServiceErrorHandler";
 import { ResponseStatus } from "../../../types/Generales/ResponseStatus";
+import { getFunction } from "../../Axios/axiosFunctions";
 
 const getAllSucursales = async () => {
-  try {
-    const headers = getHeaderDB();
-    const response = await axios.get(
-      process.env.REACT_APP_HOST + "sucursales",
-      headers
-    );
-
-    if (Array.isArray(response.data)) {
-      return response.data;
-    } else {
-      throw Error;
-    }
-  } catch (error: any | AxiosError) {
-    return ServiceErrorHandler(error);
-  }
+  return getFunction("sucursales");
 };
 
 const deleteSucursal = async (id: EndUpdateParam) => {
@@ -74,20 +61,7 @@ const createSucursal = async (
   }
 };
 const getAllTipoPlan = async () => {
-  try {
-    const headers = getHeaderToken();
-    const response = await axios.get(
-      process.env.REACT_APP_HOST + "modelos/tipoplan",
-      headers
-    );
-    if (Array.isArray(response.data[0])) {
-      return response.data[0];
-    } else {
-      throw Error;
-    }
-  } catch (error: any | AxiosError) {
-    return ServiceErrorHandler(error, "(Tipo Plan)");
-  }
+  return getFunction("modelos/tipoplan");
 };
 const SucursalesService = {
   getAllSucursales,
