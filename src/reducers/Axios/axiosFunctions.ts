@@ -10,11 +10,10 @@ export const getFunction = async (route: string) => {
       process.env.REACT_APP_HOST + route,
       headers
     );
-
     if (Array.isArray(response.data)) {
       return response.data;
     } else {
-      throw Error(response.data);
+      throw response.data;
     }
   } catch (error: any | AxiosError) {
     return ServiceErrorHandler(error, route);
@@ -32,7 +31,7 @@ export const postFunction = async (route: string, form: {}) => {
     if (response.data.hasOwnProperty("status") && response.data.status) {
       return response.data;
     } else {
-      throw Error(response.data.message ? response.data.message : "Error");
+      throw response.data;
     }
   } catch (error) {
     return ServiceErrorHandler(error, route);
@@ -50,7 +49,7 @@ export const updateFunction = async (route: string, form: {}) => {
     if (response.data.hasOwnProperty("status") && response.data.status) {
       return response.data;
     } else {
-      throw Error(response.data.message ? response.data.message : "Error");
+      throw response.data;
     }
   } catch (error) {
     return ServiceErrorHandler(error, route);
@@ -75,7 +74,7 @@ export const deleteFunction = async (route: string, id: EndUpdateParam) => {
     if (response.data.hasOwnProperty("status") && response.data.status) {
       return response.data;
     } else {
-      throw Error(response.data.message ? response.data.message : "Error");
+      throw response.data;
     }
   } catch (error) {
     return ServiceErrorHandler(error, route);

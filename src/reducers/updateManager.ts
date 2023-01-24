@@ -20,7 +20,7 @@ export const beginUpdateFunction = async (
       throw response.data;
     }
   } catch (error) {
-    return ServiceErrorHandler(error, "(Error al comenzar a editar)");
+    return ServiceErrorHandler(error, "Error al comenzar a editar");
   }
 };
 
@@ -38,6 +38,6 @@ export const endUpdateFunction = async (
 
     return response?.data;
   } catch (error: any | AxiosError) {
-    return ServiceErrorHandler(error, "(Al terminar edicion)");
+    return ServiceErrorHandler(error, "Al terminar edicion");
   }
 };
