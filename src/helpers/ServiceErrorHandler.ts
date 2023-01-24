@@ -6,8 +6,11 @@ export const ServiceErrorHandler = (
   table?: string
 ): ResponseStatus => {
   if (axios.isAxiosError(error) || error.hasOwnProperty("message")) {
-    throw { status: false, message: error.message + " " + table };
+    return { status: false, message: error.message + " " + "(" + table + ")" };
   } else {
-    throw { status: false, message: JSON.stringify(error) + " " + table };
+    return {
+      status: false,
+      message: JSON.stringify(error) + " " + "(" + table + ")",
+    };
   }
 };

@@ -23,86 +23,80 @@ const initialState: GerentesInitialState = {
 
 export const getGerentes = createAsyncThunk<Gerente[] | ResponseStatus>(
   "gerentes",
-  async () => {
+  async (z, { rejectWithValue }) => {
     const data: Gerente[] | ResponseStatus =
       await gerentesService.getGerentes();
     if (Array.isArray(data)) {
       return data;
     } else {
-      throw data;
+      return rejectWithValue(data);
     }
   }
 );
 
 export const deleteGerentes = createAsyncThunk(
   "deletegerentes",
-  async (gerentesData: EditGerente): Promise<ResponseStatus> => {
+  async (gerentesData: EndUpdateParam, { rejectWithValue }) => {
     const data: ResponseStatus = await gerentesService.deleteGerentes(
       gerentesData
     );
     if (data.status) {
       return data;
     } else {
-      throw data;
+      return rejectWithValue(data);
     }
   }
 );
 
 export const postGerentes = createAsyncThunk(
   "postgerentes",
-  async (form: Gerente): Promise<ResponseStatus> => {
+  async (form: Gerente, { rejectWithValue }) => {
     const data = await gerentesService.postGerentes(form);
     if (data.status) {
       return data;
     } else {
-      throw data;
+      return rejectWithValue(data);
     }
   }
 );
 
 export const updateGerentes = createAsyncThunk(
   "updategerentes",
-  async (form: Gerente): Promise<ResponseStatus> => {
+  async (form: Gerente, { rejectWithValue }) => {
     const data = await gerentesService.updateGerentes(form);
     if (data.status) {
       return data;
     } else {
-      throw data;
+      return rejectWithValue(data);
     }
   }
 );
-
 export const endUpdate = createAsyncThunk(
   "endUpdate",
-  async (gerentesData: EndUpdateParam, thunkAPI) => {
-    try {
-      const data = await endUpdateFunction(gerentesData, "gerentes/endUpdate");
+  async (usuarioData: EndUpdateParam, { rejectWithValue }) => {
+    const data: ResponseStatus = await endUpdateFunction(
+      usuarioData,
+      "gerentes/endUpdate"
+    );
+    if (data.status) {
       return data;
-    } catch (error: any) {
-      (error.response && error.response.data && error.response.data.message) ||
-        error.message ||
-        error.toString();
-      return thunkAPI.rejectWithValue(error.response.data);
+    } else {
+      return rejectWithValue(data);
     }
   }
 );
 
 export const beginUpdate = createAsyncThunk(
   "beginUpdate",
-  async (gerentesData: EndUpdateParam): Promise<ResponseStatus> => {
-    try {
-      const data: ResponseStatus = await beginUpdateFunction(
-        gerentesData,
-        "gerentes/beginUpdate"
-      );
-
-      if (data.status || data.codigo !== null) {
-        return data;
-      } else {
-        throw data;
-      }
-    } catch (error) {
-      throw error;
+  async (gerentesData: EndUpdateParam, { rejectWithValue }) => {
+    const data: ResponseStatus = await beginUpdateFunction(
+      gerentesData,
+      "gerentes/beginUpdate"
+    );
+    if (data.codigo) {
+      return data;
+    } else {
+      return rejectWithValue(data);
     }
   }
 );
@@ -137,7 +131,7 @@ export const gerentesSlice = createSlice({
     builder.addCase(getGerentes.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
-      state.statusNuevoGerente = action.error as ResponseStatus;
+      state.statusNuevoGerente = action.payload as ResponseStatus;
     });
 
     builder.addCase(beginUpdate.pending, (state) => {
@@ -147,13 +141,27 @@ export const gerentesSlice = createSlice({
       state.isLoading = false;
       state.isError = false;
       state.isSuccess = true;
-      state.statusNuevoGerente = action.payload;
+      state.statusNuevoGerente = action.payload as ResponseStatus;
     });
     builder.addCase(beginUpdate.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
       state.isSuccess = false;
-      state.statusNuevoGerente = action.error as ResponseStatus;
+      state.statusNuevoGerente = action.payload as ResponseStatus;
+    });
+
+    builder.addCase(endUpdate.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(endUpdate.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.statusNuevoGerente = action.payload as ResponseStatus;
+    });
+    builder.addCase(endUpdate.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.statusNuevoGerente = action.payload as ResponseStatus;
     });
 
     builder.addCase(postGerentes.pending, (state) => {
@@ -162,12 +170,12 @@ export const gerentesSlice = createSlice({
     builder.addCase(postGerentes.fulfilled, (state, action) => {
       state.isLoading = false;
       state.isSuccess = true;
-      state.statusNuevoGerente = action.payload;
+      state.statusNuevoGerente = action.payload as ResponseStatus;
     });
     builder.addCase(postGerentes.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
-      state.statusNuevoGerente = action.error as ResponseStatus;
+      state.statusNuevoGerente = action.payload as ResponseStatus;
     });
 
     builder.addCase(updateGerentes.pending, (state) => {
@@ -181,7 +189,7 @@ export const gerentesSlice = createSlice({
     builder.addCase(updateGerentes.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
-      state.statusNuevoGerente = action.error as ResponseStatus;
+      state.statusNuevoGerente = action.payload as ResponseStatus;
     });
 
     builder.addCase(deleteGerentes.pending, (state) => {
@@ -195,7 +203,7 @@ export const gerentesSlice = createSlice({
     builder.addCase(deleteGerentes.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
-      state.statusNuevoGerente = action.error as ResponseStatus;
+      state.statusNuevoGerente = action.payload as ResponseStatus;
     });
   },
 });
