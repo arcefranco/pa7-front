@@ -30,120 +30,116 @@ const initialState: SupervisorState = {
 
 export const getSupervisores = createAsyncThunk(
   "supervisores",
-  async (): Promise<Supervisor[] | ResponseStatus> => {
+  async (z, { rejectWithValue }) => {
     const data: Supervisor[] | ResponseStatus =
       await supervisoresService.getSupervisores();
     if (Array.isArray(data)) {
       return data;
     } else {
-      throw data;
+      return rejectWithValue(data);
     }
   }
 );
 
 export const beginUpdate = createAsyncThunk(
   "beginUpdate",
-  async (supervisorData: EndUpdateParam): Promise<ResponseStatus> => {
-    try {
-      const data: ResponseStatus = await beginUpdateFunction(
-        supervisorData,
-        "supervisores/beginUpdate"
-      );
+  async (supervisorData: EndUpdateParam, { rejectWithValue }) => {
+    const data: ResponseStatus = await beginUpdateFunction(
+      supervisorData,
+      "supervisores/beginUpdate"
+    );
 
-      if (data.status || data.codigo !== null) {
-        return data;
-      } else {
-        throw data;
-      }
-    } catch (error) {
-      throw error;
+    if (data.codigo) {
+      return data;
+    } else {
+      return rejectWithValue(data);
     }
   }
 );
 export const getAllGerentes = createAsyncThunk(
   "supervisores/gerentes",
-  async (): Promise<Gerente[] | ResponseStatus> => {
+  async (z, { rejectWithValue }) => {
     const data: Gerente[] | ResponseStatus =
       await supervisoresService.getAllGerentes();
 
     if (Array.isArray(data)) {
       return data;
     } else {
-      throw data;
+      return rejectWithValue(data);
     }
   }
 );
 export const getAllGerentesActivos = createAsyncThunk(
   "supervisores/gerentesActivos",
-  async (): Promise<Gerente[] | ResponseStatus> => {
+  async (z, { rejectWithValue }) => {
     const data: Gerente[] | ResponseStatus =
       await supervisoresService.getAllGerentes();
 
     if (Array.isArray(data)) {
       return data;
     } else {
-      throw data;
+      return rejectWithValue(data);
     }
   }
 );
-export const getAllZonas = createAsyncThunk<Zona[] | ResponseStatus>(
+export const getAllZonas = createAsyncThunk(
   "supervisores/zonas",
-  async () => {
+  async (z, { rejectWithValue }) => {
     const data: Zona[] | ResponseStatus =
       await supervisoresService.getAllZonas();
 
     if (Array.isArray(data)) {
       return data;
     } else {
-      throw data;
+      return rejectWithValue(data);
     }
   }
 );
 
 export const postSupervisores = createAsyncThunk(
   "postsupervisores",
-  async (form: Supervisor): Promise<ResponseStatus> => {
+  async (form: Supervisor, { rejectWithValue }) => {
     const data: ResponseStatus = await supervisoresService.postSupervisores(
       form
     );
     if (data.status) {
       return data;
     } else {
-      throw data;
+      return rejectWithValue(data);
     }
   }
 );
 
 export const updateSupervisores = createAsyncThunk(
   "updatesupervisores",
-  async (form: Supervisor): Promise<ResponseStatus> => {
+  async (form: Supervisor, { rejectWithValue }) => {
     const data: ResponseStatus = await supervisoresService.updateSupervisores(
       form
     );
     if (data.status) {
       return data;
     } else {
-      throw data;
+      return rejectWithValue(data);
     }
   }
 );
 
 export const deleteSupervisores = createAsyncThunk(
   "deletesupervisores",
-  async (form: EndUpdateParam): Promise<ResponseStatus> => {
+  async (form: EndUpdateParam, { rejectWithValue }) => {
     const data: ResponseStatus = await supervisoresService.deleteSupervisores(
       form
     );
     if (data.status) {
       return data;
     } else {
-      throw data;
+      return rejectWithValue(data);
     }
   }
 );
 export const endUpdate = createAsyncThunk(
   "endUpdate",
-  async (supervisorData: EndUpdateParam): Promise<ResponseStatus> => {
+  async (supervisorData: EndUpdateParam, { rejectWithValue }) => {
     const data: ResponseStatus = await endUpdateFunction(
       supervisorData,
       "supervisores/endUpdate"
@@ -152,7 +148,7 @@ export const endUpdate = createAsyncThunk(
     if (data.status) {
       return data;
     } else {
-      throw data;
+      return rejectWithValue(data);
     }
   }
 );
@@ -187,7 +183,7 @@ export const supervisoresSlice = createSlice({
     builder.addCase(getSupervisores.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
-      state.statusNuevoSupervisor = action.error as ResponseStatus;
+      state.statusNuevoSupervisor = action.payload as ResponseStatus;
     });
 
     builder.addCase(beginUpdate.pending, (state) => {
@@ -196,12 +192,25 @@ export const supervisoresSlice = createSlice({
     builder.addCase(beginUpdate.fulfilled, (state, action) => {
       state.isLoading = false;
       state.isSuccess = true;
-      state.statusNuevoSupervisor = action.payload;
+      state.statusNuevoSupervisor = action.payload as ResponseStatus;
     });
     builder.addCase(beginUpdate.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
-      state.statusNuevoSupervisor = action.error as ResponseStatus;
+      state.statusNuevoSupervisor = action.payload as ResponseStatus;
+    });
+    builder.addCase(endUpdate.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(endUpdate.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.statusNuevoSupervisor = action.payload as ResponseStatus;
+    });
+    builder.addCase(endUpdate.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.statusNuevoSupervisor = action.payload as ResponseStatus;
     });
     builder.addCase(getAllGerentes.pending, (state) => {
       state.isLoading = true;
@@ -214,7 +223,7 @@ export const supervisoresSlice = createSlice({
     builder.addCase(getAllGerentes.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
-      state.statusNuevoSupervisor = action.error as ResponseStatus;
+      state.statusNuevoSupervisor = action.payload as ResponseStatus;
     });
     builder.addCase(getAllGerentesActivos.pending, (state) => {
       state.isLoading = true;
@@ -227,7 +236,7 @@ export const supervisoresSlice = createSlice({
     builder.addCase(getAllGerentesActivos.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
-      state.statusNuevoSupervisor = action.error as ResponseStatus;
+      state.statusNuevoSupervisor = action.payload as ResponseStatus;
     });
     builder.addCase(getAllZonas.pending, (state) => {
       state.isLoading = true;
@@ -240,7 +249,7 @@ export const supervisoresSlice = createSlice({
     builder.addCase(getAllZonas.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
-      state.statusNuevoSupervisor = action.error as ResponseStatus;
+      state.statusNuevoSupervisor = action.payload as ResponseStatus;
     });
     builder.addCase(postSupervisores.pending, (state) => {
       state.isLoading = true;
@@ -248,13 +257,13 @@ export const supervisoresSlice = createSlice({
     builder.addCase(postSupervisores.fulfilled, (state, action) => {
       state.isLoading = false;
       state.isSuccess = true;
-      state.statusNuevoSupervisor = action.payload;
+      state.statusNuevoSupervisor = action.payload as ResponseStatus;
     });
     builder.addCase(postSupervisores.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
       state.isSuccess = false;
-      state.statusNuevoSupervisor = action.error as ResponseStatus;
+      state.statusNuevoSupervisor = action.payload as ResponseStatus;
     });
 
     builder.addCase(updateSupervisores.pending, (state) => {
@@ -263,12 +272,12 @@ export const supervisoresSlice = createSlice({
     builder.addCase(updateSupervisores.fulfilled, (state, action) => {
       state.isLoading = false;
       state.isSuccess = true;
-      state.statusNuevoSupervisor = action.payload;
+      state.statusNuevoSupervisor = action.payload as ResponseStatus;
     });
     builder.addCase(updateSupervisores.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
-      state.statusNuevoSupervisor = action.error as ResponseStatus;
+      state.statusNuevoSupervisor = action.payload as ResponseStatus;
     });
 
     builder.addCase(deleteSupervisores.pending, (state) => {
@@ -277,12 +286,12 @@ export const supervisoresSlice = createSlice({
     builder.addCase(deleteSupervisores.fulfilled, (state, action) => {
       state.isLoading = false;
       state.isSuccess = true;
-      state.statusNuevoSupervisor = action.payload;
+      state.statusNuevoSupervisor = action.payload as ResponseStatus;
     });
     builder.addCase(deleteSupervisores.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
-      state.statusNuevoSupervisor = action.error as ResponseStatus;
+      state.statusNuevoSupervisor = action.payload as ResponseStatus;
     });
   },
 });

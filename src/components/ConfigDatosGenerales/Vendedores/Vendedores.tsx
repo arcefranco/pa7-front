@@ -47,7 +47,7 @@ const Vendedores = () => {
   const [vendedoresFiltered, setVendedoresFiltered] = useState<Vendedor[]>([]);
   const [filterNombre, setFilterNombre] = useState<string>("");
   const [filterActivo, setFilterActivo] = useState<string>("");
-  const [modal, setModal] = useState<boolean>(true);
+  const [modal, setModal] = useState<boolean>(false);
   const [inEdit, setInEdit] = useState<string>("");
   const actualInEdit = useRef(inEdit);
   const [currentPage, setCurrentPage] = useState(1);
@@ -74,14 +74,18 @@ const Vendedores = () => {
 
   useEffect(() => {
     function endEdit() {
-      dispatch(endUpdate({ Codigo: actualInEdit.current }));
+      if (actualInEdit.current) {
+        dispatch(endUpdate({ Codigo: actualInEdit.current }));
+      }
     }
 
     window.addEventListener("beforeunload", endEdit);
 
     return () => {
       window.removeEventListener("beforeunload", endEdit);
-      dispatch(endUpdate({ Codigo: actualInEdit.current }));
+      if (actualInEdit.current) {
+        dispatch(endUpdate({ Codigo: actualInEdit.current }));
+      }
     };
   }, []);
 
@@ -113,7 +117,7 @@ const Vendedores = () => {
     }
   }, [filterActivo, filterNombre]);
 
-  const currentRecords: Vendedor[] = vendedoresFiltered.slice(
+  const currentRecords: Vendedor[] = vendedoresFiltered?.slice(
     indexOfFirstRecord,
     indexOfLastRecord
   );
@@ -152,7 +156,14 @@ const Vendedores = () => {
 
   useEffect(() => {
     //Manejar actualizaciones de vendedores (ABM) y su inUpdate
-    setModal(true);
+    if (
+      statusNuevoVendedor &&
+      Object.keys(statusNuevoVendedor).length &&
+      statusNuevoVendedor.hasOwnProperty("status") &&
+      statusNuevoVendedor.hasOwnProperty("message")
+    ) {
+      setModal(true);
+    }
 
     function resetModal() {
       dispatch(resetStatus());
@@ -194,10 +205,7 @@ const Vendedores = () => {
 
   return (
     <div>
-      {modal &&
-      statusNuevoVendedor &&
-      Object.keys(statusNuevoVendedor).length &&
-      !statusNuevoVendedor?.codigo ? (
+      {modal && !statusNuevoVendedor?.codigo ? (
         <ModalStatus
           status={statusNuevoVendedor?.status}
           message={statusNuevoVendedor?.message}

@@ -72,20 +72,31 @@ const Supervisores = () => {
 
   useEffect(() => {
     function endEdit() {
-      dispatch(endUpdate({ Codigo: actualInEdit.current }));
+      if (actualInEdit.current) {
+        dispatch(endUpdate({ Codigo: actualInEdit.current }));
+      }
     }
 
     window.addEventListener("beforeunload", endEdit);
 
     return () => {
       window.removeEventListener("beforeunload", endEdit);
-      dispatch(endUpdate({ Codigo: actualInEdit.current }));
+      if (actualInEdit.current) {
+        dispatch(endUpdate({ Codigo: actualInEdit.current }));
+      }
     };
   }, []);
 
   useEffect(() => {
     //Manejar actualizaciones de vendedores (ABM) y su inUpdate
-    setModal(true);
+    if (
+      statusNuevoSupervisor &&
+      Object.keys(statusNuevoSupervisor).length &&
+      statusNuevoSupervisor.hasOwnProperty("status") &&
+      statusNuevoSupervisor.hasOwnProperty("message")
+    ) {
+      setModal(true);
+    }
 
     function resetModal() {
       dispatch(resetStatus());
@@ -182,10 +193,7 @@ const Supervisores = () => {
 
   return (
     <div className={styles.container}>
-      {modal &&
-      statusNuevoSupervisor &&
-      Object.keys(statusNuevoSupervisor).length &&
-      !statusNuevoSupervisor.codigo ? (
+      {modal && !statusNuevoSupervisor?.codigo ? (
         <ModalStatus
           status={statusNuevoSupervisor?.status}
           message={statusNuevoSupervisor?.message}
