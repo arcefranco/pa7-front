@@ -48,14 +48,18 @@ const TeamLeaders = () => {
 
   useEffect(() => {
     function endEdit() {
-      dispatch(endUpdate({ Codigo: actualInEdit.current }));
+      if (actualInEdit.current) {
+        dispatch(endUpdate({ Codigo: actualInEdit.current }));
+      }
     }
 
     window.addEventListener("beforeunload", endEdit);
 
     return () => {
       window.removeEventListener("beforeunload", endEdit);
-      dispatch(endUpdate({ Codigo: actualInEdit.current }));
+      if (actualInEdit.current) {
+        dispatch(endUpdate({ Codigo: actualInEdit.current }));
+      }
     };
   }, []);
 
