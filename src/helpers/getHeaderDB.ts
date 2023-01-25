@@ -6,7 +6,6 @@ export default function getHeaderDB() {
       },
     };
   } else {
-    console.log("No agarro la db");
-    throw Error("DB desconectada");
+    throw "Expiró la sesión";
   }
 }
