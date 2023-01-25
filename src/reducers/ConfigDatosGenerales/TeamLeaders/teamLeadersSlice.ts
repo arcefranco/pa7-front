@@ -28,102 +28,102 @@ const initialState: TeamLeaderStatus = {
 
 export const getTeamLeaders = createAsyncThunk(
   "teamleaders",
-  async (): Promise<TeamLeader[] | ResponseStatus> => {
+  async (z, { rejectWithValue }) => {
     const data: TeamLeader[] | ResponseStatus =
       await teamLeadersService.getTeamLeaders();
     if (Array.isArray(data)) {
       return data;
     } else {
-      throw data;
+      return rejectWithValue(data);
     }
   }
 );
 
 export const beginUpdate = createAsyncThunk(
   "beginUpdate",
-  async (teamLeadersData: EndUpdateParam): Promise<ResponseStatus> => {
+  async (teamLeadersData: EndUpdateParam, { rejectWithValue }) => {
     const data: ResponseStatus = await beginUpdateFunction(
       teamLeadersData,
       "teamleaders/beginUpdate"
     );
 
-    if (data.status || data.codigo !== null) {
+    if (data.codigo) {
       return data;
     } else {
-      throw data;
+      return rejectWithValue(data);
     }
   }
 );
 export const getAllSupervisores = createAsyncThunk(
   "teamleaders/supervisores",
-  async (): Promise<Supervisor[] | ResponseStatus> => {
+  async (z, { rejectWithValue }) => {
     const data: Supervisor[] | ResponseStatus =
       await teamLeadersService.getAllSupervisores();
 
     if (Array.isArray(data)) {
       return data;
     } else {
-      throw data;
+      return rejectWithValue(data);
     }
   }
 );
 export const getAllSupervisoresActivos = createAsyncThunk(
   "teamleaders/supervisoresActivos",
-  async (): Promise<Supervisor[] | ResponseStatus> => {
+  async (z, { rejectWithValue }) => {
     const data: Supervisor[] | ResponseStatus =
       await teamLeadersService.getAllSupervisores();
 
     if (Array.isArray(data)) {
       return data;
     } else {
-      throw data;
+      return rejectWithValue(data);
     }
   }
 );
 
 export const postTeamLeaders = createAsyncThunk(
   "postTeamLeaders",
-  async (form: TeamLeader): Promise<ResponseStatus> => {
+  async (form: TeamLeader, { rejectWithValue }) => {
     const data: ResponseStatus = await teamLeadersService.postTeamLeaders(form);
     console.log("es este", data);
     if (data.status) {
       return data;
     } else {
-      throw data;
+      return rejectWithValue(data);
     }
   }
 );
 
 export const updateTeamLeaders = createAsyncThunk(
   "updateteamleaders",
-  async (form: TeamLeader): Promise<ResponseStatus> => {
+  async (form: TeamLeader, { rejectWithValue }) => {
     const data: ResponseStatus = await teamLeadersService.updateTeamLeaders(
       form
     );
     if (data.status) {
       return data;
     } else {
-      throw data;
+      return rejectWithValue(data);
     }
   }
 );
 
 export const deleteTeamLeaders = createAsyncThunk(
   "deleteTeamLeaders",
-  async (teamLeadersData: EndUpdateParam): Promise<ResponseStatus> => {
+  async (teamLeadersData: EndUpdateParam, { rejectWithValue }) => {
     const data: ResponseStatus = await teamLeadersService.deleteTeamLeaders(
       teamLeadersData
     );
     if (data.status) {
       return data;
     } else {
-      throw data;
+      return rejectWithValue(data);
     }
   }
 );
 export const endUpdate = createAsyncThunk(
   "endUpdate",
-  async (teamLeadersData: EndUpdateParam): Promise<ResponseStatus> => {
+  async (teamLeadersData: EndUpdateParam, { rejectWithValue }) => {
     const data: ResponseStatus = await endUpdateFunction(
       teamLeadersData,
       "teamleaders/endUpdate"
@@ -132,7 +132,7 @@ export const endUpdate = createAsyncThunk(
     if (data.status) {
       return data;
     } else {
-      throw data;
+      return rejectWithValue(data);
     }
   }
 );
@@ -166,7 +166,7 @@ export const teamLeadersSlice = createSlice({
       state.isLoading = false;
       state.isError = true;
       state.isSuccess = false;
-      state.statusNuevoTeamLeader = action.error as ResponseStatus;
+      state.statusNuevoTeamLeader = action.payload as ResponseStatus;
     });
 
     builder.addCase(getAllSupervisores.pending, (state) => {
@@ -181,7 +181,7 @@ export const teamLeadersSlice = createSlice({
       state.isLoading = false;
       state.isError = true;
       state.isSuccess = false;
-      state.statusNuevoTeamLeader = action.error as ResponseStatus;
+      state.statusNuevoTeamLeader = action.payload as ResponseStatus;
     });
     builder.addCase(getAllSupervisoresActivos.pending, (state) => {
       state.isLoading = true;
@@ -195,7 +195,7 @@ export const teamLeadersSlice = createSlice({
       state.isLoading = false;
       state.isError = true;
       state.isSuccess = false;
-      state.statusNuevoTeamLeader = action.error as ResponseStatus;
+      state.statusNuevoTeamLeader = action.payload as ResponseStatus;
     });
 
     builder.addCase(postTeamLeaders.pending, (state) => {
@@ -211,7 +211,7 @@ export const teamLeadersSlice = createSlice({
       state.isLoading = false;
       state.isError = true;
       state.isSuccess = false;
-      state.statusNuevoTeamLeader = action.error as ResponseStatus;
+      state.statusNuevoTeamLeader = action.payload as ResponseStatus;
     });
 
     builder.addCase(updateTeamLeaders.pending, (state) => {
@@ -229,7 +229,7 @@ export const teamLeadersSlice = createSlice({
       state.isLoading = false;
       state.isError = true;
       state.isSuccess = false;
-      state.statusNuevoTeamLeader = action.error as ResponseStatus;
+      state.statusNuevoTeamLeader = action.payload as ResponseStatus;
     });
 
     builder.addCase(deleteTeamLeaders.pending, (state) => {
@@ -244,7 +244,7 @@ export const teamLeadersSlice = createSlice({
       state.isLoading = false;
       state.isError = true;
       state.isSuccess = false;
-      state.statusNuevoTeamLeader = action.error as ResponseStatus;
+      state.statusNuevoTeamLeader = action.payload as ResponseStatus;
     });
     builder.addCase(beginUpdate.pending, (state) => {
       state.isLoading = true;
@@ -257,7 +257,20 @@ export const teamLeadersSlice = createSlice({
     builder.addCase(beginUpdate.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
-      state.statusNuevoTeamLeader = action.error as ResponseStatus;
+      state.statusNuevoTeamLeader = action.payload as ResponseStatus;
+    });
+    builder.addCase(endUpdate.pending, (state) => {
+      state.isLoading = true;
+    });
+    builder.addCase(endUpdate.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.isSuccess = true;
+      state.statusNuevoTeamLeader = action.payload as ResponseStatus;
+    });
+    builder.addCase(endUpdate.rejected, (state, action) => {
+      state.isLoading = false;
+      state.isError = true;
+      state.statusNuevoTeamLeader = action.payload as ResponseStatus;
     });
   },
 });

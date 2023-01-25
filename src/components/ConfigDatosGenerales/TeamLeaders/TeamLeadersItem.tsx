@@ -19,7 +19,7 @@ const TeamLeadersItem = ({ Codigo, Nombre, Supervisor, Activo }) => {
     Activo: Activo,
   });
   const [edit, setEdit] = useState(false);
-  const { statusNuevoTeamLeader, supervisores, isError } = useSelector(
+  const { statusNuevoTeamLeader, supervisores } = useSelector(
     (state: RootState) => state.teamLeaders
   );
   const dispatch = useDispatch<AppDispatch>();
