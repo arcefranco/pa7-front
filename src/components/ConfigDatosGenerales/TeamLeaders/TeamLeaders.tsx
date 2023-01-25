@@ -61,7 +61,14 @@ const TeamLeaders = () => {
 
   useEffect(() => {
     //Manejar actualizaciones de vendedores (ABM) y su inUpdate
-    setModal(true);
+    if (
+      statusNuevoTeamLeader &&
+      Object.keys(statusNuevoTeamLeader).length &&
+      statusNuevoTeamLeader.hasOwnProperty("status") &&
+      statusNuevoTeamLeader.hasOwnProperty("message")
+    ) {
+      setModal(true);
+    }
 
     function resetModal() {
       dispatch(resetStatus());
@@ -132,10 +139,7 @@ const TeamLeaders = () => {
 
   return (
     <div className={styles.container}>
-      {modal &&
-      statusNuevoTeamLeader &&
-      Object.keys(statusNuevoTeamLeader).length &&
-      !statusNuevoTeamLeader.codigo ? (
+      {modal && !statusNuevoTeamLeader?.codigo ? (
         <ModalStatus
           status={statusNuevoTeamLeader?.status}
           message={statusNuevoTeamLeader?.message}
