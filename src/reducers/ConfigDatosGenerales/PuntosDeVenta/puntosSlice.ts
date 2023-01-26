@@ -21,38 +21,33 @@ const initialState: PuntoInitialState = {
 
 export const getAllPuntosDeVenta = createAsyncThunk(
   "puntos/All",
-  async (): Promise<PuntoDeVenta[] | ResponseStatus> => {
+  async (z, { rejectWithValue }) => {
     const data: PuntoDeVenta[] | ResponseStatus =
       await puntosService.getAllPuntosDeVenta();
     if (Array.isArray(data)) {
       return data;
     } else {
-      throw data;
+      return rejectWithValue(data);
     }
   }
 );
 export const beginUpdate = createAsyncThunk(
   "beginUpdate",
-  async (puntoData: EndUpdateParam, thunkAPI): Promise<ResponseStatus> => {
-    try {
-      const data: ResponseStatus = await beginUpdateFunction(
-        puntoData,
-        "puntosDeVenta/beginUpdate"
-      );
-
-      if (data.status || data.codigo !== null) {
-        return data;
-      } else {
-        throw data;
-      }
-    } catch (error) {
-      throw error;
+  async (puntoData: EndUpdateParam, { rejectWithValue }) => {
+    const data: ResponseStatus = await beginUpdateFunction(
+      puntoData,
+      "puntosDeVenta/beginUpdate"
+    );
+    if (data.codigo !== null) {
+      return data;
+    } else {
+      return rejectWithValue(data);
     }
   }
 );
 export const deletePuntoDeVenta = createAsyncThunk(
   "puntos/delete",
-  async (puntoData: EndUpdateParam): Promise<ResponseStatus> => {
+  async (puntoData: EndUpdateParam, { rejectWithValue }) => {
     const data: ResponseStatus = await puntosService.deletePuntoDeVenta(
       puntoData
     );
@@ -60,44 +55,44 @@ export const deletePuntoDeVenta = createAsyncThunk(
     if (data.status) {
       return data;
     } else {
-      throw data;
+      return rejectWithValue(data);
     }
   }
 );
 export const updatePuntoDeVenta = createAsyncThunk(
   "puntos/update",
-  async (puntoData: PuntoDeVenta): Promise<ResponseStatus> => {
+  async (puntoData: PuntoDeVenta, { rejectWithValue }) => {
     const data = await puntosService.updatePuntoDeVenta(puntoData);
 
     if (data.status) {
       return data;
     } else {
-      throw data;
+      return rejectWithValue(data);
     }
   }
 );
 
 export const createPuntoDeVenta = createAsyncThunk(
   "puntos/create",
-  async (puntoData: PuntoDeVenta): Promise<ResponseStatus> => {
+  async (puntoData: PuntoDeVenta, { rejectWithValue }) => {
     const data = await puntosService.createPuntoDeVenta(puntoData);
 
     if (data.status) {
       return data;
     } else {
-      throw data;
+      return rejectWithValue(data);
     }
   }
 );
 
 export const endUpdate = createAsyncThunk(
   "puntos/endUpdate",
-  async (puntoData: EndUpdateParam) => {
+  async (puntoData: EndUpdateParam, { rejectWithValue }) => {
     const data = await endUpdateFunction(puntoData, "puntosDeVenta/endUpdate");
-    if (data.codigo) {
+    if (data.status) {
       return data;
     } else {
-      throw data;
+      return rejectWithValue(data);
     }
   }
 );
@@ -132,7 +127,7 @@ export const puntosSlice = createSlice({
       .addCase(getAllPuntosDeVenta.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
-        state.puntoStatus = action.error as ResponseStatus;
+        state.puntoStatus = action.payload as ResponseStatus;
       })
       .addCase(beginUpdate.pending, (state) => {
         state.isLoading = true;
@@ -141,13 +136,28 @@ export const puntosSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.isSuccess = true;
-        state.puntoStatus = action.payload;
+        state.puntoStatus = action.payload as ResponseStatus;
       })
       .addCase(beginUpdate.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
-        state.puntoStatus = action.error as ResponseStatus;
+        state.puntoStatus = action.payload as ResponseStatus;
+      })
+      .addCase(endUpdate.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(endUpdate.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.isSuccess = true;
+        state.puntoStatus = action.payload as ResponseStatus;
+      })
+      .addCase(endUpdate.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.isSuccess = false;
+        state.puntoStatus = action.payload as ResponseStatus;
       })
       .addCase(deletePuntoDeVenta.pending, (state) => {
         state.isLoading = true;
@@ -161,7 +171,7 @@ export const puntosSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
-        state.puntoStatus = action.error as ResponseStatus;
+        state.puntoStatus = action.payload as ResponseStatus;
       })
       .addCase(updatePuntoDeVenta.pending, (state) => {
         state.isLoading = true;
@@ -176,7 +186,7 @@ export const puntosSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
-        state.puntoStatus = action.error as ResponseStatus;
+        state.puntoStatus = action.payload as ResponseStatus;
       })
       .addCase(createPuntoDeVenta.pending, (state) => {
         state.isLoading = true;
@@ -191,7 +201,7 @@ export const puntosSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.isSuccess = false;
-        state.puntoStatus = action.error as ResponseStatus;
+        state.puntoStatus = action.payload as ResponseStatus;
       });
   },
 });
