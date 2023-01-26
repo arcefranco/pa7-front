@@ -53,21 +53,31 @@ const PuntosDeVenta = () => {
 
   useEffect(() => {
     function endEdit() {
-      dispatch(endUpdate({ Codigo: actualInEdit.current }));
+      if (actualInEdit.current) {
+        dispatch(endUpdate({ Codigo: actualInEdit.current }));
+      }
     }
 
     window.addEventListener("beforeunload", endEdit);
 
     return () => {
       window.removeEventListener("beforeunload", endEdit);
-      dispatch(endUpdate({ Codigo: actualInEdit.current }));
+      if (actualInEdit.current) {
+        dispatch(endUpdate({ Codigo: actualInEdit.current }));
+      }
     };
   }, []);
 
   useEffect(() => {
     //Manejar actualizaciones de vendedores (ABM) y su inUpdate
-    setModal(true);
-
+    if (
+      puntoStatus &&
+      Object.keys(puntoStatus).length &&
+      puntoStatus.hasOwnProperty("status") &&
+      puntoStatus.hasOwnProperty("message")
+    ) {
+      setModal(true);
+    }
     function resetModal() {
       dispatch(resetStatus());
       setModal(false);
@@ -140,10 +150,7 @@ const PuntosDeVenta = () => {
 
   return (
     <div className={styles.container}>
-      {modal &&
-      puntoStatus &&
-      Object.keys(puntoStatus).length &&
-      !puntoStatus.codigo ? (
+      {modal && !puntoStatus?.codigo ? (
         <ModalStatus
           status={puntoStatus?.status}
           message={puntoStatus?.message}
