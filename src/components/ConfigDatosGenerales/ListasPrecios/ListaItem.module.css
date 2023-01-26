@@ -10,6 +10,9 @@
   margin-bottom: 1rem;
 }
 
+.listasContainer{
+  text-align: -webkit-center;
+}
 .item{
     background-color: #a9a9a91f;
     cursor: pointer;
