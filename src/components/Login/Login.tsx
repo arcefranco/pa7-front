@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import { Link } from "react-router-dom";
@@ -79,17 +79,18 @@ export const Login = () => {
     setInput(newForm);
   };
 
-  const onSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  useEffect(() => {
     switch (input.empresaReal) {
       case "Car Group S.A.":
-        setInput({
+        const newForm = {
           ...input,
-          ["codigoMarca"]: 2,
-          ["codigoEmpresa"]: 8,
-          ["marca"]: "FIAT",
-          ["empresaContabiliza"]: false,
-        });
+          codigoMarca: 2,
+          codigoEmpresa: 8,
+          marca: "FIAT",
+          empresaContabiliza: false,
+        };
+        console.log(newForm, "aca");
+        setInput(newForm);
         break;
       case "Gestión Financiera S.A.":
         setInput({
@@ -155,6 +156,11 @@ export const Login = () => {
         });
         break;
     }
+  }, [input.empresa]);
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+
     dispatch(login(input));
     setInput({
       ...input,
