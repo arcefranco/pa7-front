@@ -10,6 +10,7 @@ import {
   insertModeloLista,
   deleteLista,
   updateLista,
+  resetStatus,
 } from "../../../reducers/ConfigDatosGenerales/ListasPrecios/ListaSlice";
 import TableContainer from "../../../styled-components/tables/TableContainer";
 import { useEffect } from "react";
@@ -55,27 +56,29 @@ const ListaItem = ({ Codigo, Descripcion, VigenciaD, VigenciaH }) => {
   };
 
   useEffect(() => {
-    if (createdModelo?.status === true) {
+    if (createdModelo?.lista) {
       dispatch(
         modelosOnLista({
           lista: createdModelo.lista,
           marca: user?.codigoMarca,
         })
       );
+      dispatch(resetStatus());
       setNewModelo(false);
     }
-  }, [createdModelo]);
+  }, [createdModelo?.lista]);
 
   useEffect(() => {
-    if (deletedModelo?.status === true) {
+    if (deletedModelo?.lista) {
       dispatch(
         modelosOnLista({
           lista: deletedModelo.lista,
           marca: user?.codigoMarca,
         })
       );
+      dispatch(resetStatus());
     }
-  }, [deletedModelo]);
+  }, [deletedModelo?.lista]);
 
   useEffect(() => {
     if (updatedLista?.status === true) {
@@ -115,6 +118,16 @@ const ListaItem = ({ Codigo, Descripcion, VigenciaD, VigenciaH }) => {
       if (result.isConfirmed) {
         dispatch(deleteLista({ Codigo: codigo }));
       }
+    });
+  };
+
+  const handleInsertModelo = () => {
+    dispatch(insertModeloLista(createModelo));
+    setCreateModelo({
+      Modelo: "",
+      Precio: "",
+      Lista: Codigo,
+      Marca: user?.codigoMarca,
     });
   };
 
@@ -276,15 +289,7 @@ const ListaItem = ({ Codigo, Descripcion, VigenciaD, VigenciaH }) => {
                 <td>
                   <ButtonPrimary
                     style={{ margin: "0.8em" }}
-                    onClick={() => {
-                      dispatch(insertModeloLista(createModelo));
-                      setCreateModelo({
-                        Modelo: "",
-                        Precio: "",
-                        Lista: Codigo,
-                        Marca: user?.codigoMarca,
-                      });
-                    }}
+                    onClick={handleInsertModelo}
                   >
                     Agregar
                   </ButtonPrimary>

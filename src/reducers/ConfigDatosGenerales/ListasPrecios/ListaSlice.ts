@@ -10,6 +10,7 @@ interface ListaInitialState extends ReduxState {
   listas: Lista[];
   modeloOnLista: ModeloOnLista[];
   modelos: Modelo[];
+  listaStatus: ResponseStatus | null;
   updatedModelo: ResponseStatus | null;
   deletedModelo: ResponseStatus | null;
   createdModelo: ResponseStatus | null;
@@ -33,6 +34,7 @@ const initialState: ListaInitialState = {
   listas: [],
   modeloOnLista: [],
   modelos: [],
+  listaStatus: null,
   updatedModelo: null,
   deletedModelo: null,
   createdModelo: null,
@@ -45,143 +47,113 @@ const initialState: ListaInitialState = {
   message: "",
 };
 
-export const getListas = createAsyncThunk("getListas", async (z, thunkAPI) => {
-  try {
-    const data = await ListaService.getListas();
-
-    return data;
-  } catch (error: any) {
-    (error.response && error.response.data && error.response.data.message) ||
-      error.message ||
-      error.toString();
-    return thunkAPI.rejectWithValue(error.response.data);
+export const getListas = createAsyncThunk(
+  "getListas",
+  async (z, { rejectWithValue }) => {
+    const data: Lista[] | ResponseStatus = await ListaService.getListas();
+    if (Array.isArray(data)) {
+      return data;
+    } else {
+      return rejectWithValue(data);
+    }
   }
-});
+);
 
 export const getModelos = createAsyncThunk(
   "getModelos",
-  async (z, thunkAPI) => {
-    try {
-      const data = await ListaService.getModelos();
+  async (z, { rejectWithValue }) => {
+    const data: Modelo[] | ResponseStatus = await ListaService.getModelos();
 
+    if (Array.isArray(data)) {
       return data;
-    } catch (error: any) {
-      (error.response && error.response.data && error.response.data.message) ||
-        error.message ||
-        error.toString();
-      return thunkAPI.rejectWithValue(error.response.data);
+    } else {
+      return rejectWithValue(data);
     }
   }
 );
 
 export const modelosOnLista = createAsyncThunk(
   "modelosOnLista",
-  async (listaData: GetListaParams, thunkAPI) => {
-    try {
-      const data = await ListaService.modelosOnLista(listaData);
-
+  async (listaData: GetListaParams, { rejectWithValue }) => {
+    const data = await ListaService.modelosOnLista(listaData);
+    if (Array.isArray(data)) {
       return data;
-    } catch (error: any) {
-      (error.response && error.response.data && error.response.data.message) ||
-        error.message ||
-        error.toString();
-      return thunkAPI.rejectWithValue(error.response.data);
+    } else {
+      return rejectWithValue(data);
     }
   }
 );
 
 export const updatePrecioModelo = createAsyncThunk(
   "updatePrecioModelo",
-  async (listaData: ModeloFromListaParam, thunkAPI) => {
-    try {
-      const data = await ListaService.updatePrecioModelo(listaData);
-
+  async (listaData: ModeloFromListaParam, { rejectWithValue }) => {
+    const data = await ListaService.updatePrecioModelo(listaData);
+    if (data.status) {
       return data;
-    } catch (error: any) {
-      (error.response && error.response.data && error.response.data.message) ||
-        error.message ||
-        error.toString();
-      return thunkAPI.rejectWithValue(error.response.data);
+    } else {
+      return rejectWithValue(data);
     }
   }
 );
 
 export const deleteModeloFromLista = createAsyncThunk(
   "deleteModeloFromLista",
-  async (listaData: ModeloFromListaParam, thunkAPI) => {
-    try {
-      const data = await ListaService.deleteModeloFromLista(listaData);
+  async (listaData: ModeloFromListaParam, { rejectWithValue }) => {
+    const data = await ListaService.deleteModeloFromLista(listaData);
 
+    if (data.status) {
       return data;
-    } catch (error: any) {
-      (error.response && error.response.data && error.response.data.message) ||
-        error.message ||
-        error.toString();
-      return thunkAPI.rejectWithValue(error.response.data);
+    } else {
+      return rejectWithValue(data);
     }
   }
 );
 
 export const insertModeloLista = createAsyncThunk(
   "insertModeloLista",
-  async (listaData: Lista, thunkAPI) => {
-    try {
-      const data = await ListaService.insertModeloLista(listaData);
+  async (listaData: Lista, { rejectWithValue }) => {
+    const data = await ListaService.insertModeloLista(listaData);
 
+    if (data.status) {
       return data;
-    } catch (error: any) {
-      (error.response && error.response.data && error.response.data.message) ||
-        error.message ||
-        error.toString();
-      return thunkAPI.rejectWithValue(error.response.data);
+    } else {
+      return rejectWithValue(data);
     }
   }
 );
 
 export const createLista = createAsyncThunk(
   "createLista",
-  async (listaData: Lista, thunkAPI) => {
-    try {
-      const data = await ListaService.createLista(listaData);
-
+  async (listaData: Lista, { rejectWithValue }) => {
+    const data = await ListaService.createLista(listaData);
+    if (data.status) {
       return data;
-    } catch (error: any) {
-      (error.response && error.response.data && error.response.data.message) ||
-        error.message ||
-        error.toString();
-      return thunkAPI.rejectWithValue(error.response.data);
+    } else {
+      return rejectWithValue(data);
     }
   }
 );
 
 export const updateLista = createAsyncThunk(
   "updateLista",
-  async (listaData: Lista, thunkAPI) => {
-    try {
-      const data = await ListaService.updateLista(listaData);
-
+  async (listaData: Lista, { rejectWithValue }) => {
+    const data = await ListaService.updateLista(listaData);
+    if (data.status) {
       return data;
-    } catch (error: any) {
-      (error.response && error.response.data && error.response.data.message) ||
-        error.message ||
-        error.toString();
-      return thunkAPI.rejectWithValue(error.response.data);
+    } else {
+      return rejectWithValue(data);
     }
   }
 );
 
 export const deleteLista = createAsyncThunk(
   "deleteLista",
-  async (listaData: EndUpdateParam, thunkAPI) => {
-    try {
-      const data = await ListaService.deleteLista(listaData);
-
+  async (listaData: EndUpdateParam, { rejectWithValue }) => {
+    const data = await ListaService.deleteLista(listaData);
+    if (data.status) {
       return data;
-    } catch (error: any) {
-      (error.response && error.response.data && error.response.data.message) ||
-        error.message ||
-        error.toString();
-      return thunkAPI.rejectWithValue(error.response.data);
+    } else {
+      return rejectWithValue(data);
     }
   }
 );
@@ -199,6 +171,13 @@ export const ListaSlice = createSlice({
       state.updatedModelo = null;
       state.updatedLista = null;
     },
+
+    resetStatus: (state) => {
+      state.listaStatus = null;
+      state.deletedModelo = null;
+      state.updatedModelo = null;
+      state.createdModelo = null;
+    },
   },
 
   extraReducers: (builder) => {
@@ -210,12 +189,13 @@ export const ListaSlice = createSlice({
       .addCase(getListas.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.listas = action.payload;
+        state.listas = action.payload as Lista[];
       })
       .addCase(getListas.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
-        state.message = action.payload as string;
+        state.isSuccess = false;
+        state.listaStatus = action.payload as ResponseStatus;
       })
 
       .addCase(modelosOnLista.pending, (state) => {
@@ -224,12 +204,12 @@ export const ListaSlice = createSlice({
       .addCase(modelosOnLista.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.modeloOnLista = action.payload;
+        state.modeloOnLista = action.payload as ModeloOnLista[];
       })
       .addCase(modelosOnLista.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
-        state.message = action.payload as string;
+        state.listaStatus = action.payload as ResponseStatus;
       })
       .addCase(updatePrecioModelo.pending, (state) => {
         state.isLoading = true;
@@ -242,7 +222,7 @@ export const ListaSlice = createSlice({
       .addCase(updatePrecioModelo.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
-        state.updatedModelo = action.payload as ResponseStatus;
+        state.listaStatus = action.payload as ResponseStatus;
       })
       .addCase(deleteModeloFromLista.pending, (state) => {
         state.isLoading = true;
@@ -255,7 +235,7 @@ export const ListaSlice = createSlice({
       .addCase(deleteModeloFromLista.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
-        state.deletedModelo = action.payload as ResponseStatus;
+        state.listaStatus = action.payload as ResponseStatus;
       })
       .addCase(getModelos.pending, (state) => {
         state.isLoading = true;
@@ -268,7 +248,7 @@ export const ListaSlice = createSlice({
       .addCase(getModelos.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
-        state.message = action.payload as string;
+        state.listaStatus = action.payload as ResponseStatus;
       })
       .addCase(insertModeloLista.pending, (state) => {
         state.isLoading = true;
@@ -281,7 +261,7 @@ export const ListaSlice = createSlice({
       .addCase(insertModeloLista.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
-        state.message = action.payload as string;
+        state.listaStatus = action.payload as ResponseStatus;
       })
       .addCase(createLista.pending, (state) => {
         state.isLoading = true;
@@ -289,12 +269,12 @@ export const ListaSlice = createSlice({
       .addCase(createLista.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.nuevaLista = action.payload;
+        state.listaStatus = action.payload as ResponseStatus;
       })
       .addCase(createLista.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
-        state.message = action.payload as string;
+        state.listaStatus = action.payload as ResponseStatus;
       })
 
       .addCase(deleteLista.pending, (state) => {
@@ -303,12 +283,12 @@ export const ListaSlice = createSlice({
       .addCase(deleteLista.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.deletedLista = action.payload;
+        state.listaStatus = action.payload as ResponseStatus;
       })
       .addCase(deleteLista.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
-        state.deletedLista = action.payload as ResponseStatus;
+        state.listaStatus = action.payload as ResponseStatus;
       })
       .addCase(updateLista.pending, (state) => {
         state.isLoading = true;
@@ -316,15 +296,15 @@ export const ListaSlice = createSlice({
       .addCase(updateLista.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.updatedLista = action.payload;
+        state.listaStatus = action.payload;
       })
       .addCase(updateLista.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
-        state.updatedLista = action.payload as ResponseStatus;
+        state.listaStatus = action.payload as ResponseStatus;
       });
   },
 });
 
-export const { reset } = ListaSlice.actions;
+export const { reset, resetStatus } = ListaSlice.actions;
 export default ListaSlice.reducer;
