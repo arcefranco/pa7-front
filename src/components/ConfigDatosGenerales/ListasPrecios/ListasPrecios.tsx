@@ -22,8 +22,14 @@ import { Lista } from "../../../types/ConfigDatosGenerales/ListasPrecios/Lista";
 
 const ListasPrecios = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { updatedLista, listas, nuevaLista, deletedLista, createdModelo } =
-    useSelector((state: RootState) => state.listasprecios);
+  const {
+    updatedLista,
+    listas,
+    nuevaLista,
+    deletedLista,
+    createdModelo,
+    listaStatus,
+  } = useSelector((state: RootState) => state.listasprecios);
   const { user } = useSelector((state: RootState) => state.login);
   const [newList, setNewList] = useState(false);
   const [input, setInput] = useState<Lista>({
@@ -39,10 +45,11 @@ const ListasPrecios = () => {
   const [modal, setModal] = useState(true);
   const indexOfLastRecord = currentPage * recordsPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-  const currentRecords = filteredListas.slice(
+  /*   const currentRecords = filteredListas?.slice(
     indexOfFirstRecord,
     indexOfLastRecord
-  );
+  ); */
+  const [currentRecords, setCurrentRecords] = useState<Lista[]>([]);
 
   const nPages = Math.ceil(filteredListas?.length / recordsPerPage);
 
@@ -74,6 +81,14 @@ const ListasPrecios = () => {
   }, [nuevaLista, deletedLista]);
 
   useEffect(() => {
+    if (Array.isArray(listas)) {
+      setCurrentRecords(
+        filteredListas?.slice(indexOfFirstRecord, indexOfLastRecord)
+      );
+    }
+  }, [filteredListas]);
+
+  useEffect(() => {
     dispatch(getModelos());
   }, []);
 
@@ -82,25 +97,27 @@ const ListasPrecios = () => {
   }, [listas]);
 
   useEffect(() => {
-    setFilteredListas(
-      listas.filter((e) =>
-        e.Descripcion?.toLowerCase().includes(inputFilter.toLowerCase())
-      )
-    );
+    if (Array.isArray(listas)) {
+      setFilteredListas(
+        listas?.filter((e) =>
+          e.Descripcion?.toLowerCase().includes(inputFilter.toLowerCase())
+        )
+      );
+    }
   }, [inputFilter]);
 
   useEffect(() => {
     setModal(true);
 
-    if (updatedLista && typeof updatedLista?.message === "string") {
+    if (listaStatus && typeof listaStatus?.message === "string") {
       setTimeout(() => {
         setModal(false);
       }, 5000);
     }
-    if (updatedLista?.status === true) {
+    if (listaStatus?.status === true) {
       dispatch(getListas());
     }
-  }, [updatedLista]);
+  }, [listaStatus]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -117,10 +134,10 @@ const ListasPrecios = () => {
 
   return (
     <div className={styles.container}>
-      {updatedLista && typeof updatedLista?.message === "string" && modal ? (
+      {listaStatus && typeof listaStatus?.message === "string" && modal ? (
         <ModalStatus
-          message={updatedLista?.message}
-          status={updatedLista?.status}
+          message={listaStatus?.message}
+          status={listaStatus?.status}
         />
       ) : null}
       <TitleLogo>
@@ -145,11 +162,13 @@ const ListasPrecios = () => {
           data-for="botonTooltip2"
         />
       </div>
-      <Pagination
-        nPages={nPages}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-      />
+      {filteredListas.length ? (
+        <Pagination
+          nPages={nPages}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
+      ) : null}
       <input
         value={inputFilter}
         onChange={(e) => setInputFilter(e.target.value)}

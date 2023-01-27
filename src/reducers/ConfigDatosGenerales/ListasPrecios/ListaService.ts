@@ -1,86 +1,80 @@
 import axios from "axios";
-import { errorsHandling } from "../../errorsHandling";
 import getHeader from "../../../helpers/getHeaderTokenAndDB";
 import { Lista } from "../../../types/ConfigDatosGenerales/ListasPrecios/Lista";
 import { ModeloFromListaParam, GetListaParams } from "./ListaSlice";
+import {
+  deleteFunction,
+  getFunction,
+  postFunction,
+  updateFunction,
+} from "../../Axios/axiosFunctions";
+import { ServiceErrorHandler } from "../../../helpers/ServiceErrorHandler";
+import { AxiosError } from "axios";
 
 const getListas = async () => {
-  const headers = getHeader();
-  const response = await axios
-    .get(process.env.REACT_APP_HOST + "listas", headers)
-    .catch((err) => errorsHandling(err));
-  return response.data;
+  return getFunction("listas");
 };
 
 const getModelos = async () => {
-  const headers = getHeader();
-  const response = await axios
-    .get(process.env.REACT_APP_HOST + "listas/modelo", headers)
-    .catch((err) => errorsHandling(err));
-  return response.data;
+  return getFunction("listas/modelo");
 };
 
 const modelosOnLista = async (listaData: GetListaParams) => {
-  const headers = getHeader();
-  const response = await axios
-    .post(process.env.REACT_APP_HOST + "listas", listaData, headers)
-    .catch((err) => errorsHandling(err));
-  return response.data;
+  try {
+    const headers = getHeader();
+    const response = await axios.post(
+      process.env.REACT_APP_HOST + "listas",
+      listaData,
+      headers
+    );
+    if (Array.isArray(response.data)) {
+      return response.data;
+    } else {
+      throw response.data;
+    }
+  } catch (error: any | AxiosError) {
+    return ServiceErrorHandler(error, "modelosOnLista");
+  }
 };
 const updatePrecioModelo = async (listaData: ModeloFromListaParam) => {
-  const headers = getHeader();
-  const response = await axios
-    .put(process.env.REACT_APP_HOST + "listas/modelo", listaData, headers)
-    .catch((err) => errorsHandling(err));
-  return response.data;
+  return updateFunction("listas/modelo", listaData);
 };
 
 const insertModeloLista = async (listaData: Lista) => {
-  const headers = getHeader();
-  const response = await axios
-    .post(process.env.REACT_APP_HOST + "listas/modelo", listaData, headers)
-    .catch((err) => errorsHandling(err));
-  return response.data;
+  return postFunction("listas/modelo", listaData);
 };
 
 const deleteModeloFromLista = async (listaData: ModeloFromListaParam) => {
-  const response = await axios
-    .delete(process.env.REACT_APP_HOST + "listas/modelo", {
-      headers: {
-        "db-connection": window.localStorage.getItem("db") as string,
-      },
-      data: listaData,
-    })
-    .catch((err) => errorsHandling(err));
-  return response.data;
+  try {
+    const response = await axios.delete(
+      process.env.REACT_APP_HOST + "listas/modelo",
+      {
+        headers: {
+          "db-connection": window.localStorage.getItem("db") as string,
+        },
+        data: listaData,
+      }
+    );
+    if (response.data.hasOwnProperty("status") && response.data.status) {
+      return response.data;
+    } else {
+      throw response.data;
+    }
+  } catch (error) {
+    return ServiceErrorHandler(error, "Modelo en lista");
+  }
 };
 
 const createLista = async (listaData: Lista) => {
-  const headers = getHeader();
-  const response = await axios
-    .post(process.env.REACT_APP_HOST + "listas/nuevaLista", listaData, headers)
-    .catch((err) => errorsHandling(err));
-  return response.data;
+  return postFunction("listas/nuevaLista", listaData);
 };
 
 const updateLista = async (listaData: Lista) => {
-  const headers = getHeader();
-  const response = await axios
-    .put(process.env.REACT_APP_HOST + "listas/nuevaLista", listaData, headers)
-    .catch((err) => errorsHandling(err));
-  return response.data;
+  return updateFunction("listas/nuevaLista", listaData);
 };
 
 const deleteLista = async (listaData: EndUpdateParam) => {
-  const response = await axios
-    .delete(process.env.REACT_APP_HOST + "listas/nuevaLista", {
-      headers: {
-        "db-connection": window.localStorage.getItem("db") as string,
-      },
-      data: listaData,
-    })
-    .catch((err) => errorsHandling(err));
-  return response.data;
+  return deleteFunction("listas/nuevaLista", listaData);
 };
 
 const ListaService = {
