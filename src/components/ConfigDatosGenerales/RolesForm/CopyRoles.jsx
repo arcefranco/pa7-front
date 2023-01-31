@@ -14,7 +14,7 @@ const CopyRoles = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const {usuarios, rolStatus, isSuccess} = useSelector(state => state.usuarios)
-    const {empresaReal} = useSelector((state) => state.login.user)
+    const {user} = useSelector((state) => state.login)
     useEffect(() => {
         Promise.all([dispatch(getAllUsuarios()), dispatch(reset())])
 
@@ -85,8 +85,8 @@ const CopyRoles = () => {
         <div style={{textAlign: '-webkit-center', height: '100vh'}}>
             <TitleLogo style={{marginInlineEnd: 'auto',  marginBottom: '.8rem'}}>
                 <div>
-                    <span>{empresaReal}</span>
-                    <ReturnLogo empresa={empresaReal}/>
+                    <span>{user?.empresaReal}</span>
+                    <ReturnLogo empresa={user?.empresaReal}/>
                 </div>
             <TitlePrimary>Copiar Roles</TitlePrimary>
             </TitleLogo>
