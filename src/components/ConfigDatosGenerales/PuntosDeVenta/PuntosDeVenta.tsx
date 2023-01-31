@@ -95,15 +95,9 @@ const PuntosDeVenta = () => {
       resetNewField();
       dispatch(getAllPuntosDeVenta());
     }
-  }, [puntoStatus]);
 
-  useEffect(() => {
     if (puntoStatus && Object.keys(puntoStatus).includes("codigo")) {
       setInEdit(puntoStatus?.codigo ? puntoStatus.codigo : "");
-    }
-
-    if (puntoStatus?.status === false) {
-      setModal(true);
     }
   }, [puntoStatus]);
 

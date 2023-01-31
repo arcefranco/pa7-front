@@ -3,4 +3,5 @@ export interface ResponseStatus {
   message: string;
   codigo?: string;
   lista?: number;
+  name?: string;
 }
