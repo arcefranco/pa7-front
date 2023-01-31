@@ -1,4 +1,4 @@
-import { Rol } from "./Rol";
+import { LoginRol } from "./LoginRol";
 
 export interface User {
   id: number;
@@ -13,7 +13,7 @@ export interface User {
   PAwebHookAnura: number;
   username: string;
   newUser: number;
-  roles: Rol[];
+  roles: LoginRol[];
   token: string;
   db: string;
   empresaReal: string;
