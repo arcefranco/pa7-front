@@ -162,7 +162,7 @@ const RolesForm = () => {
   let d = document.getElementById("rol") as HTMLSelectElement;
   let userElement = document.getElementById("user") as HTMLInputElement;
   return (
-    <div style={styles.formContainer}>
+    <div className={styles.formContainer}>
       <TitleLogo
         style={{
           marginInlineEnd: "auto",
