@@ -22,6 +22,11 @@ interface UsuarioState extends ReduxState {
   rolStatus: string;
 }
 
+interface deleteAndAddRol {
+  rol: string;
+  Usuario: string;
+}
+
 const initialState: UsuarioState = {
   usuarios: [],
   vendedores: [],
@@ -115,7 +120,7 @@ export const createUsuario = createAsyncThunk(
 
 export const getSelectedRoles = createAsyncThunk(
   "selectedRoles",
-  async (rolData: string, { rejectWithValue }) => {
+  async (rolData: { rol: string }, { rejectWithValue }) => {
     const data = await usuariosService.getSelectedRoles(rolData);
 
     if (Array.isArray(data)) {
@@ -127,7 +132,7 @@ export const getSelectedRoles = createAsyncThunk(
 );
 export const getUserSelectedRoles = createAsyncThunk(
   "userSelectedRoles",
-  async (user, { rejectWithValue }) => {
+  async (user: string, { rejectWithValue }) => {
     const data = await usuariosService.getUserSelectedRoles(user);
     if (Array.isArray(data)) {
       return data;
@@ -136,21 +141,24 @@ export const getUserSelectedRoles = createAsyncThunk(
     }
   }
 );
-export const addRol = createAsyncThunk("addRol", async (rolData, thunkAPI) => {
-  try {
-    const data = await usuariosService.addRol(rolData);
+export const addRol = createAsyncThunk(
+  "addRol",
+  async (rolData: deleteAndAddRol, thunkAPI) => {
+    try {
+      const data = await usuariosService.addRol(rolData);
 
-    return data;
-  } catch (error: any) {
-    (error.response && error.response.data && error.response.data.message) ||
-      error.message ||
-      error.toString();
-    return thunkAPI.rejectWithValue(error.response.data);
+      return data;
+    } catch (error: any) {
+      (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
   }
-});
+);
 export const deleteRol = createAsyncThunk(
   "deleteRol",
-  async (rolData, thunkAPI) => {
+  async (rolData: deleteAndAddRol, thunkAPI) => {
     try {
       const data = await usuariosService.deleteRol(rolData);
 
@@ -195,7 +203,7 @@ export const replaceRoles = createAsyncThunk(
 );
 export const giveMaster = createAsyncThunk(
   "giveMaster",
-  async (rolData, thunkAPI) => {
+  async (rolData: { Usuario: string }, thunkAPI) => {
     try {
       const data = await usuariosService.giveMaster(rolData);
 
