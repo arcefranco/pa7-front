@@ -86,7 +86,9 @@ const SupervisoresItem = ({
   };
 
   const handleSubmitUpdate = () => {
-    dispatch(updateSupervisores(item));
+    if (statusNuevoSupervisor?.codigo) {
+      dispatch(updateSupervisores(item));
+    }
     setEdit(false);
   };
 
