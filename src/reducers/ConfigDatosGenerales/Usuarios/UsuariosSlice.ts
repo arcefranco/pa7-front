@@ -148,76 +148,57 @@ export const getUserSelectedRoles = createAsyncThunk(
 );
 export const addRol = createAsyncThunk(
   "addRol",
-  async (rolData: deleteAndAddRol, thunkAPI) => {
-    try {
-      const data = await usuariosService.addRol(rolData);
-
+  async (rolData: deleteAndAddRol, { rejectWithValue }) => {
+    const data = await usuariosService.addRol(rolData);
+    if (data.status) {
       return data;
-    } catch (error: any) {
-      (error.response && error.response.data && error.response.data.message) ||
-        error.message ||
-        error.toString();
-      return thunkAPI.rejectWithValue(error.response.data);
+    } else {
+      return rejectWithValue(data);
     }
   }
 );
 export const deleteRol = createAsyncThunk(
   "deleteRol",
-  async (rolData: deleteAndAddRol, thunkAPI) => {
-    try {
-      const data = await usuariosService.deleteRol(rolData);
-
+  async (rolData: deleteAndAddRol, { rejectWithValue }) => {
+    const data = await usuariosService.deleteRol(rolData);
+    if (data.status) {
       return data;
-    } catch (error: any) {
-      (error.response && error.response.data && error.response.data.message) ||
-        error.message ||
-        error.toString();
-      return thunkAPI.rejectWithValue(error.response.data);
+    } else {
+      return rejectWithValue(data);
     }
   }
 );
 export const copyRoles = createAsyncThunk(
   "copyRol",
-  async (usersData: rolTransaction, thunkAPI) => {
-    try {
-      const data = await usuariosService.copyRoles(usersData);
-
+  async (usersData: rolTransaction, { rejectWithValue }) => {
+    const data = await usuariosService.copyRoles(usersData);
+    if (data.status) {
       return data;
-    } catch (error: any) {
-      (error.response && error.response.data && error.response.data.message) ||
-        error.message ||
-        error.toString();
-      return thunkAPI.rejectWithValue(error.response.data);
+    } else {
+      return rejectWithValue(data);
     }
   }
 );
 export const replaceRoles = createAsyncThunk(
   "replaceRol",
-  async (usersData: rolTransaction, thunkAPI) => {
-    try {
-      const data = await usuariosService.replaceRoles(usersData);
-
+  async (usersData: rolTransaction, { rejectWithValue }) => {
+    const data = await usuariosService.replaceRoles(usersData);
+    if (data.status) {
       return data;
-    } catch (error: any) {
-      (error.response && error.response.data && error.response.data.message) ||
-        error.message ||
-        error.toString();
-      return thunkAPI.rejectWithValue(error.response.data);
+    } else {
+      return rejectWithValue(data);
     }
   }
 );
 export const giveMaster = createAsyncThunk(
   "giveMaster",
-  async (rolData: { Usuario: string }, thunkAPI) => {
-    try {
-      const data = await usuariosService.giveMaster(rolData);
+  async (rolData: { Usuario: string }, { rejectWithValue }) => {
+    const data = await usuariosService.giveMaster(rolData);
 
+    if (data.status) {
       return data;
-    } catch (error: any) {
-      (error.response && error.response.data && error.response.data.message) ||
-        error.message ||
-        error.toString();
-      return thunkAPI.rejectWithValue(error.response.data);
+    } else {
+      return rejectWithValue(data);
     }
   }
 );
@@ -467,7 +448,7 @@ export const usuariosSlice = createSlice({
       .addCase(addRol.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.rolStatus = action.payload;
+        state.rolStatus = action.payload as ResponseStatus;
       })
       .addCase(addRol.rejected, (state, action) => {
         state.isLoading = false;
@@ -481,7 +462,7 @@ export const usuariosSlice = createSlice({
       .addCase(deleteRol.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.rolStatus = action.payload;
+        state.rolStatus = action.payload as ResponseStatus;
       })
       .addCase(deleteRol.rejected, (state, action) => {
         state.isLoading = false;
@@ -494,7 +475,7 @@ export const usuariosSlice = createSlice({
       .addCase(copyRoles.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.rolStatus = action.payload;
+        state.rolStatus = action.payload as ResponseStatus;
       })
       .addCase(copyRoles.rejected, (state, action) => {
         state.isLoading = false;
@@ -507,7 +488,7 @@ export const usuariosSlice = createSlice({
       .addCase(replaceRoles.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.rolStatus = action.payload;
+        state.rolStatus = action.payload as ResponseStatus;
       })
       .addCase(replaceRoles.rejected, (state, action) => {
         state.isLoading = false;

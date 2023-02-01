@@ -26,6 +26,7 @@ const CopyRoles = () => {
   useEffect(() => {
     Promise.all([dispatch(getAllUsuarios()), dispatch(reset())]);
   }, []);
+
   useEffect(() => {
     if (rolStatus && Object.keys(rolStatus).length && !rolStatus.status) {
       Swal.fire({
@@ -88,7 +89,7 @@ const CopyRoles = () => {
       });
   };
   return (
-    <div style={styles.formContainer}>
+    <div className={styles.formContainer}>
       <TitleLogo style={{ marginInlineEnd: "auto", marginBottom: ".8rem" }}>
         <div>
           <span>{user?.empresaReal}</span>
