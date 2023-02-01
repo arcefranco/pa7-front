@@ -35,11 +35,12 @@ const RolesForm = () => {
   const [roles, setRoles] = useState(sendSelected);
   const [toggleRoles, setToggleRoles] = useState(false);
   useEffect(() => {
-    rolStatus.length &&
+    rolStatus &&
+      Object.keys(rolStatus)?.length &&
       Swal.fire({
         icon: "info",
         timer: 15000,
-        text: rolStatus,
+        text: rolStatus.message,
       });
   }, [rolStatus, deleteRol]);
   useEffect(() => {
