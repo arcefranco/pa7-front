@@ -82,36 +82,48 @@ const Usuarios = () => {
 
   useEffect(() => {
     function endEdit() {
-      dispatch(endUpdate({ Codigo: actualInEdit.current }));
+      if (actualInEdit.current) {
+        dispatch(endUpdate({ Codigo: actualInEdit.current }));
+      }
     }
 
     window.addEventListener("beforeunload", endEdit);
 
     return () => {
       window.removeEventListener("beforeunload", endEdit);
-      dispatch(endUpdate({ Codigo: actualInEdit.current }));
+      if (actualInEdit.current) {
+        dispatch(endUpdate({ Codigo: actualInEdit.current }));
+      }
     };
   }, []);
 
   useEffect(() => {
     //Manejar actualizaciones de vendedores (ABM) y su inUpdate
-    setModal(true);
+    if (
+      statusNuevoUsuario &&
+      Object.keys(statusNuevoUsuario).length &&
+      statusNuevoUsuario.hasOwnProperty("status") &&
+      statusNuevoUsuario.hasOwnProperty("message")
+    ) {
+      setModal(true);
+    }
 
     function resetModal() {
       dispatch(resetStatus());
       setModal(false);
     }
 
-    if (statusNuevoUsuario && Object.keys(statusNuevoUsuario).length) {
+    if (
+      statusNuevoUsuario &&
+      Object.keys(statusNuevoUsuario).length &&
+      !statusNuevoUsuario.codigo
+    ) {
       setTimeout(resetModal, 5000);
     }
 
     if (statusNuevoUsuario?.status === true) {
       dispatch(getAllUsuarios());
     }
-  }, [statusNuevoUsuario]);
-
-  useEffect(() => {
     if (
       statusNuevoUsuario &&
       Object.keys(statusNuevoUsuario).includes("codigo") &&

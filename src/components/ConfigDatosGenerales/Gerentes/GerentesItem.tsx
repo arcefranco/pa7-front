@@ -51,8 +51,9 @@ const GerentesItem = ({ Codigo, Nombre, Activo }) => {
 
   const handleSubmitUpdate = async (event: React.FormEvent) => {
     event.preventDefault();
-
-    dispatch(updateGerentes(item));
+    if (statusNuevoGerente?.codigo) {
+      dispatch(updateGerentes(item));
+    }
   };
 
   const handleDelete = () => {

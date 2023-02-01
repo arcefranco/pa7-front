@@ -99,30 +99,6 @@ const giveMaster = async (rolData) => {
   return response.data;
 };
 
-const endUpdate = async (usuarioData: EndUpdateParam) => {
-  const headers = getHeaderToken();
-  const response = await axios
-    .post(
-      process.env.REACT_APP_HOST + "usuarios/endUpdate",
-      usuarioData,
-      headers
-    )
-    .catch((error) => errorsHandling(error));
-  return response.data;
-};
-
-const beginUpdate = async (usuarioData: EndUpdateParam) => {
-  const headers = getHeaderToken();
-  const response = await axios
-    .post(
-      process.env.REACT_APP_HOST + "usuarios/beginUpdate",
-      usuarioData,
-      headers
-    )
-    .catch((error) => errorsHandling(error));
-  return response.data;
-};
-
 const usuariosService = {
   getAllUsuarios,
   getAllVendedores,
@@ -139,8 +115,6 @@ const usuariosService = {
   createUsuario,
   updateUsuario,
   deleteUsuario,
-  endUpdate,
-  beginUpdate,
 };
 
 export default usuariosService;

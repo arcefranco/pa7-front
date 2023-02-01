@@ -72,8 +72,9 @@ const VendedorItem = ({
 
   const HandleSubmitUpdate = async (event) => {
     event.preventDefault();
-
-    dispatch(updateVendedores(item));
+    if (statusNuevoVendedor?.codigo) {
+      dispatch(updateVendedores(item));
+    }
   };
 
   const handleEdit = () => {

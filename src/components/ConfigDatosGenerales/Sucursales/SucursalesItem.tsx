@@ -53,7 +53,9 @@ const SucursalesItem = ({ Codigo, Nombre }) => {
   };
 
   const handleSubmitUpdate = () => {
-    dispatch(updateSucursal(item));
+    if (sucursalStatus?.codigo) {
+      dispatch(updateSucursal(item));
+    }
     setEdit(false);
   };
 

@@ -1,12 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit/dist";
 import { createAsyncThunk } from "@reduxjs/toolkit/dist";
-import { Rol } from "../../../types/ConfigDatosGenerales/Rol/Rol";
+import { Rol } from "../../../types/ConfigDatosGenerales/Roles/Rol";
 import { Supervisor } from "../../../types/ConfigDatosGenerales/Supervisor/Supervisor";
 import { TeamLeader } from "../../../types/ConfigDatosGenerales/TeamLeader/TeamLeader";
 import { Usuario } from "../../../types/ConfigDatosGenerales/Usuarios/Usuario";
 import { Vendedor } from "../../../types/ConfigDatosGenerales/Vendedor/Vendedor";
 import { ResponseStatus } from "../../../types/Generales/ResponseStatus";
 import usuariosService from "./UsuariosService";
+import { beginUpdateFunction, endUpdateFunction } from "../../updateManager";
 
 interface UsuarioState extends ReduxState {
   usuarios: Usuario[];
@@ -233,8 +234,11 @@ export const deleteUsuario = createAsyncThunk(
 );
 export const beginUpdate = createAsyncThunk(
   "beginUpdate",
-  async (usuarioData: EndUpdateParam, { rejectWithValue }) => {
-    const data = await usuariosService.beginUpdate(usuarioData);
+  async (teamLeadersData: EndUpdateParam, { rejectWithValue }) => {
+    const data: ResponseStatus = await beginUpdateFunction(
+      teamLeadersData,
+      "usuarios/beginUpdate"
+    );
 
     if (data.codigo) {
       return data;
@@ -243,11 +247,14 @@ export const beginUpdate = createAsyncThunk(
     }
   }
 );
+
 export const endUpdate = createAsyncThunk(
   "endUpdate",
   async (usuarioData: EndUpdateParam, { rejectWithValue }) => {
-    const data = await usuariosService.endUpdate(usuarioData);
-
+    const data: ResponseStatus = await endUpdateFunction(
+      usuarioData,
+      "usuarios/endUpdate"
+    );
     if (data.status) {
       return data;
     } else {
@@ -381,6 +388,20 @@ export const usuariosSlice = createSlice({
         state.statusNuevoUsuario = action.payload;
       })
       .addCase(beginUpdate.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.statusNuevoUsuario = action.payload as ResponseStatus;
+      })
+
+      .addCase(endUpdate.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(endUpdate.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.statusNuevoUsuario = action.payload;
+      })
+      .addCase(endUpdate.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.statusNuevoUsuario = action.payload as ResponseStatus;
