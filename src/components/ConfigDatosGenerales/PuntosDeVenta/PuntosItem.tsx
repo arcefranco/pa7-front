@@ -53,7 +53,9 @@ const PuntosItem = ({ Codigo, Nombre }) => {
   };
 
   const handleSubmitUpdate = () => {
-    dispatch(updatePuntoDeVenta(item));
+    if (puntosDeVenta.puntoStatus?.codigo) {
+      dispatch(updatePuntoDeVenta(item));
+    }
     setEdit(false);
   };
 

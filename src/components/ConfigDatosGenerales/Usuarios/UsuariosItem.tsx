@@ -99,7 +99,9 @@ const UsuariosItem = ({
   };
 
   const handleSubmitUpdate = () => {
-    dispatch(updateUsuario(item));
+    if (statusNuevoUsuario?.codigo) {
+      dispatch(updateUsuario(item));
+    }
     setEdit(false);
   };
 
@@ -272,9 +274,9 @@ const UsuariosItem = ({
             onChange={handleCheckChange}
           />
         ) : item.VerSoloScoringAsignado === 1 ? (
-          <input type="checkbox" checked />
+          <input type="checkbox" checked disabled />
         ) : (
-          <input type="checkbox" />
+          <input type="checkbox" disabled />
         )}
       </td>
       <td>
@@ -286,9 +288,9 @@ const UsuariosItem = ({
             onChange={handleCheckChange}
           />
         ) : item.us_bloqueado === 1 ? (
-          <input type="checkbox" checked />
+          <input type="checkbox" checked disabled />
         ) : (
-          <input type="checkbox" />
+          <input type="checkbox" disabled />
         )}
       </td>
       <td>
@@ -300,9 +302,9 @@ const UsuariosItem = ({
             onChange={handleCheckChange}
           />
         ) : item.us_activo === 1 ? (
-          <input type="checkbox" checked />
+          <input type="checkbox" checked disabled />
         ) : (
-          <input type="checkbox" />
+          <input type="checkbox" disabled />
         )}
       </td>
 
