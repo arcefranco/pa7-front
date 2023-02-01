@@ -1,7 +1,5 @@
 import axios from "axios";
-import getHeaderToken from "../../../helpers/getHeaderTokenAndDB";
 import getHeaderDB from "../../../helpers/getHeaderDB";
-import { errorsHandling } from "../../errorsHandling";
 import {
   deleteFunction,
   getFunction,
@@ -28,59 +26,35 @@ const getAllTeamLeaders = async () => {
 
 const getSelectedRoles = async (rol: { rol: string }) => {
   const headers = getHeaderDB();
-  const response = await axios
-    .post(process.env.REACT_APP_HOST + "roles", rol, headers)
-    .catch((error) => errorsHandling(error));
+  const response = await axios.post(
+    process.env.REACT_APP_HOST + "roles",
+    rol,
+    headers
+  );
   return response.data;
 };
 const getUserSelectedRoles = async (user: string) => {
   const headers = getHeaderDB();
-  const response = await axios
-    .post(process.env.REACT_APP_HOST + "roles/user", { user: user }, headers)
-    .catch((error) => errorsHandling(error));
+  const response = await axios.post(
+    process.env.REACT_APP_HOST + "roles/user",
+    { user: user },
+    headers
+  );
   return response.data;
 };
 const addRol = async (rolData) => {
-  const headers = getHeaderDB();
-  const { Usuario, rol } = rolData;
-  const response = await axios
-    .post(
-      process.env.REACT_APP_HOST + "roles/rol",
-      { Usuario: Usuario, rol: rol },
-      headers
-    )
-    .catch((error) => errorsHandling(error));
-  return response.data;
+  return postFunction("roles/rol", rolData);
 };
 
 const deleteRol = async (rolData) => {
-  const response = await axios
-    .delete(process.env.REACT_APP_HOST + "roles", {
-      headers: {
-        "x-auth-token": window.localStorage
-          .getItem("userToken")
-          ?.split(" ")[1] as string,
-        "db-connection": window.localStorage.getItem("db") as string,
-      },
-      data: rolData,
-    })
-    .catch((error) => errorsHandling(error));
-  return response.data;
+  return deleteFunction("roles", rolData);
 };
 
 const copyRoles = async (usersData) => {
-  const headers = getHeaderDB();
-  const response = await axios
-    .post(process.env.REACT_APP_HOST + "roles/copy", usersData, headers)
-    .catch((error) => errorsHandling(error));
-  return response.data;
+  return postFunction("roles/copy", usersData);
 };
 const replaceRoles = async (usersData) => {
-  const headers = getHeaderDB();
-  const response = await axios
-    .post(process.env.REACT_APP_HOST + "roles/replace", usersData, headers)
-    .catch((error) => errorsHandling(error));
-  return response.data;
+  return postFunction("roles/replace", usersData);
 };
 const createUsuario = async (usuarioData: Usuario) => {
   return postFunction("usuarios", usuarioData);
@@ -92,11 +66,7 @@ const deleteUsuario = async (usuarioData) => {
   return deleteFunction("usuarios", usuarioData);
 };
 const giveMaster = async (rolData) => {
-  const headers = getHeaderToken();
-  const response = await axios
-    .post(process.env.REACT_APP_HOST + "roles/master", rolData, headers)
-    .catch((error) => errorsHandling(error));
-  return response.data;
+  return postFunction("roles/master", rolData);
 };
 
 const usuariosService = {
