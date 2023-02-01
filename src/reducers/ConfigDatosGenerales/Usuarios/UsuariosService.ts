@@ -26,14 +26,14 @@ const getAllTeamLeaders = async () => {
   return getFunction("usuarios/teamLeaders");
 };
 
-const getSelectedRoles = async (rol: string) => {
+const getSelectedRoles = async (rol: { rol: string }) => {
   const headers = getHeaderDB();
   const response = await axios
     .post(process.env.REACT_APP_HOST + "roles", rol, headers)
     .catch((error) => errorsHandling(error));
   return response.data;
 };
-const getUserSelectedRoles = async (user) => {
+const getUserSelectedRoles = async (user: string) => {
   const headers = getHeaderDB();
   const response = await axios
     .post(process.env.REACT_APP_HOST + "roles/user", { user: user }, headers)
