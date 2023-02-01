@@ -19,12 +19,17 @@ interface UsuarioState extends ReduxState {
   selectedRoles: Rol[];
   userSelectedRoles: Rol[];
   commitState: string;
-  rolStatus: string;
+  rolStatus: ResponseStatus | null;
 }
 
 interface deleteAndAddRol {
   rol: string;
   Usuario: string;
+}
+
+interface rolTransaction {
+  userFrom: string;
+  userTo: string;
 }
 
 const initialState: UsuarioState = {
@@ -37,7 +42,7 @@ const initialState: UsuarioState = {
   selectedRoles: [],
   userSelectedRoles: [],
   commitState: "",
-  rolStatus: "",
+  rolStatus: null,
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -173,7 +178,7 @@ export const deleteRol = createAsyncThunk(
 );
 export const copyRoles = createAsyncThunk(
   "copyRol",
-  async (usersData, thunkAPI) => {
+  async (usersData: rolTransaction, thunkAPI) => {
     try {
       const data = await usuariosService.copyRoles(usersData);
 
@@ -188,7 +193,7 @@ export const copyRoles = createAsyncThunk(
 );
 export const replaceRoles = createAsyncThunk(
   "replaceRol",
-  async (usersData, thunkAPI) => {
+  async (usersData: rolTransaction, thunkAPI) => {
     try {
       const data = await usuariosService.replaceRoles(usersData);
 
@@ -282,7 +287,7 @@ export const usuariosSlice = createSlice({
       state.message = "";
       state.supervisores = [];
       state.statusNuevoUsuario = null;
-      state.rolStatus = "";
+      state.rolStatus = null;
       state.commitState = "";
     },
 
@@ -467,12 +472,11 @@ export const usuariosSlice = createSlice({
       .addCase(addRol.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
-        state.rolStatus = action.payload as string;
-        state.message = action.payload as string;
+        state.rolStatus = action.payload as ResponseStatus;
       })
       .addCase(deleteRol.pending, (state) => {
         state.isLoading = true;
-        state.rolStatus = "Cargando...";
+        state.rolStatus = { status: false, message: "Cargando..." };
       })
       .addCase(deleteRol.fulfilled, (state, action) => {
         state.isLoading = false;
@@ -482,8 +486,7 @@ export const usuariosSlice = createSlice({
       .addCase(deleteRol.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
-        state.rolStatus = action.payload as string;
-        state.message = action.payload as string;
+        state.rolStatus = action.payload as ResponseStatus;
       })
       .addCase(copyRoles.pending, (state) => {
         state.isLoading = true;
@@ -496,8 +499,7 @@ export const usuariosSlice = createSlice({
       .addCase(copyRoles.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
-        state.rolStatus = action.payload as string;
-        state.message = action.payload as string;
+        state.rolStatus = action.payload as ResponseStatus;
       })
       .addCase(replaceRoles.pending, (state) => {
         state.isLoading = true;
@@ -510,8 +512,7 @@ export const usuariosSlice = createSlice({
       .addCase(replaceRoles.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
-        state.rolStatus = action.payload as string;
-        state.message = action.payload as string;
+        state.rolStatus = action.payload as ResponseStatus;
       })
       .addCase(giveMaster.pending, (state) => {
         state.isLoading = true;
@@ -524,8 +525,7 @@ export const usuariosSlice = createSlice({
       .addCase(giveMaster.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
-        state.rolStatus = action.payload as string;
-        state.message = action.payload as string;
+        state.rolStatus = action.payload as ResponseStatus;
       });
   },
 });
