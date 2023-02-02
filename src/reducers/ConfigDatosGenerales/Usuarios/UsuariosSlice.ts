@@ -427,7 +427,7 @@ export const usuariosSlice = createSlice({
       .addCase(getSelectedRoles.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
-        state.statusNuevoUsuario = action.payload as ResponseStatus;
+        state.rolStatus = action.payload as ResponseStatus;
       })
       .addCase(getUserSelectedRoles.pending, (state) => {
         state.isLoading = true;
@@ -440,7 +440,7 @@ export const usuariosSlice = createSlice({
       .addCase(getUserSelectedRoles.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
-        state.statusNuevoUsuario = action.payload as ResponseStatus;
+        state.rolStatus = action.payload as ResponseStatus;
       })
       .addCase(addRol.pending, (state) => {
         state.isLoading = true;
