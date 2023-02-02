@@ -158,12 +158,14 @@ const VendedorItem = ({
             id=""
           >
             {thisOficialS && (
-              <option value={thisOficialS.Codigo}>{thisOficialS.Nombre}</option>
+              <option value={thisOficialS.Codigo ? thisOficialS.Codigo : ""}>
+                {thisOficialS.Nombre}
+              </option>
             )}
             <option value="*">---</option>
             {oficialesScoring &&
               oficialesScoring.map((e) => (
-                <option value={e.Codigo}>{e.Nombre}</option>
+                <option value={e.Codigo ? e.Codigo : ""}>{e.Nombre}</option>
               ))}
           </select>
         )}
@@ -183,12 +185,14 @@ const VendedorItem = ({
             id=""
           >
             {thisOficialM && (
-              <option value={thisOficialM.Codigo}>{thisOficialM.Nombre}</option>
+              <option value={thisOficialM.Codigo ? thisOficialM.Codigo : ""}>
+                {thisOficialM.Nombre}
+              </option>
             )}
             <option value="*">---</option>
             {oficialesMora &&
               oficialesMora.map((e) => (
-                <option value={e.Codigo}>{e.Nombre}</option>
+                <option value={e.Codigo ? e.Codigo : ""}>{e.Nombre}</option>
               ))}
           </select>
         )}
