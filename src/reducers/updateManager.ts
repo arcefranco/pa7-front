@@ -1,9 +1,10 @@
 import getHeaderTokenAndDB from "../helpers/getHeaderTokenAndDB";
 import axios, { AxiosResponse, AxiosError } from "axios";
 import { ServiceErrorHandler } from "../helpers/ServiceErrorHandler";
+import { oficialParam } from "./ConfigDatosGenerales/Oficiales/OficialesSlice";
 
 export const beginUpdateFunction = async (
-  data: EndUpdateParam,
+  data: EndUpdateParam | oficialParam,
   route: string
 ) => {
   try {
@@ -25,7 +26,7 @@ export const beginUpdateFunction = async (
 };
 
 export const endUpdateFunction = async (
-  data: EndUpdateParam,
+  data: EndUpdateParam | oficialParam,
   route: string
 ) => {
   try {
