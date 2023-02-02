@@ -298,7 +298,9 @@ const Vendedores = () => {
                   <option value="*">---</option>
                   {oficialesScoring &&
                     oficialesScoring.map((e) => (
-                      <option value={e.Codigo}>{e.Nombre}</option>
+                      <option value={e.Codigo ? e.Codigo : ""}>
+                        {e.Nombre}
+                      </option>
                     ))}
                 </select>
               </td>
@@ -312,7 +314,9 @@ const Vendedores = () => {
                   <option value="*">---</option>
                   {oficialesMora &&
                     oficialesMora.map((e) => (
-                      <option value={e.Codigo}>{e.Nombre}</option>
+                      <option value={e.Codigo ? e.Codigo : ""}>
+                        {e.Nombre}
+                      </option>
                     ))}
                 </select>
               </td>
