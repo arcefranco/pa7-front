@@ -12,6 +12,7 @@ import {
   reset,
   giveMaster,
 } from "../../../reducers/ConfigDatosGenerales/Usuarios/UsuariosSlice";
+import ModalStatus from "../../ModalStatus";
 import styles from "./Roles.module.css";
 import { useState } from "react";
 import TitleLogo from "../../../styled-components/containers/TitleLogo";
@@ -34,19 +35,24 @@ const RolesForm = () => {
   var sendSelected: any = [];
   const [roles, setRoles] = useState(sendSelected);
   const [toggleRoles, setToggleRoles] = useState(false);
+
   useEffect(() => {
     rolStatus &&
       Object.keys(rolStatus)?.length &&
       Swal.fire({
-        icon: "info",
+        icon: rolStatus.status ? "success" : "error",
         timer: 15000,
         text: rolStatus.message,
       });
   }, [rolStatus, deleteRol]);
+
   useEffect(() => {
+    let user = document.getElementById("user") as HTMLInputElement;
     if (document.getElementById("user") !== null) {
-      let user = document.getElementById("user") as HTMLInputElement;
-      dispatch(getUserSelectedRoles(user.value));
+      user.value && dispatch(getUserSelectedRoles(user.value));
+    }
+    if (!rolStatus?.status) {
+      user.value = "";
     }
   }, [rolStatus]);
 
@@ -55,13 +61,13 @@ const RolesForm = () => {
     let user = document.getElementById("user") as HTMLInputElement;
     user.value && dispatch(getUserSelectedRoles(user.value));
 
-    dispatch(getSelectedRoles({ rol: d.value }));
+    d.value && dispatch(getSelectedRoles({ rol: d.value }));
   };
   const handleUserChange = () => {
     var user = document.getElementById("user") as HTMLInputElement;
     var rol = document.getElementById("rol") as HTMLInputElement;
     dispatch(getUserSelectedRoles(user.value));
-    rol.value && dispatch(getSelectedRoles({ rol: rol.value }));
+    /*     rol.value && dispatch(getSelectedRoles({ rol: rol.value })); */
   };
   useEffect(() => {
     sendSelected = selectedRoles.map((e) => {
@@ -154,7 +160,7 @@ const RolesForm = () => {
         })
       )
     );
-    dispatch(getSelectedRoles({ rol: rol.value }));
+    rol.value && dispatch(getSelectedRoles({ rol: rol.value }));
     dispatch(getUserSelectedRoles(user.value));
     setToggleRoles(false);
   };
@@ -192,7 +198,7 @@ const RolesForm = () => {
           <div className={styles.select}>
             <span style={{ marginTop: "1rem" }}>Usuario: </span>
             <Select name="" id="user" onChange={handleUserChange}>
-              <option value="*">---</option>
+              <option value="">---</option>
               {usuarios &&
                 usuarios.map((e) => (
                   <option key={e.Usuario} value={e.Usuario}>
@@ -205,7 +211,7 @@ const RolesForm = () => {
           <div className={styles.select}>
             <span style={{ paddingTop: "2rem" }}>Categoría: </span>
             <Select name="" id="rol" onChange={handleRolChange}>
-              <option value="*">---</option>
+              <option value="">---</option>
               <option value="operaciones" className="Operaciones">
                 Operaciones
               </option>
