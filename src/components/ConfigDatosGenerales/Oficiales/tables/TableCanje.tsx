@@ -74,24 +74,28 @@ const TableCanje = () => {
 
   useEffect(() => {
     function endEdit() {
-      dispatch(
-        endUpdate({
-          Codigo: parseInt(actualInEdit.current),
-          categoria: "Plan Canje",
-        })
-      );
+      if (actualInEdit.current) {
+        dispatch(
+          endUpdate({
+            Codigo: parseInt(actualInEdit.current),
+            categoria: "Plan Canje",
+          })
+        );
+      }
     }
 
     window.addEventListener("beforeunload", endEdit);
 
     return () => {
       window.removeEventListener("beforeunload", endEdit);
-      dispatch(
-        endUpdate({
-          Codigo: parseInt(actualInEdit.current),
-          categoria: "Plan Canje",
-        })
-      );
+      if (actualInEdit.current) {
+        dispatch(
+          endUpdate({
+            Codigo: parseInt(actualInEdit.current),
+            categoria: "Plan Canje",
+          })
+        );
+      }
     };
   }, []);
 

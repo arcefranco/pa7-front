@@ -73,24 +73,28 @@ const TableAdjudicacion = () => {
 
   useEffect(() => {
     function endEdit() {
-      dispatch(
-        endUpdate({
-          Codigo: parseInt(actualInEdit.current),
-          categoria: "Adjudicacion",
-        })
-      );
+      if (actualInEdit.current) {
+        dispatch(
+          endUpdate({
+            Codigo: parseInt(actualInEdit.current),
+            categoria: "Adjudicacion",
+          })
+        );
+      }
     }
 
     window.addEventListener("beforeunload", endEdit);
 
     return () => {
       window.removeEventListener("beforeunload", endEdit);
-      dispatch(
-        endUpdate({
-          Codigo: parseInt(actualInEdit.current),
-          categoria: "Adjudicacion",
-        })
-      );
+      if (actualInEdit.current) {
+        dispatch(
+          endUpdate({
+            Codigo: parseInt(actualInEdit.current),
+            categoria: "Adjudicacion",
+          })
+        );
+      }
     };
   }, []);
 
