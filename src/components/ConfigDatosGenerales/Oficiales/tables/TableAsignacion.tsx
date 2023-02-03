@@ -74,24 +74,28 @@ const TableAsignacion = () => {
 
   useEffect(() => {
     function endEdit() {
-      dispatch(
-        endUpdate({
-          Codigo: parseInt(actualInEdit.current),
-          categoria: "Asignacion",
-        })
-      );
+      if (actualInEdit.current) {
+        dispatch(
+          endUpdate({
+            Codigo: parseInt(actualInEdit.current),
+            categoria: "Asignacion",
+          })
+        );
+      }
     }
 
     window.addEventListener("beforeunload", endEdit);
 
     return () => {
       window.removeEventListener("beforeunload", endEdit);
-      dispatch(
-        endUpdate({
-          Codigo: parseInt(actualInEdit.current),
-          categoria: "Asignacion",
-        })
-      );
+      if (actualInEdit.current) {
+        dispatch(
+          endUpdate({
+            Codigo: parseInt(actualInEdit.current),
+            categoria: "Asignacion",
+          })
+        );
+      }
     };
   }, []);
 

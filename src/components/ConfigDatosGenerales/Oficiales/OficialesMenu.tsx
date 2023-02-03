@@ -1,13 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import OficialesItem from "./OficialesItem";
 import TitleLogo from "../../../styled-components/containers/TitleLogo";
 import TitlePrimary from "../../../styled-components/h/TitlePrimary";
 import { ReturnLogo } from "../../../helpers/ReturnLogo";
-import { RootState } from "../../../store";
+import { AppDispatch, RootState } from "../../../store";
+import { useDispatch } from "react-redux";
+import { resetOficiales } from "../../../reducers/ConfigDatosGenerales/Oficiales/OficialesSlice";
 
 const OficialesMenu = () => {
   const { user } = useSelector((state: RootState) => state.login);
+  const dispatch = useDispatch<AppDispatch>();
+  useEffect(() => {
+    dispatch(resetOficiales());
+  }, []);
   const oficialesData = [
     {
       table: "Adjudicación",

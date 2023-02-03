@@ -10,7 +10,6 @@ import Stack from "react-bootstrap/Stack";
 import InputGroup from "react-bootstrap/InputGroup";
 import styles from "../../../styles/Table.module.css";
 import {
-  getOficialById,
   updateOficiales,
   reset,
   createOficiales,
@@ -52,12 +51,6 @@ const OficialesForm = () => {
     TipoOficialMora: 0,
     Supervisor: null,
   });
-
-  useEffect(() => {
-    if (id && categoria) {
-      dispatch(getOficialById({ categoria: categoria, Codigo: parseInt(id) }));
-    }
-  }, [id]);
 
   useEffect(() => {
     if (oficialStatus && oficialStatus.status === false) {
