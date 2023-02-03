@@ -113,27 +113,11 @@ export const endUpdate = createAsyncThunk(
   "endUpdate",
   async (oficialData: oficialParam, { rejectWithValue }) => {
     const data = await endUpdateFunction(oficialData, "oficiales/endUpdate");
-
+    console.log(data);
     if (data.status) {
       return data;
     } else {
       return rejectWithValue(data);
-    }
-  }
-);
-
-export const getOficialById = createAsyncThunk(
-  "oficialById",
-  async (oficialData: oficialParam, thunkAPI) => {
-    try {
-      const data = await OficialesService.getOficialById(oficialData);
-
-      return data;
-    } catch (error: any) {
-      (error.response && error.response.data && error.response.data.message) ||
-        error.message ||
-        error.toString();
-      return thunkAPI.rejectWithValue(error.response.data);
     }
   }
 );
@@ -151,6 +135,10 @@ export const oficialesSlice = createSlice({
 
     resetStatus: (state) => {
       state.oficialStatus = null;
+    },
+
+    resetOficiales: (state) => {
+      state.oficialesSelected = [];
     },
   },
 
@@ -224,6 +212,20 @@ export const oficialesSlice = createSlice({
         state.oficialStatus = action.payload as ResponseStatus;
       })
 
+      .addCase(endUpdate.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(endUpdate.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.oficialStatus = action.payload as ResponseStatus;
+      })
+      .addCase(endUpdate.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.oficialStatus = action.payload as ResponseStatus;
+      })
+
       .addCase(beginUpdate.pending, (state) => {
         state.isLoading = true;
       })
@@ -240,5 +242,5 @@ export const oficialesSlice = createSlice({
   },
 });
 
-export const { reset, resetStatus } = oficialesSlice.actions;
+export const { reset, resetStatus, resetOficiales } = oficialesSlice.actions;
 export default oficialesSlice.reducer;
