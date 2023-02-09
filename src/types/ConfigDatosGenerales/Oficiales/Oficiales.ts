@@ -21,7 +21,11 @@ export interface OficialScoring extends Oficial {
 }
 
 export interface OficialMora extends Oficial {
-  IdUsuarioLogin: string;
-  TipoOficialMora: number;
-  Activo: number;
+  Codigo: number;
+  Nombre: string;
+  IdUsuarioLogin?: string;
+  TipoOficialMora?: number;
+  Activo?: number;
 }
+
+export interface OficialPlanCanje extends Oficial {}
