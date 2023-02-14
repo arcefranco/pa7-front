@@ -29,7 +29,7 @@ const BuscarPre = () => {
   const onSubmit = () => {
     dispatch(
       getPreOperaciones({
-        marca: user?.codigoMarca,
+        marca: user?.codigoMarca ? user.codigoMarca : 0,
         Solicitud: input.Solicitud,
         Apellido: input.Apellido,
         Documento: input.Documento,
