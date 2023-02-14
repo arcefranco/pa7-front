@@ -15,7 +15,7 @@ import { FormasPago } from "../../../types/Operaciones/FormasPago";
 import { Tarjeta } from "../../../types/Operaciones/Tarjeta";
 import { Interes } from "../../../types/Operaciones/Interes";
 import { ResponseStatus } from "../../../types/Generales/ResponseStatus";
-import { NuevoPago } from "../../../components/Operaciones/ActualPre/NuevoPago";
+import { NuevoPago } from "../../../types/Operaciones/ActualPre/NuevoPago";
 import { Senia } from "../../../types/Operaciones/Senia";
 
 interface getWithNumeroPreSol {

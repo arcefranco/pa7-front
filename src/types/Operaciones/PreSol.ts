@@ -1,4 +1,16 @@
+export enum tipoPrecio {
+  A = "A",
+  B = "B",
+}
+
 export interface PreSol {
+  empresaNombre?: string;
+  tieneEmail?: number;
+  observaciones?: string;
+  Importe?: number;
+  importeAbonado?: number;
+  tipoPrecio?: tipoPrecio;
+  ContactoAD?: string;
   Marca?: number;
   Numero: number;
   FechaAlta: string;
@@ -13,7 +25,7 @@ export interface PreSol {
   Telefonos2: string;
   Telefonos3: string;
   Vendedor?: number;
-  CodPuntoVenta: number;
+  CodPuntoVenta?: string | undefined;
   CodModelo: number;
   ImporteTotalCuota: number;
   TotalCuota_InteresBonif?: number;
@@ -21,24 +33,24 @@ export interface PreSol {
   TieneDNI: number;
   TieneServicio: number;
   TieneAnexos: number;
-  EstadoPrescoring: number;
-  FechaPrescoring: string;
-  FechaIngresoExtraNet: string;
-  Estadoscoring: number;
-  AnuladaCliente: number;
-  PasoAOperaciones: number;
+  EstadoPrescoring?: number;
+  FechaPrescoring?: string;
+  FechaIngresoExtraNet?: string;
+  Estadoscoring?: number;
+  AnuladaCliente?: number;
+  PasoAOperaciones?: number;
   NroReciboX?: string;
   nroRecibo1: string;
   nroRecibo2: string;
-  ImporteReciboX: number;
+  ImporteReciboX?: number;
   CuotaTerminal: number;
-  CuotaACobrar: number;
+  CuotaACobrar?: number;
   ImpoSenia?: number;
   FechaSenia?: string;
   ID?: number;
   CodFormaPago?: number;
   FechaCheque?: string;
-  NroRecibo: string;
+  NroRecibo?: string;
   NomFormaPago?: string;
   OficialPC: number;
   origensuscripcion: number;
@@ -50,19 +62,19 @@ export interface PreSol {
   FechaCupon?: string;
   NroTarjeta?: string;
   tipoplan: string;
-  DebitoAutomaticoscoring: number;
+  DebitoAutomaticoscoring?: number;
   PromoEspecial?: number;
   EsTarjeta?: number;
-  NombreSucReal: string;
+  NombreSucReal?: string;
   CodSucReal?: number;
   Empresa?: number;
-  Bonificacion: number;
-  NumeroCalle: number;
+  Bonificacion?: number;
+  NumeroCalle?: number;
   Piso: number;
   Dto: number;
   CodPostal: number;
   Provincia: string;
-  Telefonos4: number;
+  Telefonos4: string;
   EmailParticular: string;
   EmailLaboral: string;
   FechaNac: string;
@@ -70,31 +82,31 @@ export interface PreSol {
   NombreSupervisor?: string;
   CodSupervisor?: number;
   eMail?: string;
-  CuentaContable?: number;
+  CuentaContable?: string;
   Ocupacion: string;
   DomicilioOcupacion?: string;
-  FechaIngresoTerminal: string;
+  FechaIngresoTerminal?: string;
   Lote?: number;
   Cantpagos?: number;
   NomModelo?: string;
-  NomVendedor: string;
+  NomVendedor?: string;
   SeniaUsadaEnmesaplanes?: number;
   FechaUsoDeSenia?: string;
-  OficialScoring: number;
-  OficialMora: number;
-  PlanSubite: number;
+  OficialScoring?: number;
+  OficialMora?: number;
+  PlanSubite?: number;
   EstadoPlanSubite?: number;
-  CodTipoResponsable?: number;
+  CodTipoResponsable?: string;
   EsExento?: number;
   NroAsiento?: number;
   Transferencia?: number;
-  Rec: number;
-  Crucescoring: number;
-  FechaCrucescoring: string;
+  Rec?: number;
+  Crucescoring?: number;
+  FechaCrucescoring?: string;
   CodTL?: number;
-  NomTL: string;
+  NomTL?: string;
   UsuarioEditandoscoring?: string;
   NomOficialParaHacerscoring?: string;
-  EntregaUsadoRetiro: number;
+  EntregaUsadoRetiro?: number;
   NroCuil?: string;
 }

@@ -40,7 +40,7 @@ const OficialesForm = () => {
 
   const navigate = useNavigate();
   const [input, setInput] = useState<Oficial>({
-    Codigo: null,
+    Codigo: "",
     login: "",
     Inactivo: null,
     Nombre: "",
@@ -152,7 +152,7 @@ const OficialesForm = () => {
     dispatch(
       updateOficiales({
         categoria: categoria ? categoria : null,
-        Codigo: id ? parseInt(id) : null,
+        Codigo: id ? id : "",
         Nombre: input.Nombre,
         Usuario: input.Usuario,
         Activo: input.Activo,
@@ -163,7 +163,7 @@ const OficialesForm = () => {
       })
     );
     setInput({
-      Codigo: null,
+      Codigo: "",
       login: "",
       Inactivo: null,
       Nombre: "",
@@ -206,7 +206,7 @@ const OficialesForm = () => {
     );
 
     setInput({
-      Codigo: null,
+      Codigo: "",
       login: "",
       Inactivo: null,
       Nombre: "",

@@ -1,6 +1,6 @@
 export interface Oficial {
   categoria?: string | null;
-  Codigo?: number | null;
+  Codigo?: string;
   Nombre: string;
   login?: string;
   Supervisor?: number | null;
@@ -21,7 +21,7 @@ export interface OficialScoring extends Oficial {
 }
 
 export interface OficialMora extends Oficial {
-  Codigo: number;
+  Codigo: string;
   Nombre: string;
   IdUsuarioLogin?: string;
   TipoOficialMora?: number;
