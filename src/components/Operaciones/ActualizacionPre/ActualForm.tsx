@@ -29,7 +29,10 @@ import * as BsIcons from "react-icons/bs";
 import FormaPagoItem from "./FormaPagoItem";
 import Swal from "sweetalert2";
 import { AppDispatch, RootState } from "../../../store";
-import { accion, NuevoPago } from "../ActualPre/NuevoPago";
+import {
+  accion,
+  NuevoPago,
+} from "../../../types/Operaciones/ActualPre/NuevoPago";
 import { Interes } from "../../../types/Operaciones/Interes";
 
 const ActualForm = () => {
@@ -99,7 +102,7 @@ const ActualForm = () => {
     Telefonos: "",
     Telefonos2: "",
     Telefonos3: "",
-    Telefonos4: 0,
+    Telefonos4: "",
     Ocupacion: "",
     OficialMora: 0,
     OficialPC: 0,
@@ -107,7 +110,7 @@ const ActualForm = () => {
     origensuscripcion: 0,
     FechaPrescoring: "",
     EstadoPrescoring: 0,
-    CodPuntoVenta: 0,
+    CodPuntoVenta: "",
     Crucescoring: 0,
     DebitoAutomatico: 0,
     TieneDNI: 0,
@@ -323,7 +326,7 @@ const ActualForm = () => {
         Telefonos: "",
         Telefonos2: "",
         Telefonos3: "",
-        Telefonos4: 0,
+        Telefonos4: "",
         Ocupacion: "",
         OficialMora: 0,
         OficialPC: 0,
@@ -331,7 +334,7 @@ const ActualForm = () => {
         origensuscripcion: 0,
         FechaPrescoring: "",
         EstadoPrescoring: 0,
-        CodPuntoVenta: 0,
+        CodPuntoVenta: "",
         Crucescoring: 0,
         DebitoAutomatico: 0,
         TieneDNI: 0,
@@ -1251,7 +1254,7 @@ const ActualForm = () => {
                       >
                         <option value="">---</option>
                         {puntos.length &&
-                          puntos.map((e) => (
+                          puntos?.map((e) => (
                             <option value={e.Codigo}>{e.Nombre}</option>
                           ))}
                       </select>
@@ -1599,7 +1602,8 @@ const ActualForm = () => {
                     }}
                   >
                     {" "}
-                    {totalImpAbonado - input.CuotaACobrar === 0 ? (
+                    {input.CuotaACobrar &&
+                    totalImpAbonado - input.CuotaACobrar === 0 ? (
                       <h5 style={{ color: "green" }}>Cancelada</h5>
                     ) : (
                       <h5 style={{ color: "red" }}>Sin Cancelar</h5>
@@ -2056,6 +2060,7 @@ const ActualForm = () => {
                     className={styles.submitButton}
                     onClick={() => setNuevoPago(!nuevoPago)}
                     disabled={
+                      input.CuotaACobrar &&
                       totalImpAbonado - input.CuotaACobrar === 0
                         ? true
                         : isReadOnly

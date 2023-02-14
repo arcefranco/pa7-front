@@ -13,5 +13,6 @@ export interface Modelo {
   NacionalImportado?: number;
   Activo?: number;
   ParaCalcularHN?: number;
+  TipoPlan?: number;
   inUpdate?: string;
 }
