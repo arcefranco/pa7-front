@@ -228,7 +228,7 @@ const TeamLeaders = () => {
                 key={e.Codigo}
                 Codigo={e.Codigo}
                 Nombre={e.Nombre}
-                Supervisor={e.Supervisor}
+                Supervisor={e.Sucursal}
                 Activo={e.Activo}
               />
             ))}

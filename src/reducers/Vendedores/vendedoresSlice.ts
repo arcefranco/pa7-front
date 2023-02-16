@@ -242,7 +242,7 @@ export const vendedoresSlice = createSlice({
     builder.addCase(beginUpdate.fulfilled, (state, action) => {
       state.isLoading = false;
       state.isSuccess = true;
-      state.statusNuevoVendedor = action.payload as ResponseStatus;
+      state.statusNuevoVendedor = action.payload;
     });
     builder.addCase(beginUpdate.rejected, (state, action) => {
       state.isLoading = false;
