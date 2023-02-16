@@ -76,7 +76,7 @@ const AltaPre = () => {
     empresaNombre: user?.empresaReal ? user.empresaReal : "",
     Solicitud: 0,
     FechaAlta: "",
-    tipoplan: "",
+    tipoplan: 0,
     CodModelo: 0,
     CuotaTerminal: 0,
     TipoDocumento: 0,
@@ -138,6 +138,12 @@ const AltaPre = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     const newForm = { ...input, [name]: value };
+
+    setInput(newForm);
+  };
+  const handleChangeNumber = (e) => {
+    const { name, value } = e.target;
+    const newForm = { ...input, [name]: parseFloat(value) };
 
     setInput(newForm);
   };
@@ -480,7 +486,7 @@ const AltaPre = () => {
       alert("No puede haber dos teléfonos iguales");
       return;
     }
-    if (!input.CodTipoResponsable?.length) {
+    if (!input.CodTipoResponsable) {
       setError({ ...error, CodTipoResponsable: "Campo Requerido" });
       return;
     }
@@ -538,13 +544,14 @@ const AltaPre = () => {
       setError({ ...error, origensuscripcion: "Campo Requerido" });
       return;
     } else {
-      const sumErrors = Object.keys(error).reduce(
-        (accumulator: number, currentValue) =>
-          accumulator + currentValue?.length,
+      const sumErrors = Object.values(error).reduce(
+        (accumulator: any, currentValue: any) => accumulator + currentValue,
         0
       );
-      if (sumErrors === 0) {
+      if (sumErrors == 0) {
         dispatch(altaPre(input));
+      } else {
+        alert(`Hay ${sumErrors} errores`);
       }
     }
   };
@@ -606,12 +613,12 @@ const AltaPre = () => {
   //OPTIONS MODELOS
 
   useEffect(() => {
-    if (input.tipoplan !== "*" && modelos.length) {
+    if (input.tipoplan !== 0 && modelos.length) {
       setInput({ ...input, ImporteTotalCuota: 0, CuotaTerminal: 0 });
       setModelosFiltered(
         modelos?.filter(
           (e) =>
-            e.TipoPlan === parseFloat(input.tipoplan) &&
+            e.TipoPlan === input.tipoplan &&
             e.Marca === user?.codigoMarca &&
             e.Activo === 1 &&
             e.CuotaTerminal !== null
@@ -680,7 +687,8 @@ const AltaPre = () => {
       setInput({ ...input, Importe: 0, Cantpagos: 0, importeAbonado: 0 });
     } else if (
       input.importeAbonado &&
-      input.importeAbonado < input.ImporteTotalCuota
+      input.importeAbonado < input.ImporteTotalCuota &&
+      !input.FechaEstimCancelacion
     ) {
       setError({ ...error, FechaEstimCancelacion: "Campo Requerido" });
     } else if (input.importeAbonado === input.ImporteTotalCuota) {
@@ -710,7 +718,7 @@ const AltaPre = () => {
   useEffect(() => {
     if (supervisores && teamLeaderSelected)
       setSupervisorSelected(
-        supervisores?.find((e) => e.Codigo === teamLeaderSelected?.Supervisor)
+        supervisores?.find((e) => e.Codigo === teamLeaderSelected?.Sucursal)
       );
   }, [teamLeaderSelected]);
 
@@ -868,12 +876,12 @@ const AltaPre = () => {
               <div className={styles.containerError}>
                 <select
                   onBlur={onBlurRequired}
-                  onChange={handleChange}
+                  onChange={handleChangeNumber}
                   value={input.tipoplan}
-                  name="TipoPlan"
+                  name="tipoplan"
                   id=""
                 >
-                  <option value="">---</option>
+                  <option value={0}>---</option>
                   <option value={1}>100%</option>
                   <option value={2}>70/30</option>
                   <option value={3}>60/40</option>
@@ -892,10 +900,10 @@ const AltaPre = () => {
               <span>Modelo </span>
               <div className={styles.containerError}>
                 <select
-                  onChange={handleChange}
+                  onChange={handleChangeNumber}
                   onBlur={onBlurRequired}
                   value={input.CodModelo}
-                  name="Modelo"
+                  name="CodModelo"
                   id=""
                 >
                   <option value="">---</option>
@@ -935,13 +943,13 @@ const AltaPre = () => {
                 <span>Documento</span>
                 <div className={styles.containerError}>
                   <select
-                    name="Documento"
-                    onChange={handleChange}
+                    name="TipoDocumento"
+                    onChange={handleChangeNumber}
                     value={input.TipoDocumento}
                     id=""
                   >
-                    <option value="">---</option>
-                    <option value={1}>TieneDNI</option>
+                    <option value={0}>---</option>
+                    <option value={1}>DNI</option>
                     <option value={2}>LE</option>
                     <option value={3}>LC</option>
                     <option value={4}>CI</option>
@@ -954,12 +962,12 @@ const AltaPre = () => {
                 <span>Número</span>
                 <div className={styles.containerError}>
                   <input
-                    type="text"
+                    type="number"
                     onBlur={onBlurDoc}
-                    name="DocumentoNro"
+                    name="NroDocumento"
                     id="DocumentoNro"
                     value={input.NroDocumento}
-                    onChange={handleChange}
+                    onChange={handleChangeNumber}
                   />
                   {error?.Documento && (
                     <div className={styles.error}>{error.Documento}</div>
@@ -989,7 +997,7 @@ const AltaPre = () => {
                 <div className={styles.containerError}>
                   {input.TipoDocumento !== 6 ? (
                     <input
-                      name="Nacimiento"
+                      name="FechaNac"
                       onBlur={onBlurNacimiento}
                       onChange={handleChange}
                       value={input.FechaNac}
@@ -1041,7 +1049,7 @@ const AltaPre = () => {
                 <div className={styles.containerError}>
                   <input
                     type="text"
-                    name="Nombre"
+                    name="Nombres"
                     onBlur={onBlurRequired}
                     value={input.Nombres}
                     onChange={handleChange}
@@ -1152,7 +1160,7 @@ const AltaPre = () => {
                     name="CodPostal"
                     onBlur={onBlurRequired}
                     value={input.CodPostal}
-                    onChange={handleChange}
+                    onChange={handleChangeNumber}
                   />
                   {error?.CodPostal && (
                     <div className={styles.error}>{error.CodPostal}</div>
@@ -1274,9 +1282,9 @@ const AltaPre = () => {
                     id=""
                     value={input.CodTipoResponsable}
                     onBlur={onBlurRequired}
-                    onChange={handleChange}
+                    onChange={handleChangeNumber}
                   >
-                    <option value="">---</option>
+                    <option value={0}>---</option>
                     <option value={1}>RESPONSABLE INSCRIPTO</option>
                     <option value={2}>RESPONSABLE NO INSCRIPTO</option>
                     <option value={3}>EXENTO</option>
@@ -1385,7 +1393,7 @@ const AltaPre = () => {
                   name="CodFormaPago"
                   value={input.CodFormaPago}
                   onBlur={onBlurFormaDePago}
-                  onChange={handleChange}
+                  onChange={handleChangeNumber}
                   id=""
                 >
                   <option value="">---</option>
@@ -1411,7 +1419,7 @@ const AltaPre = () => {
                   name="Vendedor"
                   value={input.Vendedor}
                   onBlur={onBlurRequired}
-                  onChange={handleChange}
+                  onChange={handleChangeNumber}
                   id=""
                 >
                   <option value="">---</option>
@@ -1495,7 +1503,7 @@ const AltaPre = () => {
                     name="Importe"
                     onBlur={onBlurCantpagos}
                     value={input.Importe}
-                    onChange={handleChange}
+                    onChange={handleChangeNumber}
                   />
                   {error?.Importe && (
                     <div className={styles.error}>{error.Importe}</div>
@@ -1531,7 +1539,7 @@ const AltaPre = () => {
                   </b>
                 </div>
                 <div className={styles.input}>
-                  <span>CodSupervisor</span>
+                  <span>Supervisor</span>
                   <b>
                     <span>{supervisorSelected?.Nombre}</span>
                   </b>
@@ -1540,7 +1548,7 @@ const AltaPre = () => {
               <div className={styles.input}>
                 <span>Puntos de Venta</span>
                 <div className={styles.containerError}>
-                  {input.CodPuntoVenta && (
+                  {
                     <select
                       name="CodPuntoVenta"
                       value={input.CodPuntoVenta}
@@ -1556,7 +1564,7 @@ const AltaPre = () => {
                           </option>
                         ))}
                     </select>
-                  )}
+                  }
                   {error?.CodPuntoVenta && (
                     <div className={styles.error}>{error.CodPuntoVenta}</div>
                   )}
@@ -1623,7 +1631,7 @@ const AltaPre = () => {
                   style={{ columnGap: "0" }}
                 >
                   <div className={styles.input}>
-                    <span>CodTarjeta</span>
+                    <span>Tarjeta</span>
                     <div className={styles.containerError}>
                       <select
                         name="CodTarjeta"
@@ -1645,7 +1653,7 @@ const AltaPre = () => {
                     </div>
                   </div>
                   <div className={styles.input}>
-                    <span>Nro CodTarjeta</span>
+                    <span>Nro Tarjeta</span>
                     <div className={styles.containerError}>
                       <input
                         type="text"
@@ -1670,7 +1678,7 @@ const AltaPre = () => {
                     name="Cantpagos"
                     onBlur={onBlurCantpagos}
                     value={input.Cantpagos}
-                    onChange={handleChange}
+                    onChange={handleChangeNumber}
                     id=""
                   >
                     <option value="*">---</option>
@@ -1761,7 +1769,7 @@ const AltaPre = () => {
               style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr" }}
             >
               <div className={styles.inputCheck}>
-                <span>TieneAnexos</span>
+                <span>Anexos</span>
                 <input
                   type="checkbox"
                   name="TieneAnexos"
@@ -1794,7 +1802,7 @@ const AltaPre = () => {
                 />
               </div>
               <div className={styles.inputCheck}>
-                <span>TieneDNI</span>
+                <span>DNI</span>
                 <input
                   type="checkbox"
                   name="TieneDNI"
@@ -1802,7 +1810,7 @@ const AltaPre = () => {
                 />
               </div>
               <div className={styles.inputCheck}>
-                <span>TieneServicio</span>
+                <span>Mail</span>
                 <input
                   type="checkbox"
                   name="TieneServicio"

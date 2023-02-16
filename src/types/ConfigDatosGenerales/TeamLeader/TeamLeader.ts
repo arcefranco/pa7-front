@@ -1,6 +1,6 @@
 export interface TeamLeader {
   Codigo?: number;
-  Supervisor?: number;
+  Sucursal?: number;
   Nombre: string;
   Activo: number;
   inUpdate?: string;

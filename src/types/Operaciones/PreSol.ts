@@ -61,7 +61,7 @@ export interface PreSol {
   Interes?: number;
   FechaCupon?: string;
   NroTarjeta?: string;
-  tipoplan: string;
+  tipoplan: number;
   DebitoAutomaticoscoring?: number;
   PromoEspecial?: number;
   EsTarjeta?: number;

@@ -224,8 +224,7 @@ export const getFechaMinimaCont = createAsyncThunk(
   "Operaciones/AltaPre/fechaCont",
   async (marca: { marca: number }, { rejectWithValue }) => {
     const data = await altaPreService.getFechaMinimaCont(marca);
-
-    if (Array.isArray(data)) {
+    if (data.hasOwnProperty("ValorSTR")) {
       return data;
     } else {
       return rejectWithValue(data);
@@ -265,7 +264,7 @@ export const verifySolicitudStatus = createAsyncThunk(
 export const getModeloValorCuota = createAsyncThunk(
   "Operaciones/AltaPre/modeloValorCuota",
   async (
-    modeloData: { codMarca: number; modelo: number; tipoPlan: string },
+    modeloData: { codMarca: number; modelo: number; tipoPlan: number },
     { rejectWithValue }
   ) => {
     const data = await altaPreService.getModeloValorCuota(modeloData);
@@ -285,7 +284,7 @@ export const getModeloValorCuota = createAsyncThunk(
 export const getModeloPrecio = createAsyncThunk(
   "Operaciones/AltaPre/modeloPrecio",
   async (
-    modeloData: { codMarca: number; modelo: number; tipoPlan: string },
+    modeloData: { codMarca: number; modelo: number; tipoPlan: number },
     { rejectWithValue }
   ) => {
     const data = await altaPreService.getModeloPrecio(modeloData);
