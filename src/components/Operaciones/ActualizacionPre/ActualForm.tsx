@@ -87,7 +87,7 @@ const ActualForm = () => {
     NombreSucReal: "",
     tipoplan: 0,
     FechaNac: "",
-    nroRecibo1: "",
+    nroRecibo: "",
     nroRecibo2: "",
     NroRecibo: "",
     EmailParticular: "",
@@ -312,7 +312,7 @@ const ActualForm = () => {
         tipoplan: 0,
         FechaNac: "",
         NroRecibo: "",
-        nroRecibo1: "",
+        nroRecibo: "",
         nroRecibo2: "",
         EmailParticular: "",
         EmailLaboral: "",
@@ -423,7 +423,7 @@ const ActualForm = () => {
           NombreSucReal: datosOp.NombreSucReal,
           tipoplan: datosOp.tipoplan,
           FechaNac: datosOp.FechaNac?.slice(0, 10),
-          nroRecibo1: datosOp.NroRecibo ? datosOp.NroRecibo.slice(0, 4) : "",
+          nroRecibo: datosOp.NroRecibo ? datosOp.NroRecibo.slice(0, 4) : "",
           nroRecibo2: datosOp.NroRecibo ? datosOp.NroRecibo.slice(4, 12) : "",
           NroRecibo: datosOp.NroRecibo,
           Bonificacion: datosOp.Bonificacion,
@@ -760,8 +760,8 @@ const ActualForm = () => {
                     <input
                       size={4}
                       type="text"
-                      value={input.nroRecibo1}
-                      name="nroRecibo1"
+                      value={input.nroRecibo}
+                      name="nroRecibo"
                       onChange={handleChange}
                     />
                     <input

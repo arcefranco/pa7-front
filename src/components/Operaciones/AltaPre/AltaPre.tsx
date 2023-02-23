@@ -104,7 +104,7 @@ const AltaPre = () => {
     ContactoAD: "",
     tipoPrecio: tipoPrecio.A,
     ImporteTotalCuota: 0,
-    nroRecibo1: "",
+    nroRecibo: "",
     nroRecibo2: "",
     CodSucReal: 0,
     CodFormaPago: 0,
@@ -307,15 +307,15 @@ const AltaPre = () => {
   };
 
   const onBlurRecibo1 = () => {
-    if (input.nroRecibo1.length) {
-      if (input.nroRecibo1.length < 4) {
-        let difference = 4 - input.nroRecibo1.length;
+    if (input.nroRecibo.length) {
+      if (input.nroRecibo.length < 4) {
+        let difference = 4 - input.nroRecibo.length;
         let zeros = "0".repeat(difference);
-        setInput({ ...input, nroRecibo1: zeros + input.nroRecibo1 });
-        setError({ ...error, nroRecibo1: "" });
+        setInput({ ...input, nroRecibo: zeros + input.nroRecibo });
+        setError({ ...error, nroRecibo: "" });
       }
     } else {
-      setError({ ...error, nroRecibo1: "Campo Requerido" });
+      setError({ ...error, nroRecibo: "Campo Requerido" });
     }
   };
 
@@ -494,8 +494,8 @@ const AltaPre = () => {
       setError({ ...error, nroRecibo2: "Campo Requerido" });
       return;
     }
-    if (!input.nroRecibo1.length) {
-      setError({ ...error, nroRecibo1: "Campo Requerido" });
+    if (!input.nroRecibo.length) {
+      setError({ ...error, nroRecibo: "Campo Requerido" });
       return;
     }
     if (!input.CodSucReal) {
@@ -594,10 +594,14 @@ const AltaPre = () => {
 
   useEffect(() => {
     if (verifyResult.length && input.Solicitud) {
-      alert(
-        "El numero de solicitud ingresado ya se encuentra en Operaciones ingresadas"
-      );
-      setInput({ ...input, Solicitud: 0 });
+      Swal.fire({
+        icon: "info",
+        title:
+          "El numero de solicitud ingresado ya se encuentra en Operaciones ingresadas",
+        showConfirmButton: true,
+      }).then(() => {
+        setInput({ ...input, Solicitud: 0 });
+      });
     } else if (verifyStatus && Object.keys(verifyStatus).length) {
       if (verifyStatus.CodSupervisor) {
         alert("La solicitud ingresada ya se encuentra asignada");
@@ -1362,8 +1366,8 @@ const AltaPre = () => {
                   onBlur={onBlurRecibo1}
                   minLength={4}
                   maxLength={4}
-                  value={input.nroRecibo1}
-                  name="nroRecibo1"
+                  value={input.nroRecibo}
+                  name="nroRecibo"
                   onChange={handleChange}
                   style={{ marginRight: "1rem" }}
                 />

@@ -40,7 +40,7 @@ export interface PreSol {
   AnuladaCliente?: number;
   PasoAOperaciones?: number;
   NroReciboX?: string;
-  nroRecibo1: string;
+  nroRecibo: string;
   nroRecibo2: string;
   ImporteReciboX?: number;
   CuotaTerminal: number;
