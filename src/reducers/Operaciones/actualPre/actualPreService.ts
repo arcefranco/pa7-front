@@ -1,5 +1,4 @@
 import axios, { AxiosError } from "axios";
-import { errorsHandling } from "../../errorsHandling";
 import getHeaderToken from "../../../helpers/getHeaderTokenAndDB";
 import { getFunction, postFunction } from "../../Axios/axiosFunctions";
 import { ServiceErrorHandler } from "../../../helpers/ServiceErrorHandler";
