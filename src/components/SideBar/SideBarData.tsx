@@ -415,10 +415,23 @@ export const SidebarData: DataOfSidebar[] = [
         options: [
           {
             title: "Estadístico pre-solicitudes",
-            rol: "1.12.1",
+            rol: "1.12.1" /**ROL A REVISAR */,
             cName: "subMenuL2",
             path: "/reportes/preSol",
-          } /**ROL A REVISAR */,
+          },
+        ],
+      },
+      {
+        title: "Administración de planes",
+        rol: "1.10.2" /** ROL A REVISAR */,
+        cName: "subMenuL2",
+        options: [
+          {
+            title: "Efectividad Adjudicaciones",
+            rol: "1.10.2",
+            cName: "subMenuL2",
+            path: "/reportes/efectividadAdj",
+          },
         ],
       },
       /*      {title: 'Mora', rol:'1.10.3', cName:'subMenuL2'},

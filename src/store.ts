@@ -27,7 +27,7 @@ import PreSolVentasReducer from "./reducers/Reportes/Ventas/PreSolSlice";
 import ReporteZonalReducer from "./reducers/Reportes/Micro/ZonalSlice";
 import AltaPreReducer from "./reducers/Operaciones/altaPre/altaPreSlice";
 import ActualPreReducer from "./reducers/Operaciones/actualPre/actualPreSlice";
-
+import EfectividadAdjReducer from "./reducers/Operaciones/efectividadAdj/efectividadAdjSlice";
 const persistConfig = {
   key: "root",
   version: 1,
@@ -56,6 +56,7 @@ const reducer = combineReducers({
   ReporteZonal: ReporteZonalPersisted,
   AltaPre: AltaPreReducer,
   ActualPre: ActualPreReducer,
+  EfectividadAdj: EfectividadAdjReducer,
 });
 
 export const store = configureStore({
