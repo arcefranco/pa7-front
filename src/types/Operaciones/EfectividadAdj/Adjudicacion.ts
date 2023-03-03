@@ -8,4 +8,8 @@ export interface Adjudicacion {
   Cantidad: number;
   Pedidos: number;
   PedidosDelMes: number | null;
+  Categoria: string;
+
+  NombreCategoria: string;
+  NombreOficial: string;
 }
