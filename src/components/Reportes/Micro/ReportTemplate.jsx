@@ -2,9 +2,7 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import '../../../App.css'
 import {Viewer, Designer } from '@grapecity/activereports-react'
-import {
-    dataSources
-  } from "./resources";
+
 const ReportTemplate = () => {
     const {reporteZonal} = useSelector(state => state.ReporteZonal)
     async function loadReport() {
