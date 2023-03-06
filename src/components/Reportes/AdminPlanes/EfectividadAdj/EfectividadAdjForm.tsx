@@ -43,14 +43,14 @@ const EfectividadAdjForm = () => {
       let valuePL = Object.values(
         filterAdj(data.CodOficial).filter((e) => e.Categoria === "PS")[0]
       )
-        .slice(5, 16)
+        .slice(5, 17)
         .reduce((accumulator: any, value: any) => {
           return accumulator + value;
         }, 0);
       let valueGL = Object.values(
         filterAdj(data.CodOficial).filter((e) => e.Categoria === "GS")[0]
       )
-        .slice(5, 16)
+        .slice(5, 17)
         .reduce((accumulator: any, value: any) => {
           return accumulator + value;
         }, 0);
@@ -62,14 +62,14 @@ const EfectividadAdjForm = () => {
       let valuePL = Object.values(
         filterAdj(data.CodOficial).filter((e) => e.Categoria === "PL")[0]
       )
-        .slice(5, 16)
+        .slice(5, 17)
         .reduce((accumulator: any, value: any) => {
           return accumulator + value;
         }, 0);
       let valueGL = Object.values(
         filterAdj(data.CodOficial).filter((e) => e.Categoria === "GL")[0]
       )
-        .slice(5, 16)
+        .slice(5, 17)
         .reduce((accumulator: any, value: any) => {
           return accumulator + value;
         }, 0);
@@ -81,21 +81,21 @@ const EfectividadAdjForm = () => {
       let valuePL = Object.values(
         filterAdj(data.CodOficial).filter((e) => e.Categoria === "PE")[0]
       )
-        .slice(5, 16)
+        .slice(5, 17)
         .reduce((accumulator: any, value: any) => {
           return accumulator + value;
         }, 0);
       let valueGL = Object.values(
         filterAdj(data.CodOficial).filter((e) => e.Categoria === "GE")[0]
       )
-        .slice(5, 16)
+        .slice(5, 17)
         .reduce((accumulator: any, value: any) => {
           return accumulator + value;
         }, 0);
       Prom = valuePL / valueGL;
       return Math.round(isNaN(Prom) ? 0 : Prom * 100).toString() + "%";
     }
-    const values = Object.values(data).slice(5, 16);
+    const values = Object.values(data).slice(5, 17);
     return values.reduce((accumulator: any, value: any) => {
       return accumulator + value;
     }, 0);
