@@ -44,7 +44,7 @@ const ReporteZonal = () => {
 }
 
   const onCellPrepared = (e) => {
-    if(e.rowType === 'groupFooter') console.log(e)
+/*     if(e.rowType === 'groupFooter') console.log(e) */
     if (e.rowType === 'totalFooter') {
       e.cellElement.style.backgroundColor = '#4b5866ad' 
     }else if (e.rowType === 'groupFooter'){
