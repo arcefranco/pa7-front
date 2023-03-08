@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { RootState } from "../../../../store";
 import BiggerTitleLogo from "../../../../styled-components/containers/BiggerTitleLogo";
 import { ReturnLogo } from "../../../../helpers/ReturnLogo";
 import TitlePrimary from "../../../../styled-components/h/TitlePrimary";
@@ -10,18 +9,14 @@ import {
 } from "../../../../reducers/Operaciones/efectividadAdj/efectividadAdjSlice";
 import JsPDF from 'jspdf';
 import { exportDataGrid } from 'devextreme/pdf_exporter';
-import { AppDispatch } from "../../../../store";
 import AdjForm from "./AdjForm";
 import DataGrid, {
   Column,
-  Summary,
-  TotalItem,
-  GroupItem,
   Scrolling,
   Export,
 } from "devextreme-react/data-grid";
 import styles from "./Efectividad.module.css";
-import { ConnectingAirportsOutlined } from "@mui/icons-material";
+import { addCommas } from "../../../../helpers/addComas";
 
 
 const EfectividadAdjForm = () => {
@@ -42,13 +37,13 @@ const EfectividadAdjForm = () => {
     exportDataGrid({
       jsPDFDocument: doc,
 
-      columnWidths: [38, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17, 17],
+      columnWidths: [55, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15, 15],
       component: e.component,
       margin: {
         top: 30,
         bottom: 15
       },
-      topLeft:  { x: 15, y: 0 },
+      topLeft:  { x: 20, y: 0 },
       repeatHeaders: true,
       customDrawCell({ rect }) {
         if (lastPoint.x < rect.x + rect.w) {
@@ -59,19 +54,34 @@ const EfectividadAdjForm = () => {
         }
       },
       customizeCell: function({gridCell, pdfCell}) {
-        console.log(gridCell, pdfCell)
-
+        console.log('gridCell: ', gridCell, 'pdfCell: ', pdfCell)
+        if(gridCell.rowType === "group" && gridCell.column.dataField === "Tipo"){
+          pdfCell.text = ""
+          
+        } 
+        if(gridCell.hasOwnProperty('data') && gridCell.value){
+          pdfCell.text = addCommas(gridCell.value)
+        }
+        if(gridCell.hasOwnProperty('data') && !gridCell.value){
+          pdfCell.text = "0"
+        }
+        if(gridCell.rowType === "group"){
+          pdfCell.backgroundColor = "#495057"
+          pdfCell.textColor = "#ffffff"
+        }
+         if(gridCell.hasOwnProperty('data') && (gridCell.data.Categoria === "PT" || 
+        gridCell.data.Categoria === "GT" || 
+        gridCell.data.Categoria === "PORT")){
+          pdfCell.backgroundColor = '#808080'
+        } 
+        if(gridCell.column.dataField === 'Total'){
+          pdfCell.backgroundColor = '#097969'
+          pdfCell.textColor = '#ffffff'
+        }
         if(gridCell.rowType === 'header'){
           pdfCell.horizontalAlign = 'center'
           pdfCell.font = {  size: 7 };
                
-        }else if(gridCell.rowType === 'groupFooter'){
-            
-          pdfCell.backgroundColor = '#808080'
-          pdfCell.textColor = '#ffffff'
-        }else if(gridCell.rowType === 'totalFooter'){
-          pdfCell.backgroundColor = '#ffffff'
-          pdfCell.textColor = '#ffffff'
         }else{
           pdfCell.font = {  size: 7 };
         }
@@ -96,8 +106,58 @@ const EfectividadAdjForm = () => {
         for(let i = 0; i<=pages; i++){
           doc.setPage(i)
           doc.text(header, (pageWidth - headerWidth) / 2, 10);
-          doc.text('Período:', 15,  20)
-          doc.text(`${user?.empresaReal}`, (pageWidth - 40),  20)
+          doc.text(`Período: ${anio && `${anio[0].mes  === "1"
+          ? "Enero"
+          : anio[0].mes === "2"
+          ? "Febrero"
+          : anio[0].mes === "3"
+          ? "Marzo"
+          : anio[0].mes === "4"
+          ? "Abril"
+          : anio[0].mes === "5"
+          ? "Mayo"
+          : anio[0].mes === "6"
+          ? "Junio"
+          : anio[0].mes === "7"
+          ? "Julio"
+          : anio[0].mes === "8"
+          ? "Agosto"
+          : anio[0].mes === "9"
+          ? "Septiembre"
+          : anio[0].mes === "10"
+          ? "Octubre"
+          : anio[0].mes === "11"
+          ? "Noviembre"
+          : anio[0].mes === "12"
+          ? "Diciembre"
+          : ""} ${anio[0].anio} - ${anio[11].mes  === "1"
+            ? "Enero"
+            : anio[11].mes === "2"
+            ? "Febrero"
+            : anio[11].mes === "3"
+            ? "Marzo"
+            : anio[11].mes === "4"
+            ? "Abril"
+            : anio[11].mes === "5"
+            ? "Mayo"
+            : anio[11].mes === "6"
+            ? "Junio"
+            : anio[11].mes === "7"
+            ? "Julio"
+            : anio[11].mes === "8"
+            ? "Agosto"
+            : anio[11].mes === "9"
+            ? "Septiembre"
+            : anio[11].mes === "10"
+            ? "Octubre"
+            : anio[11].mes === "11"
+            ? "Noviembre"
+            : anio[11].mes === "12"
+            ? "Diciembre"
+            : ""} ${anio[11].anio}`} ${adjudicaciones.length === 13 ? 
+              `(Oficial ${adjudicaciones[0].NombreOficial}) (Excluye Planes Propios Cancelados)` : "(Excluye Planes Propios Cancelados)"}`
+            , 15,  20)
+          doc.text(`${user?.empresaReal} ${day}/${month}/${year}`, (pageWidth - 40),  20)
           doc.line(15,  25, (pageWidth - 20),  25, 'F')
         }
 
@@ -107,7 +167,7 @@ const EfectividadAdjForm = () => {
       doc.setTextColor('#000');
       for(let i = 0; i<pages; i++){
         doc.setPage(i)
-        doc.text(`PB: ${user} -  ${day}/${month}/${year} ${date.toLocaleTimeString()}`, 15, 200);
+        doc.text(`PB: ${user?.username} -  ${day}/${month}/${year} ${date.toLocaleTimeString()}`, 15, 200);
         doc.text(`Pagina ${i === 0 ? pages : i} de ${pages}`, (pageWidth - 40), 200);
       }
       doc.save(`Reporte_ADJ.pdf`);
@@ -175,12 +235,38 @@ const EfectividadAdjForm = () => {
       Prom = valuePL / valueGL;
       return Math.round(isNaN(Prom) ? 0 : Prom * 100).toString() + "%";
     }
+    if (data.Categoria === "PORT") {
+      let Prom;
+      let valuePL = Object.values(
+        filterAdj(data.CodOficial).filter((e) => e.Categoria === "PT")[0]
+      )
+        .slice(5, 17)
+        .reduce((accumulator, value) => {
+          return accumulator + value;
+        }, 0);
+      let valueGL = Object.values(
+        filterAdj(data.CodOficial).filter((e) => e.Categoria === "GT")[0]
+      )
+        .slice(5, 17)
+        .reduce((accumulator, value) => {
+          return accumulator + value;
+        }, 0);
+      Prom = valuePL / valueGL;
+      return Math.round(isNaN(Prom) ? 0 : Prom * 100).toString() + "%";
+    }
     const values = Object.values(data).slice(5, 17);
     return values.reduce((accumulator, value) => {
       return accumulator + value;
     }, 0);
   };
   const onCellPrepared = (e) => {
+
+
+    if(e.rowType === "data" && e.data.Categoria === "PT" || 
+    e.rowType === "data" && e.data.Categoria === "GT" || 
+    e.rowType === "data" && e.data.Categoria === "PORT"){
+      e.cellElement.style.backgroundColor = "#4b5866ad";
+    }
     if (e.rowType === "totalFooter") {
       e.cellElement.style.backgroundColor = "#4b5866ad";
     } else if (e.rowType === "groupFooter") {
@@ -200,6 +286,7 @@ const EfectividadAdjForm = () => {
   useEffect(() => {
     let keys;
     if (adjudicaciones.length) {
+      console.log(adjudicaciones.length)
       keys = Object.keys(adjudicaciones[0]).map((e) => e.split("_"));
 
       setAnio(
@@ -235,7 +322,7 @@ const EfectividadAdjForm = () => {
       );
     }
   }, [adjudicaciones]);
-
+  const GroupCell = options => <div></div>;
   return (
     <div>
       <BiggerTitleLogo>
@@ -249,7 +336,7 @@ const EfectividadAdjForm = () => {
       </BiggerTitleLogo>
 
       <AdjForm dispatchFunc={getAdjudicaciones} />
-
+      <h1>{}</h1>
       <DataGrid
         style={{ fontSize: "10px" }}
         height={650}
@@ -267,7 +354,7 @@ const EfectividadAdjForm = () => {
           allowExportSelectedData={false}
         />
         <Column dataField="NombreOficial" caption="Oficial" groupIndex={0} />
-        <Column dataField="Tipo" groupIndex={1} />
+        <Column dataField="Tipo" groupIndex={1} groupCellRender={GroupCell} />
         <Column dataField="NombreCategoria" caption="" />
         {anio.length > 1 &&
           anio.map((e) => {
@@ -277,31 +364,31 @@ const EfectividadAdjForm = () => {
                   dataField={`${e.mes}_${e.anio}`}
                   caption={`${
                     e.mes === "1"
-                      ? "Enero"
+                      ? "Ene."
                       : e.mes === "2"
-                      ? "Febrero"
+                      ? "Feb."
                       : e.mes === "3"
-                      ? "Marzo"
+                      ? "Mar."
                       : e.mes === "4"
-                      ? "Abril"
+                      ? "Abr."
                       : e.mes === "5"
-                      ? "Mayo"
+                      ? "May."
                       : e.mes === "6"
-                      ? "Junio"
+                      ? "Jun."
                       : e.mes === "7"
-                      ? "Julio"
+                      ? "Jul."
                       : e.mes === "8"
-                      ? "Agosto"
+                      ? "Ago."
                       : e.mes === "9"
-                      ? "Septiembre"
+                      ? "Sept."
                       : e.mes === "10"
-                      ? "Octubre"
+                      ? "Oct."
                       : e.mes === "11"
-                      ? "Noviembre"
+                      ? "Nov."
                       : e.mes === "12"
-                      ? "Diciembre"
+                      ? "Dic."
                       : ""
-                  } ${e.anio}`}
+                  } ${e.anio.slice(2)}`}
                 />
               );
             }
