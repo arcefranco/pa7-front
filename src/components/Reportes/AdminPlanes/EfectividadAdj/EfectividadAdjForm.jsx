@@ -17,7 +17,7 @@ import DataGrid, {
 } from "devextreme-react/data-grid";
 import styles from "./Efectividad.module.css";
 import { addCommas } from "../../../../helpers/addComas";
-
+import excelCustomizeConfig from "./excelCustomizeConfig";
 
 const EfectividadAdjForm = () => {
   const { user } = useSelector((state) => state.login);
@@ -31,7 +31,7 @@ const EfectividadAdjForm = () => {
 
   const onExporting = React.useCallback((e) => {
 
-/*     if (e.format === 'xlsx')  return excelCustomizeConfig(e) */
+  if (e.format === 'xlsx')  return excelCustomizeConfig(e) 
     const doc = new JsPDF('landscape');
 
     exportDataGrid({
@@ -54,7 +54,7 @@ const EfectividadAdjForm = () => {
         }
       },
       customizeCell: function({gridCell, pdfCell}) {
-        console.log('gridCell: ', gridCell, 'pdfCell: ', pdfCell)
+
         if(gridCell.rowType === "group" && gridCell.column.dataField === "Tipo"){
           pdfCell.text = ""
           
