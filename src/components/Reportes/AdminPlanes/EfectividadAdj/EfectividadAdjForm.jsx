@@ -27,6 +27,7 @@ const EfectividadAdjForm = () => {
   const dispatch = useDispatch();
   const lastPoint = { x: 0, y: 0 };
   const [anio, setAnio] = useState([]);
+  const [empresasNombres, setEmpresasNombres] = useState([])
   const exportFormats = ["pdf", "xlsx"];
 
   const onExporting = React.useCallback((e) => {
@@ -173,89 +174,93 @@ const EfectividadAdjForm = () => {
       doc.save(`Reporte_ADJ.pdf`);
     });
   }); 
-  const filterAdj = (codigoOficial) => {
-    return adjudicaciones.filter((e) => e.CodOficial === codigoOficial);
+  const filterAdj = (codigoOficial, Categoria, Empresa) => {
+    return adjudicaciones.filter((e) => e.CodOficial === codigoOficial && e.Categoria === Categoria && e.Empresa === Empresa);
   };
 
   const getTotal = (data) => {
-    if (data.Categoria === "PORS") {
-      let Prom;
-      let valuePL = Object.values(
-        filterAdj(data.CodOficial).filter((e) => e.Categoria === "PS")[0]
-      )
-        .slice(6, 18)
-        .reduce((accumulator, value) => {
-          return accumulator + value;
-        }, 0);
-      let valueGL = Object.values(
-        filterAdj(data.CodOficial).filter((e) => e.Categoria === "GS")[0]
-      )
-        .slice(6, 18)
-        .reduce((accumulator, value) => {
-          return accumulator + value;
-        }, 0);
-      Prom = valuePL / valueGL;
-      return Math.round(isNaN(Prom) ? 0 : Prom * 100).toString() + "%";
-    }
-    if (data.Categoria === "PORL") {
-      let Prom;
-      let valuePL = Object.values(
-        filterAdj(data.CodOficial).filter((e) => e.Categoria === "PL")[0]
-      )
-        .slice(6, 18)
-        .reduce((accumulator, value) => {
-          return accumulator + value;
-        }, 0);
-      let valueGL = Object.values(
-        filterAdj(data.CodOficial).filter((e) => e.Categoria === "GL")[0]
-      )
-        .slice(6, 18)
-        .reduce((accumulator, value) => {
-          return accumulator + value;
-        }, 0);
-      Prom = valuePL / valueGL;
-      return Math.round(isNaN(Prom) ? 0 : Prom * 100).toString() + "%";
-    }
-    if (data.Categoria === "PORE") {
-      let Prom;
-      let valuePL = Object.values(
-        filterAdj(data.CodOficial).filter((e) => e.Categoria === "PE")[0]
-      )
-        .slice(6, 18)
-        .reduce((accumulator, value) => {
-          return accumulator + value;
-        }, 0);
-      let valueGL = Object.values(
-        filterAdj(data.CodOficial).filter((e) => e.Categoria === "GE")[0]
-      )
-        .slice(6, 18)
-        .reduce((accumulator, value) => {
-          return accumulator + value;
-        }, 0);
-      Prom = valuePL / valueGL;
-      return Math.round(isNaN(Prom) ? 0 : Prom * 100).toString() + "%";
-    }
-    if (data.Categoria === "PORT") {
-      let Prom;
-      let valuePL = Object.values(
-        filterAdj(data.CodOficial).filter((e) => e.Categoria === "PT")[0]
-      )
-        .slice(6, 18)
-        .reduce((accumulator, value) => {
-          return accumulator + value;
-        }, 0);
-      let valueGL = Object.values(
-        filterAdj(data.CodOficial).filter((e) => e.Categoria === "GT")[0]
-      )
-        .slice(6, 18)
-        .reduce((accumulator, value) => {
-          return accumulator + value;
-        }, 0);
-      Prom = valuePL / valueGL;
-      return Math.round(isNaN(Prom) ? 0 : Prom * 100).toString() + "%";
+
+    for(let i = 0; i<=empresasNombres.length - 1; i++){
+      if (data.Categoria === "PORS" && data.Empresa === empresasNombres[i]) {
+        let Prom;
+        let valuePL = Object.values(
+          filterAdj(data.CodOficial, "PS", empresasNombres[i])[0]
+        )
+          .slice(6, 18)
+          .reduce((accumulator, value) => {
+            return accumulator + value;
+          }, 0);
+        let valueGL = Object.values(
+          filterAdj(data.CodOficial, "GS", empresasNombres[i])[0]
+        )
+          .slice(6, 18)
+          .reduce((accumulator, value) => {
+            return accumulator + value;
+          }, 0);
+  
+        Prom = valuePL / valueGL;
+        return Math.round(isNaN(Prom) ? 0 : Prom * 100).toString() + "%";
+      }
+      if (data?.Categoria === "PORL" && data?.Empresa === empresasNombres[i]) {
+        let Prom;
+        let valuePL = Object.values(
+          filterAdj(data.CodOficial, "PL", empresasNombres[i])[0]
+        )
+          .slice(6, 18)
+          .reduce((accumulator, value) => {
+            return accumulator + value;
+          }, 0);
+        let valueGL = Object.values(
+          filterAdj(data.CodOficial, "GL", empresasNombres[i])[0]
+        )
+          .slice(6, 18)
+          .reduce((accumulator, value) => {
+            return accumulator + value;
+          }, 0);
+        Prom = valuePL / valueGL;
+        return Math.round(isNaN(Prom) ? 0 : Prom * 100).toString() + "%";
+      }
+      if (data.Categoria === "PORE" && data.Empresa === empresasNombres[i]) {
+        let Prom;
+        let valuePL = Object.values(
+          filterAdj(data.CodOficial, "PE", empresasNombres[i])[0]
+        )
+          .slice(6, 18)
+          .reduce((accumulator, value) => {
+            return accumulator + value;
+          }, 0);
+        let valueGL = Object.values(
+          filterAdj(data.CodOficial, "GE", empresasNombres[i])[0]
+        )
+          .slice(6, 18)
+          .reduce((accumulator, value) => {
+            return accumulator + value;
+          }, 0);
+        Prom = valuePL / valueGL;
+        return Math.round(isNaN(Prom) ? 0 : Prom * 100).toString() + "%";
+      }
+      if (data.Categoria === "PORT" && data.Empresa === empresasNombres[i]) {
+        let Prom;
+        let valuePL = Object.values(
+          filterAdj(data.CodOficial, "PT", empresasNombres[i])[0]
+        )
+          .slice(6, 18)
+          .reduce((accumulator, value) => {
+            return accumulator + value;
+          }, 0);
+        let valueGL = Object.values(
+          filterAdj(data.CodOficial, "GT", empresasNombres[i])[0]
+        )
+          .slice(6, 18)
+          .reduce((accumulator, value) => {
+            return accumulator + value;
+          }, 0);
+        Prom = valuePL / valueGL;
+        return Math.round(isNaN(Prom) ? 0 : Prom * 100).toString() + "%";
+      }
+
     }
     const values = Object.values(data).slice(6, 18);
-    console.log(values)
     return values.reduce((accumulator, value) => {
       return accumulator + value;
     }, 0);
@@ -287,7 +292,6 @@ const EfectividadAdjForm = () => {
   useEffect(() => {
     let keys;
     if (adjudicaciones.length) {
-      console.log(adjudicaciones.length)
       keys = Object.keys(adjudicaciones[0]).map((e) => e.split("_"));
 
       setAnio(
@@ -321,6 +325,11 @@ const EfectividadAdjForm = () => {
             return element !== undefined;
           })
       );
+      setEmpresasNombres(
+        adjudicaciones.filter((obj, index, arr) => {
+          return arr.map(mapObj => mapObj.Empresa).indexOf(obj.Empresa) === index}).map(e => e.Empresa)
+      )      
+          
     }
   }, [adjudicaciones]);
   const GroupCell = options => <div></div>;
@@ -374,6 +383,7 @@ const EfectividadAdjForm = () => {
               return (
                 <Column
                   dataField={`${e.mes}_${e.anio}`}
+                  alignment={"right"}
                   caption={`${
                     e.mes === "1"
                       ? "Ene."
