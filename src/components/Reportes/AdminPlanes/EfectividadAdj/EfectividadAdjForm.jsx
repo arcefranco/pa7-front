@@ -21,7 +21,7 @@ import excelCustomizeConfig from "./excelCustomizeConfig";
 
 const EfectividadAdjForm = () => {
   const { user } = useSelector((state) => state.login);
-  const { adjudicaciones } = useSelector(
+  const { adjudicaciones, isLoading } = useSelector(
     (state) => state.EfectividadAdj
   );
   const dispatch = useDispatch();
@@ -183,14 +183,14 @@ const EfectividadAdjForm = () => {
       let valuePL = Object.values(
         filterAdj(data.CodOficial).filter((e) => e.Categoria === "PS")[0]
       )
-        .slice(5, 17)
+        .slice(6, 18)
         .reduce((accumulator, value) => {
           return accumulator + value;
         }, 0);
       let valueGL = Object.values(
         filterAdj(data.CodOficial).filter((e) => e.Categoria === "GS")[0]
       )
-        .slice(5, 17)
+        .slice(6, 18)
         .reduce((accumulator, value) => {
           return accumulator + value;
         }, 0);
@@ -202,14 +202,14 @@ const EfectividadAdjForm = () => {
       let valuePL = Object.values(
         filterAdj(data.CodOficial).filter((e) => e.Categoria === "PL")[0]
       )
-        .slice(5, 17)
+        .slice(6, 18)
         .reduce((accumulator, value) => {
           return accumulator + value;
         }, 0);
       let valueGL = Object.values(
         filterAdj(data.CodOficial).filter((e) => e.Categoria === "GL")[0]
       )
-        .slice(5, 17)
+        .slice(6, 18)
         .reduce((accumulator, value) => {
           return accumulator + value;
         }, 0);
@@ -221,14 +221,14 @@ const EfectividadAdjForm = () => {
       let valuePL = Object.values(
         filterAdj(data.CodOficial).filter((e) => e.Categoria === "PE")[0]
       )
-        .slice(5, 17)
+        .slice(6, 18)
         .reduce((accumulator, value) => {
           return accumulator + value;
         }, 0);
       let valueGL = Object.values(
         filterAdj(data.CodOficial).filter((e) => e.Categoria === "GE")[0]
       )
-        .slice(5, 17)
+        .slice(6, 18)
         .reduce((accumulator, value) => {
           return accumulator + value;
         }, 0);
@@ -240,21 +240,22 @@ const EfectividadAdjForm = () => {
       let valuePL = Object.values(
         filterAdj(data.CodOficial).filter((e) => e.Categoria === "PT")[0]
       )
-        .slice(5, 17)
+        .slice(6, 18)
         .reduce((accumulator, value) => {
           return accumulator + value;
         }, 0);
       let valueGL = Object.values(
         filterAdj(data.CodOficial).filter((e) => e.Categoria === "GT")[0]
       )
-        .slice(5, 17)
+        .slice(6, 18)
         .reduce((accumulator, value) => {
           return accumulator + value;
         }, 0);
       Prom = valuePL / valueGL;
       return Math.round(isNaN(Prom) ? 0 : Prom * 100).toString() + "%";
     }
-    const values = Object.values(data).slice(5, 17);
+    const values = Object.values(data).slice(6, 18);
+    console.log(values)
     return values.reduce((accumulator, value) => {
       return accumulator + value;
     }, 0);
@@ -337,6 +338,16 @@ const EfectividadAdjForm = () => {
 
       <AdjForm dispatchFunc={getAdjudicaciones} />
       <h1>{}</h1>
+      {
+          isLoading ? 
+          <div className={styles.loadingDiv}>
+            <div className={styles.loadingSpans}>
+            <span>Cargando...</span>
+            <span>Esto puede demorar unos minutos</span>
+
+            </div>
+          </div> : <div></div>
+        }
       <DataGrid
         style={{ fontSize: "10px" }}
         height={650}
@@ -353,8 +364,9 @@ const EfectividadAdjForm = () => {
           formats={exportFormats}
           allowExportSelectedData={false}
         />
-        <Column dataField="NombreOficial" caption="Oficial" groupIndex={0} />
-        <Column dataField="Tipo" groupIndex={1} groupCellRender={GroupCell} />
+        <Column dataField="NomOficial" caption="Oficial" groupIndex={0} />
+        <Column dataField="Empresa" caption="Empresa" groupIndex={1} />
+        <Column dataField="Tipo" groupIndex={2} groupCellRender={GroupCell} />
         <Column dataField="NombreCategoria" caption="" />
         {anio.length > 1 &&
           anio.map((e) => {
