@@ -16,6 +16,7 @@ const AdjForm = ({ dispatchFunc }) => {
     anio: 0,
     oficial: 0,
     codigoMarca: user?.codigoMarca,
+    todasLasEmpresas: 0,
   });
 
   const handleSubmit = () => {
@@ -28,6 +29,14 @@ const AdjForm = ({ dispatchFunc }) => {
       ...form,
       [name]: parseValue,
     };
+    setForm(newForm);
+  };
+
+  const handleCheckChange = (e) => {
+    const { name } = e.target;
+    var value = e.target.checked;
+    value = e.target.checked ? 1 : 0;
+    const newForm = { ...form, [name]: value };
     setForm(newForm);
   };
 
@@ -91,6 +100,15 @@ const AdjForm = ({ dispatchFunc }) => {
                   );
                 })}
             </select>
+          </div>
+          <div>
+            <input
+              type="checkbox"
+              name="todasLasEmpresas"
+              value={form.todasLasEmpresas}
+              onChange={handleCheckChange}
+            />
+            <span>Todas las empresas</span>
           </div>
           <ButtonPrimary onClick={handleSubmit}>Ver</ButtonPrimary>
         </div>
