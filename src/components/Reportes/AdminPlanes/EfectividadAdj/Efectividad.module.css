@@ -37,3 +37,22 @@
 .columnYellow{
     background-color: #ffff0061;
 }
+.loadingDiv{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    align-items: center;
+    place-content: center;
+    z-index: 1;
+    width: -webkit-fill-available;
+    background: #00000040;
+    height: -webkit-fill-available;
+}
+.loadingSpans{
+    flex-direction: column;
+    display: flex;
+    align-items: center;
+    background: white;
+    padding: 1rem;
+    border-radius: 5px;
+}
