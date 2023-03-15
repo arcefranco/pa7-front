@@ -26,9 +26,28 @@ const getOficialesAdj = async () => {
   return getFunction("Reportes/efectividadAdj/oficiales");
 };
 
+const getDetalleEfectividad = async (data) => {
+  try {
+    const headers = getHeaderToken();
+    const response: AxiosResponse = await axios.post(
+      process.env.REACT_APP_HOST + "Reportes/efectividadAdj/detalle",
+      data,
+      headers
+    );
+    if (Array.isArray(response.data)) {
+      return response.data;
+    } else {
+      throw response.data;
+    }
+  } catch (error) {
+    return ServiceErrorHandler(error, "Reportes/efectividadAdj/detalle");
+  }
+};
+
 const efectividadAdjService = {
   getAdjudicaciones,
   getOficialesAdj,
+  getDetalleEfectividad,
 };
 
 export default efectividadAdjService;

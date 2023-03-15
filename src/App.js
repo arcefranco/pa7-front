@@ -37,6 +37,7 @@ import AltaPre from "./components/Operaciones/AltaPre/AltaPre";
 import ActualPreScreen from "./components/Operaciones/ActualizacionPre/ActualPreScreen";
 import ActualForm from "./components/Operaciones/ActualizacionPre/ActualForm";
 import EfectividadAdjForm from "./components/Reportes/AdminPlanes/EfectividadAdj/EfectividadAdjForm";
+import EfectividadDetalle from "./components/Reportes/AdminPlanes/EfectividadAdj/EfectividadDetalle";
 
 function App() {
   const { user, toggle } = useSelector((state) => state.login);
@@ -175,6 +176,10 @@ function App() {
           <Route
             path="reportes/efectividadAdj"
             element={<EfectividadAdjForm />}
+          />
+          <Route
+            path="/detalleEfectividad/:marca/:tipo/:mes/:anio/:oficial/:periodoCompleto"
+            element={<EfectividadDetalle />}
           />
         </Routes>
       </div>
