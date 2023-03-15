@@ -56,3 +56,15 @@
     padding: 1rem;
     border-radius: 5px;
 }
+
+.buttonOperacion {
+    padding: 0.25rem 0.3rem 0.25rem 0.3rem;
+    border: none;
+    background-color: #3c8dbc;
+    border-radius: 0.25em;
+    box-shadow: none;
+    min-width: 4.5em;
+    color: white;
+    margin: 0.05em;
+    font-size: .9em;
+}

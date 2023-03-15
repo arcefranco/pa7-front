@@ -18,6 +18,7 @@ import DataGrid, {
 import styles from "./Efectividad.module.css";
 import { addCommas } from "../../../../helpers/addComas";
 import excelCustomizeConfig from "./excelCustomizeConfig";
+import { useNavigate } from "react-router-dom";
 
 const EfectividadAdjForm = () => {
   const { user } = useSelector((state) => state.login);
@@ -25,6 +26,7 @@ const EfectividadAdjForm = () => {
     (state) => state.EfectividadAdj
   );
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const lastPoint = { x: 0, y: 0 };
   const [anio, setAnio] = useState([]);
   const [empresasNombres, setEmpresasNombres] = useState([])
@@ -171,7 +173,55 @@ const EfectividadAdjForm = () => {
         doc.text(`PB: ${user?.username} -  ${day}/${month}/${year} ${date.toLocaleTimeString()}`, 15, 200);
         doc.text(`Pagina ${i === 0 ? pages : i} de ${pages}`, (pageWidth - 40), 200);
       }
-      doc.save(`Reporte_ADJ.pdf`);
+      doc.save(`Reporte_EfectividadADJ_${anio[0].mes  === "1"
+      ? "Enero"
+      : anio[0].mes === "2"
+      ? "Febrero"
+      : anio[0].mes === "3"
+      ? "Marzo"
+      : anio[0].mes === "4"
+      ? "Abril"
+      : anio[0].mes === "5"
+      ? "Mayo"
+      : anio[0].mes === "6"
+      ? "Junio"
+      : anio[0].mes === "7"
+      ? "Julio"
+      : anio[0].mes === "8"
+      ? "Agosto"
+      : anio[0].mes === "9"
+      ? "Septiembre"
+      : anio[0].mes === "10"
+      ? "Octubre"
+      : anio[0].mes === "11"
+      ? "Noviembre"
+      : anio[0].mes === "12"
+      ? "Diciembre"
+      : ""} ${anio[0].anio} - ${anio[11].mes  === "1"
+        ? "Enero"
+        : anio[11].mes === "2"
+        ? "Febrero"
+        : anio[11].mes === "3"
+        ? "Marzo"
+        : anio[11].mes === "4"
+        ? "Abril"
+        : anio[11].mes === "5"
+        ? "Mayo"
+        : anio[11].mes === "6"
+        ? "Junio"
+        : anio[11].mes === "7"
+        ? "Julio"
+        : anio[11].mes === "8"
+        ? "Agosto"
+        : anio[11].mes === "9"
+        ? "Septiembre"
+        : anio[11].mes === "10"
+        ? "Octubre"
+        : anio[11].mes === "11"
+        ? "Noviembre"
+        : anio[11].mes === "12"
+        ? "Diciembre"
+        : ""} ${anio[11].anio}.pdf`);
     });
   }); 
   const filterAdj = (codigoOficial, Categoria, Empresa) => {
@@ -285,6 +335,72 @@ const EfectividadAdjForm = () => {
       e.cellElement.style.setProperty("color", "#fff");
     }
   };
+  
+  const onCellClick = (e) => {
+    
+    let marca;
+    let tipo;
+    let mes;
+    let anioDetalle;
+    let oficial;
+    let periodoCompleto = 0;
+
+    if(e.data.Empresa === "Car Group S.A."){
+      marca = 2
+    }else if(e.data.Empresa === "Autonet S.A."){
+      marca = 2
+    }else if(e.data.Empresa === "Alizze S.A."){
+      marca = 11
+    }else if(e.data.Empresa === "Elysees S.A."){
+      marca = 12
+    }else if(e.data.Empresa === "Detroit S.A."){
+      marca = 7
+    }else if(e.data.Empresa === "Autos del Plata S.A."){
+      marca = 6
+    }else if(e.data.Empresa === "Gestion Financiera Luxcar S.A."){
+      marca = 10
+    }else{
+      marca = 0
+    }
+
+
+    if(e.data.Categoria === "GS"){
+      tipo = 0
+    }else if(e.data.Categoria === "GL"){
+      tipo = 1
+    }else if(e.data.Categoria === "GE"){
+      tipo = 2
+    }else if(e.data.Categoria === "PS"){
+      tipo = 3
+    }else if(e.data.Categoria === "PL"){
+      tipo = 4
+    }else if(e.data.Categoria === "PE"){
+       tipo = 5
+    }else if(e.data.Categoria === "PEAC"){
+      tipo = 6
+    }else{
+      tipo = null
+    }
+
+    if(e.data.CodOficial !== 999999){
+      oficial = e.data.CodOficial
+    }else if(e.data.CodOficial === 999999){
+      oficial = -1
+    }
+    if(e.column.dataField !== "Total"){
+      mes = parseInt(e.column.dataField.split("_")[0])
+      anioDetalle = parseInt(e.column.dataField.split("_")[1])
+    }else{
+      mes = parseInt(anio[anio.length - 1].mes)
+      anioDetalle = parseInt(anio[anio.length - 1].anio)
+      periodoCompleto = 1
+    }
+
+    navigate(`/detalleEfectividad/${marca}/${tipo}/${mes}/${anioDetalle}/${oficial}/${periodoCompleto}`)
+
+
+  }
+
   useEffect(() => {
     dispatch(getOficialesAdj());
   }, []);
@@ -363,6 +479,7 @@ const EfectividadAdjForm = () => {
         onExporting={onExporting}
         className={styles.dataGrid}
         onCellPrepared={onCellPrepared}
+        onCellClick={onCellClick}
         columnAutoWidth={true}
         defaultPaging={false}
         dataSource={adjudicaciones ? adjudicaciones : null}
@@ -376,7 +493,7 @@ const EfectividadAdjForm = () => {
         <Column dataField="NomOficial" caption="Oficial" groupIndex={0} />
         <Column dataField="Empresa" caption="Empresa" groupIndex={1} />
         <Column dataField="Tipo" groupIndex={2} groupCellRender={GroupCell} />
-        <Column dataField="NombreCategoria" caption="" />
+        <Column dataField="NombreCategoria" caption=""  />
         {anio.length > 1 &&
           anio.map((e) => {
             if (e && Object.keys(e).length) {

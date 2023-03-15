@@ -28,6 +28,35 @@ const excelCustomizeConfig = (e) => {
       ) {
         excelCell.value = "";
       }
+
+      if (
+        gridCell.column.name === "FechaAdj" ||
+        gridCell.column.name === "FechaSus" ||
+        gridCell.column.name === "FechaAgrup" ||
+        gridCell.column.name === "FechaPedido" ||
+        gridCell.column.name === "FechaAceptacionPedido"
+      ) {
+        excelCell.value = excelCell.value
+          .slice(0, 10)
+          .split("-")
+          .reverse()
+          .join("/");
+      }
+
+      if (gridCell.column.name === "tipoplan") {
+        if (excelCell.value === 1) {
+          excelCell.value = "100%";
+        }
+        if (excelCell.value === 2) {
+          excelCell.value = "70/30";
+        }
+        if (excelCell.value === 3) {
+          excelCell.value = "60/40";
+        }
+        if (excelCell.value === 5) {
+          excelCell.value = "80/20";
+        }
+      }
     },
   }).then(function () {
     workbook.xlsx.writeBuffer().then(function (buffer) {
