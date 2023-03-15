@@ -6,12 +6,14 @@ import efectividadAdjService from "./efectividadAdjService";
 import { Oficial } from "../../../types/ConfigDatosGenerales/Oficiales/Oficiales";
 interface efectividadAdjState extends ReduxState {
   adjudicaciones: Adjudicacion[];
+  adjudicacionesDetalle: Adjudicacion[];
   oficialesAdj: Oficial[];
   adjudicacionStatus: ResponseStatus | null;
 }
 
 const initialState: efectividadAdjState = {
   adjudicaciones: [],
+  adjudicacionesDetalle: [],
   oficialesAdj: [],
   adjudicacionStatus: null,
   isError: false,
@@ -22,16 +24,20 @@ const initialState: efectividadAdjState = {
 
 export const getAdjudicaciones = createAsyncThunk(
   "Reportes/efectividadAdj/getAdj",
-  async (
-    data: {
-      codigoMarca: number;
-      mes: number;
-      anio: number;
-      oficial: number;
-    },
-    { rejectWithValue }
-  ) => {
+  async (data, { rejectWithValue }) => {
     const result = await efectividadAdjService.getAdjudicaciones(data);
+    if (Array.isArray(result)) {
+      return result;
+    } else {
+      return rejectWithValue(result);
+    }
+  }
+);
+
+export const getDetalleEfectividad = createAsyncThunk(
+  "Reportes/efectividadAdj/detalle",
+  async (data, { rejectWithValue }) => {
+    const result = await efectividadAdjService.getDetalleEfectividad(data);
     if (Array.isArray(result)) {
       return result;
     } else {
@@ -66,9 +72,6 @@ export const efectividadAdjSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(getAdjudicaciones.pending, (state) => {
-        state.isLoading = true;
-      })
       .addCase(getAdjudicaciones.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
@@ -79,7 +82,20 @@ export const efectividadAdjSlice = createSlice({
         state.isError = true;
         state.adjudicacionStatus = action.payload as ResponseStatus;
       })
-      .addCase(getOficialesAdj.pending, (state) => {
+      .addCase(getAdjudicaciones.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getDetalleEfectividad.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.adjudicacionesDetalle = action.payload;
+      })
+      .addCase(getDetalleEfectividad.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.adjudicacionStatus = action.payload as ResponseStatus;
+      })
+      .addCase(getDetalleEfectividad.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(getOficialesAdj.fulfilled, (state, action) => {
@@ -91,6 +107,9 @@ export const efectividadAdjSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.adjudicacionStatus = action.payload as ResponseStatus;
+      })
+      .addCase(getOficialesAdj.pending, (state) => {
+        state.isLoading = true;
       });
   },
 });
