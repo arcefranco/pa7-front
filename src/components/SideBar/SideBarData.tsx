@@ -434,8 +434,20 @@ export const SidebarData: DataOfSidebar[] = [
           },
         ],
       },
-      /*      {title: 'Mora', rol:'1.10.3', cName:'subMenuL2'},
-      {title: 'Facturación', rol:'1.10.4', cName:'subMenuL2'},
+      {
+        title: "Mora",
+        rol: "1.10.3",
+        cName: "subMenuL2",
+        options: [
+          {
+            title: "Mora por Vendedor",
+            rol: "1.10.3",
+            cName: "subMenuL2",
+            path: "reportes/MoraXVendedor",
+          },
+        ],
+      },
+      /*      {title: 'Facturación', rol:'1.10.4', cName:'subMenuL2'},
       {title: 'Call Center', rol:'1.10.5', cName:'subMenuL2'},
       {title: 'Mesa de Planes', rol:'1.10.6', cName:'subMenuL2'},
       {title: 'Scoring', rol:'1.10.7', cName:'subMenuL2'},*/

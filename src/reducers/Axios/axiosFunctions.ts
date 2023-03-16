@@ -38,6 +38,24 @@ export const postFunction = async (route: string, form: {}) => {
   }
 };
 
+export const postFunctionArray = async (route: string, data: {}) => {
+  try {
+    const headers = getHeaderToken();
+    const response: AxiosResponse = await axios.post(
+      process.env.REACT_APP_HOST + route,
+      data,
+      headers
+    );
+    if (Array.isArray(response.data)) {
+      return response.data;
+    } else {
+      throw response.data;
+    }
+  } catch (error) {
+    return ServiceErrorHandler(error, route);
+  }
+};
+
 export const updateFunction = async (route: string, form: {}) => {
   try {
     const headers = getHeaderToken();

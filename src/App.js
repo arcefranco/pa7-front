@@ -38,6 +38,7 @@ import ActualPreScreen from "./components/Operaciones/ActualizacionPre/ActualPre
 import ActualForm from "./components/Operaciones/ActualizacionPre/ActualForm";
 import EfectividadAdjForm from "./components/Reportes/AdminPlanes/EfectividadAdj/EfectividadAdjForm";
 import EfectividadDetalle from "./components/Reportes/AdminPlanes/EfectividadAdj/EfectividadDetalle";
+import MoraXVendedor from "./components/Reportes/Mora/MoraXVendedorYSup/MoraXVendedor";
 
 function App() {
   const { user, toggle } = useSelector((state) => state.login);
@@ -181,6 +182,7 @@ function App() {
             path="/detalleEfectividad/:marca/:tipo/:mes/:anio/:oficial/:periodoCompleto"
             element={<EfectividadDetalle />}
           />
+          <Route path="reportes/MoraXVendedor" element={<MoraXVendedor />} />
         </Routes>
       </div>
     </div>
