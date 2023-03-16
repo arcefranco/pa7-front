@@ -18,7 +18,7 @@ const EfectividadDetalle = () => {
 const {marca, tipo, mes, anio, oficial, periodoCompleto} = useParams()
 const [tituloCategoria, setTituloCategoria] = useState("")
 const { user } = useSelector((state) => state.login);
-const {adjudicacionesDetalle} = useSelector((state) => state.EfectividadAdj)
+const {adjudicacionesDetalle, isLoading} = useSelector((state) => state.EfectividadAdj)
 const dispatch = useDispatch()
 const exportFormats = ["xlsx"];
 
@@ -99,6 +99,14 @@ const onExporting = React.useCallback((e) => {
       </BiggerTitleLogo>
        
         <h5> Cant. Op: {adjudicacionesDetalle?.length}</h5>
+        {
+          isLoading ? 
+          <div className={styles.loadingDiv}>
+            <div className={styles.loadingSpans}>
+            <span>Cargando...</span>
+         </div>
+          </div> : <div></div>
+        }
        <DataGrid
         style={{ fontSize: "10px" }}
         onCellPrepared={onCellPrepared}
