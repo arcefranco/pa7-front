@@ -4,7 +4,7 @@ import BiggerTitleLogo from '../../../../styled-components/containers/BiggerTitl
 import { ReturnLogo } from '../../../../helpers/ReturnLogo'
 import TitlePrimary from '../../../../styled-components/h/TitlePrimary'
 import { useSelector, useDispatch } from 'react-redux'
-import { getDetalleEfectividad } from '../../../../reducers/Operaciones/efectividadAdj/efectividadAdjSlice'
+import { getDetalleEfectividad } from '../../../../reducers/Reportes/efectividadAdj/efectividadAdjSlice'
 import styles from './Efectividad.module.css'
 import DataGrid, {
     Column,

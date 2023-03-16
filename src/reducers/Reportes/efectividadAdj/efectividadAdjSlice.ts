@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit/dist";
 import { createAsyncThunk } from "@reduxjs/toolkit/dist";
-import { Adjudicacion } from "../../../types/Operaciones/EfectividadAdj/Adjudicacion";
+import { Adjudicacion } from "../../../types/Reportes/EfectividadAdj/Adjudicacion";
 import { ResponseStatus } from "../../../types/Generales/ResponseStatus";
 import efectividadAdjService from "./efectividadAdjService";
 import { Oficial } from "../../../types/ConfigDatosGenerales/Oficiales/Oficiales";
