@@ -6,6 +6,7 @@ import TitlePrimary from "../../../../styled-components/h/TitlePrimary";
 import {
   getAdjudicaciones,
   getOficialesAdj,
+  reset
 } from "../../../../reducers/Operaciones/efectividadAdj/efectividadAdjSlice";
 import JsPDF from 'jspdf';
 import { exportDataGrid } from 'devextreme/pdf_exporter';
@@ -31,6 +32,58 @@ const EfectividadAdjForm = () => {
   const [anio, setAnio] = useState([]);
   const [empresasNombres, setEmpresasNombres] = useState([])
   const exportFormats = ["pdf", "xlsx"];
+
+  useEffect(() => {
+    dispatch(getOficialesAdj());
+
+    return () => {
+      dispatch(reset())
+    }
+  }, []);
+
+  useEffect(() => {
+    let keys;
+    if (adjudicaciones.length) {
+      keys = Object.keys(adjudicaciones[0]).map((e) => e.split("_"));
+
+      setAnio(
+        keys
+          .map((e) => {
+            if (e.length === 2) {
+              return {
+                anio: e[1],
+                mes: e[0],
+              };
+            }
+          })
+          .sort(function (a, b) {
+            var MONTH = {
+              Enero: 0,
+              Febrero: 1,
+              Marzo: 2,
+              Abril: 3,
+              Mayo: 4,
+              Junio: 5,
+              Julio: 6,
+              Agosto: 7,
+              Septiembre: 8,
+              Octubre: 9,
+              Noviembre: 10,
+              Diciembre: 11,
+            };
+            return a.año - b.año || MONTH[a.mes] - MONTH[b.mes];
+          })
+          .filter(function (element) {
+            return element !== undefined;
+          })
+      );
+      setEmpresasNombres(
+        adjudicaciones.filter((obj, index, arr) => {
+          return arr.map(mapObj => mapObj.Empresa).indexOf(obj.Empresa) === index}).map(e => e.Empresa)
+      )      
+          
+    }
+  }, [adjudicaciones]);
 
   const onExporting = React.useCallback((e) => {
 
@@ -399,59 +452,13 @@ const EfectividadAdjForm = () => {
     if(e.rowType !== 'group' && e.value > 0 && e.data.Categoria !== 'GT' && e.data.Categoria !== "PT" &&
     e.data.Categoria !== "PORT" && e.data.Categoria !== "PORS" && e.data.Categoria !== "PORL" && e.data.Categoria !== "PORE"){
 
-      navigate(`/detalleEfectividad/${marca}/${tipo}/${mes}/${anioDetalle}/${oficial}/${periodoCompleto}`) 
+      window.open(`/detalleEfectividad/${marca}/${tipo}/${mes}/${anioDetalle}/${oficial}/${periodoCompleto}`, '_blank') 
     }
 
 
   }
 
-  useEffect(() => {
-    dispatch(getOficialesAdj());
-  }, []);
 
-  useEffect(() => {
-    let keys;
-    if (adjudicaciones.length) {
-      keys = Object.keys(adjudicaciones[0]).map((e) => e.split("_"));
-
-      setAnio(
-        keys
-          .map((e) => {
-            if (e.length === 2) {
-              return {
-                anio: e[1],
-                mes: e[0],
-              };
-            }
-          })
-          .sort(function (a, b) {
-            var MONTH = {
-              Enero: 0,
-              Febrero: 1,
-              Marzo: 2,
-              Abril: 3,
-              Mayo: 4,
-              Junio: 5,
-              Julio: 6,
-              Agosto: 7,
-              Septiembre: 8,
-              Octubre: 9,
-              Noviembre: 10,
-              Diciembre: 11,
-            };
-            return a.año - b.año || MONTH[a.mes] - MONTH[b.mes];
-          })
-          .filter(function (element) {
-            return element !== undefined;
-          })
-      );
-      setEmpresasNombres(
-        adjudicaciones.filter((obj, index, arr) => {
-          return arr.map(mapObj => mapObj.Empresa).indexOf(obj.Empresa) === index}).map(e => e.Empresa)
-      )      
-          
-    }
-  }, [adjudicaciones]);
   const GroupCell = options => <div></div>;
   return (
     <div>
@@ -495,14 +502,25 @@ const EfectividadAdjForm = () => {
           allowExportSelectedData={false}
         />
         <Column dataField="NomOficial" caption="Oficial" groupIndex={0} />
-        <Column dataField="Empresa" caption="Empresa" groupIndex={1} />
-        <Column dataField="Tipo" groupIndex={2} groupCellRender={GroupCell} />
+        {
+          empresasNombres.length > 1 &&
+          <Column dataField="Empresa" caption="Empresa" groupIndex={1} />
+        }
+        {
+          empresasNombres.length === 1 ? 
+          <Column dataField="Tipo" groupIndex={1} groupCellRender={GroupCell} /> : 
+          
+          <Column dataField="Tipo" groupIndex={2} groupCellRender={GroupCell} />
+       
+          
+        }
         <Column dataField="NombreCategoria" caption=""  />
         {anio.length > 1 &&
           anio.map((e) => {
             if (e && Object.keys(e).length) {
               return (
                 <Column
+                  cssClass={styles.column}
                   dataField={`${e.mes}_${e.anio}`}
                   alignment={"right"}
                   caption={`${
