@@ -24,8 +24,8 @@ const exportFormats = ["xlsx"];
 
 useEffect(() => {
 
-dispatch(getDetalleEfectividad({marca: parseInt(marca), tipo: parseInt(tipo), /* el parseInt va en el back, no acá */
-    mes: parseInt(mes), anio: parseInt(anio), oficial: parseInt(oficial), periodoCompleto: parseInt(periodoCompleto)}))
+dispatch(getDetalleEfectividad({marca: marca, tipo: tipo, /* el parseInt va en el back, no acá */
+    mes: mes, anio: anio, oficial: oficial, periodoCompleto: periodoCompleto}))
 }, [])
 
 
@@ -79,7 +79,7 @@ const onExporting = React.useCallback((e) => {
           "Pedidos Aceptados por Licitación del Acto" :
         tipo === "5" ?
           "Pedidos Aceptados por Entrega del Acto" : 
-        tipo === "6" ?
+        tipo === "9" ?
           "Pedidos Aceptados del Mes" : 
           ""} - {
             mes === "1" ? "Enero" :

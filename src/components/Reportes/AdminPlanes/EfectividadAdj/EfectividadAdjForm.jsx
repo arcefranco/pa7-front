@@ -377,7 +377,7 @@ const EfectividadAdjForm = () => {
     }else if(e.data.Categoria === "PE"){
        tipo = 5
     }else if(e.data.Categoria === "PEAC"){
-      tipo = 6
+      tipo = 9
     }else{
       tipo = null
     }
@@ -396,7 +396,11 @@ const EfectividadAdjForm = () => {
       periodoCompleto = 1
     }
 
-    navigate(`/detalleEfectividad/${marca}/${tipo}/${mes}/${anioDetalle}/${oficial}/${periodoCompleto}`)
+    if(e.rowType !== 'group' && e.value > 0 && e.data.Categoria !== 'GT' && e.data.Categoria !== "PT" &&
+    e.data.Categoria !== "PORT" && e.data.Categoria !== "PORS" && e.data.Categoria !== "PORL" && e.data.Categoria !== "PORE"){
+
+      navigate(`/detalleEfectividad/${marca}/${tipo}/${mes}/${anioDetalle}/${oficial}/${periodoCompleto}`) 
+    }
 
 
   }
