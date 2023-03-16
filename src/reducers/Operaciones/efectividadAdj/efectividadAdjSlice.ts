@@ -68,6 +68,7 @@ export const efectividadAdjSlice = createSlice({
       state.isError = false;
       state.message = "";
       state.adjudicaciones = [];
+      state.adjudicacionesDetalle = [];
     },
   },
   extraReducers: (builder) => {

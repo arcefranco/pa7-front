@@ -102,7 +102,7 @@ const onExporting = React.useCallback((e) => {
         {
           isLoading ? 
           <div className={styles.loadingDiv}>
-            <div className={styles.loadingSpans}>
+        <div className={styles.loadingSpans}>
             <span>Cargando...</span>
          </div>
           </div> : <div></div>

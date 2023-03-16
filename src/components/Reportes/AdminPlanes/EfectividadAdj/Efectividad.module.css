@@ -68,3 +68,7 @@
     margin: 0.05em;
     font-size: .9em;
 }
+
+.column{
+    cursor: pointer;
+}
