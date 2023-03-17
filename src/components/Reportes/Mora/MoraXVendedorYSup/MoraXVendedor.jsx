@@ -4,7 +4,8 @@ import BiggerTitleLogo from "../../../../styled-components/containers/BiggerTitl
 import { ReturnLogo } from "../../../../helpers/ReturnLogo";
 import TitlePrimary from "../../../../styled-components/h/TitlePrimary";
 import { useSelector } from "react-redux";
-import { getMoraXVendedor } from "../../../../reducers/Reportes/MoraXVendedorYSup/MoraSlice";
+import { useParams } from "react-router-dom";
+import { getMoraXVendedor, getMoraXSupervisor } from "../../../../reducers/Reportes/MoraXVendedorYSup/MoraSlice";
 import DataGrid, {
     Column,
     Summary,
@@ -19,7 +20,8 @@ import styles from './Mora.module.css'
 
 const MoraXVendedor = () => {
     const { user } = useSelector((state) => state.login);
-    const { MoraXVendedor } = useSelector((state) => state.MoraXVendedorYSup);
+    const { MoraXVendedor, isLoading } = useSelector((state) => state.MoraXVendedorYSup);
+    const {Sup} = useParams()
     const exportFormats = ['pdf', 'xlsx'];
     const lastPoint = { x: 0, y: 0 };
     const [mes, setMes] = useState('')
@@ -248,13 +250,14 @@ const MoraXVendedor = () => {
       exportDataGrid({
         jsPDFDocument: doc,
   
-        columnWidths: [20, 15, 20, 6,6,9,6,6,9,6,6,9,6,6,9,6,6,9,6,6,9,6,6,9,6,6,9,6,6,9,6,6,9,6,6,9],
+        columnWidths: Sup ? [20, 6,6,9,6,6,9,6,6,9,6,6,9,6,6,9,6,6,9,6,6,9,6,6,9,6,6,9,6,6,9,6,6,9] :
+         [20, 15, 20, 6,6,9,6,6,9,6,6,9,6,6,9,6,6,9,6,6,9,6,6,9,6,6,9,6,6,9,6,6,9,6,6,9],
         component: e.component,
         margin: {
           top: 30,
           bottom: 16
         },
-        topLeft:  { x: 5, y: 0 },
+        topLeft:  { x: Sup ? 15 : 5, y: 0 },
         repeatHeaders: true,
         customDrawCell({ rect }) {
           if (lastPoint.x < rect.x + rect.w) {
@@ -326,7 +329,7 @@ const MoraXVendedor = () => {
          let month = date.getMonth() + 1
          let year = date.getFullYear()
          doc.setHeaderFunction('hola')
-        const header = 'REPORTE DE MORA POR VENDEDOR SEGÚN VENCIMIENTO CUOTA';
+        const header = `REPORTE DE MORA POR ${Sup ? "SUPERVISOR" : "VENDEDOR"} SEGÚN VENCIMIENTO CUOTA`;
         const pageWidth = doc.internal.pageSize.getWidth();
         doc.setFontSize(9);
         const headerWidth = doc.getTextDimensions(header).w;
@@ -347,7 +350,7 @@ const MoraXVendedor = () => {
           doc.text(`PB: ${user?.username} -  ${day}/${month}/${year} ${date.toLocaleTimeString()}`, 15, 200);
           doc.text(`Pagina ${i === 0 ? pages : i} de ${pages}`, (pageWidth - 40), 200);
         }
-        doc.save(`Mora_por_Vendedor_${mes}_${anio}.pdf`);
+        doc.save(`Mora_por_${Sup ? "Supervisor" : "Vendedor"}_${mes}_${anio}.pdf`);
       });
     })
     return (
@@ -358,11 +361,20 @@ const MoraXVendedor = () => {
           <ReturnLogo empresa={user?.empresaReal} />
         </div>
         <TitlePrimary>
-          Mora por Vendedor - {user?.marca && user.marca}
+          Mora por {Sup === "1" ? "Supervisor" : "Vendedor"}  - {user?.marca && user.marca}
         </TitlePrimary>
       </BiggerTitleLogo>
-          <FormReportes dispatchFunc={getMoraXVendedor} oficial={0} todasLasEmpresas={0}/>
+          <FormReportes dispatchFunc={Sup === "1" ? getMoraXSupervisor : getMoraXVendedor} oficial={0} todasLasEmpresas={0}/>
+          {
+          isLoading ? 
+          <div className={styles.loadingDiv}>
+            <div className={styles.loadingSpans}>
+            <span>Cargando...</span>
+            <span>Esto puede demorar unos minutos</span>
 
+            </div>
+          </div> : <div></div>
+        }
         <DataGrid
         style={{ fontSize: "10px" }}
         height={650}
@@ -374,9 +386,19 @@ const MoraXVendedor = () => {
         dataSource={MoraXVendedor ? MoraXVendedor : null}
       >
         <Export enabled={true} formats={exportFormats} allowExportSelectedData={false} />
-        <Column dataField="Vendedor" defaultSortOrder="asc" width={150}/>
+        {
+          Sup === "1" ? <Column dataField="Supervisor" defaultSortOrder="asc" width={150}/> : 
+          <Column dataField="Vendedor" defaultSortOrder="asc" width={150}/>
+        }
+        {
+          Sup === "1" ? null : 
         <Column dataField="FechaBaja" cellRender={renderDate}/>
-        <Column dataField="Supervisor" width={150}/>
+        }
+        {
+          Sup === "1" ? null : 
+          <Column dataField="Supervisor" width={150}/>
+        }
+        
         <Column caption="Cuota 2" alignment="center">
             <Column dataField="V2" caption="V" alignment="center" width={40} cssClass={styles.columnRed}/>
             <Column dataField="M2" caption="M" alignment="center" width={40} cssClass={styles.columnRed}/>

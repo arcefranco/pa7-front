@@ -29,6 +29,18 @@ export const getMoraXVendedor = createAsyncThunk(
   }
 );
 
+export const getMoraXSupervisor = createAsyncThunk(
+  "Reportes/MoraXSupervisor",
+  async (data, { rejectWithValue }) => {
+    const result = await MoraService.getMoraXSupervisor(data);
+    if (Array.isArray(result)) {
+      return result;
+    } else {
+      return rejectWithValue(result);
+    }
+  }
+);
+
 export const MoraSlice = createSlice({
   name: "MoraXVendedorYSup",
   initialState,
@@ -54,6 +66,19 @@ export const MoraSlice = createSlice({
         state.MoraStatus = action.payload as ResponseStatus;
       })
       .addCase(getMoraXVendedor.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getMoraXSupervisor.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.MoraXVendedor = action.payload;
+      })
+      .addCase(getMoraXSupervisor.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.MoraStatus = action.payload as ResponseStatus;
+      })
+      .addCase(getMoraXSupervisor.pending, (state) => {
         state.isLoading = true;
       });
   },
