@@ -183,6 +183,10 @@ function App() {
             element={<EfectividadDetalle />}
           />
           <Route path="reportes/MoraXVendedor" element={<MoraXVendedor />} />
+          <Route
+            path="reportes/MoraXSupervisor/:Sup"
+            element={<MoraXVendedor />}
+          />
         </Routes>
       </div>
     </div>

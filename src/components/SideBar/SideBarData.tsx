@@ -445,6 +445,12 @@ export const SidebarData: DataOfSidebar[] = [
             cName: "subMenuL2",
             path: "reportes/MoraXVendedor",
           },
+          {
+            title: "Mora por Supervisor",
+            rol: "1.10.3",
+            cName: "subMenuL2",
+            path: "reportes/MoraXSupervisor/1",
+          },
         ],
       },
       /*      {title: 'Facturación', rol:'1.10.4', cName:'subMenuL2'},
