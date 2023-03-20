@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import FormReportes from "../../FormReportes"
 import BiggerTitleLogo from "../../../../styled-components/containers/BiggerTitleLogo";
 import { ReturnLogo } from "../../../../helpers/ReturnLogo";
 import TitlePrimary from "../../../../styled-components/h/TitlePrimary";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getMoraXVendedor, getMoraXSupervisor } from "../../../../reducers/Reportes/MoraXVendedorYSup/MoraSlice";
+import { getMoraXVendedor, getMoraXSupervisor, getMoraXSupervisorSC, reset } from "../../../../reducers/Reportes/MoraXVendedorYSup/MoraSlice";
 import DataGrid, {
     Column,
     Summary,
@@ -26,10 +27,23 @@ const MoraXVendedor = () => {
     const lastPoint = { x: 0, y: 0 };
     const [mes, setMes] = useState('')
     const [anio, setAnio] = useState('')
+    const dispatch = useDispatch()
     const renderDate = (data) => {
         return data.text?.slice(0,10).split('-').reverse().join('/')
     }
+
     useEffect(() => {
+      return () => {
+        dispatch(reset())
+      }
+    }, [])
+
+    useEffect(() => {
+      if(Sup === 1 || Sup === 2 || !Sup) dispatch(reset())
+    }, [Sup])
+
+    useEffect(() => {
+      
       if(MoraXVendedor.length){
         setMes(MoraXVendedor[0]?.Mes === 1 ? 'Enero' : 
         MoraXVendedor[0]?.Mes === 2 ? 'Febrero' : MoraXVendedor[0]?.Mes === 3 ? 'Marzo' :
@@ -329,7 +343,7 @@ const MoraXVendedor = () => {
          let month = date.getMonth() + 1
          let year = date.getFullYear()
          doc.setHeaderFunction('hola')
-        const header = `REPORTE DE MORA POR ${Sup ? "SUPERVISOR" : "VENDEDOR"} SEGÚN VENCIMIENTO CUOTA`;
+        const header = `REPORTE DE MORA POR ${Sup === 1 ? "SUPERVISOR" : Sup === 2 ? "SUPERVISOR (SIN CRUCE)" : "VENDEDOR"} SEGÚN VENCIMIENTO CUOTA`;
         const pageWidth = doc.internal.pageSize.getWidth();
         doc.setFontSize(9);
         const headerWidth = doc.getTextDimensions(header).w;
@@ -350,7 +364,7 @@ const MoraXVendedor = () => {
           doc.text(`PB: ${user?.username} -  ${day}/${month}/${year} ${date.toLocaleTimeString()}`, 15, 200);
           doc.text(`Pagina ${i === 0 ? pages : i} de ${pages}`, (pageWidth - 40), 200);
         }
-        doc.save(`Mora_por_${Sup ? "Supervisor" : "Vendedor"}_${mes}_${anio}.pdf`);
+        doc.save(`Mora_por_${Sup === 1 ? "Supervisor" : Sup === 2 ? "Supervisor_Sin_Cruce" : "Vendedor"}_${mes}_${anio}.pdf`);
       });
     })
     return (
@@ -361,10 +375,10 @@ const MoraXVendedor = () => {
           <ReturnLogo empresa={user?.empresaReal} />
         </div>
         <TitlePrimary>
-          Mora por {Sup === "1" ? "Supervisor" : "Vendedor"}  - {user?.marca && user.marca}
+          Mora por {Sup === "1" ? "Supervisor" : Sup === "2" ? "Supervisor Sin Cruce" : "Vendedor"}  - {user?.marca && user.marca}
         </TitlePrimary>
       </BiggerTitleLogo>
-          <FormReportes dispatchFunc={Sup === "1" ? getMoraXSupervisor : getMoraXVendedor} oficial={0} todasLasEmpresas={0}/>
+          <FormReportes dispatchFunc={Sup === "1" ? getMoraXSupervisor : Sup === "2"  ? getMoraXSupervisorSC : getMoraXVendedor} oficial={0} todasLasEmpresas={0}/>
           {
           isLoading ? 
           <div className={styles.loadingDiv}>
@@ -387,15 +401,15 @@ const MoraXVendedor = () => {
       >
         <Export enabled={true} formats={exportFormats} allowExportSelectedData={false} />
         {
-          Sup === "1" ? <Column dataField="Supervisor" defaultSortOrder="asc" width={150}/> : 
+          Sup === "1" || Sup === "2"? <Column dataField="Supervisor" defaultSortOrder="asc" width={150}/> : 
           <Column dataField="Vendedor" defaultSortOrder="asc" width={150}/>
         }
         {
-          Sup === "1" ? null : 
+          Sup === "1" || Sup === "2"? null : 
         <Column dataField="FechaBaja" cellRender={renderDate}/>
         }
         {
-          Sup === "1" ? null : 
+          Sup === "1" || Sup === "2"? null : 
           <Column dataField="Supervisor" width={150}/>
         }
         
