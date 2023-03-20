@@ -39,7 +39,7 @@ const MoraXVendedor = () => {
     }, [])
 
     useEffect(() => {
-      if(Sup === 1 || Sup === 2 || !Sup) dispatch(reset())
+      if(Sup === "1" || Sup === "2" || !Sup) dispatch(reset())
     }, [Sup])
 
     useEffect(() => {
