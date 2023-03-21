@@ -1,15 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit/dist";
 import { createAsyncThunk } from "@reduxjs/toolkit/dist";
 import { ResponseStatus } from "../../../types/Generales/ResponseStatus";
-import { MoraXVendedor } from "../../../types/Reportes/Mora/MoraXVendedor";
+import {
+  MoraXVendedor,
+  MoraXVendedorDetalle,
+} from "../../../types/Reportes/Mora/MoraXVendedor";
 import MoraService from "./MoraService";
 interface MoraXVendedorYSupState extends ReduxState {
   MoraXVendedor: MoraXVendedor[];
+  MoraDetalle: MoraXVendedorDetalle[];
   MoraStatus: ResponseStatus | null;
 }
 
 const initialState: MoraXVendedorYSupState = {
   MoraXVendedor: [],
+  MoraDetalle: [],
   MoraStatus: null,
   isError: false,
   isSuccess: false,
@@ -53,6 +58,18 @@ export const getMoraXSupervisorSC = createAsyncThunk(
   }
 );
 
+export const getMoraXOficialDetalle = createAsyncThunk(
+  "Reportes/MoraXOficialDetalle",
+  async (data, { rejectWithValue }) => {
+    const result = await MoraService.getMoraXOficialDetalle(data);
+    if (Array.isArray(result)) {
+      return result;
+    } else {
+      return rejectWithValue(result);
+    }
+  }
+);
+
 export const MoraSlice = createSlice({
   name: "MoraXVendedorYSup",
   initialState,
@@ -63,6 +80,7 @@ export const MoraSlice = createSlice({
       state.isError = false;
       state.message = "";
       state.MoraXVendedor = [];
+      state.MoraDetalle = [];
     },
   },
   extraReducers: (builder) => {
@@ -104,6 +122,19 @@ export const MoraSlice = createSlice({
         state.MoraStatus = action.payload as ResponseStatus;
       })
       .addCase(getMoraXSupervisorSC.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getMoraXOficialDetalle.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.MoraDetalle = action.payload;
+      })
+      .addCase(getMoraXOficialDetalle.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.MoraStatus = action.payload as ResponseStatus;
+      })
+      .addCase(getMoraXOficialDetalle.pending, (state) => {
         state.isLoading = true;
       });
   },
