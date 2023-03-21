@@ -13,10 +13,15 @@ const getMoraXSupervisorSC = (data) => {
   return postFunctionArray("Reportes/MoraXVendedorYSup/sup", data);
 };
 
+const getMoraXOficialDetalle = (data) => {
+  return postFunctionArray("Reportes/MoraXVendedorYSup/detalle", data);
+};
+
 const MoraService = {
   getMoraXVendedor,
   getMoraXSupervisor,
   getMoraXSupervisorSC,
+  getMoraXOficialDetalle,
 };
 
 export default MoraService;
