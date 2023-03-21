@@ -6,14 +6,14 @@ import { ReturnLogo } from "../../../../helpers/ReturnLogo";
 import TitlePrimary from "../../../../styled-components/h/TitlePrimary";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getMoraXVendedor, getMoraXSupervisor, getMoraXSupervisorSC, reset } from "../../../../reducers/Reportes/MoraXVendedorYSup/MoraSlice";
+import { getMoraXVendedor, getMoraXSupervisor, getMoraXSupervisorSC, reset, getMoraXOficialDetalle } from "../../../../reducers/Reportes/MoraXVendedorYSup/MoraSlice";
 import DataGrid, {
     Column,
     Summary,
     Scrolling,
     Export,
     TotalItem
-  } from "devextreme-react/data-grid";
+} from "devextreme-react/data-grid";
 import excelCustomizeConfig from "./excelCustomizeConfig"
 import JsPDF from 'jspdf';
 import { exportDataGrid } from 'devextreme/pdf_exporter';
@@ -44,7 +44,7 @@ const MoraXVendedor = () => {
 
     useEffect(() => {
       
-      if(MoraXVendedor.length){
+      if(MoraXVendedor.length >= 1){
         setMes(MoraXVendedor[0]?.Mes === 1 ? 'Enero' : 
         MoraXVendedor[0]?.Mes === 2 ? 'Febrero' : MoraXVendedor[0]?.Mes === 3 ? 'Marzo' :
         MoraXVendedor[0]?.Mes === 4 ? 'Abril' : MoraXVendedor[0]?.Mes === 5 ? 'Mayo' : 
@@ -54,6 +54,12 @@ const MoraXVendedor = () => {
         MoraXVendedor[0]?.Mes === 12 ? 'Diciembre' : '')
 
         setAnio(MoraXVendedor[0]?.Anio)
+        if(Sup === "2"){
+          dispatch(getMoraXOficialDetalle({mes: MoraXVendedor[0]?.Mes, anio: MoraXVendedor[0]?.Anio, restaCuotas: 0, oficial: null, SC: 1}))
+        }else{
+
+          dispatch(getMoraXOficialDetalle({mes: MoraXVendedor[0]?.Mes, anio: MoraXVendedor[0]?.Anio, restaCuotas: 0, oficial: null}))
+        }
       }
     }, [MoraXVendedor])       
       const onCellPrepared = (e) => {
@@ -367,6 +373,25 @@ const MoraXVendedor = () => {
         doc.save(`Mora_por_${Sup === 1 ? "Supervisor" : Sup === 2 ? "Supervisor_Sin_Cruce" : "Vendedor"}_${mes}_${anio}.pdf`);
       });
     })
+
+    const onCellClick = (e) => {
+      if(e.column.name[0] === "V"){
+        if(!Sup){
+          window.open(`/reportes/MoraXOficialDetalle/1/${e.data.Vendedor}/${e.column.name.slice(1, e.column.name.length)}/${-1}`, '_blank')
+        }else{
+
+          window.open(`/reportes/MoraXOficialDetalle/0/${e.data.SucCodigo}/${e.column.name.slice(1, e.column.name.length)}/${-1}`, '_blank') 
+        }
+
+      }else if(e.column.name[0] === "M"){
+        if(!Sup){
+          window.open(`/reportes/MoraXOficialDetalle/1/${e.data.Vendedor}/${e.column.name.slice(1, e.column.name.length)}/${1}`, '_blank') 
+        }else{
+
+          window.open(`/reportes/MoraXOficialDetalle/0/${e.data.SucCodigo}/${e.column.name.slice(1, e.column.name.length)}/${1}`, '_blank') 
+        }
+      } 
+      }
     return (
         <div>
         <BiggerTitleLogo>
@@ -395,6 +420,7 @@ const MoraXVendedor = () => {
         className={styles.dataGrid}
         onExporting={onExporting}
         onCellPrepared={onCellPrepared}
+        onCellClick={onCellClick}
         columnAutoWidth={true}
         defaultPaging={false}
         dataSource={MoraXVendedor ? MoraXVendedor : null}

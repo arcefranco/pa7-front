@@ -28,7 +28,7 @@ import ReporteZonalReducer from "./reducers/Reportes/Micro/ZonalSlice";
 import AltaPreReducer from "./reducers/Operaciones/altaPre/altaPreSlice";
 import ActualPreReducer from "./reducers/Operaciones/actualPre/actualPreSlice";
 import EfectividadAdjReducer from "./reducers/Reportes/efectividadAdj/efectividadAdjSlice";
-import MoraXVendedorYSup from "./reducers/Reportes/MoraXVendedorYSup/MoraSlice";
+import MoraXVendedorYSupReducer from "./reducers/Reportes/MoraXVendedorYSup/MoraSlice";
 const persistConfig = {
   key: "root",
   version: 1,
@@ -38,6 +38,11 @@ const persistConfig = {
 const ReporteZonalPersisted = persistReducer(
   persistConfig,
   ReporteZonalReducer
+);
+
+const MoraXVendedorYSupPersisted = persistReducer(
+  persistConfig,
+  MoraXVendedorYSupReducer
 );
 
 const reducer = combineReducers({
@@ -58,7 +63,7 @@ const reducer = combineReducers({
   AltaPre: AltaPreReducer,
   ActualPre: ActualPreReducer,
   EfectividadAdj: EfectividadAdjReducer,
-  MoraXVendedorYSup: MoraXVendedorYSup,
+  MoraXVendedorYSup: MoraXVendedorYSupPersisted,
 });
 
 export const store = configureStore({

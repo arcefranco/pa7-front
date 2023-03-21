@@ -39,6 +39,7 @@ import ActualForm from "./components/Operaciones/ActualizacionPre/ActualForm";
 import EfectividadAdjForm from "./components/Reportes/AdminPlanes/EfectividadAdj/EfectividadAdjForm";
 import EfectividadDetalle from "./components/Reportes/AdminPlanes/EfectividadAdj/EfectividadDetalle";
 import MoraXVendedor from "./components/Reportes/Mora/MoraXVendedorYSup/MoraXVendedor";
+import MoraXOficialDetalle from "./components/Reportes/Mora/MoraXVendedorYSup/MoraXOficialDetalle";
 
 function App() {
   const { user, toggle } = useSelector((state) => state.login);
@@ -186,6 +187,10 @@ function App() {
           <Route
             path="reportes/MoraXSupervisor/:Sup"
             element={<MoraXVendedor />}
+          />
+          <Route
+            path="reportes/MoraXOficialDetalle/:esVendedor/:Codigo/:Capa/:Pagadas"
+            element={<MoraXOficialDetalle />}
           />
         </Routes>
       </div>
