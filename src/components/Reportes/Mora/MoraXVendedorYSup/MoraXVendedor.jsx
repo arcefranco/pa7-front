@@ -64,18 +64,8 @@ const MoraXVendedor = () => {
     }, [MoraXVendedor])       
       const onCellPrepared = (e) => {
 
-
-        if(e.rowType === "data" && e.data.Categoria === "PT" || 
-        e.rowType === "data" && e.data.Categoria === "GT" || 
-        e.rowType === "data" && e.data.Categoria === "PORT"){
-          e.cellElement.style.backgroundColor = "#4b5866ad";
-        }
         if (e.rowType === "totalFooter") {
           e.cellElement.style.backgroundColor = "#4b5866ad";
-        } else if (e.rowType === "groupFooter") {
-          if (e.data.key === "P" || e.data.key === "G" || e.data.key === "POR") {
-            e.cellElement.style.backgroundColor = "#4b586678";
-          }
         }
         if (e.rowType === "header") {
           e.cellElement.style.setProperty("background-color", "#15141491");
@@ -312,7 +302,7 @@ const MoraXVendedor = () => {
             if(gridCell.column.dataField === 'V2' || gridCell.column.dataField === 'M2' || gridCell.column.dataField === 'PER2' 
             || gridCell.column.dataField === 'V6' || gridCell.column.dataField === 'M6' || gridCell.column.dataField === 'PER6' ||
             gridCell.column.dataField === 'V10' || gridCell.column.dataField === 'M10' || gridCell.column.dataField === 'PER10'){
-              pdfCell.backgroundColor = '#F66C6C'
+              pdfCell.backgroundColor = '#FFA7BED9'
               pdfCell.textColor = '#ffffff'
             }
             if(gridCell.column.dataField === 'V3' || gridCell.column.dataField === 'M3' || gridCell.column.dataField === 'PER3' 
@@ -375,22 +365,38 @@ const MoraXVendedor = () => {
     })
 
     const onCellClick = (e) => {
-      if(e.column.name[0] === "V"){
-        if(!Sup){
-          window.open(`/reportes/MoraXOficialDetalle/1/${e.data.Vendedor}/${e.column.name.slice(1, e.column.name.length)}/${-1}`, '_blank')
-        }else{
 
-          window.open(`/reportes/MoraXOficialDetalle/0/${e.data.SucCodigo}/${e.column.name.slice(1, e.column.name.length)}/${-1}`, '_blank') 
+       if(e.rowType !== "totalFooter" && parseInt(e.value) !== 0 && (e.column.name && e.column.name !== "Vendedor" && e.column.name[0] === "V" || e.column.name[0] === "M")){
+              if(e.column.name[0] === "V"){
+                if(!Sup){
+                  window.open(`/reportes/MoraXOficialDetalle/1/${e.data.Vendedor}/${e.column.name.slice(1, e.column.name.length)}/${-1}`, '_blank')
+                }else{
+        
+                  window.open(`/reportes/MoraXOficialDetalle/0/${e.data.SucCodigo}/${e.column.name.slice(1, e.column.name.length)}/${-1}`, '_blank') 
+                }
+        
+              }else if(e.column.name[0] === "M"){
+                if(!Sup){
+                  window.open(`/reportes/MoraXOficialDetalle/1/${e.data.Vendedor}/${e.column.name.slice(1, e.column.name.length)}/${1}`, '_blank') 
+                }else{
+        
+                  window.open(`/reportes/MoraXOficialDetalle/0/${e.data.SucCodigo}/${e.column.name.slice(1, e.column.name.length)}/${1}`, '_blank') 
+                }
+              }  
+
+      }
+      if(e.rowType === "totalFooter"){
+
+        if(e.column.name[0] === "V"){
+
+            window.open(`/reportes/MoraXOficialDetalle/1/todos/${e.column.name.slice(1, e.column.name.length)}/${-1}`, '_blank')
+  
+        }else if(e.column.name[0] === "M"){
+      
+            window.open(`/reportes/MoraXOficialDetalle/1/todos/${e.column.name.slice(1, e.column.name.length)}/${1}`, '_blank') 
+
         }
-
-      }else if(e.column.name[0] === "M"){
-        if(!Sup){
-          window.open(`/reportes/MoraXOficialDetalle/1/${e.data.Vendedor}/${e.column.name.slice(1, e.column.name.length)}/${1}`, '_blank') 
-        }else{
-
-          window.open(`/reportes/MoraXOficialDetalle/0/${e.data.SucCodigo}/${e.column.name.slice(1, e.column.name.length)}/${1}`, '_blank') 
-        }
-      } 
+      }
       }
     return (
         <div>
