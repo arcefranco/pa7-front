@@ -46,23 +46,39 @@
 }
 
 .columnRed{
-    background-color: rgb(246, 108, 108); 
+    background-color: #ff95a1b0;
+    cursor: pointer; 
 }
 
 .columnOrange{
     background-color: #e48d0b66;
+    cursor: pointer;
 }
 
 .columnYellow{
     background-color: #ffff0061;
+    cursor: pointer;
 }
 
 .columnGreen{
     background-color: #5bff5b99;
+    cursor: pointer;
 }
 
 
 .dataGrid{
     margin: 7px; 
     font-size: 11px;
+}
+
+.buttonOperacion {
+    padding: 0.25rem 0.3rem 0.25rem 0.3rem;
+    border: none;
+    background-color: #3c8dbc;
+    border-radius: 0.25em;
+    box-shadow: none;
+    min-width: 4.5em;
+    color: white;
+    margin: 0.05em;
+    font-size: .9em;
 }
