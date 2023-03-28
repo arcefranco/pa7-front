@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import FormReportes from "../../FormReportes"
+import MoraForm from './MoraForm'
 import BiggerTitleLogo from "../../../../styled-components/containers/BiggerTitleLogo";
 import { ReturnLogo } from "../../../../helpers/ReturnLogo";
 import TitlePrimary from "../../../../styled-components/h/TitlePrimary";
@@ -54,12 +54,6 @@ const MoraXVendedor = () => {
         MoraXVendedor[0]?.Mes === 12 ? 'Diciembre' : '')
 
         setAnio(MoraXVendedor[0]?.Anio)
-        if(Sup === "2"){
-          dispatch(getMoraXOficialDetalle({mes: MoraXVendedor[0]?.Mes, anio: MoraXVendedor[0]?.Anio, restaCuotas: 0, oficial: null, SC: 1}))
-        }else{
-
-          dispatch(getMoraXOficialDetalle({mes: MoraXVendedor[0]?.Mes, anio: MoraXVendedor[0]?.Anio, restaCuotas: 0, oficial: null}))
-        }
       }
     }, [MoraXVendedor])       
       const onCellPrepared = (e) => {
@@ -409,7 +403,7 @@ const MoraXVendedor = () => {
           Mora por {Sup === "1" ? "Supervisor" : Sup === "2" ? "Supervisor Sin Cruce" : "Vendedor"}  - {user?.marca && user.marca}
         </TitlePrimary>
       </BiggerTitleLogo>
-          <FormReportes dispatchFunc={Sup === "1" ? getMoraXSupervisor : Sup === "2"  ? getMoraXSupervisorSC : getMoraXVendedor} oficial={0} todasLasEmpresas={0}/>
+          <MoraForm dispatchFunc={Sup === "1" ? getMoraXSupervisor : Sup === "2"  ? getMoraXSupervisorSC : getMoraXVendedor} oficial={0} todasLasEmpresas={0}/>
           {
           isLoading ? 
           <div className={styles.loadingDiv}>

@@ -1,27 +1,82 @@
 import { postFunctionArray } from "../../Axios/axiosFunctions";
+import axios, { AxiosResponse, AxiosError } from "axios";
+import getHeaderDB from "../../../helpers/getHeaderDB";
+import getHeaderTokenAndDB from "../../../helpers/getHeaderTokenAndDB";
+import { ServiceErrorHandler } from "../../../helpers/ServiceErrorHandler";
 
-const getMoraXVendedor = (data) => {
-  return postFunctionArray("Reportes/MoraXVendedorYSup", data);
+const getMoraXVendedor = async (data) => {
+  try {
+    const headers = getHeaderTokenAndDB();
+    const response: AxiosResponse = await axios.post(
+      process.env.REACT_APP_HOST + "Reportes/MoraXVendedorYSup",
+      data,
+      headers
+    );
+    if (
+      response.data.hasOwnProperty("resumen") &&
+      response.data.hasOwnProperty("detalle")
+    ) {
+      return response.data;
+    } else {
+      throw response.data;
+    }
+  } catch (error) {
+    return ServiceErrorHandler(error, "Reportes/MoraXVendedorYSup");
+  }
 };
 
-const getMoraXSupervisor = (data) => {
-  return postFunctionArray("Reportes/MoraXVendedorYSup/sup", data);
+const getMoraXSupervisor = async (data) => {
+  try {
+    const headers = getHeaderTokenAndDB();
+    const response: AxiosResponse = await axios.post(
+      process.env.REACT_APP_HOST + "Reportes/MoraXVendedorYSup/sup",
+      data,
+      headers
+    );
+    if (
+      response.data.hasOwnProperty("resumen") &&
+      response.data.hasOwnProperty("detalle")
+    ) {
+      return response.data;
+    } else {
+      throw response.data;
+    }
+  } catch (error) {
+    return ServiceErrorHandler(error, "Reportes/MoraXVendedorYSup");
+  }
 };
 
-const getMoraXSupervisorSC = (data) => {
+const getMoraXSupervisorSC = async (data) => {
   data.SC = 1;
-  return postFunctionArray("Reportes/MoraXVendedorYSup/sup", data);
+  try {
+    const headers = getHeaderTokenAndDB();
+    const response: AxiosResponse = await axios.post(
+      process.env.REACT_APP_HOST + "Reportes/MoraXVendedorYSup/sup",
+      data,
+      headers
+    );
+    if (
+      response.data.hasOwnProperty("resumen") &&
+      response.data.hasOwnProperty("detalle")
+    ) {
+      return response.data;
+    } else {
+      throw response.data;
+    }
+  } catch (error) {
+    return ServiceErrorHandler(error, "Reportes/MoraXVendedorYSup");
+  }
 };
 
-const getMoraXOficialDetalle = (data) => {
+/* const getMoraXOficialDetalle = (data) => {
   return postFunctionArray("Reportes/MoraXVendedorYSup/detalle", data);
-};
+}; */
 
 const MoraService = {
   getMoraXVendedor,
   getMoraXSupervisor,
   getMoraXSupervisorSC,
-  getMoraXOficialDetalle,
+  /*   getMoraXOficialDetalle, */
 };
 
 export default MoraService;
