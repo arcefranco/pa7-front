@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../../../../store";
 import ButtonPrimary from "../../../../styled-components/buttons/ButtonPrimary";
-import { getMoraXOficialDetalle } from "../../../../reducers/Reportes/MoraXVendedorYSup/MoraSlice";
+import { getMoraXOficialDetalle } from "../../../../reducers/Reportes/Mora/MoraXVendedorYSup/MoraSlice";
 import { useParams } from "react-router-dom";
 import styles from "./Mora.module.css";
 

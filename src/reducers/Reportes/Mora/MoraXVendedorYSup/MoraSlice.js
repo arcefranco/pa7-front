@@ -1,10 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit/dist";
 import { createAsyncThunk } from "@reduxjs/toolkit/dist";
-import { ResponseStatus } from "../../../types/Generales/ResponseStatus";
-import {
-  MoraXVendedor,
-  MoraXVendedorDetalle,
-} from "../../../types/Reportes/Mora/MoraXVendedor";
 import MoraService from "./MoraService";
 
 const initialState = {
@@ -52,27 +47,6 @@ export const getMoraXSupervisorSC = createAsyncThunk(
     }
   }
 );
-
-/* export const getMoraXOficialDetalle = createAsyncThunk(
-  "Reportes/MoraXOficialDetalle",
-  async (
-    data: {
-      mes: number;
-      anio: number;
-      restaCuotas: number;
-      oficial: number | null;
-      SC?: number;
-    },
-    { rejectWithValue }
-  ) => {
-    const result = await MoraService.getMoraXOficialDetalle(data);
-    if (Array.isArray(result)) {
-      return result;
-    } else {
-      return rejectWithValue(result);
-    }
-  }
-); */
 
 export const MoraSlice = createSlice({
   name: "MoraXVendedorYSup",
