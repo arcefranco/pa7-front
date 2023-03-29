@@ -39,8 +39,9 @@ import ActualForm from "./components/Operaciones/ActualizacionPre/ActualForm";
 import EfectividadAdjForm from "./components/Reportes/AdminPlanes/EfectividadAdj/EfectividadAdjForm";
 import EfectividadDetalle from "./components/Reportes/AdminPlanes/EfectividadAdj/EfectividadDetalle";
 import MoraXVendedor from "./components/Reportes/Mora/MoraXVendedorYSup/MoraXVendedor";
-import MoraXOficialDetalle from "./components/Reportes/Mora/MoraXVendedorYSup/MoraXOficialDetalle";
-
+import MoraXVYSDetalle from "./components/Reportes/Mora/MoraXVendedorYSup/MoraXVYSDetalle";
+import MoraXOficial from "./components/Reportes/Mora/MoraXOficial/MoraXOficial";
+import MoraXOficialDetalle from "./components/Reportes/Mora/MoraXOficial/MoraXOficialDetalle";
 function App() {
   const { user, toggle } = useSelector((state) => state.login);
 
@@ -190,6 +191,11 @@ function App() {
           />
           <Route
             path="reportes/MoraXOficialDetalle/:esVendedor/:Codigo/:Capa/:Pagadas"
+            element={<MoraXVYSDetalle />}
+          />
+          <Route path="reportes/MoraXOficial" element={<MoraXOficial />} />
+          <Route
+            path="reportes/MoraXOficialDetalle/2/:Codigo/:Capa/:Pagadas"
             element={<MoraXOficialDetalle />}
           />
         </Routes>

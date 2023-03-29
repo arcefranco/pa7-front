@@ -6,11 +6,10 @@ import { ReturnLogo } from "../../../../helpers/ReturnLogo";
 import TitlePrimary from "../../../../styled-components/h/TitlePrimary";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { getMoraXVendedor, getMoraXSupervisor, getMoraXSupervisorSC, reset, getMoraXOficialDetalle } from "../../../../reducers/Reportes/MoraXVendedorYSup/MoraSlice";
+import { getMoraXVendedor, getMoraXSupervisor, getMoraXSupervisorSC, reset, getMoraXOficialDetalle } from "../../../../reducers/Reportes/Mora/MoraXVendedorYSup/MoraSlice";
 import DataGrid, {
     Column,
     Summary,
-    Scrolling,
     Export,
     TotalItem
 } from "devextreme-react/data-grid";
@@ -44,7 +43,7 @@ const MoraXVendedor = () => {
 
     useEffect(() => {
       
-      if(MoraXVendedor.length >= 1){
+      if(MoraXVendedor?.length >= 1){
         setMes(MoraXVendedor[0]?.Mes === 1 ? 'Enero' : 
         MoraXVendedor[0]?.Mes === 2 ? 'Febrero' : MoraXVendedor[0]?.Mes === 3 ? 'Marzo' :
         MoraXVendedor[0]?.Mes === 4 ? 'Abril' : MoraXVendedor[0]?.Mes === 5 ? 'Mayo' : 
