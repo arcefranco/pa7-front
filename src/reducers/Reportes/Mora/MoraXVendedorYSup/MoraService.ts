@@ -1,8 +1,8 @@
-import { postFunctionArray } from "../../Axios/axiosFunctions";
+import { postFunctionArray } from "../../../Axios/axiosFunctions";
 import axios, { AxiosResponse, AxiosError } from "axios";
-import getHeaderDB from "../../../helpers/getHeaderDB";
-import getHeaderTokenAndDB from "../../../helpers/getHeaderTokenAndDB";
-import { ServiceErrorHandler } from "../../../helpers/ServiceErrorHandler";
+import getHeaderDB from "../../../../helpers/getHeaderDB";
+import getHeaderTokenAndDB from "../../../../helpers/getHeaderTokenAndDB";
+import { ServiceErrorHandler } from "../../../../helpers/ServiceErrorHandler";
 
 const getMoraXVendedor = async (data) => {
   try {

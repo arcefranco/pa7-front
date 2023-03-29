@@ -28,11 +28,26 @@ import ReporteZonalReducer from "./reducers/Reportes/Micro/ZonalSlice";
 import AltaPreReducer from "./reducers/Operaciones/altaPre/altaPreSlice";
 import ActualPreReducer from "./reducers/Operaciones/actualPre/actualPreSlice";
 import EfectividadAdjReducer from "./reducers/Reportes/efectividadAdj/efectividadAdjSlice";
-import MoraXVendedorYSupReducer from "./reducers/Reportes/MoraXVendedorYSup/MoraSlice";
+import MoraXVendedorYSupReducer from "./reducers/Reportes/Mora/MoraXVendedorYSup/MoraSlice";
+import MoraXOficialReducer from "./reducers/Reportes/Mora/MoraXOficial/MoraXOficialSlice";
 const persistConfig = {
   key: "root",
   version: 1,
   storage,
+};
+
+const persistConfigMoraXVendedorYSup = {
+  key: "root",
+  version: 1,
+  storage,
+  whitelist: ["MoraDetalle"],
+};
+
+const persistConfigMoraXOficial = {
+  key: "root",
+  version: 1,
+  storage,
+  whitelist: ["MoraXOficialDetalle"],
 };
 
 const ReporteZonalPersisted = persistReducer(
@@ -41,8 +56,13 @@ const ReporteZonalPersisted = persistReducer(
 );
 
 const MoraXVendedorYSupPersisted = persistReducer(
-  persistConfig,
+  persistConfigMoraXVendedorYSup,
   MoraXVendedorYSupReducer
+);
+
+const MoraXOficialPersisted = persistReducer(
+  persistConfigMoraXOficial,
+  MoraXOficialReducer
 );
 
 const reducer = combineReducers({
@@ -64,6 +84,7 @@ const reducer = combineReducers({
   ActualPre: ActualPreReducer,
   EfectividadAdj: EfectividadAdjReducer,
   MoraXVendedorYSup: MoraXVendedorYSupPersisted,
+  MoraXOficial: MoraXOficialPersisted,
 });
 
 export const store = configureStore({
