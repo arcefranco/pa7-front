@@ -42,6 +42,7 @@ import MoraXVendedor from "./components/Reportes/Mora/MoraXVendedorYSup/MoraXVen
 import MoraXVYSDetalle from "./components/Reportes/Mora/MoraXVendedorYSup/MoraXVYSDetalle";
 import MoraXOficial from "./components/Reportes/Mora/MoraXOficial/MoraXOficial";
 import MoraXOficialDetalle from "./components/Reportes/Mora/MoraXOficial/MoraXOficialDetalle";
+import OpConformadasXFecha from "./components/Reportes/AdminPlanes/OpConformadasXFecha/OpConformadasXFecha";
 function App() {
   const { user, toggle } = useSelector((state) => state.login);
 
@@ -197,6 +198,10 @@ function App() {
           <Route
             path="reportes/MoraXOficialDetalle/2/:Codigo/:Capa/:Pagadas"
             element={<MoraXOficialDetalle />}
+          />
+          <Route
+            path="reportes/OpConformadasXFecha"
+            element={<OpConformadasXFecha />}
           />
         </Routes>
       </div>

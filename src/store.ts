@@ -27,9 +27,10 @@ import PreSolVentasReducer from "./reducers/Reportes/Ventas/PreSolSlice";
 import ReporteZonalReducer from "./reducers/Reportes/Micro/ZonalSlice";
 import AltaPreReducer from "./reducers/Operaciones/altaPre/altaPreSlice";
 import ActualPreReducer from "./reducers/Operaciones/actualPre/actualPreSlice";
-import EfectividadAdjReducer from "./reducers/Reportes/efectividadAdj/efectividadAdjSlice";
+import EfectividadAdjReducer from "./reducers/Reportes/AdmPlanes/efectividadAdj/efectividadAdjSlice";
 import MoraXVendedorYSupReducer from "./reducers/Reportes/Mora/MoraXVendedorYSup/MoraSlice";
 import MoraXOficialReducer from "./reducers/Reportes/Mora/MoraXOficial/MoraXOficialSlice";
+import OpXFechaReducer from "./reducers/Reportes/AdmPlanes/operacionesXFecha/operacionesXFechaSlice";
 const persistConfig = {
   key: "root",
   version: 1,
@@ -47,7 +48,7 @@ const persistConfigMoraXOficial = {
   key: "root",
   version: 1,
   storage,
-  whitelist: ["MoraXOficialDetalle"],
+  whitelist: ["MoraXOficialDetalle", "mes", "anio"],
 };
 
 const ReporteZonalPersisted = persistReducer(
@@ -85,6 +86,7 @@ const reducer = combineReducers({
   EfectividadAdj: EfectividadAdjReducer,
   MoraXVendedorYSup: MoraXVendedorYSupPersisted,
   MoraXOficial: MoraXOficialPersisted,
+  OpXFecha: OpXFechaReducer,
 });
 
 export const store = configureStore({

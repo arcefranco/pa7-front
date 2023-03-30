@@ -432,6 +432,12 @@ export const SidebarData: DataOfSidebar[] = [
             cName: "subMenuL2",
             path: "/reportes/efectividadAdj",
           },
+          {
+            title: "Op. Conformadas por fecha",
+            rol: "1.10.2",
+            cName: "subMenuL2",
+            path: "/reportes/OpConformadasXFecha",
+          },
         ],
       },
       {
