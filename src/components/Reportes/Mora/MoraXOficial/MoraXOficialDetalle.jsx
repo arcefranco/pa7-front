@@ -15,7 +15,7 @@ import styles from '../MoraXVendedorYSup/Mora.module.css'
 import isOdd from "../../../../helpers/isOdd";
 const MoraXOficialDetalle = () => {
 const { user } = useSelector((state) => state.login);
-const {MoraXOficialDetalle} = useSelector((state) => state.MoraXOficial);
+const {MoraXOficialDetalle, mes, anio} = useSelector((state) => state.MoraXOficial);
 const {esVendedor ,Codigo, Capa, Pagadas} = useParams()
 const [detalleFiltered, setDetalleFiltered] = useState([])
 
@@ -77,16 +77,15 @@ return (
       <ReturnLogo empresa={user?.empresaReal} />
     </div>
      <TitleSecondary2>
-      CONSOLIDADO x oficial. Período: {MoraXOficialDetalle[0]?.Mes === 1 ? 'Enero' : 
-        MoraXOficialDetalle[0]?.Mes === 2 ? 'Febrero' : MoraXOficialDetalle[0]?.Mes === 3 ? 'Marzo' :
-        MoraXOficialDetalle[0]?.Mes === 4 ? 'Abril' : MoraXOficialDetalle[0]?.Mes === 5 ? 'Mayo' : 
-        MoraXOficialDetalle[0]?.Mes === 6 ? 'Junio' : MoraXOficialDetalle[0]?.Mes === 7 ? 'Julio' :
-        MoraXOficialDetalle[0]?.Mes === 8 ? 'Agosto' : MoraXOficialDetalle[0]?.Mes === 9 ? 'Septiembre' : 
-        MoraXOficialDetalle[0]?.Mes === 10 ? 'Octubre' : MoraXOficialDetalle[0]?.Mes === 11 ? 'Noviembre' : 
-        MoraXOficialDetalle[0]?.Mes === 12 ? 'Diciembre' : ''} {MoraXOficialDetalle[0]?.Anio} {' '} 
-         (Incluye cuotas pagadas por Giama). {esVendedor == 1 && Codigo === "todos" ? "Todos los Vendedores" : esVendedor != 1 && Codigo === "todos" ? 
-         "Todos los Supervisores" : esVendedor == 1 && Codigo !== "todos" ? "Vendedor: " : "Supervisor: "} 
-         {esVendedor == 1 && Codigo == "todos" ? "" : esVendedor == 1 ? Codigo : MoraXOficialDetalle.find(e => e.NomOficial == Codigo)?.NomSucursal}. Capa {Capa}. 
+      CONSOLIDADO. Período: {mes === 1 ? 'Enero' : 
+        mes === 2 ? 'Febrero' : mes === 3 ? 'Marzo' :
+        mes === 4 ? 'Abril' : mes === 5 ? 'Mayo' : 
+        mes === 6 ? 'Junio' : mes === 7 ? 'Julio' :
+        mes === 8 ? 'Agosto' : mes === 9 ? 'Septiembre' : 
+        mes === 10 ? 'Octubre' : mes === 11 ? 'Noviembre' : 
+        mes === 12 ? 'Diciembre' : ''} {anio} {' '} 
+         (Incluye cuotas pagadas por Giama). {Codigo == "todos" ? "Todos los Oficiales" : "Oficial: " }
+         {Codigo == "todos" ? "" : Codigo}. Capa {Capa}. 
         {" "}{Pagadas == -1 ? "Vencidos" : "Morosos"}. Cant Op: {detalleFiltered.length}.
     </TitleSecondary2> 
     </BiggerTitleLogo>

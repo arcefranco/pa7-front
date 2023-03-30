@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit/dist";
 import { createAsyncThunk } from "@reduxjs/toolkit/dist";
-import { Adjudicacion } from "../../../types/Reportes/EfectividadAdj/Adjudicacion";
-import { ResponseStatus } from "../../../types/Generales/ResponseStatus";
+import { Adjudicacion } from "../../../../types/Reportes/AdmPlanes/EfectividadAdj/Adjudicacion";
+import { ResponseStatus } from "../../../../types/Generales/ResponseStatus";
 import efectividadAdjService from "./efectividadAdjService";
-import { Oficial } from "../../../types/ConfigDatosGenerales/Oficiales/Oficiales";
+import { Oficial } from "../../../../types/ConfigDatosGenerales/Oficiales/Oficiales";
 interface efectividadAdjState extends ReduxState {
   adjudicaciones: Adjudicacion[];
   adjudicacionesDetalle: Adjudicacion[];

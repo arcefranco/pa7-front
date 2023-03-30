@@ -1,11 +1,11 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 
 import ButtonPrimary from '../../styled-components/buttons/ButtonPrimary'
 import styles from './Ventas/EstadisticoPreSol/PreSol.module.css'
 
 
-const ReportesForm = ({dispatchFunc}) => {
+const ReportesForm = ({dispatchFunc, fechaD, fechaH, mes, anio}) => {
     const dispatch = useDispatch()
     const { codigoMarca } = useSelector(state => state.login.user)
     const [form, setForm] = useState({
@@ -15,9 +15,26 @@ const ReportesForm = ({dispatchFunc}) => {
       pAnio: '',
       pMarca: codigoMarca
     })
+    const [years, setYears] = useState([]);
+
+    useEffect(() => {
+      let currentYear = new Date().getFullYear(),
+        years = [];
+      var startYear = 2015;
+      while (startYear <= currentYear) {
+        years.push(startYear++);
+      }
+      setYears(years);
+    }, []);
+
 
     const handleSubmit = () => {
-        dispatch(dispatchFunc(form))
+
+        dispatch(dispatchFunc({
+          fechaD: form.fechaD.split("-").join(""),
+          fechaH: form.fechaH.split("-").join(""),
+          pMarca: codigoMarca
+        }))
       }
     const handleChange = (e) => {
 
@@ -26,7 +43,7 @@ const ReportesForm = ({dispatchFunc}) => {
         if (name === 'fechaD' || name === 'fechaH') {
           const newForm = {
             ...form,
-            [name]: value,
+            [name]: value/* .split("-").reverse().join("") */,
           }
     
           setForm(newForm)
@@ -46,14 +63,22 @@ const ReportesForm = ({dispatchFunc}) => {
     <div className={styles.selectContainer}>
     <div className={styles.selects}>
       <div className={styles.selectGrid}>
+        {
+          fechaD === 1 &&
         <div>
           <span>Fecha Desde: </span> <br />
           <input type="date" name="fechaD" value={form.fechaD} onChange={handleChange} />
         </div>
+        }
+        {
+          fechaH === 1 &&
         <div>
           <span>Fecha Hasta: </span> <br />
           <input type="date" name="fechaH" value={form.fechaH} onChange={handleChange} />
         </div>
+        }
+        {
+          mes === 1 &&
         <div>
           <span>Mes: </span> <br />
           <select name="pMes" value={form.pMes} onChange={handleChange}>
@@ -72,17 +97,25 @@ const ReportesForm = ({dispatchFunc}) => {
             <option value={12}>Diciembre</option>
           </select>
         </div>
+        }
+        {
+          anio === 1 &&
         <div>
           <span>Año: </span> <br />
-          <select name="pAnio" value={form.pAnio} onChange={handleChange}>
-            <option value="*">---</option>
-            <option value={2019}>2019</option>
-            <option value={2020}>2020</option>
-            <option value={2021}>2021</option>
-            <option value={2022}>2022</option>
-            <option value={2023}>2023</option>
-          </select>
+            {years && (
+              <select name="anio" value={form.anio} onChange={handleChange}>
+                <option value={0}>---</option>
+                {years.map((e) => {
+                  return (
+                    <option value={e} key={e}>
+                      {e.toLocaleString()}
+                    </option>
+                  );
+                })}
+              </select>
+            )}
         </div>
+        }
         <ButtonPrimary onClick={handleSubmit}>Ver</ButtonPrimary>
       </div>
 

@@ -5,6 +5,8 @@ import MoraXOficialService from "./MoraXOficialService";
 const initialState = {
   MoraXOficial: null,
   MoraXOficialDetalle: [],
+  mes: "",
+  anio: "",
   MoraStatus: null,
   isError: false,
   isSuccess: false,
@@ -43,6 +45,8 @@ export const MoraXOficialSlice = createSlice({
         state.isSuccess = true;
         state.MoraXOficial = action.payload.resumen;
         state.MoraXOficialDetalle = action.payload.detalle;
+        state.mes = action.payload.mes;
+        state.anio = action.payload.anio;
       })
       .addCase(getMoraXOficial.rejected, (state, action) => {
         state.isLoading = false;

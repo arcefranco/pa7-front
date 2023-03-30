@@ -7,7 +7,7 @@ import {
   getAdjudicaciones,
   getOficialesAdj,
   reset
-} from "../../../../reducers/Reportes/efectividadAdj/efectividadAdjSlice";
+} from "../../../../reducers/Reportes/AdmPlanes/efectividadAdj/efectividadAdjSlice";
 import JsPDF from 'jspdf';
 import { exportDataGrid } from 'devextreme/pdf_exporter';
 import AdjForm from "./AdjForm";
