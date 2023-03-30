@@ -1,4 +1,4 @@
-import { getFunction, postFunctionArray } from "../../Axios/axiosFunctions";
+import { getFunction, postFunctionArray } from "../../../Axios/axiosFunctions";
 
 const getAdjudicaciones = async (data) => {
   return postFunctionArray("Reportes/efectividadAdj", data);
