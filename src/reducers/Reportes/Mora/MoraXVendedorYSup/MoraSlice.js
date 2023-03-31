@@ -5,6 +5,7 @@ import MoraService from "./MoraService";
 const initialState = {
   MoraXVendedor: null,
   MoraDetalle: [],
+  oficialesAdj: [],
   MoraStatus: null,
   isError: false,
   isSuccess: false,
@@ -41,6 +42,18 @@ export const getMoraXSupervisorSC = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     const result = await MoraService.getMoraXSupervisorSC(data);
     if (result.hasOwnProperty("resumen") && result.hasOwnProperty("detalle")) {
+      return result;
+    } else {
+      return rejectWithValue(result);
+    }
+  }
+);
+
+export const getOficialesAdj = createAsyncThunk(
+  "Reportes/MoraXSupervisorSC/oficialesAdj",
+  async (data, { rejectWithValue }) => {
+    const result = await MoraService.getOficialesAdj(data);
+    if (Array.isArray(result)) {
       return result;
     } else {
       return rejectWithValue(result);
@@ -103,6 +116,19 @@ export const MoraSlice = createSlice({
         state.MoraStatus = action.payload;
       })
       .addCase(getMoraXSupervisorSC.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(getOficialesAdj.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.oficialesAdj = action.payload;
+      })
+      .addCase(getOficialesAdj.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.MoraStatus = action.payload;
+      })
+      .addCase(getOficialesAdj.pending, (state) => {
         state.isLoading = true;
       });
     /*       .addCase(getMoraXOficialDetalle.fulfilled, (state, action) => {

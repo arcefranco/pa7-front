@@ -1,12 +1,13 @@
 import React, {useEffect, useState} from 'react'
+import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { getReporte } from '../../../reducers/Reportes/Micro/ZonalSlice';
+import { getReporte, reset } from '../../../reducers/Reportes/Micro/ZonalSlice';
 import BiggerTitleLogo from '../../../styled-components/containers/BiggerTitleLogo';
 import TitlePrimary from '../../../styled-components/h/TitlePrimary';
 import { ReturnLogo } from '../../../helpers/ReturnLogo';
 import styles from './ReporteZonal.module.css'
 import ReportesForm from '../ReportesForm'
-
+import ModalStatus from '../../ModalStatus'
 import DataGrid, {
   Column,
   Summary,
@@ -15,7 +16,7 @@ import DataGrid, {
   Scrolling,
   Export
 } from 'devextreme-react/data-grid';
-import { exportDataGrid } from 'devextreme/excel_exporter';
+
 import es from 'devextreme/localization/messages/es.json'
 import { loadMessages, locale } from "devextreme/localization";
 
@@ -23,12 +24,24 @@ import { loadMessages, locale } from "devextreme/localization";
 const ReporteZonal = () => {
 
   const { empresaReal } = useSelector(state => state.login.user)
-  const {data} = useSelector(state => state.ReporteZonal.reporteSelected)
+  const {reporteSelected} = useSelector(state => state.ReporteZonal) 
   const { isLoading } = useSelector(state => state.ReporteZonal)
+  const [modal, setModal] = useState(false);
+  const dispatch = useDispatch()
 
   useEffect(() => {
     loadMessages(es)
     locale(navigator.language || navigator.languages)
+    function end() {
+      dispatch(reset());
+    }
+
+
+    window.addEventListener("beforeunload", end);
+    return () => {
+      window.removeEventListener("beforeunload", end);
+      dispatch(reset())
+    }
   }, [])
 
 /*   useEffect(() => {
@@ -56,7 +69,6 @@ const ReporteZonal = () => {
     }
 
   const onCellClick = (e) => {
-    console.log(e, e.rowType, e.column.dataField)
     if(e.rowType === 'groupFooter'){
       if(e.column.dataField === 't_okCarGroup'){
         window.open(`/reportes/Micro/Zonal/8/${e.data.items[0].t_nombreGerente}/1`, '_blank')  
@@ -159,10 +171,32 @@ const ReporteZonal = () => {
     }
     }
 
+    useEffect(() => {
 
+      function resetModal() {
+        setModal(false);
+      }
+      if (
+        reporteSelected.hasOwnProperty("status") && 
+        !reporteSelected.status
+      ) {
+        setModal(true)
+        setTimeout(resetModal, 5000);
+      }
+    }, [reporteSelected]);
 
   return (
     <div>
+      {reporteSelected &&
+      modal &&
+      reporteSelected.hasOwnProperty("status") && 
+      !reporteSelected.status 
+       ? (
+        <ModalStatus
+          message={reporteSelected?.message}
+          status={reporteSelected?.status}
+        />
+      ) : null}
         <BiggerTitleLogo>
         <div>
           <span>{empresaReal}</span>
@@ -171,7 +205,8 @@ const ReporteZonal = () => {
         <TitlePrimary>Reporte Zonal</TitlePrimary>
        
       </BiggerTitleLogo>
-        <ReportesForm dispatchFunc={getReporte}/>
+      {!reporteSelected?.length /* && !Object.values(reporteSelected?.data[0])?.length */ &&  
+      <ReportesForm dispatchFunc={getReporte} anio={1} mes={1} fechaD={1} fechaH={1}/>}
         {
           isLoading ? 
           <div className={styles.loadingDiv}>
@@ -189,7 +224,7 @@ const ReporteZonal = () => {
         className={styles.dataGrid}
         columnAutoWidth={true}
         paging={false}
-        dataSource={data ? Object.values(data[0]) : null}>
+        dataSource={reporteSelected ? reporteSelected : null}>
 
 
 

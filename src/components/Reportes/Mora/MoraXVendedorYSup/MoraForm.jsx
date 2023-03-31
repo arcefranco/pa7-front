@@ -2,18 +2,18 @@ import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../../../../store";
 import ButtonPrimary from "../../../../styled-components/buttons/ButtonPrimary";
-import { getMoraXOficialDetalle } from "../../../../reducers/Reportes/Mora/MoraXVendedorYSup/MoraSlice";
+import { getOficialesAdj } from "../../../../reducers/Reportes/Mora/MoraXVendedorYSup/MoraSlice";
 import { useParams } from "react-router-dom";
 import styles from "./Mora.module.css";
 
 const MoraForm = ({ dispatchFunc, oficial, todasLasEmpresas }) => {
-  const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch();
   const { Sup } = useParams();
-  const { user } = useSelector((state: RootState) => state.login);
+  const { user } = useSelector((state) => state.login);
   const { oficialesAdj } = useSelector(
-    (state: RootState) => state.EfectividadAdj
+    (state) => state.MoraXVendedorYSup
   );
-  const [years, setYears] = useState<number[]>([]);
+  const [years, setYears] = useState([]);
   const [form, setForm] = useState({
     mes: 0,
     anio: 0,
@@ -45,9 +45,10 @@ const MoraForm = ({ dispatchFunc, oficial, todasLasEmpresas }) => {
   };
 
   useEffect(() => {
+    dispatch(getOficialesAdj())
     let currentYear = new Date().getFullYear(),
-      years: number[] = [];
-    var startYear: number = 2015;
+      years = [];
+    var startYear = 2015;
     while (startYear <= currentYear) {
       years.push(startYear++);
     }

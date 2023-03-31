@@ -402,7 +402,12 @@ const MoraXVendedor = () => {
           Mora por {Sup === "1" ? "Supervisor" : Sup === "2" ? "Supervisor Sin Cruce" : "Vendedor"}  - {user?.marca && user.marca}
         </TitlePrimary>
       </BiggerTitleLogo>
-          <MoraForm dispatchFunc={Sup === "1" ? getMoraXSupervisor : Sup === "2"  ? getMoraXSupervisorSC : getMoraXVendedor} oficial={0} todasLasEmpresas={0}/>
+          {!MoraXVendedor?.length &&
+          <MoraForm 
+          dispatchFunc={Sup === "1" ? getMoraXSupervisor : Sup === "2"  ? getMoraXSupervisorSC : getMoraXVendedor} 
+          oficial={0} 
+          todasLasEmpresas={0}/>
+          }
           {
           isLoading ? 
           <div className={styles.loadingDiv}>
