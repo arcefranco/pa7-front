@@ -33,6 +33,8 @@ const ReportesForm = ({dispatchFunc, fechaD, fechaH, mes, anio}) => {
         dispatch(dispatchFunc({
           fechaD: form.fechaD.split("-").join(""),
           fechaH: form.fechaH.split("-").join(""),
+          pMes: form.pMes,
+          pAnio: form.pAnio,
           pMarca: codigoMarca
         }))
       }
@@ -103,7 +105,7 @@ const ReportesForm = ({dispatchFunc, fechaD, fechaH, mes, anio}) => {
         <div>
           <span>Año: </span> <br />
             {years && (
-              <select name="anio" value={form.anio} onChange={handleChange}>
+              <select name="pAnio" value={form. pAnio} onChange={handleChange}>
                 <option value={0}>---</option>
                 {years.map((e) => {
                   return (

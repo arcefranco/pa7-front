@@ -12,7 +12,7 @@ import DataGrid, {
 
 
 const TableDetallesZonal = () => {
- const {data} = useSelector(state => state.ReporteZonal.reporteSelected)
+ const {reporteDetalle} = useSelector(state => state.ReporteZonal)
  const { empresaReal } = useSelector(state => state.login.user)
  const [dataFiltered, setDataFiltered] = useState([])
  const {empresa, gerente, clasificacion} = useParams()
@@ -59,12 +59,12 @@ const onCellPrepared = (e) => {
   }
 
  useEffect(() => {
-  if(data){
+  if(reporteDetalle.length){
     if(gerente !== 'todos'){
  
-      setDataFiltered(Object.values(data[1]).filter(e => e.CodigoEmpresa === parseInt(empresa)).filter(f => f.NombreGerente.toUpperCase() === gerente.toUpperCase()).filter(c => c.Clasificacion === clasificacion)) 
+      setDataFiltered(reporteDetalle.filter(e => e.CodigoEmpresa === parseInt(empresa)).filter(f => f.NombreGerente.toUpperCase() === gerente.toUpperCase()).filter(c => c.Clasificacion === clasificacion)) 
     }else{
-      setDataFiltered(Object.values(data[1]).filter(e => e.CodigoEmpresa === parseInt(empresa)).filter(c => c.Clasificacion === clasificacion)) 
+      setDataFiltered(reporteDetalle.filter(e => e.CodigoEmpresa === parseInt(empresa)).filter(c => c.Clasificacion === clasificacion)) 
     }
   }
  }, [])

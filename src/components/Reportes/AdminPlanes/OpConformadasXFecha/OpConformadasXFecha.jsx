@@ -16,7 +16,7 @@ import styles from "../EfectividadAdj/Efectividad.module.css";
 
 const OpConformadasXFecha = () => {
   const { user } = useSelector((state) => state.login);
-  const { operaciones } = useSelector((state) => state.OpXFecha);
+  const { operaciones, isLoading } = useSelector((state) => state.OpXFecha);
   const lastPoint = { x: 0, y: 0 };
   const exportFormats = ["pdf"]
   const [fechas, setFechas] = useState({
@@ -173,13 +173,23 @@ const OpConformadasXFecha = () => {
           Operaciones conformadas por fecha - {user?.marca && user.marca}
         </TitlePrimary>
       </BiggerTitleLogo>
-      <ReportesForm
+     {!operaciones?.length && <ReportesForm
         dispatchFunc={getOperacionesXFecha}
         fechaD={1}
         fechaH={1}
         mes={0}
         anio={0}
-      />
+      />}
+        {
+          isLoading ? 
+          <div className={styles.loadingDiv}>
+            <div className={styles.loadingSpans}>
+            <span>Cargando...</span>
+            <span>Esto puede demorar unos minutos</span>
+
+            </div>
+          </div> : <div></div>
+        }
       <DataGrid
         style={{ fontSize: "10px" }}
         height={650}

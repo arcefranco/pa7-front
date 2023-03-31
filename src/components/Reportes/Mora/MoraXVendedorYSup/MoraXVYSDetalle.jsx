@@ -92,7 +92,7 @@ return (
       <span>{user?.empresaReal}</span>
       <ReturnLogo empresa={user?.empresaReal} />
     </div>{
-        MoraXVendedor &&
+        MoraXVendedor?.length &&
      <TitleSecondary2>
       CONSOLIDADO. Período: {MoraXVendedor[0]?.Mes === 1 ? 'Enero' : 
         MoraXVendedor[0]?.Mes === 2 ? 'Febrero' : MoraXVendedor[0]?.Mes === 3 ? 'Marzo' :
