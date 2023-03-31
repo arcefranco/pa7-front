@@ -378,7 +378,7 @@ const MoraXOficial = () => {
           Mora por Oficial - {user?.marca && user.marca}
         </TitlePrimary>
       </BiggerTitleLogo>
-        <MoraForm dispatchFunc={getMoraXOficial}/>
+       {!MoraXOficial?.length && <MoraForm dispatchFunc={getMoraXOficial}/>}
         {
           isLoading ? 
           <div className={styles.loadingDiv}>

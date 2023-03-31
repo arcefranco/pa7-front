@@ -2,6 +2,7 @@ import axios, { AxiosResponse, AxiosError } from "axios";
 import getHeaderDB from "../../../../helpers/getHeaderDB";
 import getHeaderTokenAndDB from "../../../../helpers/getHeaderTokenAndDB";
 import { ServiceErrorHandler } from "../../../../helpers/ServiceErrorHandler";
+import { postFunctionArray } from "../../../Axios/axiosFunctions";
 
 const getMoraXVendedor = async (data) => {
   try {
@@ -22,6 +23,9 @@ const getMoraXVendedor = async (data) => {
   } catch (error) {
     return ServiceErrorHandler(error, "Reportes/MoraXVendedorYSup");
   }
+};
+const getOficialesAdj = async (data) => {
+  return postFunctionArray("Reportes/MoraXVendedorYSup/oficialAdj", data);
 };
 
 const getMoraXSupervisor = async (data) => {
@@ -75,6 +79,7 @@ const MoraService = {
   getMoraXVendedor,
   getMoraXSupervisor,
   getMoraXSupervisorSC,
+  getOficialesAdj,
   /*   getMoraXOficialDetalle, */
 };
 
