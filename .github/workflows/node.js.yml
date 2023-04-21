@@ -21,11 +21,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - run: npm install
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
       - run: export REACT_APP_BACKEND_URL=http://ec2-35-88-234-153.us-west-2.compute.amazonaws.com:3002/
-      - run: npm install
       - run: npm run build
