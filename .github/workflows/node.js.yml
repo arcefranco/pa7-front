@@ -13,7 +13,7 @@ jobs:
 
     env:
       REACT_APP_BACKEND_URL: http://ec2-35-88-234-153.us-west-2.compute.amazonaws.com:3002/
-      GENERATE_SOURCEMAP: false
+      GENERATE_SOURCEMAP: "false"
 
     strategy:
       matrix:
