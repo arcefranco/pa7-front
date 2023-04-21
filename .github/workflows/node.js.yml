@@ -12,7 +12,8 @@ jobs:
     runs-on: self-hosted
 
     env:
-      REACT_APP_BACKEND_URL: http://ec2-35-91-29-142.us-west-2.compute.amazonaws.com:3001/
+      REACT_APP_BACKEND_URL: http://ec2-35-88-234-153.us-west-2.compute.amazonaws.com:3002/
+      GENERATE_SOURCEMAP: false
 
     strategy:
       matrix:
@@ -28,4 +29,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
       - run: export REACT_APP_BACKEND_URL=http://ec2-35-88-234-153.us-west-2.compute.amazonaws.com:3002/
+      - run: |
+          touch .env
+          echo REACT_APP_BACKEND_URL=http://ec2-35-88-234-153.us-west-2.compute.amazonaws.com:3002/ >> .env
+          echo GENERATE_SOURCEMAP=false >> .env
       - run: npm run build
