@@ -39,6 +39,7 @@ export const Login = () => {
 
   React.useEffect(() => {
     dispatch(resetToken());
+    console.log(process.env);
   }, []);
 
   React.useEffect(() => {
