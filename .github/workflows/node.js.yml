@@ -12,7 +12,7 @@ jobs:
     runs-on: self-hosted
 
     env:
-      REACT_APP_HOST: http://http://ec2-35-91-44-157.us-west-2.compute.amazonaws.com:3002/
+      REACT_APP_HOST: http://ec2-18-237-125-251.us-west-2.compute.amazonaws.com:3002/
       GENERATE_SOURCEMAP: false
 
     strategy:
@@ -28,9 +28,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: "npm"
-      - run: export REACT_APP_HOST=http://http://ec2-35-91-44-157.us-west-2.compute.amazonaws.com:3002/
+      - run: export REACT_APP_HOST=http://ec2-18-237-125-251.us-west-2.compute.amazonaws.com:3002/
       - run: |
           touch .env
-          echo REACT_APP_HOST=http://http://ec2-35-91-44-157.us-west-2.compute.amazonaws.com:3002/ >> .env
+          echo REACT_APP_HOST=http://ec2-18-237-125-251.us-west-2.compute.amazonaws.com:3002/ >> .env
           echo GENERATE_SOURCEMAP=false >> .env
       - run: sudo npm run build
