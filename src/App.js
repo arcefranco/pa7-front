@@ -84,7 +84,7 @@ function App() {
             color: "white",
           }}
         >
-          <h4 style={{ margin: "0" }}>Servidor de desarrollo test</h4>
+          <h4 style={{ margin: "0" }}>Servidor de desarrollo</h4>
         </div>
         <div
           style={{
