@@ -33,4 +33,4 @@ jobs:
           touch .env
           echo REACT_APP_HOST=http://ec2-44-231-4-226.us-west-2.compute.amazonaws.com:3002/ >> .env
           echo GENERATE_SOURCEMAP=false >> .env
-      - run: sudo npm run build
+      - run: npm run build
